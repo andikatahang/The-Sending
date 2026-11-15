@@ -36,6 +36,7 @@ namespace TheSending.Core
             var pilihan = baris[Indeks].Pilihan;
             if (nomor < 0 || nomor >= pilihan.Length) throw new ArgumentOutOfRangeException(nameof(nomor));
             var p = pilihan[nomor];
+            if (p.LompatKe >= baris.Count) throw new ArgumentOutOfRangeException(nameof(nomor), p.LompatKe, "Lompatan dialog di luar daftar baris.");
             EfekDialog.Jalankan(s, p.Efek);
             if (p.LompatKe < 0) Selesai = true;
             else Masuk(p.LompatKe);
@@ -44,8 +45,8 @@ namespace TheSending.Core
         void Masuk(int i)
         {
             if (i < 0 || i >= baris.Count) throw new ArgumentOutOfRangeException(nameof(i), i, "Lompatan dialog di luar daftar baris.");
-            Indeks = i;
             EfekDialog.Jalankan(s, baris[i].Efek);
+            Indeks = i;
         }
     }
 }

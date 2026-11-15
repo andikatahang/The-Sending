@@ -89,5 +89,24 @@ namespace TheSending.Tests
             var d = new JalannyaDialog(new GameState(), new[] { Baris("?", null, false, Pilihan("ya", null, 5)) });
             Assert.Throws<ArgumentOutOfRangeException>(() => d.Pilih(0));
         }
+
+        [Test]
+        public void LompatanSalahTidakMenjalankanEfekPilihan()
+        {
+            var s = new GameState { MalamKe = 3 };
+            var d = new JalannyaDialog(s, new[] { Baris("?", null, false, Pilihan("maaf", "kepercayaan:MintaMaaf", 5)) });
+            Assert.Throws<ArgumentOutOfRangeException>(() => d.Pilih(0));
+            Assert.AreEqual(0, s.KepercayaanSumi);
+            Assert.AreEqual(0, d.Indeks);
+            Assert.IsTrue(d.MenungguPilihan);
+        }
+
+        [Test]
+        public void EfekBarisSalahTidakMemindahkanDialog()
+        {
+            var d = new JalannyaDialog(new GameState(), new[] { Baris("satu"), Baris("dua", "bukti:B9") });
+            Assert.Throws<FormatException>(() => d.Lanjut());
+            Assert.AreEqual(0, d.Indeks);
+        }
     }
 }

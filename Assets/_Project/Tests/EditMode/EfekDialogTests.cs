@@ -73,9 +73,20 @@ namespace TheSending.Tests
         [TestCase("bukti:K1")]
         [TestCase("kepercayaan:Peluk")]
         [TestCase("tujuan:")]
+        [TestCase("tujuan:BicaraLarss")]
+        [TestCase("tuduh-sumi:xyz")]
+        [TestCase("kepercayaan:1")]
         public void KodeSalahDitolak(string kode)
         {
             Assert.Throws<FormatException>(() => EfekDialog.Jalankan(new GameState { MalamKe = 3 }, kode));
+        }
+
+        [Test]
+        public void EfekGabunganYangSalahTidakMengubahApaPun()
+        {
+            var s = new GameState();
+            Assert.Throws<FormatException>(() => EfekDialog.Jalankan(s, "bukti:B5;halaman:H9"));
+            Assert.IsFalse(s.BuktiKunci[Kode.B5]);
         }
     }
 }
