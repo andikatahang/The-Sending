@@ -20,5 +20,14 @@ namespace TheSending.Core
 
         // Panggil SETELAH checkpoint dimuat, supaya penalti tidak hilang.
         public static void SetelahTertangkap(GameState s) => Ubah(s, Tertangkap);
+
+        // Desain 4.4. Di Malam 7 jalur utama, Runtime memanggil ini saat Laras memberi obat.
+        public static bool BeriObat(GameState s)
+        {
+            if (s.ObatSudahDiberikan || !JamGim.DalamJendelaObat(s)) return false;
+            s.ObatSudahDiberikan = true;
+            Ubah(s, Obat);
+            return true;
+        }
     }
 }
