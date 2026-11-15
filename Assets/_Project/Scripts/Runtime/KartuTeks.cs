@@ -15,7 +15,9 @@ namespace TheSending.Runtime
 
         CanvasGroup grup;
         Text judul, isi;
-        bool memegangJeda;
+        int nomorTerakhir;
+        // Token kartu yang memegang jeda (0 = tidak ada); coroutine lama tidak boleh menyentuh kartu baru.
+        int kartuAktif;
 
         public bool Tampil { get; private set; }
 
@@ -46,8 +48,8 @@ namespace TheSending.Runtime
         // Melepas jeda tepat satu kali, dari jalur normal maupun OnDisable.
         void LepasJeda()
         {
-            if (!memegangJeda) return;
-            memegangJeda = false;
+            if (kartuAktif == 0) return;
+            kartuAktif = 0;
             Tampil = false;
             if (GameManager.Instance != null) GameManager.Instance.Jeda(false);
         }
@@ -66,15 +68,16 @@ namespace TheSending.Runtime
                 Debug.LogError("KartuTeks butuh GameManager di scene.", this);
                 yield break;
             }
+            int kartu = ++nomorTerakhir;
+            kartuAktif = kartu;
             Tampil = true;
-            memegangJeda = true;
             GameManager.Instance.Jeda(true);
             judul.text = teksJudul;
             isi.text = teksIsi;
-            yield return Pudar(grup.alpha, 1f);
-            for (float t = 0f; t < detik && memegangJeda; t += Time.unscaledDeltaTime) yield return null;
-            if (memegangJeda) yield return Pudar(1f, 0f);
-            LepasJeda();
+            yield return Pudar(grup.alpha, 1f, kartu);
+            for (float t = 0f; t < detik && kartuAktif == kartu; t += Time.unscaledDeltaTime) yield return null;
+            if (kartuAktif == kartu) yield return Pudar(1f, 0f, kartu);
+            if (kartuAktif == kartu) LepasJeda();
         }
 
         public IEnumerator KeHitam()
@@ -91,15 +94,15 @@ namespace TheSending.Runtime
             yield return Pudar(grup.alpha, 0f);
         }
 
-        IEnumerator Pudar(float dari, float ke)
+        IEnumerator Pudar(float dari, float ke, int kartu = 0)
         {
             for (float t = 0f; t < LamaPudar; t += Time.unscaledDeltaTime)
             {
-                if (grup == null) yield break;
+                if (grup == null || (kartu != 0 && kartu != kartuAktif)) yield break;
                 grup.alpha = Mathf.Lerp(dari, ke, t / LamaPudar);
                 yield return null;
             }
-            if (grup == null) yield break;
+            if (grup == null || (kartu != 0 && kartu != kartuAktif)) yield break;
             grup.alpha = ke;
         }
     }
