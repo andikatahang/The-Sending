@@ -51,23 +51,56 @@ namespace TheSending.Tests
         [Test]
         public void MalamDiLuarRentangDitolak()
         {
-            var json = SaveData.KeJson(new GameState()).Replace("\"MalamKe\":0", "\"MalamKe\":9");
+            var asli = SaveData.KeJson(new GameState());
+            var json = asli.Replace("\"MalamKe\":0", "\"MalamKe\":9");
+            Assert.AreNotEqual(asli, json);
             Assert.Throws<FormatException>(() => SaveData.DariJson(json));
         }
 
         [Test]
         public void KondisiDiLuarRentangDitolak()
         {
-            var json = SaveData.KeJson(new GameState()).Replace("\"KondisiIbu\":60", "\"KondisiIbu\":150");
+            var asli = SaveData.KeJson(new GameState());
+            var json = asli.Replace("\"KondisiIbu\":60", "\"KondisiIbu\":150");
+            Assert.AreNotEqual(asli, json);
             Assert.Throws<FormatException>(() => SaveData.DariJson(json));
         }
 
         [Test]
         public void PanjangArraySalahDitolak()
         {
-            var json = SaveData.KeJson(new GameState()).Replace(
+            var asli = SaveData.KeJson(new GameState());
+            var json = asli.Replace(
                 "\"BuktiKunci\":[false,false,false,false,false,false,false,false]",
                 "\"BuktiKunci\":[false]");
+            Assert.AreNotEqual(asli, json);
+            Assert.Throws<FormatException>(() => SaveData.DariJson(json));
+        }
+
+        [Test]
+        public void EndingTidakDikenalDitolak()
+        {
+            var asli = SaveData.KeJson(new GameState());
+            var json = asli.Replace("\"Ending\":0", "\"Ending\":99");
+            Assert.AreNotEqual(asli, json);
+            Assert.Throws<FormatException>(() => SaveData.DariJson(json));
+        }
+
+        [Test]
+        public void PintuSumiDiLuarRentangDitolak()
+        {
+            var asli = SaveData.KeJson(new GameState());
+            var json = asli.Replace("\"PintuSumiTerbukaMulaiMalam\":0", "\"PintuSumiTerbukaMulaiMalam\":9");
+            Assert.AreNotEqual(asli, json);
+            Assert.Throws<FormatException>(() => SaveData.DariJson(json));
+        }
+
+        [Test]
+        public void StatusKatanyaTidakDikenalDitolak()
+        {
+            var asli = SaveData.KeJson(new GameState());
+            var json = asli.Replace("\"StatusKatanya\":[0,0,0,0]", "\"StatusKatanya\":[0,0,0,7]");
+            Assert.AreNotEqual(asli, json);
             Assert.Throws<FormatException>(() => SaveData.DariJson(json));
         }
 

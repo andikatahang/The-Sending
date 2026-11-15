@@ -37,11 +37,24 @@ namespace TheSending.Core
             Panjang(s.AksiSumiDipakai, Kode.JumlahAksiSumi, nameof(s.AksiSumiDipakai));
             Panjang(s.BahanRitual, Kode.JumlahBahanRitual, nameof(s.BahanRitual));
             if (s.TujuanSelesai == null) throw new FormatException("TujuanSelesai tidak ada.");
+            if (s.TujuanSelesai.Contains(null)) throw new FormatException("TujuanSelesai berisi elemen kosong.");
+
+            EnumValid(s.HasilSidang, nameof(s.HasilSidang));
+            EnumValid(s.PilihanAkhir, nameof(s.PilihanAkhir));
+            EnumValid(s.Ending, nameof(s.Ending));
+            foreach (var status in s.StatusKatanya) EnumValid(status, nameof(s.StatusKatanya));
+            Rentang(s.PintuSumiTerbukaMulaiMalam, 0, 8, nameof(s.PintuSumiTerbukaMulaiMalam));
+            foreach (var malam in s.MalamMediaDitemukan) Rentang(malam, 0, 7, nameof(s.MalamMediaDitemukan));
         }
 
         static void Rentang(int nilai, int min, int maks, string nama)
         {
             if (nilai < min || nilai > maks) throw new FormatException($"{nama} = {nilai}, harus {min}..{maks}.");
+        }
+
+        static void EnumValid<T>(T nilai, string nama) where T : Enum
+        {
+            if (!Enum.IsDefined(typeof(T), nilai)) throw new FormatException($"{nama} = {nilai} tidak dikenal.");
         }
 
         static void Panjang(Array a, int n, string nama)
