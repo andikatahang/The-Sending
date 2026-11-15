@@ -21,8 +21,7 @@ Fase 0 dipecah menjadi tiga rencana: **0A (ini)** setup dan Core, **0B** fondasi
 - `GameState` sengaja **mutable** (field publik) karena `JsonUtility` membutuhkannya dan demi kesederhanaan. Ubah state hanya lewat kelas aturan di Core.
 - Indeks array berbasis 0: M1 = 0, B1 = 0, K1 = 0, Halaman 1 = 0. Selalu pakai konstanta `Kode.*`, jangan angka mentah.
 - TDD: test ditulis dan dilihat gagal dulu, baru kode.
-- Commit memakai format `<type>: <deskripsi>` dan diakhiri baris:
-  `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>` dan `Claude-Session: https://claude.ai/code/session_011hHEoA3ue8iJkTKYbVgboQ`.
+- Commit memakai format `<type>: <deskripsi>` dan diakhiri baris `Claude-Session: https://claude.ai/code/session_011hHEoA3ue8iJkTKYbVgboQ`. **Jangan pernah menambahkan baris `Co-Authored-By` Claude.**
 
 ## Cara Menjalankan Test
 
