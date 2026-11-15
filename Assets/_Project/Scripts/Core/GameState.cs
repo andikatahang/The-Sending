@@ -10,6 +10,7 @@ namespace TheSending.Core
         public int MalamKe;                 // 0 = Prolog, 1..7 = Malam 1..7
         public float MenitGim = 1050f;      // = JamGim.MulaiProlog (17.30), dicek oleh JamGimTests
         public int KondisiIbu = 60;         // = KondisiIbu.Awal, dicek oleh KondisiIbuTests
+        public float BateraiPersen = 100f;  // = BateraiSenter.Penuh, dicek oleh BateraiKompasTests
 
         public bool[] MediaDitemukan = new bool[Kode.JumlahMedia];
         public int[] MalamMediaDitemukan = new int[Kode.JumlahMedia];
