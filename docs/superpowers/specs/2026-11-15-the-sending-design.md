@@ -12,7 +12,10 @@ Dokumen ini tidak mengulang isi cerita. Isi cerita, tokoh, angka, dan dialog tet
 
 | Hal | Keputusan |
 |---|---|
-| Engine | Unity 6000.6.4f1, URP 17.6, Input System baru (sudah aktif), PC Windows, keyboard dan mouse |
+| Engine | Unity 6000.6.4f1, URP 17.6, Input System baru (sudah aktif), keyboard dan mouse |
+| Target build final | **Hanya Windows** (Standalone, scripting backend Mono) |
+| Lingkungan kerja | Mac. Pengetesan harian lewat Play Mode di Mac. Build Mac boleh dibuat **hanya untuk tes internal**, tidak didistribusikan |
+| Build Windows | Dibuat dari Mac dengan modul **Windows Build Support (Mono)**, lalu **wajib dites di laptop Windows anggota tim pada Fase 8** |
 | Tenggat | 3 minggu, H1 = Senin 16 Nov 2026 sampai H21 = Minggu 6 Des 2026 |
 | Tim | Tim mahasiswa (5 orang). Claude menulis kode, tim mencarikan aset dan mengecek Play Mode |
 | Pendekatan | **B: per malam secara berurutan, langsung dipoles.** Setiap fase menghasilkan bab yang sudah jadi |
@@ -250,7 +253,7 @@ Kebutuhan tambahan dari epilog: kamar mandi dengan cermin, model Raka, Volume pr
 
 | Fase | Hari | Tanggal | Isi |
 |---|---|---|---|
-| 0. Fondasi & Style Lock | H1–H3 | 16–18 Nov | Git LFS, paket, folder dan assembly. Seluruh logika Core dengan EditMode test. Kontrol pemain, interaksi, HP (senter, kamera, kompas), Jurnal dan Papan Bukti, sistem dialog, jam gim, save dan checkpoint, kartu teks. Tampilan PSX dan `docs/style-guide.md`. `Scene_MainMenu` dengan peringatan konten |
+| 0. Fondasi & Style Lock | H1–H3 | 16–18 Nov | Git LFS, modul Windows Build Support (Mono) lewat Unity Hub, paket, folder dan assembly. Seluruh logika Core dengan EditMode test. Kontrol pemain, interaksi, HP (senter, kamera, kompas), Jurnal dan Papan Bukti, sistem dialog, jam gim, save dan checkpoint, kartu teks. Tampilan PSX dan `docs/style-guide.md`. `Scene_MainMenu` dengan peringatan konten |
 | 1. Prolog + Malam 1 | H4–H6 | 19–21 Nov | Jalan masuk desa (tutorial), rumah keluarga, NPC Laras, Bidan Wulan, Ibu, obat, gembok 2003, cutscene pukul 23.00 |
 | 2. Malam 2 | H7–H8 | 22–23 Nov | Deteksi kompas, gudang dan linggis, M1, puzzle aksara, kunjungan Mbah Wiryo dan pilihannya, AI Sosok Santet, bersembunyi (lemari, kolong ranjang, karung) dan menahan napas |
 | 3. Malam 3 | H9–H10 | 24–25 Nov | Pakde datang, Halaman 3 dan 4, mengetuk saka, tujuh paku, `Scene_RumahBuSumi` dan Kepercayaan, Ritual Penangkal |
@@ -258,7 +261,7 @@ Kebutuhan tambahan dari epilog: kamar mandi dengan cermin, model Raka, Volume pr
 | 5. Malam 5 | H13–H14 | 28–29 Nov | Pohon asem (M5, M6), `Scene_Makam` dan perbandingan tanah, Pak Lasno, kesaksian Laras dan Bu Sumi, `Scene_RumahPakde` (anjing, kunci di pot, B6) |
 | 6. Malam 6 | H15–H16 | 30 Nov–1 Des | Kerasukan, timer persiapan, kerumunan obor, Sidang Warga, rumah Bu Sumi terbakar |
 | 7. Malam 7 + Ending | H17–H19 | 2–4 Des | `Scene_Watuireng`, ayam cemani, sanggar, B8 dan Halaman 8, lilin sesaji, pilihan mantra, kejaran Mbah Wiryo, ritual terakhir, varian jalur Fitnah, `Scene_Epilog` dengan 4 ending dan pesan penutup |
-| 8. Polish & Rilis | H20–H21 | 5–6 Des | Main dari awal sampai akhir, balancing angka, perbaikan bug, build Windows |
+| 8. Polish & Rilis | H20–H21 | 5–6 Des | Main dari awal sampai akhir, balancing angka, perbaikan bug. Build Windows (Mono) dari Mac, lalu dites di laptop Windows anggota tim (lihat Bagian 7.1) |
 
 **Kriteria selesai setiap fase:**
 1. Semua EditMode test lulus.
@@ -273,7 +276,23 @@ Kebutuhan tambahan dari epilog: kamar mandi dengan cermin, model Raka, Volume pr
 - **Menjalankan test:**
   - Editor tertutup: Claude menjalankan `Unity -batchmode -projectPath "<proyek>" -runTests -testPlatform EditMode -testResults <file>.xml`.
   - Editor terbuka: tim membuka Window > General > Test Runner lalu klik **Run All**.
-- **Play Mode (manual oleh tim):** setiap fase ditutup dengan daftar cek berisi hal-hal yang bisa diamati, misalnya "kabut membatasi pandangan sekitar 15 m" atau "Sosok Santet bereaksi pada langkah lari dari sekitar 8 m".
+- **Play Mode (manual oleh tim, di Mac):** setiap fase ditutup dengan daftar cek berisi hal-hal yang bisa diamati, misalnya "kabut membatasi pandangan sekitar 15 m" atau "Sosok Santet bereaksi pada langkah lari dari sekitar 8 m".
+- **Build Mac:** boleh dibuat kapan saja untuk tes internal. Tidak didistribusikan dan bukan target rilis.
+
+### 7.1 Tes Build Windows (Fase 8)
+
+Build Windows dibuat dari Mac (File > Build Profiles > Windows, scripting backend Mono), lalu dijalankan di laptop Windows anggota tim. Play Mode di Mac memakai Metal, sedangkan Windows memakai DirectX, jadi hasil tampilan bisa berbeda. Yang wajib dicek:
+
+| Aspek | Yang dicek |
+|---|---|
+| Tampilan PSX | Render scale rendah tetap kotak-kotak (point), dither dan kuantisasi warna muncul, tidak ada layar hitam atau magenta dari shader full-screen |
+| Kabut | Jarak pandang dan warna kabut sama dengan di Mac |
+| Cahaya | Senter, lampu teplok, dan ambient tidak lebih terang atau lebih gelap dari di Mac, bayangan senter muncul |
+| Resolusi | Layar penuh di resolusi laptop (misalnya 1366×768 dan 1920×1080), UI tidak terpotong, rasio layar berbeda tetap aman |
+| Save | File save tercipta di `persistentDataPath` Windows (`%USERPROFILE%\AppData\LocalLow\<Company>\The Sending`), Lanjutkan memuat checkpoint dengan benar setelah gim ditutup dan dibuka lagi |
+| Lainnya | Input keyboard dan mouse, audio, dan semua 4 ending bisa dicapai |
+
+Masalah yang ditemukan dicatat di `CLAUDE.md` lalu diperbaiki di Fase 8.
 
 ---
 
@@ -298,3 +317,6 @@ Kebutuhan tambahan dari epilog: kamar mandi dengan cermin, model Raka, Volume pr
 | Pemain yang selesai lebih cepat harus menunggu kejadian berwaktu (misalnya pukul 23.00 di Malam 1) | Ditinjau saat playtest Fase 1, kecepatan jam bisa disetel |
 | Git LFS belum terpasang | Dipasang di awal Fase 0 (`brew install git-lfs` lalu `git lfs install`), baru setelah itu `.gitattributes` dibuat dan aset biner masuk |
 | Informasi Pasal 252 KUHP bisa berubah | Dicek ulang di Fase 8 sebelum build |
+| Modul Windows Build Support belum terpasang (per 15 Nov hanya ada Mac dan WebGL) | Dipasang lewat Unity Hub di awal Fase 0 (Installs > 6000.6.4f1 > Add modules > Windows Build Support (Mono)) |
+| Tampilan berbeda antara Metal (Mac) dan DirectX (Windows) | Shader full-screen memakai Shader Graph (lintas platform). Tes wajib di laptop Windows pada Fase 8 (Bagian 7.1) |
+| Laptop Windows tim lebih lemah dari Mac | Gaya PSX sudah ringan karena render scale rendah. Performa ikut dicek saat tes Windows |
