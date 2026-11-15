@@ -14,6 +14,7 @@ namespace TheSending.Runtime
 
         void Awake()
         {
+            if (pemain == null) pemain = transform;
             var akar = UiPabrik.BuatCanvas("Kompas", 11).transform;
             akar.SetParent(transform, false);
             var latar = UiPabrik.BuatPanel(akar, "Latar", new Color(0.05f, 0.05f, 0.06f, 0.85f), new Vector2(0.84f, 0.06f), new Vector2(0.96f, 0.27f));
@@ -34,7 +35,8 @@ namespace TheSending.Runtime
             if (!panel.activeSelf) return;
 
             float jarak = PenandaMedia.JarakTerdekat(pemain.position, gm.State);
-            putaran = (putaran + Kompas.KecepatanPutar(jarak) * Time.deltaTime) % 360f;
+            float kecepatan = Kompas.KecepatanPutar(jarak);
+            putaran = kecepatan > 0f ? (putaran + kecepatan * Time.deltaTime) % 360f : 0f;   // jauh dari media: kembali menunjuk utara
             jarum.localEulerAngles = new Vector3(0f, 0f, pemain.eulerAngles.y + putaran);
         }
     }

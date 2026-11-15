@@ -17,6 +17,8 @@ namespace TheSending.Runtime
 
         void Awake()
         {
+            if (kamera == null && Camera.main != null) kamera = Camera.main.transform;
+            if (kamera == null) { Debug.LogError($"KameraHP di '{name}' butuh referensi kamera.", this); enabled = false; return; }
             var akar = UiPabrik.BuatCanvas("KilatanKamera", 30).transform;
             akar.SetParent(transform, false);
             kilatan = UiPabrik.BuatPanel(akar, "Kilatan", new Color(1f, 1f, 1f, 0f), Vector2.zero, Vector2.one);
