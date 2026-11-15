@@ -1,0 +1,83 @@
+using System.Collections;
+using UnityEngine;
+using UnityEngine.UI;
+
+namespace TheSending.Runtime
+{
+    // Layar hitam dengan judul dan teks: ringkasan siang di awal malam, transisi, dan dasar cutscene.
+    public class KartuTeks : MonoBehaviour
+    {
+        const float LamaPudar = 0.8f;
+
+        [SerializeField, TextArea] string judulSaatMulai;
+        [SerializeField, TextArea(3, 8)] string isiSaatMulai;
+        [SerializeField] float detikSaatMulai = 4f;
+
+        CanvasGroup grup;
+        Text judul, isi;
+
+        public bool Tampil { get; private set; }
+
+        void Awake()
+        {
+            var akar = UiPabrik.BuatCanvas("KartuTeks", 40).transform;
+            akar.SetParent(transform, false);
+            var latar = UiPabrik.BuatPanel(akar, "Latar", Color.black, Vector2.zero, Vector2.one);
+            grup = latar.gameObject.AddComponent<CanvasGroup>();
+            grup.alpha = 0f;
+            judul = UiPabrik.BuatTeks(latar.transform, "Judul", 54, TextAnchor.MiddleCenter, new Vector2(0.1f, 0.55f), new Vector2(0.9f, 0.75f));
+            isi = UiPabrik.BuatTeks(latar.transform, "Isi", 30, TextAnchor.UpperCenter, new Vector2(0.15f, 0.2f), new Vector2(0.85f, 0.52f));
+        }
+
+        void Start()
+        {
+            if (!string.IsNullOrEmpty(judulSaatMulai))
+                StartCoroutine(Tampilkan(judulSaatMulai, isiSaatMulai, detikSaatMulai));
+        }
+
+        // Kartu dimatikan atau dihancurkan saat tampil (coroutine ikut berhenti): lepaskan jeda dan sembunyikan.
+        void OnDisable()
+        {
+            if (!Tampil) return;
+            Tampil = false;
+            if (grup != null) grup.alpha = 0f;
+            if (GameManager.Instance != null) GameManager.Instance.Jeda(false);
+        }
+
+        public IEnumerator Tampilkan(string teksJudul, string teksIsi, float detik)
+        {
+            if (Tampil) yield break;
+            Tampil = true;
+            GameManager.Instance.Jeda(true);
+            judul.text = teksJudul;
+            isi.text = teksIsi;
+            yield return Pudar(0f, 1f);
+            for (float t = 0f; t < detik; t += Time.unscaledDeltaTime) yield return null;
+            yield return Pudar(1f, 0f);
+            GameManager.Instance.Jeda(false);
+            Tampil = false;
+        }
+
+        public IEnumerator KeHitam()
+        {
+            judul.text = "";
+            isi.text = "";
+            yield return Pudar(grup.alpha, 1f);
+        }
+
+        public IEnumerator DariHitam()
+        {
+            yield return Pudar(grup.alpha, 0f);
+        }
+
+        IEnumerator Pudar(float dari, float ke)
+        {
+            for (float t = 0f; t < LamaPudar; t += Time.unscaledDeltaTime)
+            {
+                grup.alpha = Mathf.Lerp(dari, ke, t / LamaPudar);
+                yield return null;
+            }
+            grup.alpha = ke;
+        }
+    }
+}
