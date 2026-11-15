@@ -27,6 +27,10 @@ namespace TheSending.Runtime
             panel = latar.gameObject;
             judul = UiPabrik.BuatTeks(latar.transform, "Judul", 28, TextAnchor.UpperLeft, new Vector2(0.03f, 0.9f), new Vector2(0.97f, 0.98f));
             isi = UiPabrik.BuatTeks(latar.transform, "Isi", 26, TextAnchor.UpperLeft, new Vector2(0.03f, 0.03f), new Vector2(0.97f, 0.88f));
+            // Papan Bukti penuh di akhir gim tidak boleh terpotong diam-diam: teks mengecil sampai muat.
+            isi.resizeTextForBestFit = true;
+            isi.resizeTextMinSize = 14;
+            isi.resizeTextMaxSize = 26;
             panel.SetActive(false);
         }
 
