@@ -7,6 +7,8 @@ using UnityEngine.UI;
 namespace TheSending.Runtime
 {
     // Kotak dialog di bawah layar. E atau klik kiri melanjutkan; tombol 1-4 memilih jawaban.
+    // Jalan setelah PemainInteraksi: di frame tutup gim masih di-pause saat E dibaca, jadi E tidak membuka dialog lagi.
+    [DefaultExecutionOrder(100)]
     public class PanelDialog : MonoBehaviour
     {
         const int MaksPilihan = 4;
@@ -34,9 +36,19 @@ namespace TheSending.Runtime
             panel.SetActive(false);
         }
 
-        public void Mulai(DataDialog data, Action saatSelesai = null)
+        // Panel dimatikan atau dihancurkan saat dialog terbuka (misalnya ganti scene): lepaskan jeda tanpa memanggil callback.
+        void OnDisable()
         {
-            if (Terbuka || data == null) return;
+            if (!Terbuka) return;
+            dialog = null;
+            saatSelesai = null;
+            if (panel != null) panel.SetActive(false);
+            if (GameManager.Instance != null) GameManager.Instance.Jeda(false);
+        }
+
+        public bool Mulai(DataDialog data, Action saatSelesai = null)
+        {
+            if (Terbuka || data == null) return false;
             sumber = data;
             this.saatSelesai = saatSelesai;
             try
@@ -46,12 +58,13 @@ namespace TheSending.Runtime
             catch (Exception e) when (e is FormatException || e is ArgumentException || e is InvalidOperationException)
             {
                 Gagal(e);
-                return;
+                return false;
             }
             frameMulai = Time.frameCount;   // tombol E yang membuka dialog tidak ikut melanjutkannya
             GameManager.Instance.Jeda(true);
             panel.SetActive(true);
             Gambar();
+            return true;
         }
 
         void Update()
@@ -115,7 +128,14 @@ namespace TheSending.Runtime
         void Gagal(Exception e)
         {
             Debug.LogError($"Dialog '{(sumber != null ? sumber.name : "?")}' berisi data salah: {e.Message}", sumber);
-            if (dialog != null) Tutup();
+            if (dialog != null)
+            {
+                Tutup();
+                return;
+            }
+            var selesai = saatSelesai;
+            saatSelesai = null;
+            selesai?.Invoke();
         }
     }
 }

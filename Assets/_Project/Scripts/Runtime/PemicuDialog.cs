@@ -14,8 +14,7 @@ namespace TheSending.Runtime
 
         public override void Interaksi()
         {
-            sudah = true;
-            panel.Mulai(dialog);
+            if (panel.Mulai(dialog)) sudah = true;
         }
     }
 }
