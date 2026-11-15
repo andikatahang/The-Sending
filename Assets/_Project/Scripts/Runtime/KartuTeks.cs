@@ -15,6 +15,7 @@ namespace TheSending.Runtime
 
         CanvasGroup grup;
         Text judul, isi;
+        bool memegangJeda;
 
         public bool Tampil { get; private set; }
 
@@ -35,31 +36,50 @@ namespace TheSending.Runtime
                 StartCoroutine(Tampilkan(judulSaatMulai, isiSaatMulai, detikSaatMulai));
         }
 
-        // Kartu dimatikan atau dihancurkan saat tampil (coroutine ikut berhenti): lepaskan jeda dan sembunyikan.
+        // Kartu dimatikan atau dihancurkan saat tampil: sembunyikan dan lepaskan jeda tepat sekali.
         void OnDisable()
         {
-            if (!Tampil) return;
-            Tampil = false;
             if (grup != null) grup.alpha = 0f;
+            LepasJeda();
+        }
+
+        // Melepas jeda tepat satu kali, dari jalur normal maupun OnDisable.
+        void LepasJeda()
+        {
+            if (!memegangJeda) return;
+            memegangJeda = false;
+            Tampil = false;
             if (GameManager.Instance != null) GameManager.Instance.Jeda(false);
         }
 
+        // Kartu memudar dari kondisi layar saat ini, tahan, lalu memudar ke transparan.
+        // Cutscene yang butuh layar tetap hitam sesudahnya memanggil KeHitam() lagi.
         public IEnumerator Tampilkan(string teksJudul, string teksIsi, float detik)
         {
-            if (Tampil) yield break;
+            if (Tampil)
+            {
+                Debug.LogWarning($"KartuTeks sedang tampil; kartu '{teksJudul}' diabaikan.", this);
+                yield break;
+            }
+            if (GameManager.Instance == null)
+            {
+                Debug.LogError("KartuTeks butuh GameManager di scene.", this);
+                yield break;
+            }
             Tampil = true;
+            memegangJeda = true;
             GameManager.Instance.Jeda(true);
             judul.text = teksJudul;
             isi.text = teksIsi;
-            yield return Pudar(0f, 1f);
-            for (float t = 0f; t < detik; t += Time.unscaledDeltaTime) yield return null;
-            yield return Pudar(1f, 0f);
-            GameManager.Instance.Jeda(false);
-            Tampil = false;
+            yield return Pudar(grup.alpha, 1f);
+            for (float t = 0f; t < detik && memegangJeda; t += Time.unscaledDeltaTime) yield return null;
+            if (memegangJeda) yield return Pudar(1f, 0f);
+            LepasJeda();
         }
 
         public IEnumerator KeHitam()
         {
+            while (Tampil) yield return null;
             judul.text = "";
             isi.text = "";
             yield return Pudar(grup.alpha, 1f);
@@ -67,6 +87,7 @@ namespace TheSending.Runtime
 
         public IEnumerator DariHitam()
         {
+            while (Tampil) yield return null;
             yield return Pudar(grup.alpha, 0f);
         }
 
@@ -74,9 +95,11 @@ namespace TheSending.Runtime
         {
             for (float t = 0f; t < LamaPudar; t += Time.unscaledDeltaTime)
             {
+                if (grup == null) yield break;
                 grup.alpha = Mathf.Lerp(dari, ke, t / LamaPudar);
                 yield return null;
             }
+            if (grup == null) yield break;
             grup.alpha = ke;
         }
     }
