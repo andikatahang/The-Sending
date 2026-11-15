@@ -44,6 +44,7 @@ Gim horor puzzle 3D first person tentang santet di desa Jawa. Unity 6000.6.4f1 (
 
 ## Menjalankan Test
 
+- Cara singkat (editor tertutup): `bash tools/run-editmode-tests.sh` atau `bash tools/run-editmode-tests.sh TheSending.Tests.NamaKelasTests`.
 - Editor tertutup:
   `"/Applications/Unity/Hub/Editor/6000.6.4f1/Unity.app/Contents/MacOS/Unity" -batchmode -projectPath "/Users/andika/Unity-Project/The Sending" -runTests -testPlatform EditMode -testResults /tmp/editmode-results.xml`
 - Editor terbuka: Window > General > Test Runner > EditMode > **Run All**.
@@ -57,7 +58,7 @@ Gim horor puzzle 3D first person tentang santet di desa Jawa. Unity 6000.6.4f1 (
 
 | Fase | Hari | Tanggal | Status |
 |---|---|---|---|
-| 0. Fondasi & Style Lock | H1–H3 | 16–18 Nov | [ ] Belum mulai |
+| 0. Fondasi & Style Lock | H1–H3 | 16–18 Nov | [~] 0A selesai (setup + Core, 153 EditMode test lulus). 0B dan 0C belum |
 | 1. Prolog + Malam 1 | H4–H6 | 19–21 Nov | [ ] Belum mulai |
 | 2. Malam 2 | H7–H8 | 22–23 Nov | [ ] Belum mulai |
 | 3. Malam 3 | H9–H10 | 24–25 Nov | [ ] Belum mulai |
@@ -75,3 +76,4 @@ Kriteria selesai setiap fase: semua EditMode test lulus, tim sudah mengecek daft
 
 - **2026-11-15:** Brainstorming selesai. Dokumen desain ditulis, repo git dibuat. Berikutnya: rencana implementasi Fase 0.
 - **2026-11-15:** Ditambahkan keputusan platform: target final hanya Windows, kerja dan tes harian di Mac, build Windows dari Mac lalu dites di laptop Windows pada Fase 8.
+- **2026-11-15:** Fase 0A selesai: Git LFS, paket (test-framework 1.8.0, ai.navigation 2.0.14, timeline 6.6.0, probuilder 6.1.2), assembly Core dan EditMode test, seluruh aturan Core. Berikutnya: rencana 0B (fondasi Runtime).
