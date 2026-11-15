@@ -26,6 +26,7 @@ namespace TheSending.Runtime
         {
             if (Instance != null && Instance != this)
             {
+                enabled = false;
                 Destroy(gameObject);   // duplikat dari scene lain; yang pertama tetap hidup
                 return;
             }
@@ -45,6 +46,7 @@ namespace TheSending.Runtime
 
         void Update()
         {
+            if (Instance != this) return;
             if (!Dijeda && State.Ending == Ending.Belum) JamGim.Maju(State, Time.deltaTime);
         }
 
