@@ -19,7 +19,16 @@ namespace TheSending.Runtime
         public Napas Napas { get; } = new Napas();
         public Transform Kamera => kamera;
 
-        void Awake() => cc = GetComponent<CharacterController>();
+        void Awake()
+        {
+            cc = GetComponent<CharacterController>();
+            if (kamera == null && Camera.main != null) kamera = Camera.main.transform;
+            if (kamera == null)
+            {
+                Debug.LogError($"{GetType().Name} di '{name}' butuh referensi kamera.", this);
+                enabled = false;
+            }
+        }
 
         void Update()
         {
