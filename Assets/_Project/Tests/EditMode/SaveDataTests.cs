@@ -87,6 +87,15 @@ namespace TheSending.Tests
         }
 
         [Test]
+        public void MenitGimDiLuarRentangDitolak()
+        {
+            var asli = SaveData.KeJson(new GameState());
+            var json = asli.Replace("\"MenitGim\":1050.0", "\"MenitGim\":-5.0");
+            Assert.AreNotEqual(asli, json);
+            Assert.Throws<FormatException>(() => SaveData.DariJson(json));
+        }
+
+        [Test]
         public void PintuSumiDiLuarRentangDitolak()
         {
             var asli = SaveData.KeJson(new GameState());

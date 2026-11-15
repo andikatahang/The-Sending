@@ -1,3 +1,4 @@
+using System;
 using NUnit.Framework;
 using TheSending.Core;
 
@@ -126,6 +127,24 @@ namespace TheSending.Tests
             s.KondisiIbu = 0;
 
             Assert.AreEqual(Ending.Sejati, PenentuEnding.Cek(s));
+        }
+
+        [Test]
+        public void PilihBalasLaluLolosMenetapkanBalasDendam()
+        {
+            var s = Malam7(HasilSidang.Berhasil);
+            PenentuEnding.Pilih(s, PilihanAkhir.Balas);
+            PenentuEnding.LolosDariWiryo(s);
+            Assert.AreEqual(Ending.BalasDendam, s.Ending);
+        }
+
+        [Test]
+        public void PilihanTerakhirHanyaSekali()
+        {
+            var s = Malam7(HasilSidang.Berhasil);
+            Assert.Throws<ArgumentException>(() => PenentuEnding.Pilih(s, PilihanAkhir.Belum));
+            PenentuEnding.Pilih(s, PilihanAkhir.Lapor);
+            Assert.Throws<InvalidOperationException>(() => PenentuEnding.Pilih(s, PilihanAkhir.Balas));
         }
     }
 }

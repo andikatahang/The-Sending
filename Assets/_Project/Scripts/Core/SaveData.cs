@@ -26,6 +26,8 @@ namespace TheSending.Core
             Rentang(s.MalamKe, 0, 7, nameof(s.MalamKe));
             Rentang(s.KondisiIbu, 0, 100, nameof(s.KondisiIbu));
             Rentang(s.KepercayaanSumi, 0, 3, nameof(s.KepercayaanSumi));
+            if (!(s.MenitGim >= 0f && s.MenitGim <= JamGim.BatasLunak))
+                throw new FormatException($"{nameof(s.MenitGim)} = {s.MenitGim}, harus 0..{JamGim.BatasLunak}.");
             Panjang(s.MediaDitemukan, Kode.JumlahMedia, nameof(s.MediaDitemukan));
             Panjang(s.MalamMediaDitemukan, Kode.JumlahMedia, nameof(s.MalamMediaDitemukan));
             Panjang(s.MediaDinetralkan, Kode.JumlahMedia, nameof(s.MediaDinetralkan));

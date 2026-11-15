@@ -93,7 +93,7 @@ namespace TheSending.Tests
             MediaSantet.Temukan(s, Kode.M7);
             PapanBukti.TambahBukti(s, Kode.B8);
             Assert.IsTrue(LilinSesaji.Buat(7).Pilih(Pasaran.Kliwon));
-            s.PilihanAkhir = PilihanAkhir.Lapor;
+            PenentuEnding.Pilih(s, PilihanAkhir.Lapor);
             Netralkan(s, Kode.M7);
 
             Assert.AreEqual(Ending.Sejati, s.Ending);
@@ -112,9 +112,8 @@ namespace TheSending.Tests
         {
             var s = MainSampaiMalam7();
             MediaSantet.Temukan(s, Kode.M7);
-            s.PilihanAkhir = PilihanAkhir.Balas;
-            s.LolosKejaranWiryo = true;
-            PenentuEnding.Cek(s);
+            PenentuEnding.Pilih(s, PilihanAkhir.Balas);
+            PenentuEnding.LolosDariWiryo(s);
             Assert.AreEqual(Ending.BalasDendam, s.Ending);
         }
 

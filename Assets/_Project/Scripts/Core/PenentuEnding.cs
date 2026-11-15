@@ -1,3 +1,5 @@
+using System;
+
 namespace TheSending.Core
 {
     // Aturan ending final, dokumen desain Bagian 4.1.
@@ -30,6 +32,25 @@ namespace TheSending.Core
                 s.Umumkan(Perubahan.Ending);
             }
             return e;
+        }
+
+        // Malam 7: pilihan terakhir di sanggar Mbah Wiryo (Lapor atau Balas). Hanya sekali.
+        public static void Pilih(GameState s, PilihanAkhir pilihan)
+        {
+            if (pilihan == PilihanAkhir.Belum) throw new ArgumentException("Pilihan tidak boleh Belum.", nameof(pilihan));
+            if (s.PilihanAkhir != PilihanAkhir.Belum) throw new InvalidOperationException("Pilihan terakhir sudah dibuat.");
+            s.PilihanAkhir = pilihan;
+            s.Umumkan(Perubahan.Ending);
+            Cek(s);
+        }
+
+        // Malam 7: Raka lolos dari kejaran Mbah Wiryo.
+        public static void LolosDariWiryo(GameState s)
+        {
+            if (s.LolosKejaranWiryo) return;
+            s.LolosKejaranWiryo = true;
+            s.Umumkan(Perubahan.Ending);
+            Cek(s);
         }
     }
 }

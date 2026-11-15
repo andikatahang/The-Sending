@@ -20,7 +20,7 @@ Gim horor puzzle 3D first person tentang santet di desa Jawa. Unity 6000.6.4f1 (
 - **Pendekatan B:** setiap malam dikerjakan berurutan dan langsung dipoles.
 - **Konten penuh sesuai GDD**, tidak dipadatkan. Jika satu fase melewati jatah harinya, laporkan ke tim, jangan memotong konten sendiri.
 - **Gaya Retro PSX / low-fi**, wajib konsisten di semua malam. Nilai gaya dikunci di `docs/style-guide.md` di akhir Fase 0.
-- **Git + GitHub.** Serialisasi Force Text sudah aktif. Git LFS belum terpasang, dan dipasang di awal Fase 0 sebelum aset biner masuk.
+- **Git + GitHub.** Serialisasi Force Text sudah aktif. Git LFS aktif (`.gitattributes`). Setiap anggota tim wajib menjalankan `git lfs install` sekali sebelum clone/pull.
 - **Aturan ending final, jam gim, obat, ritual, sidang:** lihat Bagian 4 dokumen desain.
 
 ## Platform dan Build
@@ -58,7 +58,7 @@ Gim horor puzzle 3D first person tentang santet di desa Jawa. Unity 6000.6.4f1 (
 
 | Fase | Hari | Tanggal | Status |
 |---|---|---|---|
-| 0. Fondasi & Style Lock | H1–H3 | 16–18 Nov | [~] 0A selesai (setup + Core, 153 EditMode test lulus). 0B dan 0C belum |
+| 0. Fondasi & Style Lock | H1–H3 | 16–18 Nov | [~] 0A selesai (setup + Core, 156 EditMode test lulus). 0B dan 0C belum |
 | 1. Prolog + Malam 1 | H4–H6 | 19–21 Nov | [ ] Belum mulai |
 | 2. Malam 2 | H7–H8 | 22–23 Nov | [ ] Belum mulai |
 | 3. Malam 3 | H9–H10 | 24–25 Nov | [ ] Belum mulai |
@@ -71,6 +71,18 @@ Gim horor puzzle 3D first person tentang santet di desa Jawa. Unity 6000.6.4f1 (
 Isi setiap fase: lihat Bagian 6 dokumen desain.
 
 Kriteria selesai setiap fase: semua EditMode test lulus, tim sudah mengecek daftar Play Mode fase itu, dan progres dicatat di log di bawah.
+
+## Catatan untuk Fase 0B (dari review akhir 0A)
+
+- Setelah `KondisiIbu.SetelahTertangkap`, Runtime wajib menyimpan ulang checkpoint, supaya penalti tidak hilang saat keluar gim (desain 4.2).
+- `SaveData.DariJson` mengembalikan `GameState` baru, jadi `GameManager` harus berlangganan ulang `Berubah` setiap kali memuat save.
+- `PergantianMalam.Lanjut` bisa memicu `Perubahan.Malam` lalu `Perubahan.Ending` (karena -12). Cek `s.Ending` sebelum memuat malam berikutnya.
+- Malam 6: Runtime menandai tujuan `SidangWarga` hanya setelah `SidangWarga.Selesaikan`/`Diam`/`IkutMenuduh` dipanggil.
+- Menahan napas hanya meredam suara saat diam (sedang bersembunyi), sesuai Game Story 6.6.
+- Puzzle paku: cek `Selesai` sebelum memberi penalti -5, karena `Pilih` juga mengembalikan false setelah selesai.
+- Malam 7: jika bahan ritual belum lengkap, adegan Bu Sumi memanggil `RitualPenangkal.Pelajari(s, dariBuSumi: true)` sebelum ritual terakhir.
+- Balancing: tanpa menetralkan media sama sekali, Kondisi Ibu habis sekitar pergantian Malam 6 ke 7. Tutorial ritual Malam 3 praktis wajib.
+- Pilihan terakhir dan lolos dari Mbah Wiryo wajib lewat `PenentuEnding.Pilih` dan `PenentuEnding.LolosDariWiryo`.
 
 ## Log Progres
 
