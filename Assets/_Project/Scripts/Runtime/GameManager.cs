@@ -47,6 +47,7 @@ namespace TheSending.Runtime
             }
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            SceneManager.sceneLoaded += SaatSceneDimuat;
             Kontrol = new KontrolPemain();
             Kontrol.Aktifkan();
             Pengaturan = PenyimpanPengaturan.Muat();
@@ -65,6 +66,7 @@ namespace TheSending.Runtime
         void OnDestroy()
         {
             if (Instance != this) return;
+            SceneManager.sceneLoaded -= SaatSceneDimuat;
             Kontrol?.Buang();
             Time.timeScale = 1f;                      // domain reload mati: jangan tinggalkan editor dalam keadaan beku
             Cursor.lockState = CursorLockMode.None;
@@ -129,6 +131,18 @@ namespace TheSending.Runtime
 
         // Panel yang sedang menjeda melepas jedanya sendiri di OnDisable saat scene lama dibongkar.
         public void MuatScene(string nama) => SceneManager.LoadScene(nama);
+
+        // Aman: pada load Single, OnDisable panel lama (melepas jeda) jalan sebelum sceneLoaded, dan Start scene baru jalan sesudahnya.
+        void SaatSceneDimuat(Scene scene, LoadSceneMode mode)
+        {
+            if (mode != LoadSceneMode.Single) return;
+            if (jumlahJeda != 0)
+            {
+                Debug.LogWarning($"Jeda tidak dilepas sebelum pindah scene ({jumlahJeda}); direset.");
+                jumlahJeda = 0;
+            }
+            Time.timeScale = 1f;
+        }
 
         void Pasang(GameState s)
         {
