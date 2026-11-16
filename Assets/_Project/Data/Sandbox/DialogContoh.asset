@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61c3401c87cca4432bb9854f8b661f1e, type: 3}
+  m_Name: DialogContoh
+  m_EditorClassIdentifier: TheSending.Runtime::TheSending.Runtime.DataDialog
+  Baris:
+  - Pembicara: Bu Sumi
+    Teks: Opo maneh? Wis bengi.
+    Terjemahan: Apa lagi? Sudah malam.
+    Efek: 
+    Akhir: 0
+    Pilihan:
+    - Teks: Bu, saya minta maaf soal yang dulu.
+      Efek: kepercayaan:MintaMaaf
+      LompatKe: 1
+    - Teks: Ibu yang bikin ibu saya sakit, kan?
+      Efek: tuduh-sumi
+      LompatKe: 2
+  - Pembicara: Bu Sumi
+    Teks: Aku ora tau nyantet sapa-sapa. Aku mung tau nangis.
+    Terjemahan: Aku tidak pernah menyantet siapa pun. Aku cuma pernah menangis.
+    Efek: bukti:B5
+    Akhir: 1
+    Pilihan: []
+  - Pembicara: Bu Sumi
+    Teks: Lungo!
+    Terjemahan: Pergi!
+    Efek: 
+    Akhir: 1
+    Pilihan: []
