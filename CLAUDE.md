@@ -28,7 +28,7 @@ Gim horor puzzle 3D first person tentang santet di desa Jawa. Unity 6000.6.4f1 (
 - **Target build final hanya Windows** (Standalone, scripting backend Mono).
 - Pekerjaan dilakukan di **Mac**. Pengetesan harian lewat **Play Mode di Mac**.
 - **Build Mac hanya untuk tes internal**, tidak didistribusikan.
-- **Build Windows dibuat dari Mac** dengan modul **Windows Build Support (Mono)**. Per 15 Nov modul ini **belum terpasang** (hanya Mac dan WebGL), jadi dipasang lewat Unity Hub di awal Fase 0.
+- **Build Windows dibuat dari Mac** dengan modul **Windows Build Support (Mono)**. Modul sudah terpasang; build Windows pertama dari Mac berhasil pada 16 Nov.
 - Build Windows **wajib dites di laptop Windows anggota tim pada Fase 8**, terutama tampilan PSX, kabut, cahaya, resolusi, dan save. Daftar ceknya ada di Bagian 7.1 dokumen desain.
 - Mac memakai Metal, Windows memakai DirectX, jadi tampilan bisa berbeda. Shader buatan sendiri dibuat dengan Shader Graph supaya lintas platform.
 - Build uji Windows dari Mac: menu The Sending > Build Windows (uji, Mono), hasil di `Builds/Windows/` (development build).
