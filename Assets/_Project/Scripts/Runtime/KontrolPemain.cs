@@ -33,6 +33,7 @@ namespace TheSending.Runtime
                 .With("Down", "<Keyboard>/s")
                 .With("Left", "<Keyboard>/a")
                 .With("Right", "<Keyboard>/d");
+            Lari.AddBinding("<Keyboard>/rightShift");
         }
 
         IEnumerable<InputAction> Semua()

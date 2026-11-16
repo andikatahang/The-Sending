@@ -31,6 +31,8 @@ namespace TheSending.Runtime
             isi.resizeTextForBestFit = true;
             isi.resizeTextMinSize = 14;
             isi.resizeTextMaxSize = 26;
+            if (data == null)
+                Debug.LogWarning("PanelJurnal tanpa DataJurnal: semua entri tampil sebagai '(belum ditulis)'.", this);
             panel.SetActive(false);
         }
 
