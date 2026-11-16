@@ -42,6 +42,11 @@ namespace TheSending.Core
                 Debug.LogWarning($"Save tidak bisa dibaca: {e.Message}");
                 return null;
             }
+            catch (UnauthorizedAccessException e)
+            {
+                Debug.LogWarning($"Save tidak bisa dibaca: {e.Message}");
+                return null;
+            }
         }
 
         public static void Hapus(string folder)

@@ -60,7 +60,7 @@ namespace TheSending.Runtime
             return true;
         }
 
-        public void SimpanCheckpoint() => Checkpoint.Simpan(Folder, State);
+        public bool SimpanCheckpoint() => Checkpoint.Simpan(Folder, State);
 
         // Desain 4.2. Posisi pemain dikembalikan oleh scene malam (titik mulai checkpoint), bukan di sini.
         public void Tertangkap()

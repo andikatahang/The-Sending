@@ -69,5 +69,27 @@ namespace TheSending.Tests
         {
             Assert.IsNull(Checkpoint.MuatSetelahTertangkap(folder));
         }
+
+        [Test]
+        public void SimpanCheckpoint_FolderTidakBisaDitulis_KembalikanFalseTanpaException()
+        {
+            string jalurFile = folder + ".berkas";
+            File.WriteAllText(jalurFile, "bukan folder");
+            try
+            {
+                LogAssert.Expect(LogType.Warning, new Regex("Checkpoint gagal disimpan"));
+                Assert.IsFalse(Checkpoint.Simpan(jalurFile, new GameState()));
+            }
+            finally { File.Delete(jalurFile); }
+        }
+
+        [Test]
+        public void MuatSetelahTertangkap_CheckpointRusak_KembalikanNull()
+        {
+            Directory.CreateDirectory(folder);
+            File.WriteAllText(BerkasSave.Jalur(folder), "rusak");
+            LogAssert.Expect(LogType.Warning, new Regex("Save rusak"));
+            Assert.IsNull(Checkpoint.MuatSetelahTertangkap(folder));
+        }
     }
 }
