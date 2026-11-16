@@ -22,10 +22,10 @@ namespace TheSending.EditorTools
         {
             Directory.CreateDirectory(Path.GetDirectoryName(JalurScene));
             Directory.CreateDirectory(Path.GetDirectoryName(JalurDialog));
-            var dialog = BuatDialogContoh();
-            var jurnal = AmbilAtauBuatJurnal();
 
             var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+            var dialog = BuatDialogContoh();
+            var jurnal = AmbilAtauBuatJurnal();
             RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Flat;
             RenderSettings.ambientLight = new Color(0.08f, 0.09f, 0.11f);
             RenderSettings.fog = true;
@@ -203,6 +203,7 @@ namespace TheSending.EditorTools
 
         static void Set(Object komponen, string nama, Object nilai)
         {
+            if (nilai == null) throw new ArgumentNullException(nama);
             var so = new SerializedObject(komponen);
             Properti(so, nama).objectReferenceValue = nilai;
             so.ApplyModifiedPropertiesWithoutUndo();
@@ -224,6 +225,7 @@ namespace TheSending.EditorTools
 
         static void SetSatuObjek(Object komponen, string nama, Object nilai)
         {
+            if (nilai == null) throw new ArgumentNullException(nama);
             var so = new SerializedObject(komponen);
             var p = Properti(so, nama);
             p.arraySize = 1;
