@@ -106,6 +106,9 @@ Fase 1, saat konten pertama memakainya:
 
 Fase 7: hentikan gerak dan input pemain setelah `State.Ending` terisi. Layar ending tidak punya pemain, jadi kursor otomatis terlihat.
 
+- Jam gim masih berjalan di menu utama (GameManager.Update hanya cek Dijeda). Di Fase 1 jam hanya maju saat `KunciKursor` aktif (pemain sedang dikendalikan).
+- Esc tidak menutup Jurnal atau dialog (MenuJeda hanya terbuka jika tidak Dijeda). Putuskan Esc-untuk-menutup saat membuat panel inventaris di Fase 1, lalu terapkan konsisten ke Jurnal dan dialog.
+- Fase 8: `UnityConnectSettings` m_Enabled 1 dan define `SENTIS_ANALYTICS_ENABLED` (ditambah editor sendiri) menyalakan layanan/analytics Unity; pastikan dimatikan untuk build rilis jika tidak dipakai.
 
 Fase 8: pengaturan grafis baru "Layar penuh" saja; tambahkan pemilih resolusi jika tes Windows membutuhkannya. `PembuatBuild.Windows` membuat development build (tombol uji F5/F9 hidup); build rilis harus non-development.
 
