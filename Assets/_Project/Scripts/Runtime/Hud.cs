@@ -29,12 +29,30 @@ namespace TheSending.Runtime
 
         void OnEnable()
         {
-            if (GameManager.Instance != null) GameManager.Instance.Berubah += SaatBerubah;
+            var gm = GameManager.Instance;
+            if (gm == null)
+            {
+                Debug.LogWarning("Hud tidak menemukan GameManager; notifikasi perubahan tidak akan muncul.", this);
+                return;
+            }
+            gm.Berubah += SaatBerubah;
+            gm.StateDiganti += SaatStateDiganti;
         }
 
         void OnDisable()
         {
-            if (GameManager.Instance != null) GameManager.Instance.Berubah -= SaatBerubah;
+            var gm = GameManager.Instance;
+            if (gm == null) return;
+            gm.Berubah -= SaatBerubah;
+            gm.StateDiganti -= SaatStateDiganti;
+        }
+
+        // Notifikasi milik state lama tidak berlaku lagi setelah save dimuat.
+        void SaatStateDiganti()
+        {
+            antrean.Clear();
+            notifikasi.text = "";
+            sisaNotifikasi = 0f;
         }
 
         public void Tampilkan(string pesan) => antrean.Enqueue(pesan);

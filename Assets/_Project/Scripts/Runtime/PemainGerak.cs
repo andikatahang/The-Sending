@@ -7,7 +7,7 @@ namespace TheSending.Runtime
     public class PemainGerak : MonoBehaviour
     {
         public const float KecepatanJalan = 2.2f, KecepatanLari = 4.0f;
-        public const float SensitivitasMouse = 0.08f, BatasDongak = 80f;
+        public const float BatasDongak = 80f;
         const float Gravitasi = -9.81f;
 
         [SerializeField] Transform kamera;
@@ -30,22 +30,36 @@ namespace TheSending.Runtime
             }
         }
 
+        // Kursor milik GameManager; pemain hanya memberi tahu bahwa ada yang dikendalikan.
+        void OnEnable()
+        {
+            if (GameManager.Instance == null)
+            {
+                Debug.LogWarning($"PemainGerak di '{name}' tidak menemukan GameManager; pemain tidak bisa bergerak.", this);
+                return;
+            }
+            GameManager.Instance.KunciKursor = true;
+        }
+
+        void OnDisable()
+        {
+            if (GameManager.Instance != null) GameManager.Instance.KunciKursor = false;
+        }
+
         void Update()
         {
             var gm = GameManager.Instance;
-            bool bisaGerak = gm != null && !gm.Dijeda;
-            Cursor.lockState = bisaGerak ? CursorLockMode.Locked : CursorLockMode.None;
-            Cursor.visible = !bisaGerak;
-            if (!bisaGerak)
+            if (gm == null || gm.Dijeda)
             {
                 GerakSekarang = Gerak.Diam;
                 return;
             }
 
             var k = gm.Kontrol;
-            Vector2 lihat = k.Lihat.ReadValue<Vector2>() * SensitivitasMouse;
+            var p = gm.Pengaturan;
+            Vector2 lihat = k.Lihat.ReadValue<Vector2>() * p.Sensitivitas;
             transform.Rotate(0f, lihat.x, 0f);
-            dongak = Mathf.Clamp(dongak - lihat.y, -BatasDongak, BatasDongak);
+            dongak = Mathf.Clamp(dongak + (p.BalikY ? lihat.y : -lihat.y), -BatasDongak, BatasDongak);
             kamera.localEulerAngles = new Vector3(dongak, 0f, 0f);
 
             Vector2 masuk = Vector2.ClampMagnitude(k.Gerak.ReadValue<Vector2>(), 1f);
