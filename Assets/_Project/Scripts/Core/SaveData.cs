@@ -28,6 +28,8 @@ namespace TheSending.Core
             Rentang(s.KepercayaanSumi, 0, 3, nameof(s.KepercayaanSumi));
             if (!(s.MenitGim >= 0f && s.MenitGim <= JamGim.BatasLunak))
                 throw new FormatException($"{nameof(s.MenitGim)} = {s.MenitGim}, harus 0..{JamGim.BatasLunak}.");
+            if (!(s.BateraiPersen >= 0f && s.BateraiPersen <= 100f))
+                throw new FormatException($"BateraiPersen = {s.BateraiPersen}, harus 0..100.");
             Panjang(s.MediaDitemukan, Kode.JumlahMedia, nameof(s.MediaDitemukan));
             Panjang(s.MalamMediaDitemukan, Kode.JumlahMedia, nameof(s.MalamMediaDitemukan));
             Panjang(s.MediaDinetralkan, Kode.JumlahMedia, nameof(s.MediaDinetralkan));

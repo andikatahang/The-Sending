@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace TheSending.Core
@@ -27,6 +28,13 @@ namespace TheSending.Core
         };
 
         public static IReadOnlyList<string> DaftarWajib(int malam) => Wajib[malam];
+
+        public static bool Dikenal(string id)
+        {
+            foreach (var malam in Wajib)
+                if (Array.IndexOf(malam, id) >= 0) return true;
+            return false;
+        }
 
         public static bool Sudah(GameState s, string id) => s.TujuanSelesai.Contains(id);
 
