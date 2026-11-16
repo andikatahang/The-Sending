@@ -9,11 +9,11 @@ using Object = UnityEngine.Object;
 
 namespace TheSending.EditorTools
 {
-    // Membuat scene uji Fase 0B.
+    // Membuat scene uji Fase 0 (0B + 0C).
     // Batchmode: Unity -batchmode -quit -projectPath <proyek> -executeMethod TheSending.EditorTools.PembuatSandbox.Buat
     public static class PembuatSandbox
     {
-        const string JalurScene = "Assets/_Project/Scenes/Scene_Sandbox0B.unity";
+        internal const string JalurScene = "Assets/_Project/Scenes/Scene_Sandbox0B.unity";
         const string JalurDialog = "Assets/_Project/Data/Sandbox/DialogContoh.asset";
         const string JalurJurnal = "Assets/_Project/Data/Jurnal.asset";
 
@@ -26,12 +26,7 @@ namespace TheSending.EditorTools
             var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
             var dialog = BuatDialogContoh();
             var jurnal = AmbilAtauBuatJurnal();
-            RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Flat;
-            RenderSettings.ambientLight = new Color(0.08f, 0.09f, 0.11f);
-            RenderSettings.fog = true;
-            RenderSettings.fogMode = FogMode.ExponentialSquared;
-            RenderSettings.fogDensity = 0.06f;
-            RenderSettings.fogColor = new Color(0.10f, 0.12f, 0.14f);
+            PembuatGayaPsx.TerapkanKeScene();
 
             var bulan = new GameObject("CahayaBulan").AddComponent<Light>();
             bulan.type = LightType.Directional;
@@ -56,7 +51,9 @@ namespace TheSending.EditorTools
             kamera.tag = "MainCamera";
             kamera.transform.SetParent(pemain.transform, false);
             kamera.transform.localPosition = new Vector3(0f, 1.6f, 0f);
-            kamera.AddComponent<Camera>().nearClipPlane = 0.05f;
+            var cam = kamera.AddComponent<Camera>();
+            cam.nearClipPlane = 0.05f;
+            PembuatGayaPsx.SiapkanKamera(cam);
             kamera.AddComponent<AudioListener>();
             var senterGo = new GameObject("Senter");
             senterGo.transform.SetParent(kamera.transform, false);
@@ -83,8 +80,11 @@ namespace TheSending.EditorTools
             var panelDialog = ui.AddComponent<PanelDialog>();
             Set(ui.AddComponent<PanelJurnal>(), "data", jurnal);
             var kartu = ui.AddComponent<KartuTeks>();
-            SetTeks(kartu, "judulSaatMulai", "Sandbox Fase 0B");
-            SetTeks(kartu, "isiSaatMulai", "WASD jalan, Shift lari, E interaksi, F senter, Q kamera, C kompas, tahan Spasi menahan napas, Tab Jurnal.");
+            SetTeks(kartu, "judulSaatMulai", "Sandbox Fase 0");
+            SetTeks(kartu, "isiSaatMulai", "WASD jalan, Shift lari, E interaksi, F senter, Q kamera, C kompas, tahan Spasi menahan napas, Tab Jurnal, Esc jeda. Uji: F5 simpan checkpoint, F9 tertangkap.");
+            var panelPengaturan = ui.AddComponent<PanelPengaturan>();
+            Set(ui.AddComponent<MenuJeda>(), "pengaturan", panelPengaturan);
+            Set(ui.AddComponent<AlatUji>(), "hud", hud);
 
             var meja = Kotak("Meja (dialog)", new Vector3(-2f, 0.4f, 0f), new Vector3(1.2f, 0.8f, 0.6f));
             var pemicu = meja.AddComponent<PemicuDialog>();
@@ -201,7 +201,7 @@ namespace TheSending.EditorTools
         static SerializedProperty Properti(SerializedObject so, string nama) =>
             so.FindProperty(nama) ?? throw new MissingFieldException(so.targetObject.GetType().Name, nama);
 
-        static void Set(Object komponen, string nama, Object nilai)
+        internal static void Set(Object komponen, string nama, Object nilai)
         {
             if (nilai == null) throw new ArgumentNullException(nama);
             var so = new SerializedObject(komponen);
