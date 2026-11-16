@@ -106,6 +106,7 @@ Fase 1, saat konten pertama memakainya:
 
 Fase 7: hentikan gerak dan input pemain setelah `State.Ending` terisi. Layar ending tidak punya pemain, jadi kursor otomatis terlihat.
 
+
 Fase 8: pengaturan grafis baru "Layar penuh" saja; tambahkan pemilih resolusi jika tes Windows membutuhkannya. `PembuatBuild.Windows` membuat development build (tombol uji F5/F9 hidup); build rilis harus non-development.
 
 ## Daftar Cek Play Mode Fase 0B (dikerjakan tim)
@@ -131,16 +132,21 @@ Prasyarat: Shader Graph `PSX_Layar`, material, dan `MixerUtama` sudah dibuat, fo
 2. Jika belum ada save, tombol "Lanjutkan" tidak ada.
 3. Pengaturan: ubah volume, sensitivitas, Balik sumbu Y. Stop lalu Play lagi: nilainya masih sama. Esc menutup pengaturan.
 4. "Mulai Baru" memuat sandbox. Kursor terkunci, kartu teks tampil, lalu pemain bisa bergerak.
-5. Tidak ada peringatan mixer atau parameter di Console. Tampilan PSX: piksel besar kotak-kotak (bukan buram), pola dither terlihat di gradasi kabut dan tepi cahaya senter, warna agak pudar, sudut layar gelap, ada bintik film. Dinding jauh tertelan kabut. Pola dither harus seukuran piksel besar, bukan piksel layar. Jika dither halus seukuran piksel layar, fitur `PSX_Layar` (injection point 600) berjalan setelah upscale URP: ganti ke `BeforeRenderingPostProcessing` di `PembuatGayaPsx.AturRenderer`, jalankan The Sending > Pasang Gaya PSX, dan catat di `docs/style-guide.md`.
-6. Esc membuka menu jeda: jam berhenti, jarum kompas (C) berhenti berputar, kursor terlihat. "Lanjut" atau Esc menutupnya dan kursor terkunci lagi. Esc saat dialog atau Jurnal terbuka tidak membuka menu jeda.
-7. Dari menu jeda buka Pengaturan, naikkan sensitivitas, kembali: putaran mouse terasa lebih cepat. Balik sumbu Y membalik dongak.
-8. Shift kanan juga berlari.
-9. Regresi 0B saat dunia berhenti: buka dialog di Meja segera setelah memotret Foto keluarga; notifikasi tetap hilang sendiri sekitar 3 detik dan kilatan kamera tetap memudar.
-10. Save: tekan F5 (notifikasi "Checkpoint disimpan.", Kondisi Ibu 60 di kiri atas). Esc > "Keluar ke Menu Utama" (peringatan konten tidak tampil lagi). "Lanjutkan" kini ada; klik: Kondisi Ibu 60. Tekan F9: Kondisi Ibu 55. Stop Play. Play lagi dari `Scene_MainMenu`, "Lanjutkan": Kondisi Ibu tetap 55 (penalti tersimpan).
-11. "Mulai Baru" saat ada save memunculkan konfirmasi. "Batal" kembali ke menu. "Ya, mulai baru": Kondisi Ibu 60; keluar ke menu lalu "Lanjutkan": tetap 60 (save lama tertimpa).
-12. Tekstur: taruh satu gambar besar (misalnya 2048 px) di `Assets/_Project/Art/Textures/`. Di Inspector: Max Size 256, Filter Mode Point, Generate Mipmap mati.
-13. Font (VT323 dan Kalam sudah terpasang): teks UI memakai VT323 dan tab Buku Harian (Tab > 2) memakai Kalam. Tidak ada peringatan font di Console.
-14. Catat nilai gaya yang ingin diubah (kuat dither, grain, vignette, kabut, ukuran teks). Setelah disetel, status `docs/style-guide.md` diganti dari DRAF menjadi TERKUNCI dan Fase 0 ditandai selesai.
+5. Tidak ada peringatan mixer atau parameter di Console.
+6. Tepi objek terlihat seperti piksel besar yang tajam, bukan buram.
+7. Color banding/dither terlihat di gradasi kabut dan tepi cahaya senter.
+8. Warna dan kepadatan kabut sesuai gaya; dinding jauh tertelan kabut.
+9. Grain dan vignette terlihat halus (tidak mengganggu).
+10. Highlight tidak kusam atau abu-abu. Jika kusam, catat untuk tim: coba Tonemapping None atau matikan HDR.
+11. Esc membuka menu jeda: jam berhenti, jarum kompas (C) berhenti berputar, kursor terlihat. "Lanjut" atau Esc menutupnya dan kursor terkunci lagi. Esc saat dialog atau Jurnal terbuka tidak membuka menu jeda.
+12. Dari menu jeda buka Pengaturan, naikkan sensitivitas, kembali: putaran mouse terasa lebih cepat. Balik sumbu Y membalik dongak.
+13. Shift kanan juga berlari.
+14. Regresi 0B saat dunia berhenti: buka dialog di Meja segera setelah memotret Foto keluarga; notifikasi tetap hilang sendiri sekitar 3 detik dan kilatan kamera tetap memudar.
+15. Save: tekan F5 (notifikasi "Checkpoint disimpan.", Kondisi Ibu 60 di kiri atas). Esc > "Keluar ke Menu Utama" (peringatan konten tidak tampil lagi). "Lanjutkan" kini ada; klik: Kondisi Ibu 60. Tekan F9: Kondisi Ibu 55. Stop Play. Play lagi dari `Scene_MainMenu`, "Lanjutkan": Kondisi Ibu tetap 55 (penalti tersimpan).
+16. "Mulai Baru" saat ada save memunculkan konfirmasi. "Batal" kembali ke menu. "Ya, mulai baru": Kondisi Ibu 60; keluar ke menu lalu "Lanjutkan": tetap 60 (save lama tertimpa).
+17. Tekstur: taruh satu gambar besar (misalnya 2048 px) di `Assets/_Project/Art/Textures/`. Di Inspector: Max Size 256, Filter Mode Point, Generate Mipmap mati.
+18. Font (VT323 dan Kalam sudah terpasang): teks UI memakai VT323 dan tab Buku Harian (Tab > 2) memakai Kalam. Tidak ada peringatan font di Console.
+19. Catat nilai gaya yang ingin diubah (kuat dither, grain, vignette, kabut, ukuran teks). Setelah disetel, status `docs/style-guide.md` diganti dari DRAF menjadi TERKUNCI dan Fase 0 ditandai selesai.
 
 ## Log Progres
 

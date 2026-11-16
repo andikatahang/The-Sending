@@ -148,7 +148,7 @@ namespace TheSending.EditorTools
                 peta.GetArrayElementAtIndex(peta.arraySize - 1).longValue = idLokal;
                 so.ApplyModifiedPropertiesWithoutUndo();
             }
-            fitur.injectionPoint = FullScreenPassRendererFeature.InjectionPoint.AfterRenderingPostProcessing;
+            fitur.injectionPoint = FullScreenPassRendererFeature.InjectionPoint.BeforeRenderingPostProcessing;
             fitur.fetchColorBuffer = true;
             fitur.requirements = ScriptableRenderPassInput.None;
             fitur.passMaterial = material;
