@@ -36,7 +36,9 @@ void PsxLayar_float(float3 Warna, float2 PosisiPiksel, float BitWarna, float Kua
     #endif
 
     // PosisiPiksel = Screen Position mode Pixel: piksel target render (resolusi rendah), jadi pola ikut piksel besar.
-    uint2 piksel = uint2(floor(PosisiPiksel)) & 3;
+    // Jika node memberi posisi ternormalisasi (0..1) alih-alih piksel, ubah ke piksel target render.
+    float2 posisi = all(PosisiPiksel <= 1.0) ? PosisiPiksel * _ScreenParams.xy : PosisiPiksel;
+    uint2 piksel = uint2(floor(posisi)) & 3;
     float ambang = (Bayer4[piksel.x + piksel.y * 4] + 0.5) / 16.0 - 0.5;
     float tingkat = exp2(BitWarna) - 1.0;
     warna = saturate(floor(warna * tingkat + 0.5 + ambang * KuatDither) / tingkat);

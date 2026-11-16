@@ -11,7 +11,7 @@ Semua nilai render dipasang oleh skrip, bukan lewat Inspector: menu **The Sendin
 | Render Scale | 0.4 | `Assets/Settings/PC_RPAsset.asset` (dan Mobile) |
 | Upscaling Filter | Point (Nearest-Neighbor) | aset URP |
 | Anti-aliasing | MSAA mati, AA kamera None | aset URP, kamera |
-| Full-screen pass | Kuantisasi 5 bit per kanal + dither Bayer 4×4 (kuat 1, rentang slider 0–2), dihitung di ruang sRGB, sebelum post-processing (injection point `BeforeRenderingPostProcessing`, 550) pada resolusi render-scale | Shader Graph `Assets/_Project/Art/Shaders/PSX_Layar.shadergraph` (URP Fullscreen) + Custom Function `PSX_Layar.hlsl`, material `PSX_Layar.mat` di folder yang sama (slider Bit Warna = 5, Kuat Dither = 1), fitur renderer `PSX_Layar` |
+| Full-screen pass | Kuantisasi 8 bit per kanal + dither Bayer 4×4 (kuat 1.5), dipilih tim saat cek Play Mode supaya gradasi halus, dihitung di ruang sRGB, sebelum post-processing (injection point `BeforeRenderingPostProcessing`, 550) pada resolusi render-scale | Shader Graph `Assets/_Project/Art/Shaders/PSX_Layar.shadergraph` (URP Fullscreen) + Custom Function `PSX_Layar.hlsl`, material `PSX_Layar.mat` di folder yang sama (slider BitWarna = 8, KuatDither = 1.5; nilai material yang berlaku), fitur renderer `PSX_Layar` |
 | SSAO | Mati | fitur renderer `ScreenSpaceAmbientOcclusion` |
 
 ## Post-processing
@@ -71,4 +71,4 @@ Dibangun lewat kode (`UiPabrik`), kanvas acuan 1920×1080. Panel dalam gim (dial
 
 ## Catatan PSX
 
-Pass `PSX_Layar` berjalan sebelum post-processing pada resolusi render-scale, jadi upscale akhir tetap Point (piksel besar tajam). HDR menyala, jadi `saturate()` memotong highlight di atas 1 sebelum tonemapping. Tonemapping Neutral, saturasi -30, grain, dan vignette berjalan di atas level 5 bit (grain seukuran piksel layar). Jika highlight terlihat kusam atau abu-abu, coba Tonemapping None atau matikan HDR (juga lebih ringan).
+Pass `PSX_Layar` berjalan sebelum post-processing pada resolusi render-scale, jadi upscale akhir tetap Point (piksel besar tajam). HDR menyala, jadi `saturate()` memotong highlight di atas 1 sebelum tonemapping. Tonemapping Neutral, saturasi -30, grain, dan vignette berjalan di atas level 8 bit (grain seukuran piksel layar). Jika highlight terlihat kusam atau abu-abu, coba Tonemapping None atau matikan HDR (juga lebih ringan).
