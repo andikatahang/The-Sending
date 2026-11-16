@@ -59,7 +59,7 @@ Gim horor puzzle 3D first person tentang santet di desa Jawa. Unity 6000.6.4f1 (
 
 | Fase | Hari | Tanggal | Status |
 |---|---|---|---|
-| 0. Fondasi & Style Lock | H1–H3 | 16–18 Nov | [~] 0A selesai. 0B kode selesai (Core + Runtime, 208 EditMode test lulus), menunggu cek Play Mode tim. 0C belum |
+| 0. Fondasi & Style Lock | H1–H3 | 16–18 Nov | [~] 0A dan 0B selesai (Core + Runtime, 208 EditMode test lulus, cek Play Mode 0B oleh tim tanpa error). 0C belum |
 | 1. Prolog + Malam 1 | H4–H6 | 19–21 Nov | [ ] Belum mulai |
 | 2. Malam 2 | H7–H8 | 22–23 Nov | [ ] Belum mulai |
 | 3. Malam 3 | H9–H10 | 24–25 Nov | [ ] Belum mulai |
@@ -129,3 +129,4 @@ Buka `Assets/_Project/Scenes/Scene_Sandbox0B.unity`, tekan Play, lalu cek:
 - **2026-11-15:** Ditambahkan keputusan platform: target final hanya Windows, kerja dan tes harian di Mac, build Windows dari Mac lalu dites di laptop Windows pada Fase 8.
 - **2026-11-15:** Fase 0A selesai: Git LFS, paket (test-framework 1.8.0, ai.navigation 2.0.14, timeline 6.6.0, probuilder 6.1.2), assembly Core dan EditMode test, seluruh aturan Core. Berikutnya: rencana 0B (fondasi Runtime).
 - **2026-11-16:** Fase 0B selesai di kode: GameManager, save/checkpoint ke file, kontrol pemain, interaksi, HUD, senter/kompas/kamera HP, dialog, Jurnal, kartu teks, AktifDiMalam. Scene uji: `Assets/_Project/Scenes/Scene_Sandbox0B.unity` (dibuat ulang lewat menu The Sending > Buat Scene Sandbox 0B). Menunggu cek Play Mode tim. Review akhir 0B: kegagalan tulis/baca save tidak lagi melempar exception ke gameplay.
+- **2026-11-16:** Tim mengecek `Scene_Sandbox0B` di Play Mode, tidak ada error. Fase 0B selesai. Berikutnya: rencana 0C.
