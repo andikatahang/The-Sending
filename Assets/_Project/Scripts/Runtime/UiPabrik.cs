@@ -1,4 +1,7 @@
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem.UI;
 using UnityEngine.UI;
 
 namespace TheSending.Runtime
@@ -6,8 +9,33 @@ namespace TheSending.Runtime
     // Membangun uGUI lewat kode, supaya tidak ada prefab UI yang harus disambung manual.
     public static class UiPabrik
     {
-        static Font font;
-        public static Font Font => font != null ? font : (font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf"));
+        static readonly Color WarnaTeks = new Color(0.9f, 0.88f, 0.82f);
+        static readonly Color WarnaTombol = new Color(0.10f, 0.09f, 0.08f, 0.92f);
+        static readonly Color WarnaTombolSorot = new Color(0.353f, 0.102f, 0.071f, 1f);   // karat #5A1A12
+        static readonly Color WarnaTombolTekan = new Color(0.55f, 0.20f, 0.12f, 1f);
+
+        static Font font, fontTulisan;
+
+        // Satu pintu untuk font. VT323 = UI dan subtitle, Kalam = tulisan tangan buku harian.
+        // File .ttf ditaruh tim di Assets/_Project/Art/Fonts/Resources/ dengan nama di bawah.
+        public static Font Font => font != null ? font : (font = MuatFont("VT323-Regular"));
+        public static Font FontTulisan => fontTulisan != null ? fontTulisan : (fontTulisan = MuatFont("Kalam-Regular"));
+
+        static Font MuatFont(string nama)
+        {
+            var f = Resources.Load<Font>(nama);
+            if (f != null) return f;
+            Debug.LogWarning($"Font '{nama}.ttf' belum ada di Assets/_Project/Art/Fonts/Resources/; memakai font bawaan.");
+            return Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+        }
+
+        // Domain reload mati: kosongkan cache supaya font yang baru ditaruh tim terbaca di Play berikutnya.
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        static void Bersihkan()
+        {
+            font = null;
+            fontTulisan = null;
+        }
 
         public static Canvas BuatCanvas(string nama, int urutan)
         {
@@ -19,6 +47,16 @@ namespace TheSending.Runtime
             skala.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
             skala.referenceResolution = new Vector2(1920, 1080);
             skala.matchWidthOrHeight = 0.5f;
+            return canvas;
+        }
+
+        // Canvas yang bisa diklik: menu utama, menu jeda, pengaturan.
+        public static Canvas BuatCanvasMenu(string nama, int urutan)
+        {
+            var canvas = BuatCanvas(nama, urutan);
+            canvas.gameObject.AddComponent<GraphicRaycaster>();
+            if (EventSystem.current == null)
+                new GameObject("EventSystem", typeof(EventSystem), typeof(InputSystemUIInputModule));
             return canvas;
         }
 
@@ -40,7 +78,7 @@ namespace TheSending.Runtime
             t.font = Font;
             t.fontSize = ukuran;
             t.alignment = rata;
-            t.color = new Color(0.9f, 0.88f, 0.82f);
+            t.color = WarnaTeks;
             t.horizontalOverflow = HorizontalWrapMode.Wrap;
             t.verticalOverflow = VerticalWrapMode.Truncate;
             t.raycastTarget = false;
@@ -56,6 +94,31 @@ namespace TheSending.Runtime
             img.color = warna;
             img.raycastTarget = false;
             return img;
+        }
+
+        // Tombol menu: bisa diklik mouse dan dipilih dengan panah/WASD + Enter. Warna sorot = karat (palet style guide).
+        public static Button BuatTombol(Transform induk, string label, Vector2 anchorMin, Vector2 anchorMax, UnityAction saatKlik)
+        {
+            var img = BuatPanel(induk, "Tombol " + label, Color.white, anchorMin, anchorMax);
+            img.raycastTarget = true;
+            var tombol = img.gameObject.AddComponent<Button>();
+            tombol.targetGraphic = img;   // AddComponent saat runtime tidak mengisinya sendiri
+            var warna = tombol.colors;
+            warna.normalColor = WarnaTombol;
+            warna.highlightedColor = WarnaTombolSorot;
+            warna.selectedColor = WarnaTombolSorot;
+            warna.pressedColor = WarnaTombolTekan;
+            tombol.colors = warna;
+            tombol.onClick.AddListener(saatKlik);
+            BuatTeks(img.transform, "Label", 30, TextAnchor.MiddleCenter, Vector2.zero, Vector2.one).text = label;
+            return tombol;
+        }
+
+        // Memindahkan pilihan keyboard ke tombol; null melepas pilihan.
+        public static void Pilih(Button tombol)
+        {
+            if (EventSystem.current == null) return;
+            EventSystem.current.SetSelectedGameObject(tombol != null ? tombol.gameObject : null);
         }
     }
 }

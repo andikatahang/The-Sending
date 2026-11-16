@@ -77,6 +77,7 @@ namespace TheSending.Runtime
         void Gambar(GameState s)
         {
             judul.text = "[1] Papan Bukti     [2] Buku Harian     [3] Catatan     [Tab] Tutup";
+            isi.font = tab == Tab.BukuHarian ? UiPabrik.FontTulisan : UiPabrik.Font;
             isi.text = tab == Tab.PapanBukti ? TeksPapan(s)
                      : tab == Tab.BukuHarian ? TeksDiary(s)
                      : TeksCatatan();

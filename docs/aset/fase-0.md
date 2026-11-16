@@ -10,8 +10,10 @@ Sumber: **GF** Google Fonts · **FS** Freesound · **PX** Pixabay (audio) · **P
 
 | Nama | Kata kunci | Sumber | Tujuan | Status |
 |---|---|---|---|---|
-| VT323 (UI dan subtitle) | `VT323` | GF | `Assets/_Project/Art/Fonts/` | |
-| Kalam (tulisan tangan buku harian) | `Kalam` | GF | `Assets/_Project/Art/Fonts/` | |
+| VT323 (UI dan subtitle) | `VT323` | GF | `Assets/_Project/Art/Fonts/Resources/VT323-Regular.ttf` (nama file harus persis) | |
+| Kalam (tulisan tangan buku harian) | `Kalam` | GF | `Assets/_Project/Art/Fonts/Resources/Kalam-Regular.ttf` (nama file harus persis) | |
+
+Font dimuat lewat `Resources.Load`, jadi wajib berada di folder `Resources` itu. Tidak ada kode yang perlu diubah setelah file ditaruh.
 
 ## SFX HP dan pemain
 
