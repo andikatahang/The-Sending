@@ -59,7 +59,7 @@ Gim horor puzzle 3D first person tentang santet di desa Jawa. Unity 6000.6.4f1 (
 
 | Fase | Hari | Tanggal | Status |
 |---|---|---|---|
-| 0. Fondasi & Style Lock | H1–H3 | 16–18 Nov | [~] 0A dan 0B selesai (Core + Runtime, 206 EditMode test lulus). 0C belum |
+| 0. Fondasi & Style Lock | H1–H3 | 16–18 Nov | [~] 0A selesai. 0B kode selesai (Core + Runtime, 208 EditMode test lulus), menunggu cek Play Mode tim. 0C belum |
 | 1. Prolog + Malam 1 | H4–H6 | 19–21 Nov | [ ] Belum mulai |
 | 2. Malam 2 | H7–H8 | 22–23 Nov | [ ] Belum mulai |
 | 3. Malam 3 | H9–H10 | 24–25 Nov | [ ] Belum mulai |
@@ -85,6 +85,29 @@ Kriteria selesai setiap fase: semua EditMode test lulus, tim sudah mengecek daft
 - Balancing: tanpa menetralkan media sama sekali, Kondisi Ibu habis sekitar pergantian Malam 6 ke 7. Tutorial ritual Malam 3 praktis wajib.
 - Pilihan terakhir dan lolos dari Mbah Wiryo wajib lewat `PenentuEnding.Pilih` dan `PenentuEnding.LolosDariWiryo`.
 
+## Catatan untuk Fase 0C dan sesudahnya (dari review akhir 0B)
+
+Diputuskan di 0C, sebelum Fase 1:
+- **Arti jeda.** `GameManager.Jeda` sekarang hanya penanda (`Dijeda`); `Time.timeScale` tidak diubah, jadi fisika, NavMesh, Animator, audio, dan `WaitForSeconds` tetap jalan saat dialog atau Jurnal terbuka. Pilih satu: (a) `Jeda` juga mengatur `Time.timeScale` (Hud dan KartuTeks sudah memakai waktu unscaled; Timeline perlu mode unscaled), atau (b) aturan tertulis bahwa setiap skrip berbasis waktu, termasuk musuh, berhenti saat `Dijeda`.
+- **`Perubahan.Malam` juga berarti "state diganti".** `GameManager.Pasang` memicunya setiap kali memuat save atau tertangkap. Konten malam yang memakai event ini (kartu judul, cutscene pembuka, spawn) akan terpicu ulang. Tambahkan event terpisah, atau cek apakah malamnya benar-benar berubah.
+
+Dikerjakan di 0C:
+- Kursor dikunci oleh `PemainGerak.Update`. Scene tanpa pemain (menu utama, layar ending) wajib mengatur kursor sendiri, atau pindahkan pengaturan kursor ke `GameManager`.
+- `AktifDiMalam` dipasang di objek yang selalu aktif, jangan di salah satu `sasaran`-nya, supaya tidak mematikan dirinya sendiri. Beri `LogWarning` jika `GameManager` tidak ada saat `OnEnable`. Hal yang sama berlaku untuk `Hud` jika `GameManager` baru muncul di scene berikutnya.
+- Domain reload saat masuk Play Mode dimatikan (`EditorSettings`). Setiap field `static` baru di Runtime wajib dibersihkan sendiri (`OnDestroy`/`OnDisable`).
+- `Jeda(false)` yang berlebih (underflow) beri `LogWarning`. Ikat juga Shift kanan untuk lari. Beri peringatan jika `PanelJurnal.data` kosong.
+- Daftar cek Play Mode 0C: simpan checkpoint, keluar, Lanjutkan, tertangkap, keluar, Lanjutkan, lalu pastikan penalti -5 tetap tersimpan.
+- Cocokkan jumlah entri Catatan Bapak (7) dan Catatan Raka (6) di `Jurnal.asset` dengan Game Story 9.1.
+
+Fase 1, saat konten pertama memakainya:
+- `PanelDialog.Mulai` belum menjaga `GameManager.Instance` null; cutscene tanpa GameManager akan error.
+- Notifikasi HUD belum menyaring pesan kembar berurutan (memotret ulang, `Perubahan.Katanya` ganda).
+- Lebih dari 4 pilihan dialog disembunyikan diam-diam; beri `LogWarning`.
+- Jalankan `KartuTeks.Tampilkan`/`KeHitam`/`DariHitam` lewat `kartu.StartCoroutine(...)`, bukan dari MonoBehaviour lain. Fade hitam belum dijaga token, jadi jangan tumpuk dua fade.
+- Tambahkan EditMode test yang menjalankan semua kode efek di setiap aset `DataDialog` terhadap `GameState` sementara, supaya kode efek yang salah ketahuan sebelum Play Mode.
+
+Fase 7: hentikan gerak dan input pemain setelah `State.Ending` terisi.
+
 ## Daftar Cek Play Mode Fase 0B (dikerjakan tim)
 
 Buka `Assets/_Project/Scenes/Scene_Sandbox0B.unity`, tekan Play, lalu cek:
@@ -105,4 +128,4 @@ Buka `Assets/_Project/Scenes/Scene_Sandbox0B.unity`, tekan Play, lalu cek:
 - **2026-11-15:** Brainstorming selesai. Dokumen desain ditulis, repo git dibuat. Berikutnya: rencana implementasi Fase 0.
 - **2026-11-15:** Ditambahkan keputusan platform: target final hanya Windows, kerja dan tes harian di Mac, build Windows dari Mac lalu dites di laptop Windows pada Fase 8.
 - **2026-11-15:** Fase 0A selesai: Git LFS, paket (test-framework 1.8.0, ai.navigation 2.0.14, timeline 6.6.0, probuilder 6.1.2), assembly Core dan EditMode test, seluruh aturan Core. Berikutnya: rencana 0B (fondasi Runtime).
-- **2026-11-16:** Fase 0B selesai di kode: GameManager, save/checkpoint ke file, kontrol pemain, interaksi, HUD, senter/kompas/kamera HP, dialog, Jurnal, kartu teks, AktifDiMalam. Scene uji: `Assets/_Project/Scenes/Scene_Sandbox0B.unity` (dibuat ulang lewat menu The Sending > Buat Scene Sandbox 0B). Menunggu cek Play Mode tim.
+- **2026-11-16:** Fase 0B selesai di kode: GameManager, save/checkpoint ke file, kontrol pemain, interaksi, HUD, senter/kompas/kamera HP, dialog, Jurnal, kartu teks, AktifDiMalam. Scene uji: `Assets/_Project/Scenes/Scene_Sandbox0B.unity` (dibuat ulang lewat menu The Sending > Buat Scene Sandbox 0B). Menunggu cek Play Mode tim. Review akhir 0B: kegagalan tulis/baca save tidak lagi melempar exception ke gameplay.
