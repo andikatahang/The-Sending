@@ -37,6 +37,7 @@ namespace TheSending.Core
 
         public bool ObatSudahDiberikan;
         public List<string> TujuanSelesai = new List<string>();
+        public List<string> Barang = new List<string>();            // id dari Inventaris
         public Ending Ending;
 
         [field: NonSerialized] public event Action<Perubahan> Berubah;

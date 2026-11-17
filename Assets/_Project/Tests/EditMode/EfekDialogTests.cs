@@ -88,5 +88,21 @@ namespace TheSending.Tests
             Assert.Throws<FormatException>(() => EfekDialog.Jalankan(s, "bukti:B5;halaman:H9"));
             Assert.IsFalse(s.BuktiKunci[Kode.B5]);
         }
+
+        [Test]
+        public void BarangMasukInventaris()
+        {
+            var s = new GameState();
+            EfekDialog.Jalankan(s, "barang:ObatIbu");
+            Assert.IsTrue(Inventaris.Punya(s, Inventaris.ObatIbu));
+        }
+
+        [Test]
+        public void BarangTidakDikenalDitolakTanpaMengubahState()
+        {
+            var s = new GameState();
+            Assert.Throws<FormatException>(() => EfekDialog.Jalankan(s, "katanya:K1; barang:Linggis"));
+            Assert.IsFalse(s.KatanyaDiketahui[Kode.K1]);
+        }
     }
 }

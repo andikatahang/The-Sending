@@ -7,6 +7,19 @@ namespace TheSending.Core
     {
         public const string KodeBenar = "2003";
         public static bool Cek(string kode) => kode == KodeBenar;
+
+        // Kode benar: Raka mendapat buku harian ayah (Halaman 1 dan 2, Game Story 10.3) dan map sertifikat.
+        // Aman dipanggil ulang: semua langkahnya tidak menggandakan apa pun.
+        public static bool Buka(GameState s, string kode)
+        {
+            if (!Cek(kode)) return false;
+            Inventaris.Tambah(s, Inventaris.BukuHarianAyah);
+            Inventaris.Tambah(s, Inventaris.MapSertifikat);
+            BukuHarian.Temukan(s, Kode.H1);
+            BukuHarian.Temukan(s, Kode.H2);
+            TujuanMalam.Selesaikan(s, TujuanMalam.BukaLemari);
+            return true;
+        }
     }
 
     // Malam 2: satu entri = satu aksara (dengan sandhangan) yang dipilih dari tabel Halaman 2.

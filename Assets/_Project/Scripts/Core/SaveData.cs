@@ -42,6 +42,9 @@ namespace TheSending.Core
             Panjang(s.BahanRitual, Kode.JumlahBahanRitual, nameof(s.BahanRitual));
             if (s.TujuanSelesai == null) throw new FormatException("TujuanSelesai tidak ada.");
             if (s.TujuanSelesai.Contains(null)) throw new FormatException("TujuanSelesai berisi elemen kosong.");
+            if (s.Barang == null) throw new FormatException("Barang tidak ada.");
+            foreach (var id in s.Barang)
+                if (!Inventaris.Dikenal(id)) throw new FormatException($"Barang '{id}' tidak dikenal.");
 
             EnumValid(s.HasilSidang, nameof(s.HasilSidang));
             EnumValid(s.PilihanAkhir, nameof(s.PilihanAkhir));

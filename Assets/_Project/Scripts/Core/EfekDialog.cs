@@ -30,6 +30,7 @@ namespace TheSending.Core
             switch (nama)
             {
                 case "tujuan": { var id = Wajib(isi, asli); if (!TujuanMalam.Dikenal(id)) throw new FormatException($"Efek '{asli}': tujuan '{id}' tidak dikenal."); return s => TujuanMalam.Selesaikan(s, id); }
+                case "barang": { var id = Wajib(isi, asli); if (!Inventaris.Dikenal(id)) throw new FormatException($"Efek '{asli}': barang '{id}' tidak dikenal."); return s => Inventaris.Tambah(s, id); }
                 case "bukti": { int n = Nomor(isi, 'B', Kode.JumlahBukti, asli); return s => PapanBukti.TambahBukti(s, n); }
                 case "katanya": { int n = Nomor(isi, 'K', Kode.JumlahKatanya, asli); return s => PapanBukti.TambahKatanya(s, n); }
                 case "halaman": { int n = Nomor(isi, 'H', Kode.JumlahHalaman, asli); return s => BukuHarian.Temukan(s, n); }
