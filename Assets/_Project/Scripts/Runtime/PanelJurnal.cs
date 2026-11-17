@@ -93,6 +93,7 @@ namespace TheSending.Runtime
             }
             for (int b = 0; b < Kode.JumlahBukti; b++)
                 if (s.BuktiKunci[b]) Tulis(sb, $"[BUKTI] B{b + 1} ", Entri(data != null ? data.Bukti : null, b), "");
+            foreach (var id in s.Foto) sb.Append("[FOTO] ").AppendLine(PapanBukti.JudulFoto(id));
             for (int k = 0; k < Kode.JumlahKatanya; k++)
                 if (s.KatanyaDiketahui[k]) Tulis(sb, $"[{Label(s.StatusKatanya[k])}] K{k + 1} ", Entri(data != null ? data.Katanya : null, k), "");
             return sb.Length == 0 ? "Belum ada informasi." : sb.ToString();
