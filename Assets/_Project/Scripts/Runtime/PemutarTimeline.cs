@@ -23,14 +23,17 @@ namespace TheSending.Runtime
             director.stopped += SaatBerhenti;
         }
 
-        void OnDestroy() => director.stopped -= SaatBerhenti;
+        void OnDestroy()
+        {
+            if (director != null) director.stopped -= SaatBerhenti;
+        }
 
         void SaatBerhenti(PlayableDirector _) => selesai = true;
 
         // Dipanggil sutradara: yield return pemutar.PutarDanTunggu();
         public IEnumerator PutarDanTunggu()
         {
-            if (director.playableAsset == null)
+            if (director == null || director.playableAsset == null)
             {
                 Debug.LogError($"PemutarTimeline '{name}' tanpa aset Timeline; cutscene dilewati.", this);
                 yield break;
@@ -39,7 +42,8 @@ namespace TheSending.Runtime
             director.time = 0;
             director.Play();
             // Cadangan state: jika wrap mode bukan None, stopped tidak pernah terpicu dan adegan akan terkunci.
-            while (!selesai && director.state == PlayState.Playing) yield return null;
+            // director != null: objeknya bisa dihancurkan di tengah cutscene (scene dibongkar).
+            while (director != null && !selesai && director.state == PlayState.Playing) yield return null;
         }
 
         public void OnNotify(Playable origin, INotification notification, object context)

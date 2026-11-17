@@ -41,6 +41,7 @@ namespace TheSending.Runtime
 
         public void Bidik(Transform bidikan)
         {
+            if (bidikan == null || kameraPemain == null || kameraAdegan == null) return;   // Awake menonaktifkan diri jika kamera kosong
             kameraAdegan.transform.SetPositionAndRotation(bidikan.position, bidikan.rotation);
             kameraPemain.enabled = false;
             kameraAdegan.enabled = true;
