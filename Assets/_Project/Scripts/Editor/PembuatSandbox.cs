@@ -189,7 +189,7 @@ namespace TheSending.EditorTools
         static EntriJurnal[] Entri(params string[] judul) =>
             Array.ConvertAll(judul, t => new EntriJurnal { Judul = t, Isi = "" });
 
-        static GameObject Kotak(string nama, Vector3 posisi, Vector3 ukuran)
+        internal static GameObject Kotak(string nama, Vector3 posisi, Vector3 ukuran)
         {
             var g = GameObject.CreatePrimitive(PrimitiveType.Cube);
             g.name = nama;
@@ -209,27 +209,44 @@ namespace TheSending.EditorTools
             so.ApplyModifiedPropertiesWithoutUndo();
         }
 
-        static void SetTeks(Object komponen, string nama, string nilai)
+        internal static void SetTeks(Object komponen, string nama, string nilai)
         {
             var so = new SerializedObject(komponen);
             Properti(so, nama).stringValue = nilai;
             so.ApplyModifiedPropertiesWithoutUndo();
         }
 
-        static void SetAngka(Object komponen, string nama, int nilai)
+        internal static void SetAngka(Object komponen, string nama, int nilai)
         {
             var so = new SerializedObject(komponen);
             Properti(so, nama).intValue = nilai;
             so.ApplyModifiedPropertiesWithoutUndo();
         }
 
-        static void SetSatuObjek(Object komponen, string nama, Object nilai)
+        internal static void SetSatuObjek(Object komponen, string nama, Object nilai)
         {
             if (nilai == null) throw new ArgumentNullException(nama);
             var so = new SerializedObject(komponen);
             var p = Properti(so, nama);
             p.arraySize = 1;
             p.GetArrayElementAtIndex(0).objectReferenceValue = nilai;
+            so.ApplyModifiedPropertiesWithoutUndo();
+        }
+
+        internal static void SetBool(Object komponen, string nama, bool nilai)
+        {
+            var so = new SerializedObject(komponen);
+            Properti(so, nama).boolValue = nilai;
+            so.ApplyModifiedPropertiesWithoutUndo();
+        }
+
+        internal static void SetDaftar(Object komponen, string nama, Object[] nilai)
+        {
+            var so = new SerializedObject(komponen);
+            var p = Properti(so, nama);
+            p.arraySize = nilai.Length;
+            for (int i = 0; i < nilai.Length; i++)
+                p.GetArrayElementAtIndex(i).objectReferenceValue = nilai[i] ?? throw new ArgumentNullException($"{nama}[{i}]");
             so.ApplyModifiedPropertiesWithoutUndo();
         }
     }
