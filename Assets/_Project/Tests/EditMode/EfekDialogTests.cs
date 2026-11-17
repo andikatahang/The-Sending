@@ -104,5 +104,20 @@ namespace TheSending.Tests
             Assert.Throws<FormatException>(() => EfekDialog.Jalankan(s, "katanya:K1; barang:Linggis"));
             Assert.IsFalse(s.KatanyaDiketahui[Kode.K1]);
         }
+
+        [Test]
+        public void FotoLewatEfek()
+        {
+            var s = new GameState { MalamKe = 1 };
+            EfekDialog.Jalankan(s, "tujuan:PotretPaku; foto:PakuMalam1");
+            Assert.IsTrue(TujuanMalam.Sudah(s, TujuanMalam.PotretPaku));
+            CollectionAssert.Contains(s.Foto, PapanBukti.FotoPakuMalam1);
+        }
+
+        [Test]
+        public void FotoTidakDikenalLewatEfekDitolak()
+        {
+            Assert.Throws<FormatException>(() => EfekDialog.Jalankan(new GameState(), "foto:Hantu"));
+        }
     }
 }

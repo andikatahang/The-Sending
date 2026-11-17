@@ -99,5 +99,39 @@ namespace TheSending.Tests
             Assert.Throws<ArgumentOutOfRangeException>(() => PapanBukti.TambahKatanya(new GameState(), 4));
             Assert.Throws<ArgumentOutOfRangeException>(() => BukuHarian.Temukan(new GameState(), 8));
         }
+
+        [Test]
+        public void FotoMasukPapanDanMengumumkan()
+        {
+            var s = new GameState();
+            Perubahan? terakhir = null;
+            s.Berubah += p => terakhir = p;
+
+            PapanBukti.TambahFoto(s, PapanBukti.FotoPakuMalam1);
+
+            CollectionAssert.AreEqual(new[] { PapanBukti.FotoPakuMalam1 }, s.Foto);
+            Assert.AreEqual(Perubahan.Foto, terakhir);
+            Assert.IsNotEmpty(PapanBukti.JudulFoto(PapanBukti.FotoPakuMalam1));
+            CollectionAssert.DoesNotContain(s.BuktiKunci, true);
+        }
+
+        [Test]
+        public void FotoKembarTidakMenggandakan()
+        {
+            var s = new GameState();
+            PapanBukti.TambahFoto(s, PapanBukti.FotoPakuMalam1);
+            PapanBukti.TambahFoto(s, PapanBukti.FotoPakuMalam1);
+            Assert.AreEqual(1, s.Foto.Count);
+        }
+
+        [Test]
+        public void FotoTidakDikenalDitolak()
+        {
+            var s = new GameState();
+            Assert.IsFalse(PapanBukti.FotoDikenal("Hantu"));
+            Assert.Throws<ArgumentException>(() => PapanBukti.TambahFoto(s, "Hantu"));
+            Assert.Throws<ArgumentException>(() => PapanBukti.JudulFoto("Hantu"));
+            Assert.IsEmpty(s.Foto);
+        }
     }
 }

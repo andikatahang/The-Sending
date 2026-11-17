@@ -139,5 +139,22 @@ namespace TheSending.Tests
             s.Barang.Add("Linggis?");
             Assert.Throws<FormatException>(() => SaveData.DariJson(SaveData.KeJson(s)));
         }
+
+        [Test]
+        public void FotoIkutTersimpan()
+        {
+            var s = new GameState();
+            PapanBukti.TambahFoto(s, PapanBukti.FotoPakuMalam1);
+            var hasil = SaveData.DariJson(SaveData.KeJson(s));
+            CollectionAssert.AreEqual(new[] { PapanBukti.FotoPakuMalam1 }, hasil.Foto);
+        }
+
+        [Test]
+        public void FotoTidakDikenalDiSaveDitolak()
+        {
+            var s = new GameState();
+            s.Foto.Add("Hantu");
+            Assert.Throws<FormatException>(() => SaveData.DariJson(SaveData.KeJson(s)));
+        }
     }
 }

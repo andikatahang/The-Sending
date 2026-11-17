@@ -45,6 +45,9 @@ namespace TheSending.Core
             if (s.Barang == null) throw new FormatException("Barang tidak ada.");
             foreach (var id in s.Barang)
                 if (!Inventaris.Dikenal(id)) throw new FormatException($"Barang '{id}' tidak dikenal.");
+            if (s.Foto == null) throw new FormatException("Foto tidak ada.");
+            foreach (var id in s.Foto)
+                if (!PapanBukti.FotoDikenal(id)) throw new FormatException($"Foto '{id}' tidak dikenal.");
 
             EnumValid(s.HasilSidang, nameof(s.HasilSidang));
             EnumValid(s.PilihanAkhir, nameof(s.PilihanAkhir));
