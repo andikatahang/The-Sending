@@ -91,5 +91,16 @@ namespace TheSending.Tests
             Assert.IsFalse(KondisiIbu.BeriObat(s));
             Assert.AreEqual(40, s.KondisiIbu);
         }
+
+        [TestCase(1, 1260f, 1320f)]
+        [TestCase(5, 1260f, 1320f)]
+        [TestCase(6, 1200f, 1260f)]
+        public void MulaiDanAkhirJendelaObat(int malam, float mulai, float akhir)
+        {
+            Assert.AreEqual(mulai, JamGim.MulaiJendelaObat(malam));
+            Assert.AreEqual(akhir, JamGim.AkhirJendelaObat(malam));
+            Assert.IsTrue(JamGim.DalamJendelaObat(new GameState { MalamKe = malam, MenitGim = mulai }));
+            Assert.IsFalse(JamGim.DalamJendelaObat(new GameState { MalamKe = malam, MenitGim = akhir }));
+        }
     }
 }

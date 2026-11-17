@@ -30,12 +30,12 @@ namespace TheSending.Core
         public static bool BatasKerasTercapai(GameState s) =>
             (s.MalamKe == 6 || s.MalamKe == 7) && s.MenitGim >= Batas(s.MalamKe);
 
-        public static bool DalamJendelaObat(GameState s)
-        {
-            if (s.MalamKe < 1) return false;
-            float mulai = s.MalamKe == 6 ? Jam20 : Jam21;
-            return s.MenitGim >= mulai && s.MenitGim < mulai + LamaJendelaObat;
-        }
+        // Desain 4.4: 21.00-22.00, Malam 6 dimajukan ke 20.00-21.00.
+        public static float MulaiJendelaObat(int malam) => malam == 6 ? Jam20 : Jam21;
+        public static float AkhirJendelaObat(int malam) => MulaiJendelaObat(malam) + LamaJendelaObat;
+
+        public static bool DalamJendelaObat(GameState s) =>
+            s.MalamKe >= 1 && s.MenitGim >= MulaiJendelaObat(s.MalamKe) && s.MenitGim < AkhirJendelaObat(s.MalamKe);
 
         public static float SisaDetikMalam7(GameState s) =>
             s.MalamKe != 7 ? 0f : Math.Max(0f, (TengahMalam - s.MenitGim) * DetikNyataPerJamGim / 60f);
