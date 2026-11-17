@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Text;
 using TheSending.Core;
 using UnityEngine;
@@ -11,7 +12,7 @@ namespace TheSending.Runtime
     [DefaultExecutionOrder(100)]
     public class PanelDialog : MonoBehaviour
     {
-        const int MaksPilihan = 4;
+        const int MaksPilihan = PemeriksaDialog.MaksPilihan;
 
         GameObject panel;
         Text pembicara, teks, terjemahan, pilihan;
@@ -49,11 +50,17 @@ namespace TheSending.Runtime
         public bool Mulai(DataDialog data, Action saatSelesai = null)
         {
             if (Terbuka || data == null) return false;
+            var gm = GameManager.Instance;
+            if (gm == null)
+            {
+                Debug.LogError("PanelDialog butuh GameManager di scene.", this);
+                return false;
+            }
             sumber = data;
             this.saatSelesai = saatSelesai;
             try
             {
-                dialog = new JalannyaDialog(GameManager.Instance.State, data.Baris);
+                dialog = new JalannyaDialog(gm.State, data.Baris);
             }
             catch (Exception e) when (e is FormatException || e is ArgumentException || e is InvalidOperationException)
             {
@@ -61,10 +68,17 @@ namespace TheSending.Runtime
                 return false;
             }
             frameMulai = Time.frameCount;   // tombol E yang membuka dialog tidak ikut melanjutkannya
-            GameManager.Instance.Jeda(true);
+            gm.Jeda(true);
             panel.SetActive(true);
             Gambar();
             return true;
+        }
+
+        // Untuk adegan berskrip: yield return panel.MulaiDanTunggu(data);
+        public IEnumerator MulaiDanTunggu(DataDialog data)
+        {
+            if (!Mulai(data)) yield break;
+            while (Terbuka) yield return null;
         }
 
         void Update()
@@ -109,6 +123,8 @@ namespace TheSending.Runtime
                 pilihan.text = "[E] Lanjut";
                 return;
             }
+            if (b.Pilihan.Length > MaksPilihan)
+                Debug.LogWarning($"Dialog '{sumber.name}' baris {dialog.Indeks}: {b.Pilihan.Length} pilihan, hanya {MaksPilihan} yang tampil.", sumber);
             var sb = new StringBuilder();
             for (int i = 0; i < b.Pilihan.Length && i < MaksPilihan; i++) sb.AppendLine($"{i + 1}. {b.Pilihan[i].Teks}");
             pilihan.text = sb.ToString();

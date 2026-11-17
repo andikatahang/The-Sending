@@ -95,7 +95,7 @@ namespace TheSending.Runtime
         void Lanjutkan()
         {
             var gm = GameManager.Instance;
-            if (gm.Lanjutkan()) gm.MuatScene(GameManager.SceneAwal);
+            if (gm.Lanjutkan()) gm.MuatScene(gm.SceneUntukState);
             else pesan.text = "Save tidak bisa dibaca. Pilih Mulai Baru.";
         }
 
@@ -122,7 +122,7 @@ namespace TheSending.Runtime
             var gm = GameManager.Instance;
             gm.MulaiBaru();
             gm.SimpanCheckpoint();   // langsung menimpa save lama, supaya Lanjutkan tidak memuat permainan sebelumnya
-            gm.MuatScene(GameManager.SceneAwal);
+            gm.MuatScene(gm.SceneUntukState);
         }
 
         void BukaPengaturan()

@@ -1,5 +1,7 @@
+using TheSending.Core;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace TheSending.Runtime
@@ -28,15 +30,21 @@ namespace TheSending.Runtime
             var gm = GameManager.Instance;
             var kb = Keyboard.current;
             if (gm == null || kb == null) return;
-            info.text = $"UJI  Malam {gm.State.MalamKe}  Kondisi Ibu {gm.State.KondisiIbu}  [F5] simpan checkpoint  [F9] tertangkap";
+            info.text = $"UJI  Malam {gm.State.MalamKe}  Kondisi Ibu {gm.State.KondisiIbu}  [F5] simpan  [F6] jam +30 menit  [F9] tertangkap";
             if (gm.Dijeda) return;
 
             if (kb.f5Key.wasPressedThisFrame)
                 Pesan(gm.SimpanCheckpoint() ? "Checkpoint disimpan." : "Checkpoint GAGAL disimpan.");
+            if (kb.f6Key.wasPressedThisFrame)
+            {
+                JamGim.Maju(gm.State, 30f * JamGim.DetikNyataPerJamGim / 60f);   // 30 menit gim
+                Pesan("Jam gim maju 30 menit.");
+            }
             if (kb.f9Key.wasPressedThisFrame)
             {
                 gm.Tertangkap();
-                Pesan("Tertangkap: checkpoint dimuat, Kondisi Ibu -5.");
+                // Isi scene (lemari, lampu, paku) harus mengikuti state yang baru dimuat.
+                gm.MuatScene(SceneManager.GetActiveScene().name);
             }
         }
 
