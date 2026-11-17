@@ -51,7 +51,7 @@ Model bisa dari Sketchfab atau Asset Store, lalu di-rig dan diberi animasi di Mi
 
 | Nama | Kata kunci (EN / ID) | Sumber | Catatan | Status |
 |---|---|---|---|---|
-| Gadis menangis di telepon | `girl crying phone`, `teen girl sobbing` | FS, PX | layar hitam Prolog | |
+| Gadis menangis di telepon | `girl crying phone`, `teen girl sobbing` | FS, PX | layar hitam Prolog | belakangan (suara tokoh ditunda) |
 | Motor menjauh | `motorcycle drive away` / ojek pergi | FS, PX | | |
 | Azan magrib dari kejauhan | `adhan distant`, `call to prayer far away` | FS, PX | hormati: pakai rekaman utuh, tanpa diedit aneh | |
 | Pintu kayu berderit | `wooden door creak` | FS | | |
@@ -60,5 +60,39 @@ Model bisa dari Sketchfab atau Asset Store, lalu di-rig dan diberi animasi di Mi
 | Paku jatuh ke lantai | `nails dropping floor`, `metal small objects drop` | FS | | |
 | Listrik padam | `power outage`, `electric hum cut off` | FS | | |
 | Langkah berat di atap | `footsteps on roof`, `heavy steps above ceiling` | FS | | |
-| Bisikan doa perempuan | `female whisper prayer`, `whispering` | FS | Laras berdoa | |
+| Bisikan doa perempuan | `female whisper prayer`, `whispering` | FS | Laras berdoa | belakangan (suara tokoh ditunda) |
 | Musik drone horor | `dark ambient drone`, `horror drone loop` | PX, FS | latar tegang, bisa di-loop | |
+
+## Nama file dan prefab yang dipakai kode Fase 1
+
+Kode Fase 1 berjalan dengan aset pengganti. Untuk memakai aset asli, taruh atau tukar di jalur berikut; tidak ada kode yang perlu diubah. Skrip pembuat **tidak menimpa** file yang sudah ada.
+
+**Suara** (`.wav`, `.ogg`, atau `.mp3`; nama dasar harus persis). (S) = sudah ada WAV sintetis; hapus file sintetis dan `.meta`-nya sebelum menaruh yang asli.
+
+| Aset di daftar atas | Jalur |
+|---|---|
+| Motor menjauh | `Assets/_Project/Audio/SFX/MotorMenjauh` |
+| Azan magrib | `Assets/_Project/Audio/SFX/AzanMagrib` |
+| Pintu kayu berderit | `Assets/_Project/Audio/SFX/PintuBerderit` |
+| Jam dinding berdentang (S) | `Assets/_Project/Audio/SFX/DentangJam` |
+| Perempuan batuk dan tersedak | `Assets/_Project/Audio/SFX/BatukTersedak` |
+| Paku jatuh ke lantai (S) | `Assets/_Project/Audio/SFX/PakuJatuh` |
+| Listrik padam (S) | `Assets/_Project/Audio/SFX/ListrikPadam` |
+| Langkah berat di atap (S) | `Assets/_Project/Audio/SFX/LangkahDiAtap` |
+| Musik drone horor (S) | `Assets/_Project/Audio/Music/DroneHoror` |
+
+**Prefab** di `Assets/_Project/Prefabs/Pengganti/` (buka prefab, ganti anak-anaknya dengan model asli; depan = +Z, titik nol di lantai; jangan ganti nama file):
+
+| Prefab | Menggantikan |
+|---|---|
+| `Laras`, `Laras_Berdoa` | Laras berdiri; Laras berlutut berdoa |
+| `BidanWulan` | Bidan Wulan |
+| `BuRatmi_Berbaring` | Bu Ratmi telentang di ranjang (kepala ke arah -Z) |
+| `BuSumi_Siluet` | siluet Bu Sumi di jendela |
+| `Ojek` | tukang ojek di atas motor |
+| `Ranjang`, `LemariAyah`, `Gembok`, `FotoKeluarga`, `JamDinding`, `Kalender`, `Meja`, `Kursi`, `Paku`, `Teplok`, `StopKontak`, `SakaGuru` | perabot dan benda rumah |
+| `Gapura`, `JembatanBambu`, `RumpunBambu`, `LampuJalan`, `RumahKecil`, `RumahKeluargaLuar` | jalan masuk desa |
+
+**Tekstur:** pasang pada material di `Assets/_Project/Art/Materials/Pengganti/` (`KayuTua`, `KayuGelap`, `Gedek`, `Tanah`, `Genteng`, `Bambu`, `Kain`). Dinding, lantai, dan plafon rumah memakai material itu.
+
+**Tidak dipakai di Fase 1** (tidak perlu dicari sekarang): model buku harian, map dokumen, obat dan sachet (ketiganya hanya tampil sebagai teks di inventaris), HP di tangan. Suara tokoh (gadis menangis di telepon, bisikan doa perempuan) **belakangan**: voice acting ditunda, semua percakapan teks saja.
