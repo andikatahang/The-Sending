@@ -18,7 +18,7 @@ Gim horor puzzle 3D first person tentang santet di desa Jawa. Unity 6000.6.4f1 (
 
 - **Tenggat:** 3 minggu, Senin 16 Nov sampai Minggu 6 Des 2026.
 - **Pendekatan B:** setiap malam dikerjakan berurutan dan langsung dipoles.
-- **Target minimal (diputuskan 18 Nov):** minimal **2 ending** bisa diselesaikan dalam **2 minggu**. Konten penuh tetap tujuan akhir, tetapi urutan pengerjaan mendahulukan jalur ke 2 ending itu.
+- **Target minimal (diputuskan 18 Nov):** minimal **2 ending** (**Fitnah** dan **Sejati**) bisa diselesaikan dalam **2 minggu**. Konten penuh tetap tujuan akhir, tetapi urutan pengerjaan mendahulukan jalur ke 2 ending itu.
 - **Suara (voice acting) belakangan.** Semua percakapan cukup teks di panel dialog sampai diputuskan lain.
 - **Konten penuh sesuai GDD**, tidak dipadatkan. Jika satu fase melewati jatah harinya, laporkan ke tim, jangan memotong konten sendiri.
 - **Gaya Retro PSX / low-fi**, wajib konsisten di semua malam. Nilai gaya ada di `docs/style-guide.md` (dipasang oleh menu The Sending > Pasang Gaya PSX) dan dikunci setelah cek Play Mode 0C.
