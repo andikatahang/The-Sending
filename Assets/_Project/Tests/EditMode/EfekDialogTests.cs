@@ -119,5 +119,21 @@ namespace TheSending.Tests
         {
             Assert.Throws<FormatException>(() => EfekDialog.Jalankan(new GameState(), "foto:Hantu"));
         }
+
+        [Test]
+        public void PeriksaMenerimaKodeBenar()
+        {
+            Assert.DoesNotThrow(() => EfekDialog.Periksa("tujuan:BicaraBidan; barang:ObatIbu"));
+            Assert.DoesNotThrow(() => EfekDialog.Periksa("serahkan:M1"));   // sah diurai walau belum bisa dijalankan
+            Assert.DoesNotThrow(() => EfekDialog.Periksa(""));
+        }
+
+        [Test]
+        public void PeriksaMenolakKodeSalah()
+        {
+            Assert.Throws<FormatException>(() => EfekDialog.Periksa("bukti:B9"));
+            Assert.Throws<FormatException>(() => EfekDialog.Periksa("tujuan:TidakAda"));
+            Assert.Throws<FormatException>(() => EfekDialog.Periksa("salah-ketik"));
+        }
     }
 }
