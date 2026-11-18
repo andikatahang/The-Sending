@@ -25,6 +25,11 @@ namespace TheSending.EditorTools
             Tulis(PembuatPengganti.FolderSfx, "DetakJantung", Detak());
             Tulis(PembuatPengganti.FolderSfx, "StingerKejutan", Stinger());
             Tulis(PembuatPengganti.FolderSfx, "GerimisDiAtap", Gerimis());
+            Tulis(PembuatPengganti.FolderSfx, "KetukPadat", KetukPadat());
+            Tulis(PembuatPengganti.FolderSfx, "KetukBerongga", KetukBerongga());
+            Tulis(PembuatPengganti.FolderSfx, "PakuDicabut", CabutPaku());
+            Tulis(PembuatPengganti.FolderSfx, "ApiAnglo", ApiArang());
+            Tulis(PembuatPengganti.FolderSfx, "PintuDibanting", Banting());
         }
 
         static void Tulis(string folder, string nama, float[] sampel)
@@ -207,6 +212,72 @@ namespace TheSending.EditorTools
                 y += 0.15f * ((float)(acak.NextDouble() * 2.0 - 1.0) - y);
                 s[i] = y * 0.5f;
             }
+            return s;
+        }
+
+        // Dua ketukan pada kayu padat: pendek, tinggi, cepat luruh.
+        static float[] KetukPadat()
+        {
+            var s = Kosong(0.8f);
+            for (int k = 0; k < 2; k++)
+            {
+                Nada(s, k * 0.3f, 320f, 0.15f, 0.6f, 40f);
+                Derau(s, k * 0.3f, 0.02f, 0.3f, 120f, 70 + k);
+            }
+            return s;
+        }
+
+        // Dua ketukan pada kayu berongga: lebih rendah dan bergaung.
+        static float[] KetukBerongga()
+        {
+            var s = Kosong(1.4f);
+            for (int k = 0; k < 2; k++)
+            {
+                Nada(s, k * 0.4f, 140f, 0.8f, 0.6f, 5f);
+                Nada(s, k * 0.4f, 280f, 0.6f, 0.25f, 8f);
+                Derau(s, k * 0.4f, 0.03f, 0.3f, 60f, 72 + k);
+            }
+            return s;
+        }
+
+        // Paku dicabut: decit logam yang naik (fase dijumlah supaya nadanya mulus), lalu denting.
+        static float[] CabutPaku()
+        {
+            var s = Kosong(1f);
+            int n = (int)(0.5f * Hz);
+            double fase = 0;
+            for (int i = 0; i < n; i++)
+            {
+                float t = i / (float)Hz;
+                fase += 2.0 * Math.PI * (900.0 + 1400.0 * t / 0.5) / Hz;
+                s[i] += 0.15f * (float)Math.Sin(fase) * (1f - t / 0.5f);
+            }
+            Nada(s, 0.55f, 2900f, 0.4f, 0.35f, 12f);
+            return s;
+        }
+
+        // Loop 6 detik: api arang = derau pelan yang dihaluskan dan letupan acak. Letupan habis sebelum akhir klip.
+        static float[] ApiArang()
+        {
+            var s = Kosong(6f);
+            var acak = new System.Random(13);
+            float y = 0f;
+            for (int i = 0; i < s.Length; i++)
+            {
+                y += 0.05f * ((float)(acak.NextDouble() * 2.0 - 1.0) - y);
+                s[i] = y * 0.4f;
+            }
+            for (int k = 0; k < 18; k++) Derau(s, (float)acak.NextDouble() * 5.5f, 0.02f, 0.5f, 150f, 80 + k);
+            return s;
+        }
+
+        // Pintu kayu dibanting: dentum rendah, derau, dan getar papan.
+        static float[] Banting()
+        {
+            var s = Kosong(1.5f);
+            Nada(s, 0f, 70f, 1f, 0.9f, 6f);
+            Derau(s, 0f, 0.15f, 0.7f, 25f, 90);
+            Nada(s, 0.02f, 190f, 0.4f, 0.3f, 15f);
             return s;
         }
     }
