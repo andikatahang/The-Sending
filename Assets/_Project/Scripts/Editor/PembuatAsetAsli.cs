@@ -25,6 +25,9 @@ namespace TheSending.EditorTools
         const string TeksturKit = Pihak3 + "/TraditionalHouseModular/Material/";
         const string TeksturBeton = Pihak3 + "/YughuesConcrete/Textures/T_YFCM_";
         const string Pocong = Pihak3 + "/pocong-scary/";
+        const string SofaTua = Pihak3 + "/old-sofas/";
+        // Grup OBJ sofa tiga dudukan (old-sofas berisi empat sofa).
+        static readonly string[] SofaTigaDudukan = { "couchinbase_low", "couchin_low", "Couchinl_low", "Couchinm_low", "Couchinr_low" };
 
         // Tekstur untuk material pengganti: (material, tekstur, warna pengali, meter per ulangan). Palet tetap gelap.
         static readonly (string bahan, string tekstur, string hex, float meter)[] DaftarTekstur =
@@ -41,6 +44,7 @@ namespace TheSending.EditorTools
             ("TanahHutan", TeksturAlam + "Forest_Leaves.png", "5A5248", 4f),
             ("Jalan", TeksturAlam + "Forest_Road.png", "6A6058", 4f),
             ("Kafan", Pocong + "textures/Baked_BaseColor.png", "4A4440", 1f),
+            ("Sofa", SofaTua + "textures/low_old sofa_BaseColor.png", "8A7A6A", 1f),
         };
 
         [MenuItem("The Sending/Buat Aset Asli")]
@@ -61,6 +65,9 @@ namespace TheSending.EditorTools
             Prefab("RumahKeluargaLuar", RumahKeluargaLuar, false);
             // Sosok Santet (K9-A): pocong-scary, sekitar 30.000 segitiga, tanpa rig; meluncur tanpa animasi.
             Prefab("SosokSantet", r => Kayu(Tokoh(Pocong + "Model/pocong.fbx", r, 2.2f, 0f, -90f), "Kafan"), false);   // FBX berbaring (sumbu Z ke atas): ditegakkan
+            // Sofa ruang tengah (K22-A): sofa tiga dudukan dari old-sofas, satu tekstur.
+            Prefab("Sofa", r => Kayu(Taruh(SofaTua + "Model/old sofas.obj", r, Vector3.zero, new Vector3(1.9f, 0.8f, 0.8f), 0f,
+                hanya: SofaTigaDudukan), "Sofa"), true);
             AssetDatabase.SaveAssets();
             Debug.Log("Aset asli siap.");
         }
@@ -106,13 +113,16 @@ namespace TheSending.EditorTools
         }
 
         // Model vendor diputar, diskalakan ke `ukuran` (per sumbu), lalu alas tengahnya ditaruh di `alas`. Collider vendor dibuang.
-        internal static GameObject Taruh(string jalur, Transform induk, Vector3 alas, Vector3 ukuran, float putarY, bool collider = false)
+        // hanya: nama anak langsung model yang dipakai (misalnya satu sofa dari OBJ berisi empat); null = semua.
+        internal static GameObject Taruh(string jalur, Transform induk, Vector3 alas, Vector3 ukuran, float putarY, bool collider = false,
+            string[] hanya = null)
         {
             var asal = AssetDatabase.LoadAssetAtPath<GameObject>(jalur) ?? throw new FileNotFoundException(jalur);
             var bungkus = new GameObject(asal.name).transform;
             bungkus.SetParent(induk, false);
             var model = (GameObject)PrefabUtility.InstantiatePrefab(asal);
             PrefabUtility.UnpackPrefabInstance(model, PrefabUnpackMode.Completely, InteractionMode.AutomatedAction);
+            if (hanya != null) Saring(model.transform, hanya, jalur);
             foreach (var c in model.GetComponentsInChildren<Collider>(true)) Object.DestroyImmediate(c);
             model.transform.SetParent(bungkus, false);
             model.transform.localRotation = Quaternion.Euler(0f, putarY, 0f);
@@ -128,6 +138,19 @@ namespace TheSending.EditorTools
                 kotak.size = Vector3.Scale(ukuran, new Vector3(1f / bungkus.lossyScale.x, 1f / bungkus.lossyScale.y, 1f / bungkus.lossyScale.z));
             }
             return bungkus.gameObject;
+        }
+
+        static void Saring(Transform model, string[] hanya, string jalur)
+        {
+            var ada = new List<string>();
+            for (int i = model.childCount - 1; i >= 0; i--)
+            {
+                var anak = model.GetChild(i);
+                ada.Add(anak.name);
+                if (Array.IndexOf(hanya, anak.name) < 0) Object.DestroyImmediate(anak.gameObject);
+            }
+            if (model.childCount == 0)
+                throw new InvalidOperationException($"{jalur}: tidak ada anak bernama {string.Join(", ", hanya)}. Anak yang ada: {string.Join(", ", ada)}");
         }
 
         // Tokoh: diskalakan seragam sampai setinggi `tinggi` (Taruh menskalakan per sumbu dan membuat tokoh gepeng),
