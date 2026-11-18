@@ -24,6 +24,7 @@ namespace TheSending.EditorTools
             PembuatSandbox.Buat();
             PembuatDesa.Buat();
             PembuatRumahKeluarga.Buat();
+            PembuatRumahBuSumi.Buat();
             Buat();   // terakhir: mendaftarkan scene dan meninggalkan menu utama terbuka
         }
 
@@ -76,6 +77,7 @@ namespace TheSending.EditorTools
                 new EditorBuildSettingsScene(PembuatDesa.JalurScene, true),
                 new EditorBuildSettingsScene(PembuatRumahKeluarga.JalurScene, true),
                 new EditorBuildSettingsScene(PembuatSandbox.JalurScene, true),
+                new EditorBuildSettingsScene(PembuatRumahBuSumi.JalurScene, true),
             };
         }
     }

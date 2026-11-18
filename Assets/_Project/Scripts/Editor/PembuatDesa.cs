@@ -9,7 +9,8 @@ using static TheSending.EditorTools.PembuatSandbox;
 
 namespace TheSending.EditorTools
 {
-    // Membuat Scene_Desa: jalan masuk desa untuk Prolog (denah K7). Jangan sunting scene dengan tangan; ubah angka di sini.
+    // Membuat Scene_Desa: jalan masuk desa untuk Prolog (denah K7) dan jalan malam ke rumah Bu Sumi di Malam 3 (K17-B).
+    // Jangan sunting scene dengan tangan; ubah angka di sini.
     // Batchmode: Unity -batchmode -quit -projectPath <proyek> -executeMethod TheSending.EditorTools.PembuatDesa.Buat
     public static class PembuatDesa
     {
@@ -87,11 +88,34 @@ namespace TheSending.EditorTools
             // Tidak ada suara telepon: suara tokoh ditunda, telepon Laras hanya kartu teks.
             Set(sutradara, "suaraMotor", BuatSuara(rig, "MobilPergi", Sfx, "SFX", "(Suara: mobil menjauh.)"));
             Set(sutradara, "suaraAzan", BuatSuara(rig, "AzanMagrib", Sfx, "Ambience", "(Suara: azan magrib dari kejauhan.)"));
-            Set(sutradara, "suaraPintu", BuatSuara(rig, "PintuBerderit", Sfx, "SFX", "(Suara: pintu kayu berderit.)"));
+            var suaraPintu = BuatSuara(rig, "PintuBerderit", Sfx, "SFX", "(Suara: pintu kayu berderit.)");
+            Set(sutradara, "suaraPintu", suaraPintu);
+            Malam3(rig, alurPintu, suaraPintu);
 
             EditorSceneManager.SaveScene(scene, JalurScene);
             AssetDatabase.SaveAssets();
             Debug.Log($"Scene desa dibuat: {JalurScene}");
+        }
+
+        // Malam 3 (K17-B): Raka berjalan dari rumah keluarga ke rumah Bu Sumi (pintu di (7,5; 73,5), menghadap jalan) dan kembali.
+        // Pintu rumah keluarga dipakai bersama AlurProlog; AlurProlog mati di luar Prolog dan melepas langganannya.
+        static void Malam3(Rig rig, InteraktifAlur pintuRumah, Suara suaraPintu)
+        {
+            var alur = new GameObject("Sutradara Malam 3").AddComponent<AlurDesaMalam3>();
+            Set(alur, "adegan", rig.Adegan);
+            Set(alur, "kartu", rig.Kartu);
+            Set(alur, "hud", rig.Hud);
+            Set(alur, "pemain", rig.Pemain);
+            Set(alur, "pintuRumah", pintuRumah);
+            Set(alur, "suaraPintu", suaraPintu);
+            Set(alur, "suaraKetuk", BuatSuara(rig, "KetukPintu", Sfx, "SFX", "(Suara: ketukan di pintu.)"));
+
+            var pintu = Logika("PintuBuSumi", new Vector3(7.3f, 0f, 73.5f), new Vector3(0.25f, 2.2f, 1f));
+            var ketuk = pintu.AddComponent<InteraktifAlur>();
+            SetTeks(ketuk, "prompt", "Ketuk pintu Bu Sumi");
+            Set(alur, "pintuBuSumi", ketuk);
+            Set(alur, "titikDepanRumah", Titik("TitikDepanRumahMalam3", new Vector3(0f, 0.1f, 96.8f), new Vector3(0f, 0.1f, 80f)));
+            Set(alur, "titikDepanBuSumi", Titik("TitikDepanBuSumi", new Vector3(6.2f, 0.05f, 73.5f), new Vector3(0f, 0.05f, 73.5f)));
         }
 
         static void Lingkungan()
