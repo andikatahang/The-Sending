@@ -81,6 +81,7 @@ namespace TheSending.EditorTools
             var ui = new GameObject("UI");
             var hud = ui.AddComponent<Hud>();
             Set(hud, "interaksi", interaksi);
+            Set(hud, "pemain", gerak);
             var kameraHp = pemain.AddComponent<KameraHP>();
             Set(kameraHp, "kamera", kamera.transform);
             Set(kameraHp, "hud", hud);
@@ -104,8 +105,10 @@ namespace TheSending.EditorTools
             };
         }
 
-        // Satu bunyi adegan (2D). Klip null = aset belum ada: komponen Suara menampilkan teks pengganti di HUD.
-        internal static Suara BuatSuara(Rig rig, string nama, string folder, string grup, string teksPengganti, bool ulang = false)
+        // Satu bunyi adegan. Klip null = aset belum ada: komponen Suara menampilkan teks pengganti di HUD.
+        // ruang = suara 3D yang melekat pada benda (misalnya gemerincing paku Sosok Santet); selain itu 2D.
+        internal static Suara BuatSuara(Rig rig, string nama, string folder, string grup, string teksPengganti,
+            bool ulang = false, bool ruang = false)
         {
             var mixer = AssetDatabase.LoadAssetAtPath<AudioMixer>(JalurMixer)
                 ?? throw new FileNotFoundException($"{JalurMixer} belum ada (dibuat tim di 0C).");
@@ -116,7 +119,13 @@ namespace TheSending.EditorTools
             var sumber = g.AddComponent<AudioSource>();
             sumber.playOnAwake = false;
             sumber.loop = ulang;
-            sumber.spatialBlend = 0f;
+            sumber.spatialBlend = ruang ? 1f : 0f;
+            if (ruang)
+            {
+                sumber.rolloffMode = AudioRolloffMode.Linear;
+                sumber.minDistance = 1f;
+                sumber.maxDistance = 14f;
+            }
             sumber.outputAudioMixerGroup = daftar[0];
             sumber.clip = PembuatPengganti.Klip(folder, nama);
             var suara = g.AddComponent<Suara>();
