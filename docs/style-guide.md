@@ -54,6 +54,10 @@ Setiap scene baru memanggil `PembuatGayaPsx.TerapkanKeScene()` dan `SiapkanKamer
 
 Semua tekstur di `Assets/_Project/Art/` otomatis diimpor dengan ukuran maksimal 256, filter Point, tanpa mipmap (`PrasetelTeksturPsx`, hanya pada impor pertama). Tekstur di luar folder itu tidak ikut aturan ini, jadi jangan menaruh tekstur gim di luar `Art/`.
 
+Aset pihak ketiga ada di `Assets/_Project/Art/ThirdParty/<Paket>/` (EssentialNaturePack, HouseInteriorPack, TraditionalHouseModular, YughuesConcrete, DhivehiHouse01). Karena datang dengan `.meta` sendiri, prasetel di atas tidak berlaku otomatis. Setelah menambah atau memperbarui paket, jalankan **The Sending > Siapkan Aset Luar** (`PembuatAsetLuar`, aman diulang): material built-in diubah ke URP Lit (tekstur, warna, normal map, cutout/transparan, emisi dipertahankan), semua material diberi Smoothness 0, dan semua tekstur diberi ukuran maks 256, Point, tanpa mipmap (normal map tetap bertipe normal map). Daun pohon juga 256; masih terbaca di pratinjau.
+
+TraditionalHouseModular hanya menyimpan varian `512 - native` (varian 2k dihapus). Tekstur tileable-4 "512" sebenarnya 2048 px, tetapi diimpor 256.
+
 ## Font
 
 | Pemakaian | Font | File |

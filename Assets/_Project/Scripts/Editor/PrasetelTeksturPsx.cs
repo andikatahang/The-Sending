@@ -8,14 +8,20 @@ namespace TheSending.EditorTools
     public class PrasetelTeksturPsx : AssetPostprocessor
     {
         const string Folder = "Assets/_Project/Art/";
-        const int UkuranMaks = 256;
+        public const int UkuranMaks = 256;
 
         void OnPreprocessTexture()
         {
             if (!assetPath.StartsWith(Folder)) return;
             var importer = (TextureImporter)assetImporter;
             if (!importer.importSettingsMissing) return;
-            importer.maxTextureSize = UkuranMaks;
+            Terapkan(importer, UkuranMaks);
+        }
+
+        // Tipe tekstur (mis. normal map) tidak diubah.
+        public static void Terapkan(TextureImporter importer, int ukuranMaks)
+        {
+            importer.maxTextureSize = ukuranMaks;
             importer.filterMode = FilterMode.Point;
             importer.mipmapEnabled = false;
         }
