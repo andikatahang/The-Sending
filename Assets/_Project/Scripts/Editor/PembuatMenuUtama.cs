@@ -16,8 +16,12 @@ namespace TheSending.EditorTools
         public static void BangunSemua()
         {
             PembuatGayaPsx.Pasang();
+            PembuatPengganti.Buat();
+            PembuatDataFase1.Buat();
             PembuatSandbox.Buat();
-            Buat();
+            PembuatDesa.Buat();
+            PembuatRumahKeluarga.Buat();
+            Buat();   // terakhir: mendaftarkan scene dan meninggalkan menu utama terbuka
         }
 
         [MenuItem("The Sending/Buat Scene Menu Utama")]
@@ -60,12 +64,14 @@ namespace TheSending.EditorTools
             Debug.Log($"Scene menu utama dibuat: {JalurScene}");
         }
 
-        // Menu utama harus indeks 0 supaya build dibuka dari sana.
+        // Urutan = indeks build. Menu utama harus indeks 0 supaya build dibuka dari sana.
         public static void DaftarkanScene()
         {
             EditorBuildSettings.scenes = new[]
             {
                 new EditorBuildSettingsScene(JalurScene, true),
+                new EditorBuildSettingsScene(PembuatDesa.JalurScene, true),
+                new EditorBuildSettingsScene(PembuatRumahKeluarga.JalurScene, true),
                 new EditorBuildSettingsScene(PembuatSandbox.JalurScene, true),
             };
         }
