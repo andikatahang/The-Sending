@@ -11,12 +11,10 @@ namespace TheSending.Runtime
     public class AlurMalam2 : MonoBehaviour
     {
         const float LamaGemetar = 2f, JedaSebelumTutup = 3f;
-        // Game Story, Malam 2 dan Malam 3, "Ringkasan siang" (dikutip persis).
+        // Game Story, Malam 2, "Ringkasan siang" (dikutip persis).
         const string RingkasanMalam2 =
             "Ibu tetap menolak dibawa ke rumah sakit dan mengamuk setiap kali dipaksa. " +
             "Raka mulai mendengar bisik-bisik tetangga soal Bu Sumi.";
-        const string RingkasanMalam3 =
-            "Raka mencari informasi di desa. Sebagian warga menyapanya ramah, sebagian menghindar.";
         // Nama SignalAsset di Timeline Malam2_CelahGudang (PembuatMalam2 memakai konstanta yang sama).
         public const string SinyalStinger = "Stinger";
 
@@ -78,11 +76,6 @@ namespace TheSending.Runtime
                 return;
             }
             var s = gm.State;
-            if (s.MalamKe >= 3)
-            {
-                hud.Tampilkan("Malam 3 belum dibuat (Fase 3).");
-                return;
-            }
             if (s.MalamKe != 2) return;
             berjalan = true;
             kartu.HitamSeketika();
@@ -269,7 +262,7 @@ namespace TheSending.Runtime
                 yield return dialog.MulaiDanTunggu(dialogWiryo);   // pilihan: serahkan (serahkan:M1) atau simpan
                 adegan.Bidik(bidikLaras);
                 yield return dialog.MulaiDanTunggu(dialogBisikan);
-                yield return Gemetar(larasVisual, LamaGemetar);
+                yield return Guncang.Posisi(larasVisual, LamaGemetar, 0.015f);
                 yield return kartu.StartCoroutine(kartu.KeHitam());
                 mbahWiryo.SetActive(false);
                 larasMalam2.SetActive(false);
@@ -283,18 +276,6 @@ namespace TheSending.Runtime
             }
             hud.Tampilkan(s.MediaDiserahkan[Kode.M1] ? "Mbah Wiryo membawa boneka itu pergi." : "Boneka disimpan di kotak kayu di kamar Raka.");
             yield return MulaiSembunyi(dariCheckpoint: false);
-        }
-
-        // Pengganti animasi "Laras gemetar" sampai model beranimasi datang.
-        static IEnumerator Gemetar(Transform t, float lama)
-        {
-            var awal = t.localPosition;
-            for (float w = 0f; w < lama; w += Time.unscaledDeltaTime)
-            {
-                t.localPosition = awal + new Vector3(Random.Range(-0.015f, 0.015f), 0f, Random.Range(-0.015f, 0.015f));
-                yield return null;
-            }
-            t.localPosition = awal;
         }
 
         // Game Story Malam 2 butir 9: Sosok Santet berpatroli di ruang tengah; Raka harus kembali ke kamarnya tanpa ketahuan.
@@ -388,12 +369,7 @@ namespace TheSending.Runtime
                     yield break;
                 }
                 gm.SimpanCheckpoint();            // checkpoint awal Malam 3
-                // Fase 3 mengganti bagian di bawah ini dengan gm.MuatScene(gm.SceneUntukState) untuk sutradara Malam 3.
-                yield return kartu.StartCoroutine(kartu.Tampilkan(
-                    "Malam 3: Tujuh Paku di Saka",
-                    KalenderJawa.NamaMalam(3) + "\n\n" + RingkasanMalam3 + "\n\n(Bersambung. Malam 3 dibuat di Fase 3.)", 8f));
-                yield return kartu.StartCoroutine(kartu.KeHitam());
-                gm.MuatScene(GameManager.SceneMenuUtama);
+                gm.MuatScene(gm.SceneUntukState); // AlurMalam3 menampilkan kartu Malam 3 dan Pakde datang
                 dimuat = true;
             }
             finally { if (!dimuat) adegan.Selesai(); }   // jeda dilepas KameraAdegan.OnDisable saat scene dibongkar
