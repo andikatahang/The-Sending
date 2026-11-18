@@ -17,7 +17,7 @@ namespace TheSending.Runtime
                 sumber.Play();
                 return;
             }
-            if (hud != null) hud.Tampilkan(teksPengganti);
+            if (hud != null && !string.IsNullOrEmpty(teksPengganti)) hud.Tampilkan(teksPengganti);
         }
 
         public void Hentikan()

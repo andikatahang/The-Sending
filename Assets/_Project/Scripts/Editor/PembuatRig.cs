@@ -98,11 +98,16 @@ namespace TheSending.EditorTools
             Set(adegan, "kameraPemain", cam);
             Set(adegan, "kameraAdegan", camAdegan);
 
-            return new Rig
+            var rig = new Rig
             {
                 Pemain = gerak, Kamera = kamera.transform, Senter = senterHp, Hud = hud,
                 Dialog = dialog, Kartu = kartu, Gembok = gembok, Adegan = adegan, KameraCutscene = camAdegan,
             };
+            // Klik senter dan suasana malam di setiap scene gameplay. Tanpa teks pengganti: diam sampai filenya ada di Audio/SFX.
+            Set(senterHp, "klik", BuatSuara(rig, "KlikSenter", PembuatPengganti.FolderSfx, "SFX", ""));
+            BuatSuara(rig, "SuasanaMalam", PembuatPengganti.FolderSfx, "Ambience", "", ulang: true)
+                .GetComponent<AudioSource>().playOnAwake = true;
+            return rig;
         }
 
         // Satu bunyi adegan. Klip null = aset belum ada: komponen Suara menampilkan teks pengganti di HUD.

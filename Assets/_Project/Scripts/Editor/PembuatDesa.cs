@@ -82,7 +82,7 @@ namespace TheSending.EditorTools
 
             // Suara. Azan tidak punya pengganti sintetis; selama filenya belum ada hanya teks ini yang tampil.
             // Tidak ada suara telepon: suara tokoh ditunda, telepon Laras hanya kartu teks.
-            Set(sutradara, "suaraMotor", BuatSuara(rig, "MotorMenjauh", Sfx, "SFX", "(Suara: mobil menjauh.)"));
+            Set(sutradara, "suaraMotor", BuatSuara(rig, "MobilPergi", Sfx, "SFX", "(Suara: mobil menjauh.)"));
             Set(sutradara, "suaraAzan", BuatSuara(rig, "AzanMagrib", Sfx, "Ambience", "(Suara: azan magrib dari kejauhan.)"));
             Set(sutradara, "suaraPintu", BuatSuara(rig, "PintuBerderit", Sfx, "SFX", "(Suara: pintu kayu berderit.)"));
 
