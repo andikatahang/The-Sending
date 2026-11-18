@@ -18,6 +18,8 @@ namespace TheSending.Runtime
         public Gerak GerakSekarang { get; private set; }
         public Napas Napas { get; } = new Napas();
         public Transform Kamera => kamera;
+        // Di lemari, kolong ranjang, atau balik karung (TempatSembunyi). CharacterController mati; hanya melihat dan menahan napas.
+        public bool Bersembunyi { get; private set; }
 
         void Awake()
         {
@@ -46,15 +48,23 @@ namespace TheSending.Runtime
             if (GameManager.Instance != null) GameManager.Instance.KunciKursor = false;
         }
 
-        // Memindahkan pemain ke titik mulai (awal bab, muat checkpoint, adegan).
-        // CharacterController dimatikan dulu supaya posisi baru tidak ditimpa.
+        // Memindahkan pemain ke titik mulai (awal bab, muat checkpoint, adegan, keluar dari tempat sembunyi).
+        // CharacterController dimatikan dulu supaya posisi baru tidak ditimpa. Persembunyian ikut berakhir.
         public void Pindah(Transform titik)
         {
             cc.enabled = false;
             transform.SetPositionAndRotation(titik.position, Quaternion.Euler(0f, titik.eulerAngles.y, 0f));
             dongak = 0f;
             kamera.localEulerAngles = Vector3.zero;
+            Bersembunyi = false;
             cc.enabled = true;
+        }
+
+        public void Sembunyi(Transform titikDalam)
+        {
+            Pindah(titikDalam);
+            cc.enabled = false;
+            Bersembunyi = true;
         }
 
         void Update()
@@ -72,6 +82,13 @@ namespace TheSending.Runtime
             transform.Rotate(0f, lihat.x, 0f);
             dongak = Mathf.Clamp(dongak + (p.BalikY ? lihat.y : -lihat.y), -BatasDongak, BatasDongak);
             kamera.localEulerAngles = new Vector3(dongak, 0f, 0f);
+
+            if (Bersembunyi)
+            {
+                GerakSekarang = Gerak.Diam;
+                Napas.Tick(Time.deltaTime, k.TahanNapas.IsPressed());
+                return;
+            }
 
             Vector2 masuk = Vector2.ClampMagnitude(k.Gerak.ReadValue<Vector2>(), 1f);
             bool bergerak = masuk.sqrMagnitude > 0.01f;

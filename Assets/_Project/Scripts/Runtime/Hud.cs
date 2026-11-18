@@ -11,8 +11,9 @@ namespace TheSending.Runtime
         const float LamaNotifikasi = 3f;
 
         [SerializeField] PemainInteraksi interaksi;
+        [SerializeField] PemainGerak pemain;   // bar napas dan prompt saat bersembunyi; boleh kosong (scene tanpa pemain)
 
-        Text titik, prompt, jam, baterai, notifikasi;
+        Text titik, prompt, jam, baterai, notifikasi, napas, hitungMundur;
         readonly Queue<string> antrean = new Queue<string>();
         float sisaNotifikasi;
         string pesanTerakhir;   // pesan terakhir yang masuk antrean; null setelah semua selesai tampil
@@ -27,6 +28,8 @@ namespace TheSending.Runtime
             jam = UiPabrik.BuatTeks(akar, "Jam", 34, TextAnchor.UpperRight, new Vector2(0.75f, 0.9f), new Vector2(0.98f, 0.98f));
             baterai = UiPabrik.BuatTeks(akar, "Baterai", 24, TextAnchor.UpperRight, new Vector2(0.75f, 0.85f), new Vector2(0.98f, 0.9f));
             notifikasi = UiPabrik.BuatTeks(akar, "Notifikasi", 28, TextAnchor.LowerLeft, new Vector2(0.02f, 0.04f), new Vector2(0.6f, 0.14f));
+            napas = UiPabrik.BuatTeks(akar, "Napas", 26, TextAnchor.LowerCenter, new Vector2(0.35f, 0.16f), new Vector2(0.65f, 0.22f));
+            hitungMundur = UiPabrik.BuatTeks(akar, "HitungMundur", 24, TextAnchor.UpperRight, new Vector2(0.6f, 0.8f), new Vector2(0.98f, 0.85f));
         }
 
         void OnEnable()
@@ -87,9 +90,12 @@ namespace TheSending.Runtime
 
             // Saat adegan berskrip hanya notifikasi yang tampil (teks pengganti suara harus tetap terbaca).
             bool tampil = !gm.Sinematik;
-            titik.enabled = prompt.enabled = jam.enabled = baterai.enabled = tampil;
+            titik.enabled = prompt.enabled = jam.enabled = baterai.enabled = napas.enabled = hitungMundur.enabled = tampil;
 
-            prompt.text = interaksi != null && interaksi.Sasaran != null ? $"[E] {interaksi.Sasaran.Prompt}" : "";
+            prompt.text = pemain != null && pemain.Bersembunyi ? "[E] Keluar     [Spasi] Tahan napas"
+                : interaksi != null && interaksi.Sasaran != null ? $"[E] {interaksi.Sasaran.Prompt}" : "";
+            napas.text = TeksNapas();
+            hitungMundur.text = TeksHitungMundur(s);
             jam.text = JamGim.Format(s.MenitGim);
             baterai.text = $"Baterai {Mathf.CeilToInt(s.BateraiPersen)}%";
 
@@ -105,6 +111,23 @@ namespace TheSending.Runtime
                 notifikasi.text = antrean.Dequeue();
                 sisaNotifikasi = LamaNotifikasi;
             }
+        }
+
+        // Bar napas tampil selama menahan napas dan selama napas belum pulih penuh.
+        string TeksNapas()
+        {
+            if (pemain == null) return "";
+            var n = pemain.Napas;
+            if (!n.SedangMenahan && n.Sisa >= Napas.BatasDetik) return "";
+            return "Napas " + new string('|', Mathf.CeilToInt(n.Sisa / Napas.BatasDetik * 10f));
+        }
+
+        // Game Story Malam 2: hitung mundur menuju weton Ibu, Selasa Kliwon (Malam 7).
+        static string TeksHitungMundur(GameState s)
+        {
+            if (!KalenderJawa.HitungMundurBerjalan(s)) return "";
+            int sisa = KalenderJawa.SisaMalamKeSelasaKliwon(s.MalamKe);
+            return sisa == 0 ? "Malam ini Selasa Kliwon" : $"Selasa Kliwon: {sisa} malam lagi";
         }
     }
 }

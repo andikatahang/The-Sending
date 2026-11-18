@@ -9,9 +9,11 @@ namespace TheSending.Runtime
         [SerializeField] Transform kamera;
 
         public Interaktif Sasaran { get; private set; }
+        PemainGerak gerak;
 
         void Awake()
         {
+            gerak = GetComponent<PemainGerak>();
             if (kamera == null && Camera.main != null) kamera = Camera.main.transform;
             if (kamera == null)
             {
@@ -25,6 +27,7 @@ namespace TheSending.Runtime
             Sasaran = null;
             var gm = GameManager.Instance;
             if (gm == null || gm.Dijeda) return;
+            if (gerak != null && gerak.Bersembunyi) return;   // TempatSembunyi sendiri yang membaca E untuk keluar
 
             // Trigger (zona pemicu) tidak pernah menghalangi E; benda Interaktif wajib memakai collider biasa.
             if (Physics.Raycast(kamera.position, kamera.forward, out var hit, Jangkauan, ~0, QueryTriggerInteraction.Ignore))
