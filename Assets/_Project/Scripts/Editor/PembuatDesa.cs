@@ -42,7 +42,7 @@ namespace TheSending.EditorTools
             // Cutscene mobil pergi (3,5 detik): mobil lurus ke z = -25 dalam 3 detik, suara mesin sejak awal.
             var ojekPergi = PembuatTimeline.Buat("Prolog_OjekPergi", 3.5f);
             PembuatTimeline.Gerak(ojekPergi.Tl, ojekPergi.Director, ojek,
-                (0f, ojek.transform), (3f, Titik("TitikOjekPergi", new Vector3(1.5f, 0f, -25f), new Vector3(1.5f, 0f, -30f))));
+                (0f, ojek.transform), (3f, Titik("TitikOjekPergi", new Vector3(1.5f, ojek.transform.position.y, -25f), new Vector3(1.5f, ojek.transform.position.y, -30f))));
             PembuatTimeline.Sinyal(ojekPergi.Tl, 0.05f, AlurProlog.SinyalMotorPergi);
             PembuatTimeline.Simpan(ojekPergi.Tl);
             Set(sutradara, "timelineOjek", ojekPergi.Pemutar);
@@ -200,6 +200,10 @@ namespace TheSending.EditorTools
             var mobil = model != null ? (GameObject)PrefabUtility.InstantiatePrefab(model) : PembuatPengganti.Pasang("Ojek", null, Vector3.zero);
             mobil.name = "Ojek";
             mobil.transform.SetPositionAndRotation(posisi, Quaternion.Euler(0f, 180f, 0f));
+            // Pivot glb ada di tengah tinggi mobil: angkat supaya roda di posisi.y. Kunci Timeline memakai tinggi ini juga.
+            float bawah = float.MaxValue;
+            foreach (var r in mobil.GetComponentsInChildren<Renderer>()) bawah = Mathf.Min(bawah, r.bounds.min.y);
+            if (bawah != float.MaxValue) mobil.transform.position += Vector3.up * (posisi.y - bawah);
             return mobil;
         }
     }
