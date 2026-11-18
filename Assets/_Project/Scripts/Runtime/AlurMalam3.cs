@@ -173,6 +173,7 @@ namespace TheSending.Runtime
         IEnumerator Pulang(GameState s)
         {
             sibuk = true;
+            GameManager.Instance.SimpanCheckpoint(); // hasil kunjungan (kepercayaan, bahan, pintu tertutup) tidak hilang saat keluar gim
             pemain.Pindah(titikPulang);
             yield return kartu.StartCoroutine(kartu.DariHitam());
             if (!s.RitualDiketahui) hud.Tampilkan("Raka belum tahu cara menetralkan paku itu. Mungkin Bapak menulisnya; periksa gudang.");
