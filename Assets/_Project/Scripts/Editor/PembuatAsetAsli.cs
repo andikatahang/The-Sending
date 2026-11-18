@@ -60,7 +60,7 @@ namespace TheSending.EditorTools
             Prefab("RumahKecil", RumahKecil, false);
             Prefab("RumahKeluargaLuar", RumahKeluargaLuar, false);
             // Sosok Santet (K9-A): pocong-scary, sekitar 30.000 segitiga, tanpa rig; meluncur tanpa animasi.
-            Prefab("SosokSantet", r => Kayu(Tokoh(Pocong + "Model/pocong.fbx", r, 2.2f, 0f), "Kafan"), false);
+            Prefab("SosokSantet", r => Kayu(Tokoh(Pocong + "Model/pocong.fbx", r, 2.2f, 0f, -90f), "Kafan"), false);   // FBX berbaring (sumbu Z ke atas): ditegakkan
             AssetDatabase.SaveAssets();
             Debug.Log("Aset asli siap.");
         }
@@ -132,7 +132,7 @@ namespace TheSending.EditorTools
 
         // Tokoh: diskalakan seragam sampai setinggi `tinggi` (Taruh menskalakan per sumbu dan membuat tokoh gepeng),
         // alas tengahnya di titik nol induk. Collider vendor dibuang.
-        static GameObject Tokoh(string jalur, Transform induk, float tinggi, float putarY)
+        static GameObject Tokoh(string jalur, Transform induk, float tinggi, float putarY, float putarX = 0f)
         {
             var asal = AssetDatabase.LoadAssetAtPath<GameObject>(jalur) ?? throw new FileNotFoundException(jalur);
             var bungkus = new GameObject(asal.name).transform;
@@ -141,7 +141,7 @@ namespace TheSending.EditorTools
             PrefabUtility.UnpackPrefabInstance(model, PrefabUnpackMode.Completely, InteractionMode.AutomatedAction);
             foreach (var c in model.GetComponentsInChildren<Collider>(true)) Object.DestroyImmediate(c);
             model.transform.SetParent(bungkus, false);
-            model.transform.localRotation = Quaternion.Euler(0f, putarY, 0f);
+            model.transform.localRotation = Quaternion.Euler(putarX, putarY, 0f);
             var b = Batas(bungkus);
             bungkus.localScale = Vector3.one * (tinggi / b.size.y);
             b = Batas(bungkus);
