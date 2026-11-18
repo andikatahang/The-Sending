@@ -37,6 +37,25 @@ namespace TheSending.Core
         public static bool DalamJendelaObat(GameState s) =>
             s.MalamKe >= 1 && s.MenitGim >= MulaiJendelaObat(s.MalamKe) && s.MenitGim < AkhirJendelaObat(s.MalamKe);
 
+        // K4 opsi B: "duduk menunggu" di Malam 1 melompat ke kejadian berwaktu berikutnya (obat 21.00, cutscene 23.00).
+        // Null jika tidak ada yang ditunggu, atau obat sedang harus diberikan (tidak boleh terlewati).
+        public static float? KejadianBerikutnya(GameState s)
+        {
+            if (s.MalamKe != 1 || TujuanMalam.Sudah(s, TujuanMalam.Cutscene23)) return null;
+            if (s.MenitGim < Jam21) return Jam21;
+            if (DalamJendelaObat(s) && !s.ObatSudahDiberikan) return null;
+            return s.MenitGim < Jam23 ? Jam23 : (float?)null;
+        }
+
+        public static bool Tunggu(GameState s)
+        {
+            var sampai = KejadianBerikutnya(s);
+            if (sampai == null) return false;
+            s.MenitGim = sampai.Value;
+            s.Umumkan(Perubahan.Jam);
+            return true;
+        }
+
         public static float SisaDetikMalam7(GameState s) =>
             s.MalamKe != 7 ? 0f : Math.Max(0f, (TengahMalam - s.MenitGim) * DetikNyataPerJamGim / 60f);
 

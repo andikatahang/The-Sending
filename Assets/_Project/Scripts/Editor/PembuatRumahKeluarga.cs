@@ -184,7 +184,10 @@ namespace TheSending.EditorTools
         {
             PembuatPengganti.Pasang("Ranjang", null, new Vector3(-6.2f, 0f, 6f));
             PembuatPengganti.Pasang("Meja", null, new Vector3(-6.3f, 0f, 4.45f));
-            PembuatPengganti.Pasang("Kursi", null, new Vector3(-3.6f, 0f, 4.6f), -45f);
+            // K4 opsi B: duduk menunggu sampai kejadian Malam 1 berikutnya (obat 21.00, cutscene 23.00).
+            var kursi = PembuatPengganti.Pasang("Kursi", null, new Vector3(-3.6f, 0f, 4.6f), -45f).AddComponent<KursiTunggu>();
+            Set(kursi, "kartu", rig.Kartu);
+            SetTeks(kursi, "prompt", "Kursi");
 
             // Ibu: objek logika di atas kasur (permukaan kasur y = 0.54). Adegan hanya mengguncang visualnya.
             var ibu = Logika("Ibu", new Vector3(-6.2f, 0.54f, 6f), new Vector3(1.1f, 0.5f, 1.9f));
