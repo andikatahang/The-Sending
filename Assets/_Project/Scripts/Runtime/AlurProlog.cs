@@ -8,7 +8,7 @@ namespace TheSending.Runtime
     // tutorial jalan/lari/senter, azan dan kabut turun, Bu Sumi di jendela, sampai pintu rumah.
     public class AlurProlog : MonoBehaviour
     {
-        public const float KabutSebelumMagrib = 0.02f, DetikKabutTurun = 20f, DetikAzan = 2f, DetikPudarAzan = 0.5f;
+        public const float KabutSebelumMagrib = 0.02f, DetikKabutTurun = 20f, DetikAzan = 5f, DetikPudarAzan = 0.5f;
         // Ditulis pengembang dari ringkasan GDD (Laras menelepon sambil menangis; Ibu dua minggu sakit, memuntahkan rambut dan paku).
         public const string TeksTelepon =
             "\"Mas... Mas Raka, pulang, Mas.\"\n\n" +
