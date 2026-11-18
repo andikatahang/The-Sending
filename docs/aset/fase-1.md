@@ -10,26 +10,26 @@ Sumber: **SF** Sketchfab (filter *Downloadable*, lisensi CC0 atau CC-BY) · **AS
 
 | Nama | Kata kunci (EN / ID) | Sumber | Tujuan | Status |
 |---|---|---|---|---|
-| Rumah kayu Jawa (limasan/joglo), interior | `javanese house`, `joglo`, `limasan`, `traditional wooden house interior asia` / rumah limasan | SF, AS | `Art/Models/RumahKeluarga/` | |
-| Tiang kayu besar (saka guru) | `wooden pillar`, `wood column carved` / saka guru | SF | `Art/Models/RumahKeluarga/` | |
+| Rumah kayu Jawa (limasan/joglo), interior | `javanese house`, `joglo`, `limasan`, `traditional wooden house interior asia` / rumah limasan | SF, AS | `Art/Models/RumahKeluarga/` | ✓ luar: prefab Asli `RumahKeluargaLuar` (atap limasan buatan skrip, tiang/kisi/pagar kit TraditionalHouseModular). Interior: dinding skrip bertekstur |
+| Tiang kayu besar (saka guru) | `wooden pillar`, `wood column carved` / saka guru | SF | `Art/Models/RumahKeluarga/` | ✓ prefab Asli `SakaGuru` (tiang kit + umpak) |
 | Gapura desa | `village gate`, `indonesian gate`, `gapura` | SF | `Art/Models/Desa/` | |
 | Jembatan bambu | `bamboo bridge` / jembatan bambu | SF, AS | `Art/Models/Desa/` | |
-| Rumpun bambu | `bamboo cluster`, `bamboo forest low poly` | SF, AS | `Art/Models/Desa/` | |
+| Rumpun bambu | `bamboo cluster`, `bamboo forest low poly` | SF, AS | `Art/Models/Desa/` | ✓ prefab Asli `RumpunBambu` (EssentialNaturePack) |
 | Lampu jalan tua | `old street lamp`, `village lamp post` | SF, AS | `Art/Models/Desa/` | |
-| Rumah kecil berjendela (luar rumah Bu Sumi) | `small village house`, `asian hut window` | SF, AS | `Art/Models/Desa/` | |
-| Tekstur: papan kayu, dinding anyaman bambu (gedek), tanah, genteng | `wood planks`, `woven bamboo wall`, `dirt`, `clay roof tiles` | PH, AC | `Art/Textures/` | |
+| Rumah kecil berjendela (luar rumah Bu Sumi) | `small village house`, `asian hut window` | SF, AS | `Art/Models/Desa/` | ✓ prefab Asli `RumahKecil` (gaya limasan, kit TraditionalHouseModular) |
+| Tekstur: papan kayu, dinding anyaman bambu (gedek), tanah, genteng | `wood planks`, `woven bamboo wall`, `dirt`, `clay roof tiles` | PH, AC | `Art/Textures/` | ✓ dari paket (lihat "Aset asli" di bawah); genteng sementara bata Yughues |
 
 ## Perabot dan benda
 
 | Nama | Kata kunci (EN / ID) | Sumber | Status |
 |---|---|---|---|
-| Ranjang kayu tua | `old wooden bed` | SF, AS | |
-| Lemari kayu tua (lemari ayah) | `old wooden wardrobe`, `antique cabinet` | SF, AS | |
+| Ranjang kayu tua | `old wooden bed` | SF, AS | masih dicari (ranjang nappin 360k+ segitiga, terlalu berat); pengganti bertekstur |
+| Lemari kayu tua (lemari ayah) | `old wooden wardrobe`, `antique cabinet` | SF, AS | ✓ prefab Asli `LemariAyah` (nappin Drawer1, material kayu) |
 | Gembok angka 4 digit | `combination padlock`, `number lock` | SF | |
 | Foto keluarga berbingkai | `picture frame`, `old photo frame` | SF, AS | |
 | Jam dinding bandul | `pendulum wall clock` | SF | |
 | Kalender dinding | `wall calendar` | SF | |
-| Meja dan kursi kayu | `wooden table chair rustic` | SF, AS | |
+| Meja dan kursi kayu | `wooden table chair rustic` | SF, AS | ✓ prefab Asli `Meja`, `Kursi` (nappin Desk, DiningChair, material kayu); laci `Laci` (nappin Storage1) |
 | Buku harian tua | `old diary`, `leather notebook` | SF | |
 | Map dokumen | `document folder`, `paper folder` | SF | |
 | Obat dan sachet oralit | `medicine box`, `pill pack`, `sachet` | SF | |
@@ -93,6 +93,8 @@ Kode Fase 1 berjalan dengan aset pengganti. Untuk memakai aset asli, taruh atau 
 | `Ranjang`, `LemariAyah`, `Gembok`, `FotoKeluarga`, `JamDinding`, `Kalender`, `Meja`, `Kursi`, `Paku`, `Teplok`, `StopKontak`, `SakaGuru` | perabot dan benda rumah |
 | `Gapura`, `JembatanBambu`, `RumpunBambu`, `LampuJalan`, `RumahKecil`, `RumahKeluargaLuar` | jalan masuk desa |
 
-**Tekstur:** pasang pada material di `Assets/_Project/Art/Materials/Pengganti/` (`KayuTua`, `KayuGelap`, `Gedek`, `Tanah`, `Genteng`, `Bambu`, `Kain`). Dinding, lantai, dan plafon rumah memakai material itu.
+**Aset asli (sejak 18 Nov):** prefab di `Assets/_Project/Prefabs/Asli/<nama sama>.prefab` dipakai lebih dulu daripada prefab pengganti (`PembuatPengganti.Pasang`). Prefab ini dibuat ulang setiap **Bangun Ulang Semua** oleh `PembuatAsetAsli` dari paket di `Art/ThirdParty`; ubah skripnya, bukan prefabnya. Saat ini: `Meja`, `Kursi`, `LemariAyah`, `Laci`, `SakaGuru`, `RumpunBambu`, `RumahKecil`, `RumahKeluargaLuar`. Hutan di sekitar `Scene_Desa` disebar `PembuatDesa.Hutan` (seed tetap). Untuk menukar aset lain: tambahkan prefab Asli bernama sama di `PembuatAsetAsli`.
+
+**Tekstur:** pasang pada material di `Assets/_Project/Art/Materials/Pengganti/` (`KayuTua`, `KayuGelap`, `Gedek`, `Tanah`, `Genteng`, `Bambu`, `Kain`, ditambah `Atap`, `Tembok`, `TanahHutan`, `Jalan`). Teksturnya dipasang lewat `PembuatAsetAsli.DaftarTekstur`; ganti di sana. Balok dinding dan lantai memakai kubus ber-UV meter (`Art/Models/Kubus`), jadi tekstur berulang per meter, tidak melar.
 
 **Tidak dipakai di Fase 1** (tidak perlu dicari sekarang): model buku harian, map dokumen, obat dan sachet (ketiganya hanya tampil sebagai teks di inventaris), HP di tangan. Suara tokoh (gadis menangis di telepon, bisikan doa perempuan) **belakangan**: voice acting ditunda, semua percakapan teks saja.

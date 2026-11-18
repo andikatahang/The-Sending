@@ -13,4 +13,3 @@ Catat setiap aset pihak ketiga di sini saat dimasukkan ke proyek. Aset berlisens
 | House Interior Pack (perabot rumah) | `Assets/_Project/Art/ThirdParty/HouseInteriorPack/` | nappin (nappin.dev) | Unity Asset Store | Unity Asset Store EULA | Tidak |
 | Indonesian Traditional House - Modular Kit | `Assets/_Project/Art/ThirdParty/TraditionalHouseModular/` | **(isi nama penerbit)** | Unity Asset Store | Unity Asset Store EULA | Tidak |
 | Yughues Free Concrete Materials | `Assets/_Project/Art/ThirdParty/YughuesConcrete/` | Yughues | Unity Asset Store | Unity Asset Store EULA | Tidak |
-| Dhivehi House 01 | `Assets/_Project/Art/ThirdParty/DhivehiHouse01/` | **(isi nama penerbit)** | Unity Asset Store | Unity Asset Store EULA (readme: tidak ada lisensi tambahan) | Tidak |

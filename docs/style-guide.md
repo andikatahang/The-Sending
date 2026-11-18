@@ -54,7 +54,7 @@ Setiap scene baru memanggil `PembuatGayaPsx.TerapkanKeScene()` dan `SiapkanKamer
 
 Semua tekstur di `Assets/_Project/Art/` otomatis diimpor dengan ukuran maksimal 256, filter Point, tanpa mipmap (`PrasetelTeksturPsx`, hanya pada impor pertama). Tekstur di luar folder itu tidak ikut aturan ini, jadi jangan menaruh tekstur gim di luar `Art/`.
 
-Aset pihak ketiga ada di `Assets/_Project/Art/ThirdParty/<Paket>/` (EssentialNaturePack, HouseInteriorPack, TraditionalHouseModular, YughuesConcrete, DhivehiHouse01). Karena datang dengan `.meta` sendiri, prasetel di atas tidak berlaku otomatis. Setelah menambah atau memperbarui paket, jalankan **The Sending > Siapkan Aset Luar** (`PembuatAsetLuar`, aman diulang): material built-in diubah ke URP Lit (tekstur, warna, normal map, cutout/transparan, emisi dipertahankan), semua material diberi Smoothness 0, dan semua tekstur diberi ukuran maks 256, Point, tanpa mipmap (normal map tetap bertipe normal map). Daun pohon juga 256; masih terbaca di pratinjau.
+Aset pihak ketiga ada di `Assets/_Project/Art/ThirdParty/<Paket>/` (EssentialNaturePack, HouseInteriorPack, TraditionalHouseModular, YughuesConcrete; isi yang tidak dipakai sudah dihapus). Karena datang dengan `.meta` sendiri, prasetel di atas tidak berlaku otomatis. Setelah menambah atau memperbarui paket, jalankan **The Sending > Siapkan Aset Luar** (`PembuatAsetLuar`, aman diulang): material built-in diubah ke URP Lit (tekstur, warna, normal map, cutout/transparan, emisi dipertahankan), semua material diberi Smoothness 0, dan semua tekstur diberi ukuran maks 256, Point, tanpa mipmap (normal map tetap bertipe normal map). Daun pohon juga 256; masih terbaca di pratinjau.
 
 TraditionalHouseModular hanya menyimpan varian `512 - native` (varian 2k dihapus). Tekstur tileable-4 "512" sebenarnya 2048 px, tetapi diimpor 256.
 
@@ -82,6 +82,8 @@ Pass `PSX_Layar` berjalan sebelum post-processing pada resolusi render-scale, ja
 ## Aset pengganti (sejak Fase 1)
 
 Selama aset asli belum ada, gim memakai pengganti buatan skrip (`PembuatPengganti`, `PembuatSuaraPengganti`): material polos di `Assets/_Project/Art/Materials/Pengganti/`, prefab dari primitif di `Assets/_Project/Prefabs/Pengganti/`, dan lima WAV sintetis di `Assets/_Project/Audio/SFX/` dan `Audio/Music/`. Skrip tidak menimpa file yang sudah ada. Cara menukar dengan aset asli: `docs/aset/fase-1.md`, bagian "Nama file dan prefab yang dipakai kode Fase 1".
+
+Prefab aset asli di `Assets/_Project/Prefabs/Asli/` (dibuat `PembuatAsetAsli`) menggantikan prefab pengganti bernama sama. Perabot nappin memakai material kayu pengganti, bukan warna modernnya. Pohon hutan memakai LOD0 hanya sampai sekitar 20 m (dengan lodBias 2 kualitas PC); lebih jauh papan silang LOD1 di dalam kabut. Sekitar 100-200 ribu segitiga terlihat di Scene_Desa.
 
 Aturan gaya untuk pengganti dan aset asli sama: warna mengikuti palet di atas, tanpa kilap (Smoothness 0), dan tekstur mengikuti prasetel PSX.
 
