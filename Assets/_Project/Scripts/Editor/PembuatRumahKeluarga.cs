@@ -233,7 +233,9 @@ namespace TheSending.EditorTools
         // Objek yang baru dinyalakan AlurMalam1 pada cutscene 23.00. Semuanya dibuat nonaktif.
         static void BendaAdegan(AlurMalam1 malam1)
         {
-            var paku = Logika("Paku", new Vector3(-5f, 0f, 6.6f), new Vector3(0.5f, 0.1f, 0.5f));
+            // Paku tergeletak di tengah bercak darah, dan sasaran foto menutupi seluruh bercak: pemain membidik
+            // bercak (benda yang paling terlihat dalam gelap), bukan paku setebal 2 cm. Tipis supaya tidak terasa saat diinjak.
+            var paku = Logika("Paku", new Vector3(-5.1f, 0f, 6.3f), new Vector3(0.9f, 0.05f, 0.9f));
             PembuatPengganti.Pasang("Paku", paku.transform, Vector3.zero);
             var foto = paku.AddComponent<PetunjukFoto>();
             SetTeks(foto, "efek", "tujuan:PotretPaku; foto:PakuMalam1");
