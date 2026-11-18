@@ -29,6 +29,27 @@ namespace TheSending.Core
         public static readonly string[] SelasaKliwon = { "SE", "LA", "SA", "KLI", "WO", "N" };
 
         public static PuzzleUrutan<string> Buat(string[] kata) => new PuzzleUrutan<string>(kata, false);
+
+        // Empat bacaan untuk tombol 1-4: jawaban dan tiga pengecoh yang bentuk atau bunyinya mirip. Urutan tetap.
+        static readonly (string suku, string[] pilihan)[] DaftarPilihan =
+        {
+            ("RA", new[] { "KA", "RA", "HA", "NA" }),
+            ("T", new[] { "N", "K", "T", "D" }),
+            ("MI", new[] { "MA", "ME", "NI", "MI" }),
+            ("SE", new[] { "SE", "SA", "SI", "LE" }),
+            ("LA", new[] { "NA", "LA", "WA", "TA" }),
+            ("SA", new[] { "PA", "YA", "SA", "SE" }),
+            ("KLI", new[] { "KI", "LI", "KRI", "KLI" }),
+            ("WO", new[] { "WA", "WO", "WE", "PO" }),
+            ("N", new[] { "NG", "M", "T", "N" }),
+        };
+
+        public static string[] Pilihan(string suku)
+        {
+            foreach (var (s, pilihan) in DaftarPilihan)
+                if (s == suku) return (string[])pilihan.Clone();
+            throw new ArgumentException($"Suku aksara '{suku}' tidak dikenal.", nameof(suku));
+        }
     }
 
     // Malam 3: salah urutan tidak mengulang, tetapi Runtime memberi penalti KondisiIbu.SalahUrutanPaku.

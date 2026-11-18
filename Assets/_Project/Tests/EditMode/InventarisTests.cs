@@ -51,6 +51,8 @@ namespace TheSending.Tests
         [TestCase(Inventaris.ObatIbu)]
         [TestCase(Inventaris.BukuHarianAyah)]
         [TestCase(Inventaris.MapSertifikat)]
+        [TestCase(Inventaris.KunciGudang)]
+        [TestCase(Inventaris.Linggis)]
         public void SetiapBarangPunyaNamaDanKeterangan(string id)
         {
             Assert.IsTrue(Inventaris.Dikenal(id));

@@ -9,10 +9,6 @@ namespace TheSending.Runtime
     public class AlurMalam1 : MonoBehaviour
     {
         const float LamaKejang = 3f;
-        // Game Story, Malam 2, "Ringkasan siang" (dikutip persis).
-        const string RingkasanMalam2 =
-            "Ibu tetap menolak dibawa ke rumah sakit dan mengamuk setiap kali dipaksa. " +
-            "Raka mulai mendengar bisik-bisik tetangga soal Bu Sumi.";
         // Nama SignalAsset di Timeline Malam1_Cutscene23 (PembuatRumahKeluarga memakai konstanta yang sama).
         public const string SinyalKejang = "Kejang", SinyalPaku = "Paku", SinyalPadam = "Padam", SinyalLangkah = "Langkah";
 
@@ -39,7 +35,7 @@ namespace TheSending.Runtime
             {
                 case SinyalKejang: suaraBatuk.Putar(); StartCoroutine(Kejang()); break;
                 case SinyalPaku: darah.SetActive(true); paku.SetActive(true); suaraPaku.Putar(); break;
-                case SinyalPadam: suaraListrik.Putar(); Padamkan(); break;
+                case SinyalPadam: suaraBatuk.Hentikan(); suaraListrik.Putar(); Padamkan(); break;
                 case SinyalLangkah: suaraLangkah.Putar(); break;
                 default: Debug.LogWarning($"AlurMalam1: sinyal tidak dikenal '{nama}'.", this); break;
             }
@@ -58,10 +54,6 @@ namespace TheSending.Runtime
             {
                 kartu.HitamSeketika();   // "Lanjutkan" di Malam 1
                 Mulai();
-            }
-            else if (gm.State.MalamKe >= 2)
-            {
-                hud.Tampilkan("Malam 2 belum dibuat (Fase 2).");
             }
         }
 
@@ -180,12 +172,8 @@ namespace TheSending.Runtime
                     yield break;
                 }
                 gm.SimpanCheckpoint();            // checkpoint awal Malam 2
-                // Fase 2 mengganti bagian di bawah ini dengan sutradara Malam 2.
-                yield return kartu.StartCoroutine(kartu.Tampilkan(
-                    "Malam 2: Boneka di Bawah Lantai",
-                    "Malam Kamis Kliwon\n\n" + RingkasanMalam2 + "\n\n(Bersambung. Malam 2 dibuat di Fase 2.)", 8f));
-                yield return kartu.StartCoroutine(kartu.KeHitam());   // rumah tidak sempat terlihat sebelum menu dimuat
-                gm.MuatScene(GameManager.SceneMenuUtama);
+                // Rumah dimuat ulang untuk Malam 2: lampu menyala lagi, paku dan teplok hilang. Kartu bab ditampilkan AlurMalam2.
+                gm.MuatScene(gm.SceneUntukState);
                 dimuat = true;
             }
             finally { if (!dimuat) adegan.Selesai(); }   // jeda dilepas KameraAdegan.OnDisable saat scene dibongkar

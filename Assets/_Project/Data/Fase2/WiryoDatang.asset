@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61c3401c87cca4432bb9854f8b661f1e, type: 3}
+  m_Name: WiryoDatang
+  m_EditorClassIdentifier: TheSending.Runtime::TheSending.Runtime.DataDialog
+  Baris:
+  - Pembicara: Mbah Wiryo
+    Teks: Kulonuwun... Mbah dengar ibumu sakit, Le.
+    Terjemahan: Permisi... Mbah dengar ibumu sakit, Nak.
+    Efek: 
+    Akhir: 0
+    Pilihan: []
+  - Pembicara: Raka
+    Teks: Mbah Wiryo? Malam-malam begini?
+    Terjemahan: 
+    Efek: 
+    Akhir: 0
+    Pilihan: []
+  - Pembicara: Mbah Wiryo
+    Teks: Barang begini jangan disimpan di rumah, Le. Biar Mbah yang larung ke kali, supaya ibumu tenang.
+    Terjemahan: 
+    Efek: 
+    Akhir: 0
+    Pilihan:
+    - Teks: Serahkan boneka kepada Mbah Wiryo
+      Efek: serahkan:M1; tujuan:PilihanWiryo
+      LompatKe: 3
+    - Teks: Simpan boneka sendiri
+      Efek: tujuan:PilihanWiryo
+      LompatKe: 5
+  - Pembicara: Raka
+    Teks: Iya, Mbah. Tolong dibuang saja.
+    Terjemahan: 
+    Efek: 
+    Akhir: 0
+    Pilihan: []
+  - Pembicara: Mbah Wiryo
+    Teks: Nah, begitu. Ibumu biar Mbah yang mendoakan.
+    Terjemahan: 
+    Efek: 
+    Akhir: 1
+    Pilihan: []
+  - Pembicara: Raka
+    Teks: Tidak usah, Mbah. Biar saya simpan dulu.
+    Terjemahan: 
+    Efek: 
+    Akhir: 0
+    Pilihan: []
+  - Pembicara: Mbah Wiryo
+    Teks: (tersenyum tipis) Yo wis, sakarepmu, Le.
+    Terjemahan: Ya sudah, terserah kamu, Nak.
+    Efek: 
+    Akhir: 1
+    Pilihan: []

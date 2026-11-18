@@ -21,7 +21,7 @@ namespace TheSending.EditorTools
             ("KayuTua", "5B4030"), ("KayuGelap", "2E2018"), ("Gedek", "8A7A55"), ("Tanah", "3B3026"),
             ("Genteng", "6B3A2A"), ("Bambu", "6F7F3A"), ("Kain", "B9AE96"), ("Kulit", "C69C7B"),
             ("Karat", "5A1A12"), ("Kertas", "E6E0D1"), ("Logam", "6E7074"), ("Gelap", "0B0D10"),
-            ("Atap", "4A3B2C"), ("Tembok", "5A5850"), ("TanahHutan", "33302A"), ("Jalan", "4A4038"),
+            ("Atap", "4A3B2C"), ("Tembok", "5A5850"), ("TanahHutan", "33302A"), ("Jalan", "4A4038"), ("Kafan", "4A4438"),
         };
 
         readonly struct Bagian
@@ -87,7 +87,11 @@ namespace TheSending.EditorTools
             // Perabot dan benda rumah
             ("Ranjang", new[]
             {
-                K("KayuTua", 0f, 0.25f, 0f, 1.2f, 0.3f, 2.0f),
+                K("KayuTua", 0f, 0.35f, 0f, 1.2f, 0.1f, 2.0f),          // dipan; kolong setinggi 0,3 m untuk bersembunyi
+                K("KayuTua", -0.55f, 0.15f, -0.95f, 0.08f, 0.3f, 0.08f),
+                K("KayuTua", 0.55f, 0.15f, -0.95f, 0.08f, 0.3f, 0.08f),
+                K("KayuTua", -0.55f, 0.15f, 0.95f, 0.08f, 0.3f, 0.08f),
+                K("KayuTua", 0.55f, 0.15f, 0.95f, 0.08f, 0.3f, 0.08f),
                 K("Kain", 0f, 0.47f, 0f, 1.1f, 0.14f, 1.9f),
                 K("KayuGelap", 0f, 0.6f, -1.0f, 1.2f, 0.8f, 0.08f),
             }),
@@ -202,6 +206,70 @@ namespace TheSending.EditorTools
                 K("KayuGelap", 2f, 1.5f, 1.2f, 0.25f, 3f, 0.25f),
                 K("Genteng", 0f, 3.1f, 0.8f, 6f, 0.15f, 2f),
                 K("KayuGelap", 0f, 1.1f, 0.02f, 1.2f, 2.2f, 0.06f),
+            }),
+            // Malam 2
+            ("SosokSantet", new[]
+            {
+                T("Gelap", 0f, 1.0f, 0f, 0.3f, 1.0f, 0.26f),                   // tubuh kurus 2 m
+                K("Kafan", 0f, 0.95f, 0f, 0.4f, 1.6f, 0.32f, 0f, 8f),          // lilitan kain kafan kotor
+                K("Gelap", 0f, 2.07f, 0f, 0.24f, 0.26f, 0.24f),                // kepala, puncak 2,2 m
+                K("Gelap", 0f, 1.8f, 0.13f, 0.3f, 0.75f, 0.05f),               // rambut menutup wajah
+                K("Gelap", -0.25f, 1.25f, 0.04f, 0.06f, 0.95f, 0.06f, 0f, 0f, 4f),
+                K("Gelap", 0.25f, 1.25f, 0.04f, 0.06f, 0.95f, 0.06f, 0f, 0f, -4f),
+            }),
+            ("MbahWiryo", new[]
+            {
+                K("Gelap", 0f, 0.4f, 0f, 0.3f, 0.8f, 0.2f),
+                K("Gelap", 0f, 1.1f, 0f, 0.42f, 0.6f, 0.22f),
+                K("Gelap", -0.27f, 1.1f, 0f, 0.1f, 0.55f, 0.1f),
+                K("Gelap", 0.27f, 1.1f, 0f, 0.1f, 0.55f, 0.1f),
+                K("Kulit", 0f, 1.52f, 0f, 0.22f, 0.24f, 0.22f),
+                K("KayuGelap", 0f, 1.66f, 0f, 0.25f, 0.08f, 0.25f),             // blangkon
+                K("KayuGelap", 0f, 1.62f, -0.13f, 0.1f, 0.08f, 0.06f),          // mondolan blangkon
+            }),
+            ("Boneka", new[]
+            {
+                K("Kain", 0f, 0.035f, 0f, 0.12f, 0.06f, 0.2f),
+                B("Kain", 0f, 0.05f, 0.14f, 0.09f),
+                K("Karat", 0f, 0.036f, 0.03f, 0.125f, 0.065f, 0.02f),         // lilitan benang merah
+                K("Karat", 0f, 0.036f, -0.05f, 0.125f, 0.065f, 0.02f),
+                T("Logam", 0f, 0.1f, 0.14f, 0.008f, 0.04f, 0.008f),           // jarum di kepala
+                T("Logam", 0f, 0.085f, -0.01f, 0.008f, 0.04f, 0.008f),        // jarum di perut
+            }),
+            ("Linggis", new[]
+            {
+                T("Logam", 0f, 0.6f, 0f, 0.03f, 0.6f, 0.03f, 0f, 0f, 8f),
+                K("Logam", 0.06f, 0.04f, 0f, 0.1f, 0.03f, 0.03f),
+            }),
+            ("Karung", new[]
+            {
+                K("Kain", -0.35f, 0.25f, 0f, 0.7f, 0.5f, 0.8f),
+                K("Kain", 0.35f, 0.25f, 0f, 0.7f, 0.5f, 0.8f, 0f, 6f),
+                K("Kain", 0f, 0.72f, 0f, 0.7f, 0.45f, 0.75f, 0f, -5f),
+            }),
+            ("AlatTani", new[]
+            {
+                K("KayuGelap", 0f, 1.0f, 0f, 1.6f, 0.06f, 0.3f),              // rak dinding
+                T("KayuTua", -0.5f, 0.75f, 0.05f, 0.04f, 0.75f, 0.04f),        // pacul
+                K("Logam", -0.5f, 0.1f, 0.12f, 0.2f, 0.2f, 0.02f),
+                T("KayuTua", 0.1f, 0.6f, 0.05f, 0.03f, 0.6f, 0.03f),           // sabit
+                K("Logam", 0.18f, 1.18f, 0.05f, 0.18f, 0.04f, 0.02f),
+                T("KayuTua", 0.6f, 0.8f, 0.05f, 0.04f, 0.8f, 0.04f),           // garu
+                K("Logam", 0.6f, 0.05f, 0.1f, 0.35f, 0.08f, 0.05f),
+            }),
+            ("PapanLantai", new[] { K("KayuTua", 0f, 0.012f, 0f, 0.3f, 0.024f, 1.2f) }),
+            ("LubangLantai", new[] { K("Gelap", 0f, 0.003f, 0f, 0.3f, 0.006f, 1.2f) }),
+            ("KotakKayu", new[]
+            {
+                K("KayuTua", 0f, 0.15f, 0f, 0.5f, 0.3f, 0.35f),
+                K("KayuGelap", 0f, 0.31f, 0f, 0.52f, 0.03f, 0.37f),
+            }),
+            ("LemariPakaian", new[]
+            {
+                K("KayuGelap", 0f, 1.0f, 0f, 1.0f, 2.0f, 0.6f),
+                K("KayuTua", 0f, 1.0f, 0.305f, 0.02f, 1.8f, 0.01f),
+                K("Logam", -0.06f, 1.0f, 0.31f, 0.02f, 0.12f, 0.02f),
+                K("Logam", 0.06f, 1.0f, 0.31f, 0.02f, 0.12f, 0.02f),
             }),
         };
 

@@ -71,7 +71,9 @@ Kode Fase 1 berjalan dengan aset pengganti. Untuk memakai aset asli, taruh atau 
 
 | Aset di daftar atas | Jalur |
 |---|---|
-| Mobil menjauh (nama file tetap `MotorMenjauh`) | `Assets/_Project/Audio/SFX/MotorMenjauh` |
+| Mobil menjauh | `Assets/_Project/Audio/SFX/MobilPergi` |
+| Klik senter | `Assets/_Project/Audio/SFX/KlikSenter` |
+| Suasana malam (loop, semua scene) | `Assets/_Project/Audio/SFX/SuasanaMalam` |
 | Azan magrib | `Assets/_Project/Audio/SFX/AzanMagrib` |
 | Pintu kayu berderit | `Assets/_Project/Audio/SFX/PintuBerderit` |
 | Jam dinding berdentang (S) | `Assets/_Project/Audio/SFX/DentangJam` |

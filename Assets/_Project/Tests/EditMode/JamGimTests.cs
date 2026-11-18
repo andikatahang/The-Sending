@@ -159,5 +159,57 @@ namespace TheSending.Tests
             Assert.IsNull(JamGim.KejadianBerikutnya(s));
             Assert.IsFalse(JamGim.Tunggu(s));
         }
+
+        [Test]
+        public void Malam2SebelumAksaraTidakAdaYangDitunggu()
+        {
+            var s = new GameState { MalamKe = 2, MenitGim = JamGim.MulaiMalam };
+            Assert.IsNull(JamGim.KejadianBerikutnya(s));
+        }
+
+        [Test]
+        public void Malam2SetelahAksaraMenungguJamObat()
+        {
+            var s = new GameState { MalamKe = 2, MenitGim = 19 * 60f };
+            TujuanMalam.Selesaikan(s, TujuanMalam.BacaAksara);
+            Assert.AreEqual(JamGim.Jam21, JamGim.KejadianBerikutnya(s));
+        }
+
+        [Test]
+        public void Malam2DalamJendelaObatTidakMelompat()
+        {
+            var s = new GameState { MalamKe = 2, MenitGim = JamGim.Jam21 + 10f };
+            TujuanMalam.Selesaikan(s, TujuanMalam.BacaAksara);
+            Assert.IsNull(JamGim.KejadianBerikutnya(s));
+        }
+
+        [Test]
+        public void Malam2SetelahPilihanWiryoTidakMenunggu()
+        {
+            var s = new GameState { MalamKe = 2, MenitGim = 19 * 60f };
+            TujuanMalam.Selesaikan(s, TujuanMalam.BacaAksara);
+            TujuanMalam.Selesaikan(s, TujuanMalam.PilihanWiryo);
+            Assert.IsNull(JamGim.KejadianBerikutnya(s));
+        }
+
+        [TestCase(false, false, 1350f, false)]   // 22.30, aksara belum terbaca
+        [TestCase(true, false, 1200f, false)]    // 20.00, menunggu jam obat
+        [TestCase(true, true, 1265f, true)]      // obat sudah diberikan
+        [TestCase(true, false, 1320f, true)]     // 22.00, jam obat lewat tanpa obat
+        public void WiryoDatangSetelahAksaraDanObat(bool aksara, bool obat, float menit, bool datang)
+        {
+            var s = new GameState { MalamKe = 2, MenitGim = menit, ObatSudahDiberikan = obat };
+            if (aksara) TujuanMalam.Selesaikan(s, TujuanMalam.BacaAksara);
+            Assert.AreEqual(datang, JamGim.SaatnyaWiryoDatang(s));
+        }
+
+        [Test]
+        public void WiryoTidakDatangLagiSetelahPilihanWiryo()
+        {
+            var s = new GameState { MalamKe = 2, MenitGim = 1320f, ObatSudahDiberikan = true };
+            TujuanMalam.Selesaikan(s, TujuanMalam.BacaAksara);
+            TujuanMalam.Selesaikan(s, TujuanMalam.PilihanWiryo);
+            Assert.IsFalse(JamGim.SaatnyaWiryoDatang(s));
+        }
     }
 }

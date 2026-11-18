@@ -6,6 +6,7 @@ namespace TheSending.Core
     public static class Inventaris
     {
         public const string ObatIbu = "ObatIbu", BukuHarianAyah = "BukuHarianAyah", MapSertifikat = "MapSertifikat";
+        public const string KunciGudang = "KunciGudang", Linggis = "Linggis";
 
         // id, nama, keterangan
         static readonly string[][] Daftar =
@@ -13,6 +14,8 @@ namespace TheSending.Core
             new[] { ObatIbu, "Obat dan oralit", "Dari Bidan Wulan. Diminumkan kepada Ibu pukul 21.00." },
             new[] { BukuHarianAyah, "Buku harian Bapak", "Banyak halamannya sobek. Halaman yang sudah ditemukan bisa dibaca di Jurnal." },
             new[] { MapSertifikat, "Map fotokopi sertifikat tanah", "Fotokopi sertifikat tanah keluarga di tepi sungai." },
+            new[] { KunciGudang, "Kunci gudang", "Dari Laras. Membuka pintu gudang di sebelah dapur." },
+            new[] { Linggis, "Linggis", "Dari gudang. Cukup kuat untuk membongkar papan lantai." },
         };
 
         public static bool Dikenal(string id) => Cari(id) != null;

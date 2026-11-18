@@ -9,7 +9,7 @@ using static TheSending.EditorTools.PembuatSandbox;
 
 namespace TheSending.EditorTools
 {
-    // Membuat Scene_RumahKeluarga (denah K7) untuk akhir Prolog dan Malam 1.
+    // Membuat Scene_RumahKeluarga (denah K7) untuk akhir Prolog, Malam 1, dan Malam 2 (isi Malam 2 di PembuatMalam2).
     // Jangan sunting scene dengan tangan; ubah angka di sini lalu bangun ulang.
     // Batchmode: Unity -batchmode -quit -projectPath <proyek> -executeMethod TheSending.EditorTools.PembuatRumahKeluarga.Buat
     public static class PembuatRumahKeluarga
@@ -28,6 +28,7 @@ namespace TheSending.EditorTools
             var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
             PembuatGayaPsx.TerapkanKeScene();
             var rig = PembuatRig.Buat(new Vector3(0f, 0.05f, 1.2f));
+            SetAngka(rig.Langkah, "bawaan", (int)JenisPermukaan.Kayu);
 
             var sutradara = new GameObject("Sutradara");
             var prolog = sutradara.AddComponent<AlurPrologRumah>();
@@ -46,14 +47,15 @@ namespace TheSending.EditorTools
             Set(prolog, "titikMulai", Titik("TitikMulaiProlog", new Vector3(0f, 0.05f, 1.2f), new Vector3(0f, 0.05f, 6f)));
             Set(malam1, "dialogPenutup", PembuatDataFase1.Muat(PembuatDataFase1.PenutupMalam1));
 
-            Bangunan();
-            Perabot(rig);
+            var pintuGudang = Bangunan();
+            var kalender = Perabot(rig);
             Ukiran(rig);
             SetDaftar(malam1, "lampuListrik", LampuListrik());
             KamarIbu(rig, prolog, malam1);
             BendaAdegan(malam1);
-            Tokoh(rig, sutradara, prolog, malam1);
+            var laras = Tokoh(rig, sutradara, prolog, malam1);
             SuaraDanJadwal(rig, sutradara, malam1);
+            PembuatMalam2.Pasang(rig, sutradara, pintuGudang, kalender, laras);
 
             EditorSceneManager.SaveScene(scene, JalurScene);
             AssetDatabase.SaveAssets();
@@ -67,7 +69,7 @@ namespace TheSending.EditorTools
             Balok("Dinding", new Vector3((x1 + x2) / 2f, Tinggi / 2f, (z1 + z2) / 2f), ukuran, "Gedek");
         }
 
-        static void Bangunan()
+        static InteraktifAlur Bangunan()
         {
             Balok("Lantai", new Vector3(0f, -0.1f, 6f), new Vector3(14f, 0.2f, 12f), "KayuTua");
             Balok("Plafon", new Vector3(0f, Tinggi + 0.1f, 6f), new Vector3(14f, 0.2f, 12f), "KayuGelap");
@@ -77,7 +79,11 @@ namespace TheSending.EditorTools
             Dinding(0.6f, 0f, 7f, 0f);
             Dinding(-7f, 12f, 7f, 12f);
             Dinding(-7f, 0f, -7f, 12f);
-            Dinding(7f, 0f, 7f, 12f);
+            // Dinding timur dengan celah 0,3 x 0,5 m di gudang (z 10, tinggi 1,3-1,8 m): Sosok Santet terlihat lewat sini di Malam 2.
+            Dinding(7f, 0f, 7f, 9.775f);
+            Dinding(7f, 10.225f, 7f, 12f);
+            Balok("Dinding", new Vector3(7f, 0.65f, 10f), new Vector3(Tebal, 1.3f, 0.3f), "Gedek");
+            Balok("Dinding", new Vector3(7f, 2.4f, 10f), new Vector3(Tebal, 1.2f, 0.3f), "Gedek");
             Balok("PintuDepan", new Vector3(0f, 1.05f, 0f), new Vector3(1.2f, 2.1f, 0.1f), "KayuGelap");
             Balok("AmbangPintuDepan", new Vector3(0f, 2.55f, 0f), new Vector3(1.2f, 0.9f, Tebal), "Gedek");
 
@@ -96,39 +102,41 @@ namespace TheSending.EditorTools
             Dinding(-7f, 8f, -0.6f, 8f);
             Dinding(0.6f, 8f, 7f, 8f);
 
-            // Gudang terkunci sampai Fase 2. Prompt-nya sudah memberi tahu pemain; E tidak berbuat apa-apa.
-            var pintuGudang = Balok("PintuGudang", new Vector3(3f, 1.05f, 10f), new Vector3(0.1f, 2.1f, 1f), "KayuGelap");
-            SetTeks(pintuGudang.AddComponent<InteraktifAlur>(), "prompt", "Pintu gudang (terkunci)");
+            // Gudang terkunci sampai Malam 2: AlurMalam2 membukanya dengan kunci dari Laras.
+            var pintuGudang = Balok("PintuGudang", new Vector3(3f, 1.05f, 10f), new Vector3(0.1f, 2.1f, 1f), "KayuGelap")
+                .AddComponent<InteraktifAlur>();
+            SetTeks(pintuGudang, "prompt", "Pintu gudang (terkunci)");
 
             // Empat saka guru dan blandar ruang tengah.
             foreach (float x in new[] { -1.5f, 1.5f })
                 foreach (float z in new[] { 2.5f, 5.5f })
                     PembuatPengganti.Pasang("SakaGuru", null, new Vector3(x, 0f, z));
             Balok("Blandar", new Vector3(0f, 2.75f, 4f), new Vector3(6f, 0.3f, 0.3f), "KayuGelap");
+            return pintuGudang;
         }
 
         // Benda atau tokoh yang membuka dialog: objek logika + PemicuDialog + prefab visual.
         // tengah = true untuk benda dinding (titik nol prefab di tengah benda).
-        static PemicuDialog BendaDialog(Rig rig, string prefab, Vector3 posisi, Vector3 ukuran, float putarY, bool tengah,
-            string dialog, string prompt)
+        internal static PemicuDialog BendaDialog(Rig rig, string prefab, Vector3 posisi, Vector3 ukuran, float putarY, bool tengah,
+            DataDialog dialog, string prompt)
         {
             var g = Logika(prefab, posisi, ukuran);
             PembuatPengganti.Pasang(prefab, g.transform, tengah ? new Vector3(0f, ukuran.y / 2f, 0f) : Vector3.zero, putarY);
             var pemicu = g.AddComponent<PemicuDialog>();
-            Set(pemicu, "dialog", PembuatDataFase1.Muat(dialog));
+            Set(pemicu, "dialog", dialog);
             Set(pemicu, "panel", rig.Dialog);
             SetTeks(pemicu, "prompt", prompt);
             return pemicu;
         }
 
-        static void Perabot(Rig rig)
+        static GameObject Perabot(Rig rig)
         {
             // Ruang tengah
             PembuatPengganti.Pasang("Meja", null, new Vector3(-2.2f, 0f, 3.6f), 90f);
             PembuatPengganti.Pasang("Kursi", null, new Vector3(-1.6f, 0f, 3.6f), -90f);
             PembuatPengganti.Pasang("JamDinding", null, new Vector3(1.8f, 1.9f, 7.86f), 180f);
             BendaDialog(rig, "FotoKeluarga", new Vector3(-1.8f, 1.275f, 7.87f), new Vector3(0.6f, 0.45f, 0.1f), 180f, true,
-                PembuatDataFase1.FotoKeluarga, "Periksa foto keluarga");
+                PembuatDataFase1.Muat(PembuatDataFase1.FotoKeluarga), "Periksa foto keluarga");
             var stopKontak = Logika("StopKontak", new Vector3(2.88f, 0.35f, 3.5f), new Vector3(0.15f, 0.15f, 0.15f));
             PembuatPengganti.Pasang("StopKontak", stopKontak.transform, new Vector3(0f, 0.075f, 0f), -90f);
             var pengisi = stopKontak.AddComponent<PengisiBaterai>();
@@ -142,8 +150,8 @@ namespace TheSending.EditorTools
             PembuatPengganti.Pasang("Laci", null, new Vector3(4.6f, 0f, 4.33f));
             Balok("BakMandi", new Vector3(6.3f, 0.4f, 0.8f), new Vector3(1f, 0.8f, 1f), "Tanah");
             PembuatPengganti.Pasang("Meja", null, new Vector3(-5f, 0f, 10.5f));
-            BendaDialog(rig, "Kalender", new Vector3(-1.5f, 1.25f, 8.13f), new Vector3(0.35f, 0.5f, 0.1f), 0f, true,
-                PembuatDataFase1.Kalender, "Lihat kalender");
+            return BendaDialog(rig, "Kalender", new Vector3(-1.5f, 1.25f, 8.13f), new Vector3(0.35f, 0.5f, 0.1f), 0f, true,
+                PembuatDataFase1.Muat(PembuatDataFase1.Kalender), "Lihat kalender").gameObject;
         }
 
         // Lampu listrik yang padam pada cutscene 23.00.
@@ -198,6 +206,10 @@ namespace TheSending.EditorTools
             Set(obat, "panel", rig.Dialog);
             Set(obat, "dialogSetelahObat", PembuatDataFase1.Muat(PembuatDataFase1.IbuSetelahObat));
             Set(malam1, "ibu", visualIbu.transform);
+            // K14-A: wajah Ibu memucat mengikuti Kondisi Ibu. Hanya renderer bermaterial Kulit (prefab pengganti).
+            var kulit = System.Array.FindAll(visualIbu.GetComponentsInChildren<Renderer>(), r => r.sharedMaterial != null && r.sharedMaterial.name == "Kulit");
+            if (kulit.Length > 0) SetDaftar(visualIbu.AddComponent<WajahIbu>(), "kulit", kulit);
+            else Debug.LogWarning("Model Ibu tanpa material Kulit: WajahIbu tidak dipasang.");
 
             // Lemari Bapak di dinding utara kamar, menghadap selatan; gembok di depan pintunya.
             var lemari = Logika("LemariAyah", new Vector3(-4.2f, 0f, 7.6f), new Vector3(1.2f, 2f, 0.6f));
@@ -238,8 +250,9 @@ namespace TheSending.EditorTools
         static void BendaAdegan(AlurMalam1 malam1)
         {
             // Paku tergeletak di tengah bercak darah, dan sasaran foto menutupi seluruh bercak: pemain membidik
-            // bercak (benda yang paling terlihat dalam gelap), bukan paku setebal 2 cm. Tipis supaya tidak terasa saat diinjak.
-            var paku = Logika("Paku", new Vector3(-5.1f, 0f, 6.3f), new Vector3(0.9f, 0.05f, 0.9f));
+            // bercak (benda yang paling terlihat dalam gelap), bukan paku setebal 2 cm. Setinggi 0,12 m supaya menutupi collider
+            // PapanLantai Malam 2 (tinggi 0,1, selalu ada) yang melintang di bercak; tanpa itu sinar Q kena papan, bukan paku.
+            var paku = Logika("Paku", new Vector3(-5.1f, 0f, 6.3f), new Vector3(0.9f, 0.12f, 0.9f));
             PembuatPengganti.Pasang("Paku", paku.transform, Vector3.zero);
             var foto = paku.AddComponent<PetunjukFoto>();
             SetTeks(foto, "efek", "tujuan:PotretPaku; foto:PakuMalam1");
@@ -266,15 +279,15 @@ namespace TheSending.EditorTools
             foreach (var g in new[] { paku, bercak, teplok, larasBerdoa }) g.SetActive(false);
         }
 
-        static void Tokoh(Rig rig, GameObject sutradara, AlurPrologRumah prolog, AlurMalam1 malam1)
+        static GameObject Tokoh(Rig rig, GameObject sutradara, AlurPrologRumah prolog, AlurMalam1 malam1)
         {
             var laras = BendaDialog(rig, "Laras", new Vector3(0.8f, 0f, 6.6f), new Vector3(0.5f, 1.7f, 0.5f), 180f, false,
-                PembuatDataFase1.LarasKronologi, "Bicara dengan Laras");
+                PembuatDataFase1.Muat(PembuatDataFase1.LarasKronologi), "Bicara dengan Laras");
             Set(malam1, "larasRuangTengah", laras.gameObject);
 
             // Bidan Wulan berdiri di ambang pintu kamar Ibu dan menutup jalan sampai ia pamit (AlurPrologRumah).
             var bidan = BendaDialog(rig, "BidanWulan", new Vector3(-3f, 0f, 6f), new Vector3(0.5f, 1.8f, 1f), 90f, false,
-                PembuatDataFase1.BidanWulan, "Bicara dengan Bidan Wulan");
+                PembuatDataFase1.Muat(PembuatDataFase1.BidanWulan), "Bicara dengan Bidan Wulan");
             SetBool(bidan, "sekaliSaja", true);
             Set(prolog, "bidanWulan", bidan.gameObject);
 
@@ -283,6 +296,7 @@ namespace TheSending.EditorTools
             SetAngka(hanyaProlog, "dari", 0);
             SetAngka(hanyaProlog, "sampai", 0);
             SetSatuObjek(hanyaProlog, "sasaran", bidan.gameObject);
+            return laras.gameObject;
         }
 
         static void SuaraDanJadwal(Rig rig, GameObject sutradara, AlurMalam1 malam1)

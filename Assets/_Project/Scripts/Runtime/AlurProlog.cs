@@ -8,7 +8,7 @@ namespace TheSending.Runtime
     // tutorial jalan/lari/senter, azan dan kabut turun, Bu Sumi di jendela, sampai pintu rumah.
     public class AlurProlog : MonoBehaviour
     {
-        public const float KabutSebelumMagrib = 0.02f, DetikKabutTurun = 20f;
+        public const float KabutSebelumMagrib = 0.02f, DetikKabutTurun = 20f, DetikAzan = 5f, DetikPudarAzan = 0.5f;
         // Ditulis pengembang dari ringkasan GDD (Laras menelepon sambil menangis; Ibu dua minggu sakit, memuntahkan rambut dan paku).
         public const string TeksTelepon =
             "\"Mas... Mas Raka, pulang, Mas.\"\n\n" +
@@ -114,7 +114,16 @@ namespace TheSending.Runtime
             if (sudahAzan) return;
             sudahAzan = true;
             suaraAzan.Putar();
+            hud.Tampilkan("Azan magrib terdengar dari kejauhan. Hari sudah magrib.");
+            StartCoroutine(AzanSingkat());
             StartCoroutine(KabutTurun());
+        }
+
+        // Hanya awal azan yang terdengar (keputusan tim), lalu memudar.
+        IEnumerator AzanSingkat()
+        {
+            yield return new WaitForSeconds(DetikAzan - DetikPudarAzan);
+            yield return suaraAzan.Pudar(DetikPudarAzan);
         }
 
         IEnumerator KabutTurun()

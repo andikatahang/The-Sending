@@ -32,7 +32,7 @@ namespace TheSending.Runtime
             Vector3 ke = transform.position - kamera.position;
             // Disorot = senter menyala, cukup dekat, diarahkan ke ukiran, dan tidak terhalang dinding.
             bool disorot = senter.Menyala && ke.magnitude <= Jangkauan && Vector3.Angle(kamera.forward, ke) <= SudutMaks
-                && !Physics.Linecast(kamera.position, transform.position, ~0, QueryTriggerInteraction.Ignore);
+                && !Physics.Linecast(kamera.position, transform.position, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore);
             tampilan.enabled = disorot;
             if (!disorot || sudahDiberitahu) return;
             sudahDiberitahu = true;

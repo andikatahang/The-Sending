@@ -25,6 +25,7 @@ namespace TheSending.EditorTools
             var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
             PembuatGayaPsx.TerapkanKeScene();
             var rig = PembuatRig.Buat(new Vector3(0f, 0.05f, 2f));
+            SetAngka(rig.Langkah, "bawaan", (int)JenisPermukaan.Tanah);
 
             Lingkungan();
             var sutradara = new GameObject("Sutradara Prolog").AddComponent<AlurProlog>();
@@ -42,7 +43,7 @@ namespace TheSending.EditorTools
             // Cutscene mobil pergi (3,5 detik): mobil lurus ke z = -25 dalam 3 detik, suara mesin sejak awal.
             var ojekPergi = PembuatTimeline.Buat("Prolog_OjekPergi", 3.5f);
             PembuatTimeline.Gerak(ojekPergi.Tl, ojekPergi.Director, ojek,
-                (0f, ojek.transform), (3f, Titik("TitikOjekPergi", new Vector3(1.5f, 0f, -25f), new Vector3(1.5f, 0f, -30f))));
+                (0f, ojek.transform), (3f, Titik("TitikOjekPergi", new Vector3(1.5f, ojek.transform.position.y, -25f), new Vector3(1.5f, ojek.transform.position.y, -30f))));
             PembuatTimeline.Sinyal(ojekPergi.Tl, 0.05f, AlurProlog.SinyalMotorPergi);
             PembuatTimeline.Simpan(ojekPergi.Tl);
             Set(sutradara, "timelineOjek", ojekPergi.Pemutar);
@@ -74,7 +75,9 @@ namespace TheSending.EditorTools
             Set(sutradara, "timelineBuSumi", buSumi.Pemutar);
 
             // Rumah keluarga: prefab menghadap selatan (ke arah pemain), pintunya memindahkan ke Scene_RumahKeluarga.
-            PembuatPengganti.Pasang("RumahKeluargaLuar", null, new Vector3(0f, 0f, UjungJalan), 180f);
+            // Kayu: yang bisa diinjak dari luar hanya lantai emper (teras).
+            PembuatPengganti.Pasang("RumahKeluargaLuar", null, new Vector3(0f, 0f, UjungJalan), 180f)
+                .AddComponent<Permukaan>().Jenis = JenisPermukaan.Kayu;
             var pintu = Balok("PintuRumah", new Vector3(0f, 1.05f, UjungJalan - 0.15f), new Vector3(1.1f, 2.1f, 0.2f), "KayuGelap");
             var alurPintu = pintu.AddComponent<InteraktifAlur>();
             SetTeks(alurPintu, "prompt", "Masuk rumah");
@@ -82,7 +85,7 @@ namespace TheSending.EditorTools
 
             // Suara. Azan tidak punya pengganti sintetis; selama filenya belum ada hanya teks ini yang tampil.
             // Tidak ada suara telepon: suara tokoh ditunda, telepon Laras hanya kartu teks.
-            Set(sutradara, "suaraMotor", BuatSuara(rig, "MotorMenjauh", Sfx, "SFX", "(Suara: mobil menjauh.)"));
+            Set(sutradara, "suaraMotor", BuatSuara(rig, "MobilPergi", Sfx, "SFX", "(Suara: mobil menjauh.)"));
             Set(sutradara, "suaraAzan", BuatSuara(rig, "AzanMagrib", Sfx, "Ambience", "(Suara: azan magrib dari kejauhan.)"));
             Set(sutradara, "suaraPintu", BuatSuara(rig, "PintuBerderit", Sfx, "SFX", "(Suara: pintu kayu berderit.)"));
 
@@ -127,7 +130,8 @@ namespace TheSending.EditorTools
             // Sungai berlanjut ke dalam hutan di kedua sisi.
             var air = Balok("Air", new Vector3(0f, 0.01f, 52f), new Vector3(100f, 0.02f, 6f), "Gelap");
             Object.DestroyImmediate(air.GetComponent<Collider>());
-            PembuatPengganti.Pasang("JembatanBambu", null, new Vector3(0f, 0f, 52f));
+            PembuatPengganti.Pasang("JembatanBambu", null, new Vector3(0f, 0f, 52f))
+                .AddComponent<Permukaan>().Jenis = JenisPermukaan.Kayu;
             Batas("BatasAirBarat", new Vector3(-3.75f, 1f, 52f), new Vector3(5.5f, 2f, 6.2f));
             Batas("BatasAirTimur", new Vector3(3.75f, 1f, 52f), new Vector3(5.5f, 2f, 6.2f));
             Hutan();
@@ -200,6 +204,10 @@ namespace TheSending.EditorTools
             var mobil = model != null ? (GameObject)PrefabUtility.InstantiatePrefab(model) : PembuatPengganti.Pasang("Ojek", null, Vector3.zero);
             mobil.name = "Ojek";
             mobil.transform.SetPositionAndRotation(posisi, Quaternion.Euler(0f, 180f, 0f));
+            // Pivot glb ada di tengah tinggi mobil: angkat supaya roda di posisi.y. Kunci Timeline memakai tinggi ini juga.
+            float bawah = float.MaxValue;
+            foreach (var r in mobil.GetComponentsInChildren<Renderer>()) bawah = Mathf.Min(bawah, r.bounds.min.y);
+            if (bawah != float.MaxValue) mobil.transform.position += Vector3.up * (posisi.y - bawah);
             return mobil;
         }
     }

@@ -48,5 +48,25 @@ namespace TheSending.Tests
         {
             Assert.Throws<System.ArgumentOutOfRangeException>(() => KalenderJawa.HariMalam(malam));
         }
+
+        [TestCase(1, 6)]
+        [TestCase(2, 5)]   // Game Story Malam 2: Selasa Kliwon jatuh lima malam lagi
+        [TestCase(6, 1)]
+        [TestCase(7, 0)]
+        public void SisaMalamKeSelasaKliwon(int malam, int sisa)
+        {
+            Assert.AreEqual(sisa, KalenderJawa.SisaMalamKeSelasaKliwon(malam));
+        }
+
+        [TestCase(1, false, false)]
+        [TestCase(2, false, false)]
+        [TestCase(2, true, true)]
+        [TestCase(3, false, true)]
+        public void HitungMundurBerjalanSejakAksaraTerbaca(int malam, bool aksara, bool berjalan)
+        {
+            var s = new GameState { MalamKe = malam };
+            if (aksara) TujuanMalam.Selesaikan(s, TujuanMalam.BacaAksara);
+            Assert.AreEqual(berjalan, KalenderJawa.HitungMundurBerjalan(s));
+        }
     }
 }

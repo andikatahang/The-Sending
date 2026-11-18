@@ -101,7 +101,7 @@ namespace TheSending.Tests
         public void BarangTidakDikenalDitolakTanpaMengubahState()
         {
             var s = new GameState();
-            Assert.Throws<FormatException>(() => EfekDialog.Jalankan(s, "katanya:K1; barang:Linggis"));
+            Assert.Throws<FormatException>(() => EfekDialog.Jalankan(s, "katanya:K1; barang:PedangSakti"));
             Assert.IsFalse(s.KatanyaDiketahui[Kode.K1]);
         }
 

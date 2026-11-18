@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace TheSending.EditorTools
 {
-    // Lima WAV sintetis (mono, 16 bit, 22050 Hz) sebagai pengganti sampai tim mendapat rekaman asli.
+    // WAV sintetis (mono, 16 bit, 22050 Hz) sebagai pengganti sampai tim mendapat rekaman asli.
     // Tidak menimpa file dengan nama dasar yang sama. Azan tidak pernah dibuat sintetis.
     public static class PembuatSuaraPengganti
     {
@@ -19,6 +19,12 @@ namespace TheSending.EditorTools
             Tulis(PembuatPengganti.FolderSfx, "ListrikPadam", ListrikPadam());
             Tulis(PembuatPengganti.FolderSfx, "LangkahDiAtap", Langkah());
             Tulis(PembuatPengganti.FolderMusik, "DroneHoror", Drone());
+            Tulis(PembuatPengganti.FolderSfx, "PapanKopong", Kopong());
+            Tulis(PembuatPengganti.FolderSfx, "KetukPintu", Ketukan());
+            Tulis(PembuatPengganti.FolderSfx, "GemerincingPaku", Gemerincing());
+            Tulis(PembuatPengganti.FolderSfx, "DetakJantung", Detak());
+            Tulis(PembuatPengganti.FolderSfx, "StingerKejutan", Stinger());
+            Tulis(PembuatPengganti.FolderSfx, "GerimisDiAtap", Gerimis());
         }
 
         static void Tulis(string folder, string nama, float[] sampel)
@@ -127,6 +133,80 @@ namespace TheSending.EditorTools
             Nada(s, 0f, 58.05f, 20f, 0.25f, 0f);
             Nada(s, 0f, 82.4f, 20f, 0.15f, 0f);
             Nada(s, 0f, 110.1f, 20f, 0.1f, 0f);
+            return s;
+        }
+
+        // Dua ketukan kayu kopong: nada rendah dengan harmonik, meluruh cepat.
+        static float[] Kopong()
+        {
+            var s = Kosong(1.2f);
+            for (int k = 0; k < 2; k++)
+            {
+                Nada(s, k * 0.45f, 170f, 0.4f, 0.6f, 12f);
+                Nada(s, k * 0.45f, 340f, 0.3f, 0.25f, 18f);
+                Derau(s, k * 0.45f, 0.04f, 0.3f, 60f, 40 + k);
+            }
+            return s;
+        }
+
+        // Tiga ketukan pintu kayu.
+        static float[] Ketukan()
+        {
+            var s = Kosong(1.6f);
+            for (int k = 0; k < 3; k++)
+            {
+                Nada(s, 0.1f + k * 0.35f, 110f, 0.25f, 0.7f, 20f);
+                Derau(s, 0.1f + k * 0.35f, 0.05f, 0.4f, 50f, 50 + k);
+            }
+            return s;
+        }
+
+        // Loop 4 detik: denting paku acak. Semua denting habis sebelum akhir klip, jadi sambungan loop mulus.
+        static float[] Gemerincing()
+        {
+            var s = Kosong(4f);
+            var acak = new System.Random(7);
+            for (int k = 0; k < 14; k++)
+            {
+                float mulai = (float)acak.NextDouble() * 3.5f;
+                Nada(s, mulai, 2400f + (float)acak.NextDouble() * 1600f, 0.3f, 0.18f, 18f);
+            }
+            return s;
+        }
+
+        // Loop 2 detik: detak "lub-dub" dua kali (60 per menit).
+        static float[] Detak()
+        {
+            var s = Kosong(2f);
+            for (int k = 0; k < 2; k++)
+            {
+                Nada(s, k, 50f, 0.25f, 0.8f, 14f);
+                Nada(s, k + 0.28f, 45f, 0.25f, 0.6f, 16f);
+            }
+            return s;
+        }
+
+        // Kejutan: gugus nada tinggi sumbang, dentum rendah, dan derau; meluruh dalam sekitar 1,5 detik.
+        static float[] Stinger()
+        {
+            var s = Kosong(2f);
+            foreach (float f in new[] { 880f, 932f, 1245f, 1318f }) Nada(s, 0f, f, 1.8f, 0.18f, 2.5f);
+            Nada(s, 0f, 55f, 1.5f, 0.5f, 3f);
+            Derau(s, 0f, 0.4f, 0.35f, 8f, 60);
+            return s;
+        }
+
+        // Loop 10 detik: gerimis = derau pelan yang dihaluskan (filter lolos-bawah satu kutub).
+        static float[] Gerimis()
+        {
+            var s = Kosong(10f);
+            var acak = new System.Random(11);
+            float y = 0f;
+            for (int i = 0; i < s.Length; i++)
+            {
+                y += 0.15f * ((float)(acak.NextDouble() * 2.0 - 1.0) - y);
+                s[i] = y * 0.5f;
+            }
             return s;
         }
     }

@@ -6,6 +6,7 @@ namespace TheSending.Runtime
     public class SenterHP : MonoBehaviour
     {
         [SerializeField] Light cahaya;
+        [SerializeField] Suara klik;
 
         public bool Menyala => cahaya != null && cahaya.enabled;
 
@@ -16,7 +17,10 @@ namespace TheSending.Runtime
             var s = gm.State;
 
             if (!gm.Dijeda && gm.Kontrol.Senter.WasPressedThisFrame())
+            {
                 cahaya.enabled = !cahaya.enabled && BateraiSenter.BisaNyala(s);
+                if (klik != null) klik.Putar();
+            }
 
             if (!cahaya.enabled) return;
             if (!gm.Dijeda) BateraiSenter.Pakai(s, Time.deltaTime);

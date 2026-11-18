@@ -17,7 +17,21 @@ namespace TheSending.Runtime
                 sumber.Play();
                 return;
             }
-            if (hud != null) hud.Tampilkan(teksPengganti);
+            if (hud != null && !string.IsNullOrEmpty(teksPengganti)) hud.Tampilkan(teksPengganti);
+        }
+
+        // Memudar lalu berhenti. Jalankan lewat StartCoroutine milik pemanggil.
+        public System.Collections.IEnumerator Pudar(float detik)
+        {
+            if (sumber == null || !sumber.isPlaying) yield break;
+            float awal = sumber.volume;
+            for (float t = 0f; t < detik; t += Time.unscaledDeltaTime)
+            {
+                sumber.volume = Mathf.Lerp(awal, 0f, t / detik);
+                yield return null;
+            }
+            sumber.Stop();
+            sumber.volume = awal;
         }
 
         public void Hentikan()
