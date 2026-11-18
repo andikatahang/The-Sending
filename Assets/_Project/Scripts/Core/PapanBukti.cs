@@ -14,6 +14,35 @@ namespace TheSending.Core
             PerbaruiKatanya(s);
         }
 
+        public const string FotoPakuMalam1 = "PakuMalam1";
+
+        // Foto petunjuk yang bukan Bukti Kunci (desain 4.7). Tampil di Papan Bukti berlabel FOTO, tidak dihitung di Sidang Warga.
+        // id, judul
+        static readonly string[][] DaftarFoto =
+        {
+            new[] { FotoPakuMalam1, "Tiga paku berkarat yang dimuntahkan Ibu pada Malam 1" },
+        };
+
+        public static bool FotoDikenal(string id) => CariFoto(id) != null;
+
+        public static string JudulFoto(string id) =>
+            (CariFoto(id) ?? throw new ArgumentException($"Foto '{id}' tidak dikenal.", nameof(id)))[1];
+
+        public static void TambahFoto(GameState s, string id)
+        {
+            if (!FotoDikenal(id)) throw new ArgumentException($"Foto '{id}' tidak dikenal.", nameof(id));
+            if (s.Foto.Contains(id)) return;
+            s.Foto.Add(id);
+            s.Umumkan(Perubahan.Foto);
+        }
+
+        static string[] CariFoto(string id)
+        {
+            foreach (var f in DaftarFoto)
+                if (f[0] == id) return f;
+            return null;
+        }
+
         public static void TambahKatanya(GameState s, int k)
         {
             if (k < 0 || k >= Kode.JumlahKatanya) throw new ArgumentOutOfRangeException(nameof(k), k, "Katanya harus 0..3.");

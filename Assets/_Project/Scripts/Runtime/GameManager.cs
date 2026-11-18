@@ -12,8 +12,8 @@ namespace TheSending.Runtime
     public class GameManager : MonoBehaviour
     {
         public const string SceneMenuUtama = "Scene_MainMenu";
-        // Scene yang dimuat "Mulai Baru" dan "Lanjutkan". Fase 1 menggantinya dengan scene Prolog.
-        public const string SceneAwal = "Scene_Sandbox0B";
+        // Scene yang dimuat "Mulai Baru" dan "Lanjutkan": tergantung bab dan tujuan di State (PetaScene).
+        public string SceneUntukState => PetaScene.Untuk(State);
 
         public static GameManager Instance { get; private set; }
 
@@ -27,6 +27,8 @@ namespace TheSending.Runtime
         public bool KunciKursor { get; set; }
         // Peringatan konten cukup tampil sekali per sesi gim.
         public bool PeringatanSudahTampil { get; set; }
+        // Diisi KameraAdegan: selama adegan berskrip kursor tetap terkunci walaupun gim dijeda.
+        public bool Sinematik { get; set; }
 
         // Diteruskan dari GameState aktif. UI berlangganan di sini, bukan ke GameState,
         // karena GameState diganti setiap kali save dimuat.
@@ -77,10 +79,11 @@ namespace TheSending.Runtime
         void Update()
         {
             if (Instance != this) return;
-            bool kunci = KunciKursor && !Dijeda;
+            bool kunci = KunciKursor && (!Dijeda || Sinematik);
             Cursor.lockState = kunci ? CursorLockMode.Locked : CursorLockMode.None;
             Cursor.visible = !kunci;
-            if (!Dijeda && State.Ending == Ending.Belum) JamGim.Maju(State, Time.deltaTime);
+            // Jam hanya maju selama pemain dikendalikan: tidak di menu utama, adegan, dialog, Jurnal, inventaris, atau jeda.
+            if (KunciKursor && !Dijeda && State.Ending == Ending.Belum) JamGim.Maju(State, Time.deltaTime);
         }
 
         public void MulaiBaru() => Pasang(new GameState());
@@ -141,6 +144,7 @@ namespace TheSending.Runtime
                 Debug.LogWarning($"Jeda tidak dilepas sebelum pindah scene ({jumlahJeda}); direset.");
                 jumlahJeda = 0;
             }
+            Sinematik = false;
             Time.timeScale = 1f;
         }
 

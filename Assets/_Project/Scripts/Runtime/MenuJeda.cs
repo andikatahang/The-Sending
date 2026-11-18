@@ -4,6 +4,9 @@ using UnityEngine.UI;
 namespace TheSending.Runtime
 {
     // Menu jeda di scene gameplay. Esc membuka dan menutup; saat pengaturan terbuka, Esc kembali ke menu jeda.
+    // Jalan lebih dulu dari panel lain: Esc yang menutup Jurnal, inventaris, atau gembok dibaca di sini saat gim
+    // masih dijeda, jadi Esc yang sama tidak ikut membuka menu jeda.
+    [DefaultExecutionOrder(-50)]
     public class MenuJeda : MonoBehaviour
     {
         [SerializeField] PanelPengaturan pengaturan;

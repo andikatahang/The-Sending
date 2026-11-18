@@ -122,5 +122,39 @@ namespace TheSending.Tests
             s.Umumkan(Perubahan.Kondisi);
             Assert.AreEqual(Perubahan.Kondisi, diterima);
         }
+
+        [Test]
+        public void BarangIkutTersimpan()
+        {
+            var s = new GameState();
+            Inventaris.Tambah(s, Inventaris.ObatIbu);
+            var hasil = SaveData.DariJson(SaveData.KeJson(s));
+            CollectionAssert.AreEqual(new[] { Inventaris.ObatIbu }, hasil.Barang);
+        }
+
+        [Test]
+        public void BarangTidakDikenalDitolak()
+        {
+            var s = new GameState();
+            s.Barang.Add("Linggis?");
+            Assert.Throws<FormatException>(() => SaveData.DariJson(SaveData.KeJson(s)));
+        }
+
+        [Test]
+        public void FotoIkutTersimpan()
+        {
+            var s = new GameState();
+            PapanBukti.TambahFoto(s, PapanBukti.FotoPakuMalam1);
+            var hasil = SaveData.DariJson(SaveData.KeJson(s));
+            CollectionAssert.AreEqual(new[] { PapanBukti.FotoPakuMalam1 }, hasil.Foto);
+        }
+
+        [Test]
+        public void FotoTidakDikenalDiSaveDitolak()
+        {
+            var s = new GameState();
+            s.Foto.Add("Hantu");
+            Assert.Throws<FormatException>(() => SaveData.DariJson(SaveData.KeJson(s)));
+        }
     }
 }

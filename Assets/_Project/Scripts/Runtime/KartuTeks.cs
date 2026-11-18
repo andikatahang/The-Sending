@@ -80,6 +80,14 @@ namespace TheSending.Runtime
             if (kartuAktif == kartu) LepasJeda();
         }
 
+        // Layar langsung hitam tanpa memudar. Dipanggil sutradara di Start, sebelum frame pertama tergambar.
+        public void HitamSeketika()
+        {
+            judul.text = "";
+            isi.text = "";
+            grup.alpha = 1f;
+        }
+
         public IEnumerator KeHitam()
         {
             while (Tampil) yield return null;

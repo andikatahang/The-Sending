@@ -30,11 +30,30 @@ namespace TheSending.Core
         public static bool BatasKerasTercapai(GameState s) =>
             (s.MalamKe == 6 || s.MalamKe == 7) && s.MenitGim >= Batas(s.MalamKe);
 
-        public static bool DalamJendelaObat(GameState s)
+        // Desain 4.4: 21.00-22.00, Malam 6 dimajukan ke 20.00-21.00.
+        public static float MulaiJendelaObat(int malam) => malam == 6 ? Jam20 : Jam21;
+        public static float AkhirJendelaObat(int malam) => MulaiJendelaObat(malam) + LamaJendelaObat;
+
+        public static bool DalamJendelaObat(GameState s) =>
+            s.MalamKe >= 1 && s.MenitGim >= MulaiJendelaObat(s.MalamKe) && s.MenitGim < AkhirJendelaObat(s.MalamKe);
+
+        // K4 opsi B: "duduk menunggu" di Malam 1 melompat ke kejadian berwaktu berikutnya (obat 21.00, cutscene 23.00).
+        // Null jika tidak ada yang ditunggu, atau obat sedang harus diberikan (tidak boleh terlewati).
+        public static float? KejadianBerikutnya(GameState s)
         {
-            if (s.MalamKe < 1) return false;
-            float mulai = s.MalamKe == 6 ? Jam20 : Jam21;
-            return s.MenitGim >= mulai && s.MenitGim < mulai + LamaJendelaObat;
+            if (s.MalamKe != 1 || TujuanMalam.Sudah(s, TujuanMalam.Cutscene23)) return null;
+            if (s.MenitGim < Jam21) return Jam21;
+            if (DalamJendelaObat(s) && !s.ObatSudahDiberikan) return null;
+            return s.MenitGim < Jam23 ? Jam23 : (float?)null;
+        }
+
+        public static bool Tunggu(GameState s)
+        {
+            var sampai = KejadianBerikutnya(s);
+            if (sampai == null) return false;
+            s.MenitGim = sampai.Value;
+            s.Umumkan(Perubahan.Jam);
+            return true;
         }
 
         public static float SisaDetikMalam7(GameState s) =>

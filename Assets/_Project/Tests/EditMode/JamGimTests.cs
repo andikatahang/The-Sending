@@ -91,5 +91,73 @@ namespace TheSending.Tests
             Assert.IsFalse(KondisiIbu.BeriObat(s));
             Assert.AreEqual(40, s.KondisiIbu);
         }
+
+        [TestCase(1, 1260f, 1320f)]
+        [TestCase(5, 1260f, 1320f)]
+        [TestCase(6, 1200f, 1260f)]
+        public void MulaiDanAkhirJendelaObat(int malam, float mulai, float akhir)
+        {
+            Assert.AreEqual(mulai, JamGim.MulaiJendelaObat(malam));
+            Assert.AreEqual(akhir, JamGim.AkhirJendelaObat(malam));
+            Assert.IsTrue(JamGim.DalamJendelaObat(new GameState { MalamKe = malam, MenitGim = mulai }));
+            Assert.IsFalse(JamGim.DalamJendelaObat(new GameState { MalamKe = malam, MenitGim = akhir }));
+        }
+
+        // K4 opsi B: duduk menunggu di kursi samping ranjang Ibu (Malam 1).
+        [TestCase(19 * 60f)]
+        [TestCase(20 * 60f + 59f)]
+        public void Malam1SebelumObatMenungguSampai21(float menit)
+        {
+            var s = new GameState { MalamKe = 1, MenitGim = menit };
+            Assert.AreEqual(JamGim.Jam21, JamGim.KejadianBerikutnya(s));
+            Assert.IsTrue(JamGim.Tunggu(s));
+            Assert.AreEqual(JamGim.Jam21, s.MenitGim);
+        }
+
+        [Test]
+        public void TidakBisaMenungguMelewatiObatYangBelumDiberikan()
+        {
+            var s = new GameState { MalamKe = 1, MenitGim = JamGim.Jam21 + 10f };
+            Assert.IsNull(JamGim.KejadianBerikutnya(s));
+            Assert.IsFalse(JamGim.Tunggu(s));
+            Assert.AreEqual(JamGim.Jam21 + 10f, s.MenitGim);
+        }
+
+        [Test]
+        public void SetelahObatDiberikanMenungguSampai23()
+        {
+            var s = new GameState { MalamKe = 1, MenitGim = JamGim.Jam21 + 10f, ObatSudahDiberikan = true };
+            bool jamDiumumkan = false;
+            s.Berubah += p => jamDiumumkan |= p == Perubahan.Jam;
+            Assert.IsTrue(JamGim.Tunggu(s));
+            Assert.AreEqual(JamGim.Jam23, s.MenitGim);
+            Assert.IsTrue(jamDiumumkan);
+        }
+
+        [Test]
+        public void JendelaObatSudahLewatMenungguSampai23()
+        {
+            var s = new GameState { MalamKe = 1, MenitGim = JamGim.Jam22 + 5f };
+            Assert.AreEqual(JamGim.Jam23, JamGim.KejadianBerikutnya(s));
+        }
+
+        [Test]
+        public void TidakAdaKejadianSetelahCutscene23AtauSaatTibaWaktunya()
+        {
+            var sudah = new GameState { MalamKe = 1, MenitGim = JamGim.Jam22, ObatSudahDiberikan = true };
+            TujuanMalam.Selesaikan(sudah, TujuanMalam.Cutscene23);
+            var tiba = new GameState { MalamKe = 1, MenitGim = JamGim.Jam23, ObatSudahDiberikan = true };
+            Assert.IsNull(JamGim.KejadianBerikutnya(sudah));
+            Assert.IsNull(JamGim.KejadianBerikutnya(tiba));
+        }
+
+        [TestCase(0)]
+        [TestCase(2)]
+        public void MenungguHanyaDiMalam1(int malam)
+        {
+            var s = new GameState { MalamKe = malam, MenitGim = 19 * 60f };
+            Assert.IsNull(JamGim.KejadianBerikutnya(s));
+            Assert.IsFalse(JamGim.Tunggu(s));
+        }
     }
 }

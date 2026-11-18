@@ -10,9 +10,17 @@ namespace TheSending.Core
     {
         public static void Jalankan(GameState s, string kode)
         {
-            if (string.IsNullOrWhiteSpace(kode)) return;
             // Urai semua bagian dulu, baru jalankan: kode salah di tengah tidak boleh mengubah sebagian state.
+            foreach (var a in UraiSemua(kode)) a(s);
+        }
+
+        // Hanya mengurai: FormatException jika ada kode salah. Tidak menyentuh state; dipakai test data dialog.
+        public static void Periksa(string kode) => UraiSemua(kode);
+
+        static List<Action<GameState>> UraiSemua(string kode)
+        {
             var aksi = new List<Action<GameState>>();
+            if (string.IsNullOrWhiteSpace(kode)) return aksi;
             foreach (var bagian in kode.Split(';'))
             {
                 var k = bagian.Trim();
@@ -22,7 +30,7 @@ namespace TheSending.Core
                 string isi = titikDua < 0 ? "" : k.Substring(titikDua + 1).Trim();
                 aksi.Add(Urai(nama, isi, k));
             }
-            foreach (var a in aksi) a(s);
+            return aksi;
         }
 
         static Action<GameState> Urai(string nama, string isi, string asli)
@@ -30,6 +38,8 @@ namespace TheSending.Core
             switch (nama)
             {
                 case "tujuan": { var id = Wajib(isi, asli); if (!TujuanMalam.Dikenal(id)) throw new FormatException($"Efek '{asli}': tujuan '{id}' tidak dikenal."); return s => TujuanMalam.Selesaikan(s, id); }
+                case "foto": { var id = Wajib(isi, asli); if (!PapanBukti.FotoDikenal(id)) throw new FormatException($"Efek '{asli}': foto '{id}' tidak dikenal."); return s => PapanBukti.TambahFoto(s, id); }
+                case "barang": { var id = Wajib(isi, asli); if (!Inventaris.Dikenal(id)) throw new FormatException($"Efek '{asli}': barang '{id}' tidak dikenal."); return s => Inventaris.Tambah(s, id); }
                 case "bukti": { int n = Nomor(isi, 'B', Kode.JumlahBukti, asli); return s => PapanBukti.TambahBukti(s, n); }
                 case "katanya": { int n = Nomor(isi, 'K', Kode.JumlahKatanya, asli); return s => PapanBukti.TambahKatanya(s, n); }
                 case "halaman": { int n = Nomor(isi, 'H', Kode.JumlahHalaman, asli); return s => BukuHarian.Temukan(s, n); }

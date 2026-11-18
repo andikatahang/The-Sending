@@ -18,6 +18,8 @@ Gim horor puzzle 3D first person tentang santet di desa Jawa. Unity 6000.6.4f1 (
 
 - **Tenggat:** 3 minggu, Senin 16 Nov sampai Minggu 6 Des 2026.
 - **Pendekatan B:** setiap malam dikerjakan berurutan dan langsung dipoles.
+- **Target minimal (diputuskan 18 Nov):** minimal **2 ending** (**Fitnah** dan **Sejati**) bisa diselesaikan dalam **2 minggu**. Konten penuh tetap tujuan akhir, tetapi urutan pengerjaan mendahulukan jalur ke 2 ending itu.
+- **Suara (voice acting) belakangan.** Semua percakapan cukup teks di panel dialog sampai diputuskan lain.
 - **Konten penuh sesuai GDD**, tidak dipadatkan. Jika satu fase melewati jatah harinya, laporkan ke tim, jangan memotong konten sendiri.
 - **Gaya Retro PSX / low-fi**, wajib konsisten di semua malam. Nilai gaya ada di `docs/style-guide.md` (dipasang oleh menu The Sending > Pasang Gaya PSX) dan dikunci setelah cek Play Mode 0C.
 - **Git + GitHub.** Serialisasi Force Text sudah aktif. Git LFS aktif (`.gitattributes`). Setiap anggota tim wajib menjalankan `git lfs install` sekali sebelum clone/pull.
@@ -37,7 +39,7 @@ Gim horor puzzle 3D first person tentang santet di desa Jawa. Unity 6000.6.4f1 (
 
 - `Assets/_Project/Scripts/Core`: C# murni, aturan gim, tanpa MonoBehaviour. Assembly `TheSending.Core`.
 - `Assets/_Project/Scripts/Runtime`: MonoBehaviour. Assembly `TheSending.Runtime` (mereferensikan Core).
-- `Assets/_Project/Tests/EditMode`: assembly `TheSending.Tests.EditMode` (mereferensikan Core).
+- `Assets/_Project/Tests/EditMode`: assembly `TheSending.Tests.EditMode` (mereferensikan Core). Referensi ke Runtime hanya untuk test data (`DataDialogTests` memeriksa semua aset `DataDialog`); aturan gim tetap diuji lewat Core.
 - Nama domain memakai bahasa Indonesia sesuai GDD (`KondisiIbu`, `PapanBukti`, `MalamKe`). Istilah teknis bahasa Inggris.
 - Logika baru di Core ditulis dengan TDD: test dulu, lalu kode.
 - Hanya satu singleton: `GameManager`.
@@ -46,6 +48,13 @@ Gim horor puzzle 3D first person tentang santet di desa Jawa. Unity 6000.6.4f1 (
 - `GameManager.StateDiganti` berarti GameState diganti (Mulai Baru, Lanjutkan, Tertangkap). `Perubahan.Malam` hanya saat malam benar-benar berganti; konten pembuka malam berlangganan ke sini.
 - Domain reload saat Play dimatikan. Field `static` baru di Runtime wajib dibersihkan sendiri (`OnDestroy`, atau `[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]`).
 - Kursor diatur `GameManager` (`KunciKursor`, diisi `PemainGerak`). Skrip lain tidak menyentuh `Cursor`.
+- **Adegan dan cutscene:** `KameraAdegan.Mulai()` menjeda dan menyalakan `GameManager.Sinematik`. Cutscene memakai Timeline yang dibuat skrip (`PembuatTimeline`: track gerak + `SignalEmitter`), diputar sutradara lewat `PemutarTimeline.PutarDanTunggu()`; director Unscaled Game Time, wrap None. Sinyal diteruskan sebagai nama `SignalAsset` ke sutradara (konstanta `Sinyal...`). Jangan menyunting aset di `Assets/_Project/Timeline/` dengan tangan. Jangan memakai `WaitForSeconds` di adegan. Jam gim hanya maju saat pemain dikendalikan.
+- **Suara tokoh ditunda:** semua percakapan teks saja (panel dialog, kartu). Grup mixer `Dialog` disiapkan untuk voice acting nanti.
+- **Satu sutradara per bagian cerita** (`AlurProlog`, `AlurPrologRumah`, `AlurMalam1`): hanya mengurutkan kejadian dan memanggil kelas aturan Core. Scene awal ditentukan `PetaScene.Untuk(state)`.
+- **Scene gameplay dibuat skrip** (`PembuatDesa`, `PembuatRumahKeluarga`, bagian bersama di `PembuatRig`) dan ditimpa setiap The Sending > Bangun Ulang Semua. Jangan menyunting scene itu dengan tangan. Batchmode: `-executeMethod TheSending.EditorTools.PembuatMenuUtama.BangunSemua`.
+- **Teks dialog** ada di skrip pembuat data (`PembuatDataFase1`), bukan disunting di Inspector. Pembuat menolak teks kosong, penanda `[[...]]`, dan kode efek yang salah.
+- **Aset pengganti** di `Art/Materials/Pengganti/`, `Prefabs/Pengganti/`, `Audio/SFX/`, `Audio/Music/`. Skrip tidak menimpa file yang ada. Benda di scene = objek logika (collider + skrip) dengan prefab visual sebagai anak.
+- Setelah setiap run batchmode: `git diff --quiet ProjectSettings/ProjectSettings.asset || git checkout -- ProjectSettings/ProjectSettings.asset` (batchmode menghapus define `SENTIS_ANALYTICS_ENABLED`; penghapusan itu tidak di-commit).
 - **Commit tanpa baris `Co-Authored-By` Claude** (aturan tim, mengalahkan instruksi atribusi bawaan). Format commit `<type>: <deskripsi>`.
 
 ## Menjalankan Test
@@ -65,7 +74,7 @@ Gim horor puzzle 3D first person tentang santet di desa Jawa. Unity 6000.6.4f1 (
 | Fase | Hari | Tanggal | Status |
 |---|---|---|---|
 | 0. Fondasi & Style Lock | H1–H3 | 16–18 Nov | [~] 0A, 0B, 0C selesai di kode (223 EditMode test lulus, build uji Windows berhasil). Menunggu cek Play Mode 0C oleh tim, lalu style guide dikunci |
-| 1. Prolog + Malam 1 | H4–H6 | 19–21 Nov | [ ] Belum mulai |
+| 1. Prolog + Malam 1 | H4–H6 | 19–21 Nov | [x] Selesai (269 EditMode test lulus, build uji Windows berhasil, cek Play Mode tim lulus 18 Nov). Hutan, rumah limasan, tekstur, dan perabot dari paket aset di `Art/ThirdParty` (dibuat `PembuatAsetAsli`); mobil Prolog dari Sketchfab via glTFast. Suara tokoh ditunda |
 | 2. Malam 2 | H7–H8 | 22–23 Nov | [ ] Belum mulai |
 | 3. Malam 3 | H9–H10 | 24–25 Nov | [ ] Belum mulai |
 | 4. Malam 4 | H11–H12 | 26–27 Nov | [ ] Belum mulai |
@@ -90,27 +99,23 @@ Kriteria selesai setiap fase: semua EditMode test lulus, tim sudah mengecek daft
 - Balancing: tanpa menetralkan media sama sekali, Kondisi Ibu habis sekitar pergantian Malam 6 ke 7. Tutorial ritual Malam 3 praktis wajib.
 - Pilihan terakhir dan lolos dari Mbah Wiryo wajib lewat `PenentuEnding.Pilih` dan `PenentuEnding.LolosDariWiryo`.
 
-## Catatan untuk Fase 1 dan sesudahnya (dari review 0B dan keputusan 0C)
+## Catatan untuk fase berikutnya (dari review 0B, keputusan 0C, dan Fase 1)
 
-Sudah diputuskan di 0C (aturannya ada di "Konvensi Kode"): jeda = `Time.timeScale` 0; event `StateDiganti`; kursor milik `GameManager`; field static membersihkan diri. Setiap scene punya objek `GameManager` (duplikat menghancurkan diri) supaya bisa di-Play langsung. `AktifDiMalam` dipasang di objek yang selalu aktif. Jumlah entri Catatan Bapak (7) dan Catatan Raka (6) sudah cocok dengan Game Story 9.1.
+Semua catatan "Fase 1" dari review 0B sudah dikerjakan di Fase 1: scene per bab (`PetaScene`), inventaris (I), Esc menutup Jurnal/inventaris/gembok (tidak menutup dialog), jam hanya maju saat pemain dikendalikan, penjaga `PanelDialog`, saringan pesan kembar HUD, peringatan lebih dari 4 pilihan, dan test semua aset `DataDialog`.
 
-Fase 1, saat konten pertama memakainya:
-- Ganti `GameManager.SceneAwal` dari `Scene_Sandbox0B` ke scene Prolog. "Lanjutkan" harus memuat scene sesuai `State.MalamKe`, bukan selalu `SceneAwal`. Daftarkan scene baru di `PembuatMenuUtama.DaftarkanScene`.
-- Inventaris (tombol I) belum dibuat; aksinya sudah ada di `KontrolPemain.Inventaris`. Panelnya menjeda lewat `Jeda` seperti Jurnal.
-- Scene baru: skrip pembuatnya memanggil `PembuatGayaPsx.TerapkanKeScene()` dan `SiapkanKamera()`, dan memasang `MenuJeda` + `PanelPengaturan`.
-- `PanelDialog.Mulai` belum menjaga `GameManager.Instance` null; cutscene tanpa GameManager akan error.
-- Notifikasi HUD belum menyaring pesan kembar berurutan (memotret ulang, `Perubahan.Katanya` ganda).
-- Lebih dari 4 pilihan dialog disembunyikan diam-diam; beri `LogWarning`.
-- Jalankan `KartuTeks.Tampilkan`/`KeHitam`/`DariHitam` lewat `kartu.StartCoroutine(...)`, bukan dari MonoBehaviour lain. Fade hitam belum dijaga token, jadi jangan tumpuk dua fade.
-- Tambahkan EditMode test yang menjalankan semua kode efek di setiap aset `DataDialog` terhadap `GameState` sementara, supaya kode efek yang salah ketahuan sebelum Play Mode.
+Fase 2:
+- `AlurMalam1.GantiMalam` berakhir di kartu "bersambung" lalu kembali ke menu; ganti bagian itu dengan sutradara Malam 2. `AlurMalam1.Start` menampilkan notifikasi sementara jika scene dimuat pada Malam 2 ke atas; hapus saat Malam 2 ada.
+- `PetaScene.Untuk` baru mengenal Prolog dan rumah keluarga; tambah scene bab berikutnya di sana (dengan test).
+- Pintu gudang di `Scene_RumahKeluarga` adalah `InteraktifAlur` tanpa pelanggan (hanya prompt "terkunci"). Sutradara Malam 2 yang membukanya.
+- Ditunda dari Fase 1: tampilan Kondisi Ibu, lampu teplok yang bisa dibawa, model HP di tangan, isi 11 entri Catatan Bapak/Raka lainnya, bentuk aksara di Halaman 2 (sekarang hanya urutan bacanya).
+- Tokoh belum beranimasi. Cutscene sudah Timeline (K1); saat model Mixamo datang, tambahkan `AnimationTrack` tokoh di `PembuatTimeline` (bukan di jendela Timeline). Animator di luar Timeline: Update Mode Unscaled Time.
+- Suara tokoh ditunda (voice acting "belakangan"); Malam 2 juga teks saja kecuali tim memutuskan lain.
+- Pakai ulang untuk malam berikutnya: `PembuatRig`, `PembuatTimeline`, `PemutarTimeline`, `ZonaPemicu`, `InteraktifAlur`, `KameraAdegan`, `Suara`, `TerlihatSaatDisorot`, `JadwalObat` (sudah berlaku Malam 1–6), `PemberiObat`, jalur `foto:` di Papan Bukti.
+- Waktu tunggu (K4) sudah ditangani: kursi di kamar Ibu (`KursiTunggu` + `JamGim.KejadianBerikutnya/Tunggu`) melompatkan jam ke 21.00 atau 23.00 di Malam 1, tidak melewati pemberian obat. Hasil ukur waktu tunggu dan catatan denah (K7): lihat log progres.
 
-Fase 7: hentikan gerak dan input pemain setelah `State.Ending` terisi. Layar ending tidak punya pemain, jadi kursor otomatis terlihat.
+Fase 7: hentikan gerak dan input pemain setelah `State.Ending` terisi. Layar ending tidak punya pemain, jadi kursor otomatis terlihat. `AlurMalam1.GantiMalam` sekarang kembali ke menu utama jika ending tercapai saat pergantian malam; ganti dengan layar ending.
 
-- Jam gim masih berjalan di menu utama (GameManager.Update hanya cek Dijeda). Di Fase 1 jam hanya maju saat `KunciKursor` aktif (pemain sedang dikendalikan).
-- Esc tidak menutup Jurnal atau dialog (MenuJeda hanya terbuka jika tidak Dijeda). Putuskan Esc-untuk-menutup saat membuat panel inventaris di Fase 1, lalu terapkan konsisten ke Jurnal dan dialog.
-- Fase 8: `UnityConnectSettings` m_Enabled 1 dan define `SENTIS_ANALYTICS_ENABLED` (ditambah editor sendiri) menyalakan layanan/analytics Unity; pastikan dimatikan untuk build rilis jika tidak dipakai.
-
-Fase 8: pengaturan grafis baru "Layar penuh" saja; tambahkan pemilih resolusi jika tes Windows membutuhkannya. `PembuatBuild.Windows` membuat development build (tombol uji F5/F9 hidup); build rilis harus non-development.
+Fase 8: `UnityConnectSettings` m_Enabled 1 dan define `SENTIS_ANALYTICS_ENABLED` (ditambah editor sendiri) menyalakan layanan/analytics Unity; pastikan dimatikan untuk build rilis jika tidak dipakai. Pengaturan grafis baru "Layar penuh" saja; tambahkan pemilih resolusi jika tes Windows membutuhkannya. `PembuatBuild.Windows` membuat development build (tombol uji F5/F6/F9 hidup); build rilis harus non-development. Aset pengganti yang masih tersisa ditukar atau dicatat di layar kredit.
 
 ## Daftar Cek Play Mode Fase 0B (dikerjakan tim)
 
@@ -151,6 +156,62 @@ Prasyarat: Shader Graph `PSX_Layar`, material, dan `MixerUtama` sudah dibuat, fo
 18. Font (VT323 dan Kalam sudah terpasang): teks UI memakai VT323 dan tab Buku Harian (Tab > 2) memakai Kalam. Tidak ada peringatan font di Console.
 19. Catat nilai gaya yang ingin diubah (kuat dither, grain, vignette, kabut, ukuran teks). Setelah disetel, status `docs/style-guide.md` diganti dari DRAF menjadi TERKUNCI dan Fase 0 ditandai selesai.
 
+## Daftar Cek Play Mode Fase 1 (dikerjakan tim)
+
+Prasyarat: Task 13 selesai dan editor dibuka sesudahnya. Buka `Assets/_Project/Scenes/Scene_MainMenu.unity`, tekan Play. Tombol uji (hanya editor dan development build): **F5** simpan checkpoint, **F6** jam gim +30 menit, **F9** tertangkap. Selama file suara asli belum ada, bunyi diganti teks "(Suara: ...)" di HUD; itu dihitung lolos. Tidak ada suara tokoh di Fase 1: semua percakapan hanya teks. Tiga cutscene (butir 2, 8, 23) adalah Timeline; selama cutscene Esc tidak membuka menu jeda. Catat nomor butir yang gagal beserta apa yang terlihat.
+
+**Menu dan Prolog di jalan desa**
+
+1. "Mulai Baru" memuat jalan desa, bukan sandbox. Layar hitam, kartu "Telepon dari Laras" tampil sekitar 8 detik (teks saja, tanpa suara).
+2. Kamera adegan menampilkan gapura dan ojek. Dialog Tukang Ojek 1 baris; E menutupnya. Timeline: ojek bergerak mulus menjauh sekitar 3 detik (tidak melompat ke titik nol dunia), suara motor di awal, lalu ojek hilang dan kontrol kembali.
+3. Kartu "Prolog: Pulang" tampil sekitar 4 detik, lalu pemain bisa bergerak dan muncul notifikasi cara berjalan dan berlari. Selama adegan dan kartu: pemain tidak bisa bergerak, titik bidik, jam, dan baterai tidak tampil.
+4. Jam mulai 17.30 dan baru berjalan setelah pemain bisa bergerak. Esc (menu jeda) menghentikan jam.
+5. Kabut awal tipis (gapura masih terlihat dari sekitar 30 m). Di kebun bambu muncul notifikasi senter (F) satu kali saja, walaupun zona dilewati bolak-balik.
+6. Jembatan bambu bisa dilewati tanpa tersangkut, dan pemain tidak bisa turun ke air di kiri atau kanannya.
+7. Setelah jembatan: azan terdengar satu kali (atau teks penggantinya), lalu kabut menebal selama sekitar 20 detik sampai jarak pandang sekitar 15 m.
+8. Di depan rumah Bu Sumi: Timeline: kamera adegan membidik jendela dan mendekat pelan, sekitar 2,5 detik kemudian siluet hilang, tirai menutup, lampu jendela meredup (sekali, tidak meredup dua kali), lalu kontrol kembali sekitar 4 detik sejak mulai. Terjadi satu kali saja.
+9. Pemain tidak bisa keluar dari jalan: ke kiri, ke kanan, atau ke belakang gapura.
+10. Pintu rumah keluarga menampilkan prompt "Masuk rumah". E: suara pintu, layar memudar ke hitam, lalu rumah keluarga dimuat.
+
+**Prolog di rumah**
+
+11. Layar memudar dari hitam, pemain berdiri di dalam pintu depan menghadap ruang tengah, dan dialog sambutan Laras (3 baris) berjalan sendiri.
+12. Bidan Wulan berdiri di ambang pintu kamar Ibu dan menghalangi jalan masuk. E: dialog 3 baris, lalu notifikasi barang baru.
+13. Setelah dialog itu: layar hitam sebentar, Bidan Wulan tidak ada lagi, lalu tiga notifikasi berurutan (pamit, tombol I, tombol Tab) tanpa pesan kembar. Dialog Bidan Wulan tidak bisa diulang.
+14. I membuka inventaris: 1 barang dengan nama dan keterangan, jam berhenti. I atau Esc menutupnya. Esc yang menutup panel tidak ikut membuka menu jeda.
+15. Tab membuka Jurnal; Esc menutupnya. Tab Catatan: dua entri pertama Catatan Raka berisi teks.
+16. Masuk kamar Ibu: kamera adegan membidik ranjang, dialog 3 baris, layar hitam, kartu "Malam 1: Paku Pertama" sekitar 5 detik. Sesudahnya pemain berdiri di samping ranjang dan muncul notifikasi jam obat.
+
+**Malam 1**
+
+17. E ke Ibu sebelum 21.00 (prompt "Beri obat Ibu"): pesan bahwa belum waktunya, dengan jam yang benar.
+18. Laras di ruang tengah: dialog 5 baris. Foto keluarga: dialog 2 baris. Kalender di dapur: 1 baris. Pintu gudang menampilkan prompt "Pintu gudang (terkunci)" dan tidak terbuka. Stop kontak mengisi baterai HP.
+19. Blandar ruang tengah: tanpa senter, angka tidak terlihat. Senter (F) diarahkan ke blandar dari jarak kurang dari 7 m: angka terlihat dan notifikasi muncul satu kali. Angka tidak terlihat menembus dinding dari ruangan lain.
+20. Lemari Bapak di kamar Ibu: E membuka panel gembok. Kode salah: pesan salah, panel tetap terbuka. Backspace menghapus angka, Esc membatalkan. Kode benar: gembok hilang, inventaris bertambah 2 barang, dan Jurnal > Buku Harian menampilkan Halaman 1 dan 2 (font Kalam).
+21. F6 memajukan jam 30 menit. Pukul 21.00: jam berdentang dan muncul notifikasi HP. E ke Ibu: Kondisi Ibu naik 2 (60 menjadi 62), lalu dialog Ibu 1 baris dengan terjemahan miring dalam kurung. E sekali lagi: pesan bahwa obat sudah diberikan.
+22. Uji terpisah ("Mulai Baru" lagi): biarkan lewat pukul 22.00 tanpa memberi obat. Dialog teguran Laras (2 baris) muncul satu kali; E ke Ibu: pesan bahwa jam obat sudah lewat.
+23. Pukul 23.00, di ruangan mana pun pemain berada, cutscene Timeline berjalan (sekitar 11,5 detik): kamera ke ranjang lalu mendekat pelan, guncangan sekitar 3 detik, dua objek muncul di lantai, lampu listrik padam, teplok menyala, kamera memotong ke plafon sekitar 5 detik, lalu kontrol kembali dengan pemain di samping ranjang. Urutan bunyi: batuk, logam jatuh, listrik padam, langkah di atap. Musik latar terus berbunyi tanpa jeda yang terdengar di sambungan loop. Esc selama cutscene tidak membuka menu jeda. Buka `Assets/_Project/Timeline/Malam1_Cutscene23.playable` di jendela Timeline (pilih objek `Timeline Malam1_Cutscene23`): satu track gerak kamera dan empat sinyal di baris marker; director Update Method **Unscaled Game Time**.
+24. Setelah cutscene: Laras tidak ada lagi di ruang tengah dan berlutut di dekat ranjang. Dua notifikasi tutorial memotret muncul berurutan.
+25. Q ke arah paku di lantai (jarak sampai 6 m): kilatan, notifikasi foto, dan Jurnal > Papan Bukti menampilkan satu baris `[FOTO]`. Memotret lagi tidak menambah baris dan tidak memunculkan notifikasi kembar.
+26. Setelah foto: dialog penutup 2 baris. Jika lemari belum dibuka, muncul pengingat lemari dan malam baru berganti setelah lemari dibuka. Jika lemari sudah dibuka: layar hitam, kartu "Malam 2: Boneka di Bawah Lantai" sekitar 8 detik, lalu kembali ke menu utama.
+
+**Save**
+
+27. "Mulai Baru" saat sudah ada save memunculkan konfirmasi. "Batal" kembali ke menu. "Ya, mulai baru": Prolog mulai lagi dari gapura dengan Kondisi Ibu 60 dan inventaris kosong.
+28. "Lanjutkan" memuat scene yang benar: keluar ke menu saat masih di jalan desa lalu "Lanjutkan" = jalan desa dari awal Prolog; setelah masuk rumah = rumah keluarga dengan sambutan Laras; setelah kartu Malam 1 = di samping ranjang pada Malam 1 dengan inventaris yang sama dan tanpa Bidan Wulan; setelah kartu Malam 2 = rumah keluarga dengan notifikasi "Malam 2 belum dibuat (Fase 2)." dan Kondisi Ibu 12 lebih rendah daripada di akhir Malam 1.
+29. Di Malam 1 tekan F9: Kondisi Ibu turun 5 dan scene dimuat ulang dari checkpoint. Stop Play, Play lagi, "Lanjutkan": penalti tetap. Lalu setelah cutscene 23.00 tekan F5, keluar ke menu, "Lanjutkan": rumah langsung dalam keadaan sesudah cutscene (lampu listrik padam, teplok menyala, paku di lantai, Laras di dekat ranjang) dan cutscene tidak terulang.
+
+**Gaya, suara, dan catatan**
+
+30. Gaya PSX sama di kedua scene dan di kedua kamera (kamera pemain dan kamera adegan): piksel besar yang tajam, dither, kabut. Tidak ada bidikan adegan yang tampak lebih halus daripada tampilan bermain.
+31. Esc membuka menu jeda di kedua scene. Mengubah volume di Pengaturan memengaruhi bunyi adegan dan musik latar. Tidak ada error merah di Console selama seluruh alur dari butir 1 sampai 26.
+32. Waktu tunggu (K4): main tanpa F6 dan catat berapa menit nyata dari tiba di rumah sampai pukul 21.00, dari memberi obat sampai pukul 23.00, dan berapa menit di antaranya tidak ada yang bisa dikerjakan.
+33. Denah (K7): nilai ukuran ruangan, lebar pintu, letak perabot, dan panjang jalan desa. Catat yang perlu digeser; perubahannya dikerjakan di `PembuatDesa.cs` dan `PembuatRumahKeluarga.cs`.
+34. Teks (K5): baca semua teks yang ditulis pengembang (sambutan Laras, kronologi, adegan Ibu di Prolog, teguran obat, kalender, Halaman 1, dua Catatan Raka, notifikasi tutorial) dan catat suntingannya. Dua Catatan Raka berisi informasi kesehatan dasar: periksa isinya.
+35. Catat aset pengganti yang paling mengganggu (model atau suara) supaya dicari lebih dulu.
+
+Hasil cek 2026-11-18: secara keseluruhan benar ("overall correct"). Dua temuan sudah diperbaiki (`459b5dc` paku dipindah ke genangan darah dan target foto dilebarkan; `12f4c6c` kursi tunggu untuk K4 opsi B) dan perlu dicek ulang di Play Mode: butir 19/25 (paku di atas genangan, Q memberi [FOTO]) dan kursi di kamar Ibu melompat ke 21.00/23.00 (tidak melewati pemberian obat). Juga `ba5c411`: bawaan gaya PSX diselaraskan ke 8 bit / dither 1.5 sesuai style guide.
+
 ## Log Progres
 
 - **2026-11-15:** Brainstorming selesai. Dokumen desain ditulis, repo git dibuat. Berikutnya: rencana implementasi Fase 0.
@@ -160,3 +221,5 @@ Prasyarat: Shader Graph `PSX_Layar`, material, dan `MixerUtama` sudah dibuat, fo
 - **2026-11-16:** Tim mengecek `Scene_Sandbox0B` di Play Mode, tidak ada error. Fase 0B selesai. Berikutnya: rencana 0C.
 - **2026-11-16:** Fase 0C selesai di kode: jeda memakai `Time.timeScale`, event `StateDiganti`, pengaturan (volume, sensitivitas, balik Y, layar penuh) tersimpan di PlayerPrefs, `Scene_MainMenu` dengan peringatan konten, menu jeda, gaya PSX (render scale 0.4, point, kuantisasi warna + dither, Volume bersama, kabut, prasetel tekstur), `docs/style-guide.md` (draf), build uji Windows dari Mac berhasil. Shader full-screen memakai Shader Graph + Custom Function (`PSX_Layar.shadergraph`, dibuat tim). Inventaris pindah ke Fase 1. Menunggu cek Play Mode 0C oleh tim.
 - **2026-11-17:** Graph `PSX_Layar` dibetulkan (Hasil tersambung ke Base Color; sebelumnya layar abu-abu rata) dan dither dibuat tahan terhadap posisi ternormalisasi. Tim memilih BitWarna 8 dan KuatDither 1.5 setelah cek di Play Mode.
+- **2026-11-18:** Fase 1 selesai di kode: Prolog dan Malam 1 bisa dimainkan dari "Mulai Baru" sampai kartu Malam 2. Core: inventaris, `GembokLemari.Buka`, foto petunjuk di Papan Bukti, jendela obat, `PetaScene`, `PemeriksaDialog`, `JamGim.KejadianBerikutnya/Tunggu` (269 EditMode test). Runtime: panel inventaris dan gembok, alat adegan, obat Ibu, ukiran blandar, kursi tunggu, tiga sutradara, tiga cutscene Timeline yang dibuat skrip. Percakapan teks saja (suara tokoh ditunda). `Scene_Desa` dan `Scene_RumahKeluarga` dibuat skrip; semua model dan lima suara masih aset pengganti. Build uji Windows berhasil. Waktu tunggu (K4) dan denah (K7): belum dicatat tim. Berikutnya: cek ulang dua perbaikan di Play Mode, lalu rencana Fase 2 (Malam 2).
+- **2026-11-18:** Ojek Prolog diganti mobil LMPV (Sketchfab, glTFast). Paket aset (Essential Nature Pack, TraditionalHouseModular, Yughues Concrete, nappin House Interior) dipindah ke `Art/ThirdParty`, dikonversi ke URP + prasetel PSX; hutan desa, rumah gaya limasan, tekstur per meter, dan perabot dipasang lewat skrip pembuat (`PembuatAsetAsli`, prefab di `Prefabs/Asli`). Tim mengecek Play Mode: lulus. Fase 1 selesai. Berikutnya: rencana Fase 2 (Malam 2).

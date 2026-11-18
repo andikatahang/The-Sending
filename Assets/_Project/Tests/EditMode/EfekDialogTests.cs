@@ -88,5 +88,52 @@ namespace TheSending.Tests
             Assert.Throws<FormatException>(() => EfekDialog.Jalankan(s, "bukti:B5;halaman:H9"));
             Assert.IsFalse(s.BuktiKunci[Kode.B5]);
         }
+
+        [Test]
+        public void BarangMasukInventaris()
+        {
+            var s = new GameState();
+            EfekDialog.Jalankan(s, "barang:ObatIbu");
+            Assert.IsTrue(Inventaris.Punya(s, Inventaris.ObatIbu));
+        }
+
+        [Test]
+        public void BarangTidakDikenalDitolakTanpaMengubahState()
+        {
+            var s = new GameState();
+            Assert.Throws<FormatException>(() => EfekDialog.Jalankan(s, "katanya:K1; barang:Linggis"));
+            Assert.IsFalse(s.KatanyaDiketahui[Kode.K1]);
+        }
+
+        [Test]
+        public void FotoLewatEfek()
+        {
+            var s = new GameState { MalamKe = 1 };
+            EfekDialog.Jalankan(s, "tujuan:PotretPaku; foto:PakuMalam1");
+            Assert.IsTrue(TujuanMalam.Sudah(s, TujuanMalam.PotretPaku));
+            CollectionAssert.Contains(s.Foto, PapanBukti.FotoPakuMalam1);
+        }
+
+        [Test]
+        public void FotoTidakDikenalLewatEfekDitolak()
+        {
+            Assert.Throws<FormatException>(() => EfekDialog.Jalankan(new GameState(), "foto:Hantu"));
+        }
+
+        [Test]
+        public void PeriksaMenerimaKodeBenar()
+        {
+            Assert.DoesNotThrow(() => EfekDialog.Periksa("tujuan:BicaraBidan; barang:ObatIbu"));
+            Assert.DoesNotThrow(() => EfekDialog.Periksa("serahkan:M1"));   // sah diurai walau belum bisa dijalankan
+            Assert.DoesNotThrow(() => EfekDialog.Periksa(""));
+        }
+
+        [Test]
+        public void PeriksaMenolakKodeSalah()
+        {
+            Assert.Throws<FormatException>(() => EfekDialog.Periksa("bukti:B9"));
+            Assert.Throws<FormatException>(() => EfekDialog.Periksa("tujuan:TidakAda"));
+            Assert.Throws<FormatException>(() => EfekDialog.Periksa("salah-ketik"));
+        }
     }
 }

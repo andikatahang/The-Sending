@@ -21,7 +21,7 @@ namespace TheSending.EditorTools
 
         // Nilai style guide. Ubah di sini, jalankan ulang menu, lalu perbarui docs/style-guide.md.
         public const float SkalaRender = 0.4f;
-        public const float BitWarna = 5f, KuatDither = 1f;
+        public const float BitWarna = 8f, KuatDither = 1.5f;
         public const float IntensitasGrain = 0.4f, IntensitasVignette = 0.35f, KehalusanVignette = 0.4f, Saturasi = -30f;
         public const float KepadatanKabut = 0.06f;
         public static readonly Color WarnaKabut = new Color32(0x1A, 0x1F, 0x24, 0xFF);

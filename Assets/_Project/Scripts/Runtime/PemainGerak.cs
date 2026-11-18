@@ -46,6 +46,17 @@ namespace TheSending.Runtime
             if (GameManager.Instance != null) GameManager.Instance.KunciKursor = false;
         }
 
+        // Memindahkan pemain ke titik mulai (awal bab, muat checkpoint, adegan).
+        // CharacterController dimatikan dulu supaya posisi baru tidak ditimpa.
+        public void Pindah(Transform titik)
+        {
+            cc.enabled = false;
+            transform.SetPositionAndRotation(titik.position, Quaternion.Euler(0f, titik.eulerAngles.y, 0f));
+            dongak = 0f;
+            kamera.localEulerAngles = Vector3.zero;
+            cc.enabled = true;
+        }
+
         void Update()
         {
             var gm = GameManager.Instance;

@@ -42,19 +42,18 @@ namespace TheSending.Runtime
             if (gm == null) return;
             var k = gm.Kontrol;
 
-            if (k.Jurnal.WasPressedThisFrame())
+            // Tab membuka dan menutup; Esc juga menutup (K3).
+            bool tombolJurnal = k.Jurnal.WasPressedThisFrame();
+            if (Terbuka && (tombolJurnal || k.JedaMenu.WasPressedThisFrame()))
             {
-                if (Terbuka)
-                {
-                    panel.SetActive(false);
-                    gm.Jeda(false);
-                }
-                else if (!gm.Dijeda)
-                {
-                    panel.SetActive(true);
-                    gm.Jeda(true);
-                    Gambar(gm.State);
-                }
+                panel.SetActive(false);
+                gm.Jeda(false);
+            }
+            else if (tombolJurnal && !gm.Dijeda)
+            {
+                panel.SetActive(true);
+                gm.Jeda(true);
+                Gambar(gm.State);
             }
             if (!Terbuka) return;
 
@@ -76,7 +75,7 @@ namespace TheSending.Runtime
 
         void Gambar(GameState s)
         {
-            judul.text = "[1] Papan Bukti     [2] Buku Harian     [3] Catatan     [Tab] Tutup";
+            judul.text = "[1] Papan Bukti     [2] Buku Harian     [3] Catatan     [Tab/Esc] Tutup";
             isi.font = tab == Tab.BukuHarian ? UiPabrik.FontTulisan : UiPabrik.Font;
             isi.text = tab == Tab.PapanBukti ? TeksPapan(s)
                      : tab == Tab.BukuHarian ? TeksDiary(s)
@@ -94,6 +93,7 @@ namespace TheSending.Runtime
             }
             for (int b = 0; b < Kode.JumlahBukti; b++)
                 if (s.BuktiKunci[b]) Tulis(sb, $"[BUKTI] B{b + 1} ", Entri(data != null ? data.Bukti : null, b), "");
+            foreach (var id in s.Foto) sb.Append("[FOTO] ").AppendLine(PapanBukti.JudulFoto(id));
             for (int k = 0; k < Kode.JumlahKatanya; k++)
                 if (s.KatanyaDiketahui[k]) Tulis(sb, $"[{Label(s.StatusKatanya[k])}] K{k + 1} ", Entri(data != null ? data.Katanya : null, k), "");
             return sb.Length == 0 ? "Belum ada informasi." : sb.ToString();

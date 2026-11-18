@@ -4,7 +4,7 @@ namespace TheSending.Core
     public enum HasilSidang { Belum, Berhasil, Gagal, Diam, Menuduh }
     public enum PilihanAkhir { Belum, Lapor, Balas }
     public enum Ending { Belum, Terlambat, Fitnah, BalasDendam, Sejati }
-    public enum Perubahan { Kondisi, Media, Bukti, Katanya, Kepercayaan, Ritual, Diary, Sidang, Jam, Tujuan, Malam, Ending }
+    public enum Perubahan { Kondisi, Media, Bukti, Katanya, Kepercayaan, Ritual, Diary, Sidang, Jam, Tujuan, Malam, Ending, Barang, Foto }
     public enum Hari { Minggu, Senin, Selasa, Rabu, Kamis, Jumat, Sabtu }
     public enum Pasaran { Legi, Pahing, Pon, Wage, Kliwon }
     public enum AksiSumi { MintaMaaf, BantuLampuDanAir, BelaDiPosRonda }

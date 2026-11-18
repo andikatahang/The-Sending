@@ -12,15 +12,17 @@ namespace TheSending.Runtime
 
         [SerializeField] PemainInteraksi interaksi;
 
-        Text prompt, jam, baterai, notifikasi;
+        Text titik, prompt, jam, baterai, notifikasi;
         readonly Queue<string> antrean = new Queue<string>();
         float sisaNotifikasi;
+        string pesanTerakhir;   // pesan terakhir yang masuk antrean; null setelah semua selesai tampil
 
         void Awake()
         {
             var akar = UiPabrik.BuatCanvas("HUD", 10).transform;
             akar.SetParent(transform, false);
-            UiPabrik.BuatTeks(akar, "TitikBidik", 28, TextAnchor.MiddleCenter, new Vector2(0.49f, 0.48f), new Vector2(0.51f, 0.52f)).text = "·";
+            titik = UiPabrik.BuatTeks(akar, "TitikBidik", 28, TextAnchor.MiddleCenter, new Vector2(0.49f, 0.48f), new Vector2(0.51f, 0.52f));
+            titik.text = "·";
             prompt = UiPabrik.BuatTeks(akar, "Prompt", 30, TextAnchor.UpperCenter, new Vector2(0.3f, 0.36f), new Vector2(0.7f, 0.46f));
             jam = UiPabrik.BuatTeks(akar, "Jam", 34, TextAnchor.UpperRight, new Vector2(0.75f, 0.9f), new Vector2(0.98f, 0.98f));
             baterai = UiPabrik.BuatTeks(akar, "Baterai", 24, TextAnchor.UpperRight, new Vector2(0.75f, 0.85f), new Vector2(0.98f, 0.9f));
@@ -53,9 +55,16 @@ namespace TheSending.Runtime
             antrean.Clear();
             notifikasi.text = "";
             sisaNotifikasi = 0f;
+            pesanTerakhir = null;
         }
 
-        public void Tampilkan(string pesan) => antrean.Enqueue(pesan);
+        // Pesan kembar berurutan (memotret ulang, perubahan ganda dari satu aksi) cukup tampil sekali.
+        public void Tampilkan(string pesan)
+        {
+            if (string.IsNullOrEmpty(pesan) || pesan == pesanTerakhir) return;
+            pesanTerakhir = pesan;
+            antrean.Enqueue(pesan);
+        }
 
         void SaatBerubah(Perubahan p)
         {
@@ -65,6 +74,8 @@ namespace TheSending.Runtime
                 case Perubahan.Katanya: Tampilkan("Papan Bukti diperbarui."); break;
                 case Perubahan.Diary: Tampilkan("Halaman buku harian ditemukan."); break;
                 case Perubahan.Media: Tampilkan("Catatan media santet diperbarui."); break;
+                case Perubahan.Barang: Tampilkan("Barang baru masuk inventaris (I)."); break;
+                case Perubahan.Foto: Tampilkan("Foto masuk Papan Bukti."); break;
             }
         }
 
@@ -74,6 +85,10 @@ namespace TheSending.Runtime
             if (gm == null) return;
             var s = gm.State;
 
+            // Saat adegan berskrip hanya notifikasi yang tampil (teks pengganti suara harus tetap terbaca).
+            bool tampil = !gm.Sinematik;
+            titik.enabled = prompt.enabled = jam.enabled = baterai.enabled = tampil;
+
             prompt.text = interaksi != null && interaksi.Sasaran != null ? $"[E] {interaksi.Sasaran.Prompt}" : "";
             jam.text = JamGim.Format(s.MenitGim);
             baterai.text = $"Baterai {Mathf.CeilToInt(s.BateraiPersen)}%";
@@ -81,7 +96,9 @@ namespace TheSending.Runtime
             if (sisaNotifikasi > 0f)
             {
                 sisaNotifikasi -= Time.unscaledDeltaTime;
-                if (sisaNotifikasi <= 0f) notifikasi.text = "";
+                if (sisaNotifikasi > 0f) return;
+                notifikasi.text = "";
+                if (antrean.Count == 0) pesanTerakhir = null;   // pesan yang sama boleh tampil lagi nanti
             }
             else if (antrean.Count > 0)
             {

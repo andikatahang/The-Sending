@@ -32,6 +32,7 @@ Epilog siang/pagi: Volume lokal terpisah di scene epilog, tetap memakai kabut da
 | Aspek | Nilai |
 |---|---|
 | Kabut | Exponential Squared, `#1A1F24`, kepadatan 0.06 (jarak pandang sekitar 15 m) |
+| Kabut Prolog (pengecualian) | Di `Scene_Desa` selama Prolog kabut mulai 0.02, lalu naik ke 0.06 dalam 20 detik setelah azan (`AlurProlog.KabutSebelumMagrib`, `DetikKabutTurun`). Semua scene dan bab lain 0.06 sejak awal |
 | Latar kamera | Solid Color `#1A1F24` (sama dengan kabut) |
 | Ambient | Flat `#05070A` |
 | Cahaya | Realtime. Senter = spotlight dengan bayangan. Bake lightmap opsional di Fase 8 |
@@ -43,6 +44,7 @@ Setiap scene baru memanggil `PembuatGayaPsx.TerapkanKeScene()` dan `SiapkanKamer
 | Arti | Warna |
 |---|---|
 | Hangat = aman (lampu teplok) | `#FFB46B` |
+| Lampu listrik rumah (padam sejak cutscene Malam 1 pukul 23.00) | `#FFD9A0` |
 | Dingin = ancaman (cahaya bulan) | `#6D86A8` |
 | Karat dan darah; sorotan tombol menu | `#5A1A12` |
 | Teks UI | `#E6E0D1` |
@@ -51,6 +53,10 @@ Setiap scene baru memanggil `PembuatGayaPsx.TerapkanKeScene()` dan `SiapkanKamer
 ## Tekstur
 
 Semua tekstur di `Assets/_Project/Art/` otomatis diimpor dengan ukuran maksimal 256, filter Point, tanpa mipmap (`PrasetelTeksturPsx`, hanya pada impor pertama). Tekstur di luar folder itu tidak ikut aturan ini, jadi jangan menaruh tekstur gim di luar `Art/`.
+
+Aset pihak ketiga ada di `Assets/_Project/Art/ThirdParty/<Paket>/` (EssentialNaturePack, HouseInteriorPack, TraditionalHouseModular, YughuesConcrete; isi yang tidak dipakai sudah dihapus). Karena datang dengan `.meta` sendiri, prasetel di atas tidak berlaku otomatis. Setelah menambah atau memperbarui paket, jalankan **The Sending > Siapkan Aset Luar** (`PembuatAsetLuar`, aman diulang): material built-in diubah ke URP Lit (tekstur, warna, normal map, cutout/transparan, emisi dipertahankan), semua material diberi Smoothness 0, dan semua tekstur diberi ukuran maks 256, Point, tanpa mipmap (normal map tetap bertipe normal map). Daun pohon juga 256; masih terbaca di pratinjau.
+
+TraditionalHouseModular hanya menyimpan varian `512 - native` (varian 2k dihapus). Tekstur tileable-4 "512" sebenarnya 2048 px, tetapi diimpor 256.
 
 ## Font
 
@@ -72,3 +78,13 @@ Dibangun lewat kode (`UiPabrik`), kanvas acuan 1920×1080. Panel dalam gim (dial
 ## Catatan PSX
 
 Pass `PSX_Layar` berjalan sebelum post-processing pada resolusi render-scale, jadi upscale akhir tetap Point (piksel besar tajam). HDR menyala, jadi `saturate()` memotong highlight di atas 1 sebelum tonemapping. Tonemapping Neutral, saturasi -30, grain, dan vignette berjalan di atas level 8 bit (grain seukuran piksel layar). Jika highlight terlihat kusam atau abu-abu, coba Tonemapping None atau matikan HDR (juga lebih ringan).
+
+## Aset pengganti (sejak Fase 1)
+
+Selama aset asli belum ada, gim memakai pengganti buatan skrip (`PembuatPengganti`, `PembuatSuaraPengganti`): material polos di `Assets/_Project/Art/Materials/Pengganti/`, prefab dari primitif di `Assets/_Project/Prefabs/Pengganti/`, dan lima WAV sintetis di `Assets/_Project/Audio/SFX/` dan `Audio/Music/`. Skrip tidak menimpa file yang sudah ada. Cara menukar dengan aset asli: `docs/aset/fase-1.md`, bagian "Nama file dan prefab yang dipakai kode Fase 1".
+
+Prefab aset asli di `Assets/_Project/Prefabs/Asli/` (dibuat `PembuatAsetAsli`) menggantikan prefab pengganti bernama sama. Perabot nappin memakai material kayu pengganti, bukan warna modernnya. Pohon hutan memakai LOD0 hanya sampai sekitar 20 m (dengan lodBias 2 kualitas PC); lebih jauh papan silang LOD1 di dalam kabut. Sekitar 100-200 ribu segitiga terlihat di Scene_Desa.
+
+Aturan gaya untuk pengganti dan aset asli sama: warna mengikuti palet di atas, tanpa kilap (Smoothness 0), dan tekstur mengikuti prasetel PSX.
+
+Scene gameplay (`Scene_Desa`, `Scene_RumahKeluarga`) dibuat skrip dan ditimpa setiap **The Sending > Bangun Ulang Semua**. Tata letak diubah di skrip pembuatnya, bukan di scene.

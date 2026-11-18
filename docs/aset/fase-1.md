@@ -10,26 +10,26 @@ Sumber: **SF** Sketchfab (filter *Downloadable*, lisensi CC0 atau CC-BY) · **AS
 
 | Nama | Kata kunci (EN / ID) | Sumber | Tujuan | Status |
 |---|---|---|---|---|
-| Rumah kayu Jawa (limasan/joglo), interior | `javanese house`, `joglo`, `limasan`, `traditional wooden house interior asia` / rumah limasan | SF, AS | `Art/Models/RumahKeluarga/` | |
-| Tiang kayu besar (saka guru) | `wooden pillar`, `wood column carved` / saka guru | SF | `Art/Models/RumahKeluarga/` | |
+| Rumah kayu Jawa (limasan/joglo), interior | `javanese house`, `joglo`, `limasan`, `traditional wooden house interior asia` / rumah limasan | SF, AS | `Art/Models/RumahKeluarga/` | ✓ luar: prefab Asli `RumahKeluargaLuar` (atap limasan buatan skrip, tiang/kisi/pagar kit TraditionalHouseModular). Interior: dinding skrip bertekstur |
+| Tiang kayu besar (saka guru) | `wooden pillar`, `wood column carved` / saka guru | SF | `Art/Models/RumahKeluarga/` | ✓ prefab Asli `SakaGuru` (tiang kit + umpak) |
 | Gapura desa | `village gate`, `indonesian gate`, `gapura` | SF | `Art/Models/Desa/` | |
 | Jembatan bambu | `bamboo bridge` / jembatan bambu | SF, AS | `Art/Models/Desa/` | |
-| Rumpun bambu | `bamboo cluster`, `bamboo forest low poly` | SF, AS | `Art/Models/Desa/` | |
+| Rumpun bambu | `bamboo cluster`, `bamboo forest low poly` | SF, AS | `Art/Models/Desa/` | ✓ prefab Asli `RumpunBambu` (EssentialNaturePack) |
 | Lampu jalan tua | `old street lamp`, `village lamp post` | SF, AS | `Art/Models/Desa/` | |
-| Rumah kecil berjendela (luar rumah Bu Sumi) | `small village house`, `asian hut window` | SF, AS | `Art/Models/Desa/` | |
-| Tekstur: papan kayu, dinding anyaman bambu (gedek), tanah, genteng | `wood planks`, `woven bamboo wall`, `dirt`, `clay roof tiles` | PH, AC | `Art/Textures/` | |
+| Rumah kecil berjendela (luar rumah Bu Sumi) | `small village house`, `asian hut window` | SF, AS | `Art/Models/Desa/` | ✓ prefab Asli `RumahKecil` (gaya limasan, kit TraditionalHouseModular) |
+| Tekstur: papan kayu, dinding anyaman bambu (gedek), tanah, genteng | `wood planks`, `woven bamboo wall`, `dirt`, `clay roof tiles` | PH, AC | `Art/Textures/` | ✓ dari paket (lihat "Aset asli" di bawah); genteng sementara bata Yughues |
 
 ## Perabot dan benda
 
 | Nama | Kata kunci (EN / ID) | Sumber | Status |
 |---|---|---|---|
-| Ranjang kayu tua | `old wooden bed` | SF, AS | |
-| Lemari kayu tua (lemari ayah) | `old wooden wardrobe`, `antique cabinet` | SF, AS | |
+| Ranjang kayu tua | `old wooden bed` | SF, AS | masih dicari (ranjang nappin 360k+ segitiga, terlalu berat); pengganti bertekstur |
+| Lemari kayu tua (lemari ayah) | `old wooden wardrobe`, `antique cabinet` | SF, AS | ✓ prefab Asli `LemariAyah` (nappin Drawer1, material kayu) |
 | Gembok angka 4 digit | `combination padlock`, `number lock` | SF | |
 | Foto keluarga berbingkai | `picture frame`, `old photo frame` | SF, AS | |
 | Jam dinding bandul | `pendulum wall clock` | SF | |
 | Kalender dinding | `wall calendar` | SF | |
-| Meja dan kursi kayu | `wooden table chair rustic` | SF, AS | |
+| Meja dan kursi kayu | `wooden table chair rustic` | SF, AS | ✓ prefab Asli `Meja`, `Kursi` (nappin Desk, DiningChair, material kayu); laci `Laci` (nappin Storage1) |
 | Buku harian tua | `old diary`, `leather notebook` | SF | |
 | Map dokumen | `document folder`, `paper folder` | SF | |
 | Obat dan sachet oralit | `medicine box`, `pill pack`, `sachet` | SF | |
@@ -51,8 +51,8 @@ Model bisa dari Sketchfab atau Asset Store, lalu di-rig dan diberi animasi di Mi
 
 | Nama | Kata kunci (EN / ID) | Sumber | Catatan | Status |
 |---|---|---|---|---|
-| Gadis menangis di telepon | `girl crying phone`, `teen girl sobbing` | FS, PX | layar hitam Prolog | |
-| Motor menjauh | `motorcycle drive away` / ojek pergi | FS, PX | | |
+| Gadis menangis di telepon | `girl crying phone`, `teen girl sobbing` | FS, PX | layar hitam Prolog | belakangan (suara tokoh ditunda) |
+| Mobil menjauh | `car drive away`, `car engine pass by` / mobil pergi | FS, PX | | |
 | Azan magrib dari kejauhan | `adhan distant`, `call to prayer far away` | FS, PX | hormati: pakai rekaman utuh, tanpa diedit aneh | |
 | Pintu kayu berderit | `wooden door creak` | FS | | |
 | Jam dinding berdentang | `wall clock chime`, `grandfather clock strike` | FS | | |
@@ -60,5 +60,41 @@ Model bisa dari Sketchfab atau Asset Store, lalu di-rig dan diberi animasi di Mi
 | Paku jatuh ke lantai | `nails dropping floor`, `metal small objects drop` | FS | | |
 | Listrik padam | `power outage`, `electric hum cut off` | FS | | |
 | Langkah berat di atap | `footsteps on roof`, `heavy steps above ceiling` | FS | | |
-| Bisikan doa perempuan | `female whisper prayer`, `whispering` | FS | Laras berdoa | |
+| Bisikan doa perempuan | `female whisper prayer`, `whispering` | FS | Laras berdoa | belakangan (suara tokoh ditunda) |
 | Musik drone horor | `dark ambient drone`, `horror drone loop` | PX, FS | latar tegang, bisa di-loop | |
+
+## Nama file dan prefab yang dipakai kode Fase 1
+
+Kode Fase 1 berjalan dengan aset pengganti. Untuk memakai aset asli, taruh atau tukar di jalur berikut; tidak ada kode yang perlu diubah. Skrip pembuat **tidak menimpa** file yang sudah ada.
+
+**Suara** (`.wav`, `.ogg`, atau `.mp3`; nama dasar harus persis). (S) = sudah ada WAV sintetis; hapus file sintetis dan `.meta`-nya sebelum menaruh yang asli.
+
+| Aset di daftar atas | Jalur |
+|---|---|
+| Mobil menjauh (nama file tetap `MotorMenjauh`) | `Assets/_Project/Audio/SFX/MotorMenjauh` |
+| Azan magrib | `Assets/_Project/Audio/SFX/AzanMagrib` |
+| Pintu kayu berderit | `Assets/_Project/Audio/SFX/PintuBerderit` |
+| Jam dinding berdentang (S) | `Assets/_Project/Audio/SFX/DentangJam` |
+| Perempuan batuk dan tersedak | `Assets/_Project/Audio/SFX/BatukTersedak` |
+| Paku jatuh ke lantai (S) | `Assets/_Project/Audio/SFX/PakuJatuh` |
+| Listrik padam (S) | `Assets/_Project/Audio/SFX/ListrikPadam` |
+| Langkah berat di atap (S) | `Assets/_Project/Audio/SFX/LangkahDiAtap` |
+| Musik drone horor (S) | `Assets/_Project/Audio/Music/DroneHoror` |
+
+**Prefab** di `Assets/_Project/Prefabs/Pengganti/` (buka prefab, ganti anak-anaknya dengan model asli; depan = +Z, titik nol di lantai; jangan ganti nama file):
+
+| Prefab | Menggantikan |
+|---|---|
+| `Laras`, `Laras_Berdoa` | Laras berdiri; Laras berlutut berdoa |
+| `BidanWulan` | Bidan Wulan |
+| `BuRatmi_Berbaring` | Bu Ratmi telentang di ranjang (kepala ke arah -Z) |
+| `BuSumi_Siluet` | siluet Bu Sumi di jendela |
+| `Ojek` | cadangan saja: mobil pengantar memakai model `Art/Models/Desa/MobilLMPV.glb` (Sketchfab, diimpor glTFast); prefab ini dipakai jika model belum terimpor |
+| `Ranjang`, `LemariAyah`, `Gembok`, `FotoKeluarga`, `JamDinding`, `Kalender`, `Meja`, `Kursi`, `Paku`, `Teplok`, `StopKontak`, `SakaGuru` | perabot dan benda rumah |
+| `Gapura`, `JembatanBambu`, `RumpunBambu`, `LampuJalan`, `RumahKecil`, `RumahKeluargaLuar` | jalan masuk desa |
+
+**Aset asli (sejak 18 Nov):** prefab di `Assets/_Project/Prefabs/Asli/<nama sama>.prefab` dipakai lebih dulu daripada prefab pengganti (`PembuatPengganti.Pasang`). Prefab ini dibuat ulang setiap **Bangun Ulang Semua** oleh `PembuatAsetAsli` dari paket di `Art/ThirdParty`; ubah skripnya, bukan prefabnya. Saat ini: `Meja`, `Kursi`, `LemariAyah`, `Laci`, `SakaGuru`, `RumpunBambu`, `RumahKecil`, `RumahKeluargaLuar`. Hutan di sekitar `Scene_Desa` disebar `PembuatDesa.Hutan` (seed tetap). Untuk menukar aset lain: tambahkan prefab Asli bernama sama di `PembuatAsetAsli`.
+
+**Tekstur:** pasang pada material di `Assets/_Project/Art/Materials/Pengganti/` (`KayuTua`, `KayuGelap`, `Gedek`, `Tanah`, `Genteng`, `Bambu`, `Kain`, ditambah `Atap`, `Tembok`, `TanahHutan`, `Jalan`). Teksturnya dipasang lewat `PembuatAsetAsli.DaftarTekstur`; ganti di sana. Balok dinding dan lantai memakai kubus ber-UV meter (`Art/Models/Kubus`), jadi tekstur berulang per meter, tidak melar.
+
+**Tidak dipakai di Fase 1** (tidak perlu dicari sekarang): model buku harian, map dokumen, obat dan sachet (ketiganya hanya tampil sebagai teks di inventaris), HP di tangan. Suara tokoh (gadis menangis di telepon, bisikan doa perempuan) **belakangan**: voice acting ditunda, semua percakapan teks saja.

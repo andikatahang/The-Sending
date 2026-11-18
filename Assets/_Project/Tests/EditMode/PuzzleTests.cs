@@ -103,5 +103,37 @@ namespace TheSending.Tests
             Assert.IsTrue(t.SemuaSudahDibandingkan);
             Assert.Throws<ArgumentOutOfRangeException>(() => t.Bandingkan(3));
         }
+
+        [Test]
+        public void KodeBenarMembukaLemariDanMemberiIsinya()
+        {
+            var s = new GameState { MalamKe = 1 };
+
+            Assert.IsTrue(GembokLemari.Buka(s, "2003"));
+
+            Assert.IsTrue(Inventaris.Punya(s, Inventaris.BukuHarianAyah));
+            Assert.IsTrue(Inventaris.Punya(s, Inventaris.MapSertifikat));
+            Assert.IsTrue(s.HalamanDiary[Kode.H1]);
+            Assert.IsTrue(s.HalamanDiary[Kode.H2]);
+            Assert.IsTrue(TujuanMalam.Sudah(s, TujuanMalam.BukaLemari));
+        }
+
+        [Test]
+        public void KodeSalahTidakMengubahApaPun()
+        {
+            var s = new GameState { MalamKe = 1 };
+            Assert.IsFalse(GembokLemari.Buka(s, "1998"));
+            Assert.AreEqual(SaveData.KeJson(new GameState { MalamKe = 1 }), SaveData.KeJson(s));
+        }
+
+        [Test]
+        public void MembukaLemariDuaKaliTidakMenggandakan()
+        {
+            var s = new GameState { MalamKe = 1 };
+            GembokLemari.Buka(s, "2003");
+            GembokLemari.Buka(s, "2003");
+            Assert.AreEqual(2, s.Barang.Count);
+            Assert.AreEqual(1, s.TujuanSelesai.Count);
+        }
     }
 }
