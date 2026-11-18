@@ -52,7 +52,7 @@ Model bisa dari Sketchfab atau Asset Store, lalu di-rig dan diberi animasi di Mi
 | Nama | Kata kunci (EN / ID) | Sumber | Catatan | Status |
 |---|---|---|---|---|
 | Gadis menangis di telepon | `girl crying phone`, `teen girl sobbing` | FS, PX | layar hitam Prolog | belakangan (suara tokoh ditunda) |
-| Motor menjauh | `motorcycle drive away` / ojek pergi | FS, PX | | |
+| Mobil menjauh | `car drive away`, `car engine pass by` / mobil pergi | FS, PX | | |
 | Azan magrib dari kejauhan | `adhan distant`, `call to prayer far away` | FS, PX | hormati: pakai rekaman utuh, tanpa diedit aneh | |
 | Pintu kayu berderit | `wooden door creak` | FS | | |
 | Jam dinding berdentang | `wall clock chime`, `grandfather clock strike` | FS | | |
@@ -71,7 +71,7 @@ Kode Fase 1 berjalan dengan aset pengganti. Untuk memakai aset asli, taruh atau 
 
 | Aset di daftar atas | Jalur |
 |---|---|
-| Motor menjauh | `Assets/_Project/Audio/SFX/MotorMenjauh` |
+| Mobil menjauh (nama file tetap `MotorMenjauh`) | `Assets/_Project/Audio/SFX/MotorMenjauh` |
 | Azan magrib | `Assets/_Project/Audio/SFX/AzanMagrib` |
 | Pintu kayu berderit | `Assets/_Project/Audio/SFX/PintuBerderit` |
 | Jam dinding berdentang (S) | `Assets/_Project/Audio/SFX/DentangJam` |
@@ -89,7 +89,7 @@ Kode Fase 1 berjalan dengan aset pengganti. Untuk memakai aset asli, taruh atau 
 | `BidanWulan` | Bidan Wulan |
 | `BuRatmi_Berbaring` | Bu Ratmi telentang di ranjang (kepala ke arah -Z) |
 | `BuSumi_Siluet` | siluet Bu Sumi di jendela |
-| `Ojek` | tukang ojek di atas motor |
+| `Ojek` | cadangan saja: mobil pengantar memakai model `Art/Models/Desa/MobilLMPV.glb` (Sketchfab, diimpor glTFast); prefab ini dipakai jika model belum terimpor |
 | `Ranjang`, `LemariAyah`, `Gembok`, `FotoKeluarga`, `JamDinding`, `Kalender`, `Meja`, `Kursi`, `Paku`, `Teplok`, `StopKontak`, `SakaGuru` | perabot dan benda rumah |
 | `Gapura`, `JembatanBambu`, `RumpunBambu`, `LampuJalan`, `RumahKecil`, `RumahKeluargaLuar` | jalan masuk desa |
 

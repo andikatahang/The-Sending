@@ -34,12 +34,12 @@ namespace TheSending.EditorTools
             Set(sutradara, "hud", rig.Hud);
             Set(sutradara, "dialogOjek", PembuatDataFase1.Muat(PembuatDataFase1.Ojek));
 
-            // Gapura dan ojek
+            // Gapura dan mobil yang mengantar Raka, parkir di luar gapura menghadap ke selatan.
             PembuatPengganti.Pasang("Gapura", null, Vector3.zero);
-            var ojek = PembuatPengganti.Pasang("Ojek", null, new Vector3(1.5f, 0f, 1f), 180f);
+            var ojek = BuatMobil(new Vector3(1.2f, 0f, -3.2f));
             Set(sutradara, "ojek", ojek.transform);
             Set(sutradara, "bidikGapura", Titik("BidikGapura", new Vector3(-2.5f, 1.7f, 7f), new Vector3(0.5f, 1.2f, 0f)));
-            // Cutscene ojek pergi (3,5 detik): ojek lurus ke z = -25 dalam 3 detik, suara motor sejak awal.
+            // Cutscene mobil pergi (3,5 detik): mobil lurus ke z = -25 dalam 3 detik, suara mesin sejak awal.
             var ojekPergi = PembuatTimeline.Buat("Prolog_OjekPergi", 3.5f);
             PembuatTimeline.Gerak(ojekPergi.Tl, ojekPergi.Director, ojek,
                 (0f, ojek.transform), (3f, Titik("TitikOjekPergi", new Vector3(1.5f, 0f, -25f), new Vector3(1.5f, 0f, -30f))));
@@ -82,7 +82,7 @@ namespace TheSending.EditorTools
 
             // Suara. Azan tidak punya pengganti sintetis; selama filenya belum ada hanya teks ini yang tampil.
             // Tidak ada suara telepon: suara tokoh ditunda, telepon Laras hanya kartu teks.
-            Set(sutradara, "suaraMotor", BuatSuara(rig, "MotorMenjauh", Sfx, "SFX", "(Suara: motor menjauh.)"));
+            Set(sutradara, "suaraMotor", BuatSuara(rig, "MotorMenjauh", Sfx, "SFX", "(Suara: mobil menjauh.)"));
             Set(sutradara, "suaraAzan", BuatSuara(rig, "AzanMagrib", Sfx, "Ambience", "(Suara: azan magrib dari kejauhan.)"));
             Set(sutradara, "suaraPintu", BuatSuara(rig, "PintuBerderit", Sfx, "SFX", "(Suara: pintu kayu berderit.)"));
 
@@ -126,6 +126,19 @@ namespace TheSending.EditorTools
             PembuatPengganti.Pasang("JembatanBambu", null, new Vector3(0f, 0f, 52f));
             Batas("BatasAirBarat", new Vector3(-3.75f, 1f, 52f), new Vector3(5.5f, 2f, 6.2f));
             Batas("BatasAirTimur", new Vector3(3.75f, 1f, 52f), new Vector3(5.5f, 2f, 6.2f));
+        }
+
+        // Model mobil Sketchfab (diimpor glTFast, sudah berskala meter, depan di +Z). Tanpa model: pakai prefab pengganti.
+        const string ModelMobil = "Assets/_Project/Art/Models/Desa/MobilLMPV.glb";
+
+        static GameObject BuatMobil(Vector3 posisi)
+        {
+            var model = AssetDatabase.LoadAssetAtPath<GameObject>(ModelMobil);
+            if (model == null) Debug.LogWarning($"{ModelMobil} belum terimpor (paket glTFast?); memakai prefab pengganti Ojek.");
+            var mobil = model != null ? (GameObject)PrefabUtility.InstantiatePrefab(model) : PembuatPengganti.Pasang("Ojek", null, Vector3.zero);
+            mobil.name = "Ojek";
+            mobil.transform.SetPositionAndRotation(posisi, Quaternion.Euler(0f, 180f, 0f));
+            return mobil;
         }
     }
 }

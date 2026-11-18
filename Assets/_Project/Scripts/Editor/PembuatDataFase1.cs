@@ -35,7 +35,7 @@ namespace TheSending.EditorTools
 
             // Prolog
             Simpan(Ojek,
-                B("Tukang Ojek", "Sampai sini saja, Mas. Sudah mau magrib, saya nggak berani lewat kebun bambu."));
+                B("Sopir", "Sampai sini saja, Mas. Sudah mau magrib, saya nggak berani lewat kebun bambu."));
             Simpan(LarasSambutan,
                 B("Laras", "Mas Raka, akhirnya sampai juga. Kok lama sekali?"),
                 B("Raka", "Maaf, Ras. Ibu gimana?"),

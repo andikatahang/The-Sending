@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace TheSending.Runtime
 {
-    // Sutradara Prolog di Scene_Desa (Game Story, Prolog butir 1-5): telepon Laras, turun dari ojek,
+    // Sutradara Prolog di Scene_Desa (Game Story, Prolog butir 1-5): telepon Laras, turun dari mobil,
     // tutorial jalan/lari/senter, azan dan kabut turun, Bu Sumi di jendela, sampai pintu rumah.
     public class AlurProlog : MonoBehaviour
     {
