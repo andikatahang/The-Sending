@@ -6,3 +6,5 @@ Catat setiap aset pihak ketiga di sini saat dimasukkan ke proyek. Aset berlisens
 |---|---|---|---|---|---|
 | Font VT323 | `Assets/_Project/Art/Fonts/Resources/VT323-Regular.ttf` | Peter Hull | Google Fonts | SIL OFL 1.1 | Tidak |
 | Font Kalam | `Assets/_Project/Art/Fonts/Resources/Kalam-Regular.ttf` | Indian Type Foundry | Google Fonts | SIL OFL 1.1 | Tidak |
+| Suara sintetis: DentangJam, PakuJatuh, ListrikPadam, LangkahDiAtap, DroneHoror | `Assets/_Project/Audio/SFX/*.wav`, `Assets/_Project/Audio/Music/DroneHoror.wav` | Tim The Sending (dibuat skrip `PembuatSuaraPengganti`) | — | Buatan sendiri | Tidak |
+| Material dan prefab pengganti | `Assets/_Project/Art/Materials/Pengganti/`, `Assets/_Project/Prefabs/Pengganti/` | Tim The Sending (dibuat skrip `PembuatPengganti`) | — | Buatan sendiri | Tidak |

@@ -32,6 +32,7 @@ Epilog siang/pagi: Volume lokal terpisah di scene epilog, tetap memakai kabut da
 | Aspek | Nilai |
 |---|---|
 | Kabut | Exponential Squared, `#1A1F24`, kepadatan 0.06 (jarak pandang sekitar 15 m) |
+| Kabut Prolog (pengecualian) | Di `Scene_Desa` selama Prolog kabut mulai 0.02, lalu naik ke 0.06 dalam 20 detik setelah azan (`AlurProlog.KabutSebelumMagrib`, `DetikKabutTurun`). Semua scene dan bab lain 0.06 sejak awal |
 | Latar kamera | Solid Color `#1A1F24` (sama dengan kabut) |
 | Ambient | Flat `#05070A` |
 | Cahaya | Realtime. Senter = spotlight dengan bayangan. Bake lightmap opsional di Fase 8 |
@@ -43,6 +44,7 @@ Setiap scene baru memanggil `PembuatGayaPsx.TerapkanKeScene()` dan `SiapkanKamer
 | Arti | Warna |
 |---|---|
 | Hangat = aman (lampu teplok) | `#FFB46B` |
+| Lampu listrik rumah (padam sejak cutscene Malam 1 pukul 23.00) | `#FFD9A0` |
 | Dingin = ancaman (cahaya bulan) | `#6D86A8` |
 | Karat dan darah; sorotan tombol menu | `#5A1A12` |
 | Teks UI | `#E6E0D1` |
@@ -72,3 +74,11 @@ Dibangun lewat kode (`UiPabrik`), kanvas acuan 1920×1080. Panel dalam gim (dial
 ## Catatan PSX
 
 Pass `PSX_Layar` berjalan sebelum post-processing pada resolusi render-scale, jadi upscale akhir tetap Point (piksel besar tajam). HDR menyala, jadi `saturate()` memotong highlight di atas 1 sebelum tonemapping. Tonemapping Neutral, saturasi -30, grain, dan vignette berjalan di atas level 8 bit (grain seukuran piksel layar). Jika highlight terlihat kusam atau abu-abu, coba Tonemapping None atau matikan HDR (juga lebih ringan).
+
+## Aset pengganti (sejak Fase 1)
+
+Selama aset asli belum ada, gim memakai pengganti buatan skrip (`PembuatPengganti`, `PembuatSuaraPengganti`): material polos di `Assets/_Project/Art/Materials/Pengganti/`, prefab dari primitif di `Assets/_Project/Prefabs/Pengganti/`, dan lima WAV sintetis di `Assets/_Project/Audio/SFX/` dan `Audio/Music/`. Skrip tidak menimpa file yang sudah ada. Cara menukar dengan aset asli: `docs/aset/fase-1.md`, bagian "Nama file dan prefab yang dipakai kode Fase 1".
+
+Aturan gaya untuk pengganti dan aset asli sama: warna mengikuti palet di atas, tanpa kilap (Smoothness 0), dan tekstur mengikuti prasetel PSX.
+
+Scene gameplay (`Scene_Desa`, `Scene_RumahKeluarga`) dibuat skrip dan ditimpa setiap **The Sending > Bangun Ulang Semua**. Tata letak diubah di skrip pembuatnya, bukan di scene.
