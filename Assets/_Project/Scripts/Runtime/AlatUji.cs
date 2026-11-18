@@ -1,7 +1,6 @@
 using TheSending.Core;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace TheSending.Runtime
@@ -44,7 +43,7 @@ namespace TheSending.Runtime
             {
                 gm.Tertangkap();
                 // Isi scene (lemari, lampu, paku) harus mengikuti state yang baru dimuat.
-                gm.MuatScene(SceneManager.GetActiveScene().name);
+                gm.MuatScene(gm.SceneUntukState);
             }
         }
 

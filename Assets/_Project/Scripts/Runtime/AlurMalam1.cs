@@ -184,6 +184,7 @@ namespace TheSending.Runtime
                 yield return kartu.StartCoroutine(kartu.Tampilkan(
                     "Malam 2: Boneka di Bawah Lantai",
                     "Malam Kamis Kliwon\n\n" + RingkasanMalam2 + "\n\n(Bersambung. Malam 2 dibuat di Fase 2.)", 8f));
+                yield return kartu.StartCoroutine(kartu.KeHitam());   // rumah tidak sempat terlihat sebelum menu dimuat
                 gm.MuatScene(GameManager.SceneMenuUtama);
                 dimuat = true;
             }
