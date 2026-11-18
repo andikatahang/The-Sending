@@ -249,8 +249,9 @@ namespace TheSending.EditorTools
         static void BendaAdegan(AlurMalam1 malam1)
         {
             // Paku tergeletak di tengah bercak darah, dan sasaran foto menutupi seluruh bercak: pemain membidik
-            // bercak (benda yang paling terlihat dalam gelap), bukan paku setebal 2 cm. Tipis supaya tidak terasa saat diinjak.
-            var paku = Logika("Paku", new Vector3(-5.1f, 0f, 6.3f), new Vector3(0.9f, 0.05f, 0.9f));
+            // bercak (benda yang paling terlihat dalam gelap), bukan paku setebal 2 cm. Setinggi 0,12 m supaya menutupi collider
+            // PapanLantai Malam 2 (tinggi 0,1, selalu ada) yang melintang di bercak; tanpa itu sinar Q kena papan, bukan paku.
+            var paku = Logika("Paku", new Vector3(-5.1f, 0f, 6.3f), new Vector3(0.9f, 0.12f, 0.9f));
             PembuatPengganti.Pasang("Paku", paku.transform, Vector3.zero);
             var foto = paku.AddComponent<PetunjukFoto>();
             SetTeks(foto, "efek", "tujuan:PotretPaku; foto:PakuMalam1");
