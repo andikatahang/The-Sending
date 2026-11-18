@@ -19,13 +19,14 @@ namespace TheSending.EditorTools
             TeguranObat = "TeguranObat", FotoKeluarga = "FotoKeluarga", PenutupMalam1 = "PenutupMalam1",
             Kalender = "Kalender";
 
-        // Game Story 10.3: Halaman 2 adalah tabel aksara Jawa. Bentuk aksaranya (gambar atau font) datang di Fase 2
-        // bersama puzzle aksara; di Fase 1 halaman ini berisi urutan bacanya saja.
+        // Game Story 10.3: Halaman 2 adalah tabel aksara Jawa. Gambar tabelnya tampil di panel aksara (Malam 2, K10);
+        // di Jurnal halaman ini berisi urutan baca dan sandhangan.
         const string IsiHalaman2 =
             "ha  na  ca  ra  ka\n" +
             "da  ta  sa  wa  la\n" +
             "pa  dha  ja  ya  nya\n" +
-            "ma  ga  ba  tha  nga";
+            "ma  ga  ba  tha  nga\n\n" +
+            "wulu = i,  taling = e,  taling tarung = o,  pangkon = mati,  pasangan = dua konsonan";
 
         [MenuItem("The Sending/Buat Data Fase 1")]
         public static void Buat()
