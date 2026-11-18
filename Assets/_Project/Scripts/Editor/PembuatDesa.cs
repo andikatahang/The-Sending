@@ -99,7 +99,10 @@ namespace TheSending.EditorTools
             bulan.color = Hex("6D86A8");
             bulan.transform.rotation = Quaternion.Euler(50f, -30f, 0f);
 
-            Balok("Tanah", new Vector3(0f, -0.1f, 50f), new Vector3(40f, 0.2f, 140f), "Tanah");
+            // Tanah hutan sampai sekitar 40 m dari jalan (kabut menelan sisanya), dan jalan tanah di koridor.
+            Balok("Tanah", new Vector3(0f, -0.1f, 55f), new Vector3(100f, 0.2f, 200f), "TanahHutan");
+            Jalan("Jalan", -45f, 48.5f);
+            Jalan("Jalan", 55.5f, 100f);
             Batas("BatasBarat", new Vector3(-SetengahLebar, 2f, 50f), new Vector3(0.2f, 4f, 140f));
             Batas("BatasTimur", new Vector3(SetengahLebar, 2f, 50f), new Vector3(0.2f, 4f, 140f));
             Batas("BatasSelatan", new Vector3(0f, 2f, -1.5f), new Vector3(SetengahLebar * 2f, 4f, 0.2f));
@@ -121,12 +124,71 @@ namespace TheSending.EditorTools
             }
 
             // Jembatan bambu z 48-56. Air hanya tampilan; kedua sisi jembatan ditutup pembatas.
-            var air = Balok("Air", new Vector3(0f, 0.01f, 52f), new Vector3(SetengahLebar * 2f, 0.02f, 6f), "Gelap");
+            // Sungai berlanjut ke dalam hutan di kedua sisi.
+            var air = Balok("Air", new Vector3(0f, 0.01f, 52f), new Vector3(100f, 0.02f, 6f), "Gelap");
             Object.DestroyImmediate(air.GetComponent<Collider>());
             PembuatPengganti.Pasang("JembatanBambu", null, new Vector3(0f, 0f, 52f));
             Batas("BatasAirBarat", new Vector3(-3.75f, 1f, 52f), new Vector3(5.5f, 2f, 6.2f));
             Batas("BatasAirTimur", new Vector3(3.75f, 1f, 52f), new Vector3(5.5f, 2f, 6.2f));
+            Hutan();
         }
+
+        static void Jalan(string nama, float z1, float z2)
+        {
+            var g = Balok(nama, new Vector3(0f, 0.005f, (z1 + z2) / 2f), new Vector3(5f, 0.01f, z2 - z1), "Jalan");
+            Object.DestroyImmediate(g.GetComponent<Collider>());
+        }
+
+        const string Alam = PembuatAsetAsli.Alam;
+        static readonly string[] Pohon = { "SawtoothOak", "PlaneTree", "Ginkgo_wood" };
+        static readonly string[] Semak = { "JapaneseLaurel", "JapaneseEurya", "Mugwort", "ViolaGrypoceras" };
+        static readonly string[] Batu = { "Rock_A", "Rock_B", "Rock_C", "Rock_D" };
+        static readonly string[] Kayu = { "Decayed_wood_A", "Decayed_wood_B", "Decayed_wood_C", "Decayed_wood_D", "Decayed_wood_E" };
+
+        // Hutan di luar dinding koridor (|x| > 6.5): pohon berdaun lebar, semak, batu, kayu lapuk, dan daun gugur.
+        // Seed tetap: hasilnya sama setiap kali dibangun. Tanpa collider (pemain tidak bisa keluar koridor).
+        // Tetap kosong: jalan mobil, sungai, rumah Bu Sumi dan halamannya, rumah keluarga.
+        static void Hutan()
+        {
+            var induk = new GameObject("Hutan").transform;
+            var acak = new System.Random(2003);
+            float Acak(float a, float b) => a + (float)acak.NextDouble() * (b - a);
+            string Pilih(string[] daftar) => daftar[acak.Next(daftar.Length)];
+
+            const float jarak = 5f;
+            for (float z = -45f; z <= 150f; z += jarak)
+                for (float jauh = 7f; jauh <= 45f; jauh += jarak)
+                    foreach (float sisi in new[] { -1f, 1f })
+                    {
+                        float x = sisi * (jauh + Acak(0f, jarak - 1f)), pz = z + Acak(0f, jarak - 1f);
+                        if (Terlarang(x, pz)) continue;
+                        double jenis = acak.NextDouble();
+                        float putar = Acak(0f, 360f);
+                        var posisi = new Vector3(x, 0f, pz);
+                        if (jenis < 0.55) PembuatAsetAsli.Vendor(Alam + Pilih(Pohon) + ".prefab", induk, posisi, putar, Acak(0.85f, 1.3f));
+                        else if (jenis < 0.8) PembuatAsetAsli.Vendor(Alam + Pilih(Semak) + ".prefab", induk, posisi, putar, Acak(0.8f, 1.4f));
+                        else if (jenis < 0.9) PembuatAsetAsli.Vendor(Alam + Pilih(Batu) + ".prefab", induk, posisi, putar, Acak(0.7f, 1.3f));
+                        else PembuatAsetAsli.Vendor(Alam + Pilih(Kayu) + ".prefab", induk, posisi, putar, 1f);
+                        if (acak.NextDouble() < 0.4)
+                            PembuatAsetAsli.Vendor(Alam + "FallenLeaves.prefab", induk, posisi + new Vector3(Acak(-2f, 2f), 0f, Acak(-2f, 2f)), Acak(0f, 360f), Acak(1f, 1.8f));
+                    }
+
+            // Di tepi jalan (dalam koridor) hanya daun gugur dan bunga kecil setinggi mata kaki.
+            for (float z = 4f; z <= 92f; z += 6f)
+                foreach (float sisi in new[] { -1f, 1f })
+                {
+                    float x = sisi * Acak(4.5f, 6.2f), pz = z + Acak(0f, 4f);
+                    if (pz > 46f && pz < 58f) continue;
+                    var nama = acak.NextDouble() < 0.6 ? "FallenLeaves" : "ViolaGrypoceras";
+                    PembuatAsetAsli.Vendor(Alam + nama + ".prefab", induk, new Vector3(x, 0f, pz), Acak(0f, 360f), 1f);
+                }
+        }
+
+        static bool Terlarang(float x, float z) =>
+            Mathf.Abs(x) < SetengahLebar + 0.5f
+            || (z > 46.5f && z < 57.5f)                              // sungai
+            || (x > 6f && x < 16f && z > 67f && z < 83f)            // rumah Bu Sumi
+            || (Mathf.Abs(x) < 11f && z > 95f && z < 116f);         // rumah keluarga
 
         // Model mobil Sketchfab (diimpor glTFast, sudah berskala meter, depan di +Z). Tanpa model: pakai prefab pengganti.
         const string ModelMobil = "Assets/_Project/Art/Models/Desa/MobilLMPV.glb";
