@@ -16,7 +16,8 @@ namespace TheSending.EditorTools
         const string WarnaBulan = "6D86A8";
         const float TinggiMata = 1.6f;   // = posisi lokal kamera pemain di PembuatRig.Buat
 
-        internal static void Pasang(Rig rig, GameObject sutradara, InteraktifAlur pintuGudang, GameObject kalender1, GameObject laras1)
+        // Mengembalikan Sosok Santet supaya Malam 3 memakainya lagi (paku salah urutan).
+        internal static SosokSantet Pasang(Rig rig, GameObject sutradara, InteraktifAlur pintuGudang, GameObject kalender1, GameObject laras1)
         {
             var alur = sutradara.AddComponent<AlurMalam2>();
             Set(alur, "adegan", rig.Adegan);
@@ -41,11 +42,12 @@ namespace TheSending.EditorTools
             Gudang(rig, alur);
             KamarRaka(sutradara);
             Tamu(rig, alur);
-            Sembunyi(rig, alur);
+            var sosok = Sembunyi(rig, alur);
             SuaraMalam2(rig, alur);
+            return sosok;
         }
 
-        static void AktifPada(GameObject sutradara, int dari, int sampai, params GameObject[] sasaran)
+        internal static void AktifPada(GameObject sutradara, int dari, int sampai, params GameObject[] sasaran)
         {
             var a = sutradara.AddComponent<AktifDiMalam>();
             SetAngka(a, "dari", dari);
@@ -179,7 +181,7 @@ namespace TheSending.EditorTools
 
         // Sekuens bersembunyi pertama (Game Story Malam 2 butir 9): Raka di kamar Laras, Sosok Santet berpatroli di
         // ruang tengah, lemari pakaian di dinding barat untuk bersembunyi, kamar Raka sebagai tujuan.
-        static void Sembunyi(Rig rig, AlurMalam2 alur)
+        static SosokSantet Sembunyi(Rig rig, AlurMalam2 alur)
         {
             var lemari = Persembunyian(rig, "LemariPakaian", new Vector3(-2.65f, 0f, 4.8f), new Vector3(0.6f, 2f, 1f), "Bersembunyi di lemari",
                 Titik("DalamLemari", new Vector3(-2.65f, 0.05f, 4.8f), new Vector3(0f, 0.05f, 4.8f)),
@@ -219,6 +221,7 @@ namespace TheSending.EditorTools
             Set(skrip, "gemerincing", gemerincing);
             Set(alur, "sosok", skrip);
             sosok.SetActive(false);
+            return skrip;
         }
 
         // Sisi kubus tidak tergambar dari dalam, jadi dari dalam lemari seluruh ruangan terlihat. Lapisan tipis di dalam

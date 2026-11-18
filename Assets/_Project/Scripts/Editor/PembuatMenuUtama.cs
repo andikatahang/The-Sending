@@ -20,6 +20,7 @@ namespace TheSending.EditorTools
             PembuatAsetAsli.Buat();
             PembuatDataFase1.Buat();
             PembuatDataFase2.Buat();
+            PembuatDataFase3.Buat();
             PembuatSandbox.Buat();
             PembuatDesa.Buat();
             PembuatRumahKeluarga.Buat();
