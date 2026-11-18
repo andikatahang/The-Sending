@@ -21,6 +21,7 @@ namespace TheSending.EditorTools
             ("KayuTua", "5B4030"), ("KayuGelap", "2E2018"), ("Gedek", "8A7A55"), ("Tanah", "3B3026"),
             ("Genteng", "6B3A2A"), ("Bambu", "6F7F3A"), ("Kain", "B9AE96"), ("Kulit", "C69C7B"),
             ("Karat", "5A1A12"), ("Kertas", "E6E0D1"), ("Logam", "6E7074"), ("Gelap", "0B0D10"),
+            ("Atap", "4A3B2C"), ("Tembok", "5A5850"), ("TanahHutan", "33302A"), ("Jalan", "4A4038"),
         };
 
         readonly struct Bagian
@@ -141,6 +142,11 @@ namespace TheSending.EditorTools
                 T("Logam", 0f, 0.06f, 0f, 0.1f, 0.06f, 0.1f),
                 T("Kertas", 0f, 0.2f, 0f, 0.06f, 0.08f, 0.06f),
             }),
+            ("Laci", new[]
+            {
+                K("KayuGelap", 0f, 0.425f, 0f, 0.9f, 0.85f, 0.45f),
+                K("KayuTua", 0f, 0.6f, 0.23f, 0.8f, 0.02f, 0.01f),
+            }),
             ("StopKontak", new[] { K("Kertas", 0f, 0f, 0f, 0.1f, 0.1f, 0.03f) }),
             ("SakaGuru", new[]
             {
@@ -232,10 +238,12 @@ namespace TheSending.EditorTools
         }
 
         // Menaruh prefab visual sebagai anak objek logika (induk null = di akar scene). Posisi dan putaran lokal.
+        // Prefab aset asli (Prefabs/Asli, PembuatAsetAsli) dipakai bila ada; jika tidak, prefab pengganti.
         internal static GameObject Pasang(string namaPrefab, Transform induk, Vector3 posisiLokal, float putarY = 0f)
         {
             string jalur = $"{FolderPrefab}/{namaPrefab}.prefab";
-            var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(jalur)
+            var prefab = AssetDatabase.LoadAssetAtPath<GameObject>($"{PembuatAsetAsli.FolderPrefab}/{namaPrefab}.prefab")
+                ?? AssetDatabase.LoadAssetAtPath<GameObject>(jalur)
                 ?? throw new FileNotFoundException($"Prefab pengganti belum ada: {jalur}. Jalankan PembuatPengganti.Buat.");
             var g = (GameObject)PrefabUtility.InstantiatePrefab(prefab);
             g.transform.SetParent(induk, false);

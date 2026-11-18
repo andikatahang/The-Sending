@@ -17,6 +17,7 @@ namespace TheSending.EditorTools
         {
             PembuatGayaPsx.Pasang();
             PembuatPengganti.Buat();
+            PembuatAsetAsli.Buat();
             PembuatDataFase1.Buat();
             PembuatSandbox.Buat();
             PembuatDesa.Buat();

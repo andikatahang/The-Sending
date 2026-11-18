@@ -156,10 +156,11 @@ namespace TheSending.EditorTools
             return lampu;
         }
 
-        // Kotak bermaterial pengganti, dengan collider (dinding, lantai, pintu).
+        // Kotak bermaterial pengganti, dengan collider (dinding, lantai, pintu). UV dalam meter: tekstur berulang, tidak melar.
         internal static GameObject Balok(string nama, Vector3 posisi, Vector3 ukuran, string material)
         {
             var g = Kotak(nama, posisi, ukuran);
+            g.GetComponent<MeshFilter>().sharedMesh = PembuatAsetAsli.KubusMeter(ukuran);
             g.GetComponent<Renderer>().sharedMaterial = PembuatPengganti.Material(material);
             return g;
         }
