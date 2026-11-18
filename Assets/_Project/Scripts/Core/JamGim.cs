@@ -37,15 +37,26 @@ namespace TheSending.Core
         public static bool DalamJendelaObat(GameState s) =>
             s.MalamKe >= 1 && s.MenitGim >= MulaiJendelaObat(s.MalamKe) && s.MenitGim < AkhirJendelaObat(s.MalamKe);
 
-        // K4 opsi B: "duduk menunggu" di Malam 1 melompat ke kejadian berwaktu berikutnya (obat 21.00, cutscene 23.00).
-        // Null jika tidak ada yang ditunggu, atau obat sedang harus diberikan (tidak boleh terlewati).
+        // "Duduk menunggu" melompat ke kejadian berwaktu berikutnya.
+        // Malam 1 (K4 opsi B): obat 21.00, cutscene 23.00. Malam 2 (K11-A): setelah tulisan boneka terbaca dan sebelum
+        // Mbah Wiryo datang, menunggu jam obat 21.00. Null jika tidak ada yang ditunggu, atau obat sedang harus diberikan.
         public static float? KejadianBerikutnya(GameState s)
         {
+            if (s.MalamKe == 2) return TungguMalam2(s);
             if (s.MalamKe != 1 || TujuanMalam.Sudah(s, TujuanMalam.Cutscene23)) return null;
             if (s.MenitGim < Jam21) return Jam21;
             if (DalamJendelaObat(s) && !s.ObatSudahDiberikan) return null;
             return s.MenitGim < Jam23 ? Jam23 : (float?)null;
         }
+
+        static float? TungguMalam2(GameState s) =>
+            TujuanMalam.Sudah(s, TujuanMalam.BacaAksara) && !TujuanMalam.Sudah(s, TujuanMalam.PilihanWiryo) && s.MenitGim < Jam21
+                ? Jam21 : (float?)null;
+
+        // K11-A: Mbah Wiryo mengetuk pintu setelah tulisan boneka terbaca dan obat sudah diberikan (atau jam obat lewat).
+        public static bool SaatnyaWiryoDatang(GameState s) =>
+            s.MalamKe == 2 && TujuanMalam.Sudah(s, TujuanMalam.BacaAksara) && !TujuanMalam.Sudah(s, TujuanMalam.PilihanWiryo)
+            && (s.ObatSudahDiberikan || s.MenitGim >= AkhirJendelaObat(2));
 
         public static bool Tunggu(GameState s)
         {
