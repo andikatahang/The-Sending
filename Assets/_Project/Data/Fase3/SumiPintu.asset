@@ -1,0 +1,78 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61c3401c87cca4432bb9854f8b661f1e, type: 3}
+  m_Name: SumiPintu
+  m_EditorClassIdentifier: TheSending.Runtime::TheSending.Runtime.DataDialog
+  Baris:
+  - Pembicara: Bu Sumi
+    Teks: Arep apa kowe mrene bengi-bengi?
+    Terjemahan: Mau apa kamu ke sini malam-malam?
+    Efek: 
+    Akhir: 0
+    Pilihan: []
+  - Pembicara: Raka
+    Teks: Bu Sumi... saya Raka, anaknya Bu Ratmi.
+    Terjemahan: 
+    Efek: 
+    Akhir: 0
+    Pilihan: []
+  - Pembicara: Bu Sumi
+    Teks: Aku ngerti. Kabeh wong desa wis ngomongke aku.
+    Terjemahan: Aku tahu. Semua orang desa sudah membicarakan aku.
+    Efek: 
+    Akhir: 0
+    Pilihan:
+    - Teks: Bu, saya minta maaf soal yang dulu.
+      Efek: kepercayaan:MintaMaaf; tujuan:KunjungiSumi
+      LompatKe: 3
+    - Teks: Ibu yang bikin ibu saya sakit, kan?
+      Efek: tuduh-sumi; tujuan:KunjungiSumi
+      LompatKe: 5
+    - Teks: Dapur Ibu gelap. Ada yang bisa saya bantu?
+      Efek: tujuan:KunjungiSumi
+      LompatKe: 7
+  - Pembicara: Bu Sumi
+    Teks: ...Wis suwe aku ngenteni ana sing ngomong ngono.
+    Terjemahan: ...Sudah lama aku menunggu ada yang bilang begitu.
+    Efek: 
+    Akhir: 0
+    Pilihan: []
+  - Pembicara: Bu Sumi
+    Teks: Teplokku mati, gentongku kosong. Aku wis tuwa, Le.
+    Terjemahan: Teplokku mati, gentongku kosong. Aku sudah tua, Nak.
+    Efek: 
+    Akhir: 1
+    Pilihan: []
+  - Pembicara: Bu Sumi
+    Teks: Kowe padha wae karo wong-wong kuwi.
+    Terjemahan: Kamu sama saja dengan orang-orang itu.
+    Efek: 
+    Akhir: 0
+    Pilihan: []
+  - Pembicara: Bu Sumi
+    Teks: Metu! Aja bali mrene bengi iki.
+    Terjemahan: Pergi! Jangan kembali ke sini malam ini.
+    Efek: 
+    Akhir: 1
+    Pilihan: []
+  - Pembicara: Bu Sumi
+    Teks: Hm. Sumbune kudu diresiki. Banyune njupuk saka sumur.
+    Terjemahan: Hm. Sumbunya harus dibersihkan. Airnya ambil dari sumur.
+    Efek: 
+    Akhir: 0
+    Pilihan: []
+  - Pembicara: Bu Sumi
+    Teks: Teplok ana ing meja, sumur ana ing mburi omah.
+    Terjemahan: Teplok ada di meja, sumur ada di belakang rumah.
+    Efek: 
+    Akhir: 1
+    Pilihan: []
