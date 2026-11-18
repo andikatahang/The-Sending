@@ -25,6 +25,7 @@ namespace TheSending.EditorTools
             var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
             PembuatGayaPsx.TerapkanKeScene();
             var rig = PembuatRig.Buat(new Vector3(0f, 0.05f, 2f));
+            SetAngka(rig.Langkah, "bawaan", (int)JenisPermukaan.Tanah);
 
             Lingkungan();
             var sutradara = new GameObject("Sutradara Prolog").AddComponent<AlurProlog>();
@@ -74,7 +75,9 @@ namespace TheSending.EditorTools
             Set(sutradara, "timelineBuSumi", buSumi.Pemutar);
 
             // Rumah keluarga: prefab menghadap selatan (ke arah pemain), pintunya memindahkan ke Scene_RumahKeluarga.
-            PembuatPengganti.Pasang("RumahKeluargaLuar", null, new Vector3(0f, 0f, UjungJalan), 180f);
+            // Kayu: yang bisa diinjak dari luar hanya lantai emper (teras).
+            PembuatPengganti.Pasang("RumahKeluargaLuar", null, new Vector3(0f, 0f, UjungJalan), 180f)
+                .AddComponent<Permukaan>().Jenis = JenisPermukaan.Kayu;
             var pintu = Balok("PintuRumah", new Vector3(0f, 1.05f, UjungJalan - 0.15f), new Vector3(1.1f, 2.1f, 0.2f), "KayuGelap");
             var alurPintu = pintu.AddComponent<InteraktifAlur>();
             SetTeks(alurPintu, "prompt", "Masuk rumah");
@@ -127,7 +130,8 @@ namespace TheSending.EditorTools
             // Sungai berlanjut ke dalam hutan di kedua sisi.
             var air = Balok("Air", new Vector3(0f, 0.01f, 52f), new Vector3(100f, 0.02f, 6f), "Gelap");
             Object.DestroyImmediate(air.GetComponent<Collider>());
-            PembuatPengganti.Pasang("JembatanBambu", null, new Vector3(0f, 0f, 52f));
+            PembuatPengganti.Pasang("JembatanBambu", null, new Vector3(0f, 0f, 52f))
+                .AddComponent<Permukaan>().Jenis = JenisPermukaan.Kayu;
             Batas("BatasAirBarat", new Vector3(-3.75f, 1f, 52f), new Vector3(5.5f, 2f, 6.2f));
             Batas("BatasAirTimur", new Vector3(3.75f, 1f, 52f), new Vector3(5.5f, 2f, 6.2f));
             Hutan();

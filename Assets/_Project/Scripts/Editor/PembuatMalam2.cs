@@ -118,7 +118,8 @@ namespace TheSending.EditorTools
         // Celah dinding bambu: tanah dan cahaya bulan di luar, bidikan kamera, sosok yang lewat, dan Timeline-nya (4 detik).
         static void Celah(Rig rig, AlurMalam2 alur)
         {
-            Balok("TanahLuar", new Vector3(9.5f, -0.1f, 10f), new Vector3(5f, 0.2f, 6f), "Tanah");
+            Balok("TanahLuar", new Vector3(9.5f, -0.1f, 10f), new Vector3(5f, 0.2f, 6f), "Tanah")
+                .AddComponent<Permukaan>().Jenis = JenisPermukaan.Tanah;
             var bulan = new GameObject("Cahaya bulan").AddComponent<Light>();
             bulan.type = LightType.Spot;
             bulan.color = Hex(WarnaBulan);

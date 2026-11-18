@@ -91,3 +91,17 @@ Kode Fase 2 berjalan dengan aset pengganti. Untuk memakai aset asli, taruh atau 
 **Gambar aksara** di `Assets/_Project/Art/UI/Aksara/`: `Suku_0.png` … `Suku_8.png` (tulisan di boneka: RA, T, MI, SE, LA, SA, KLI, WO, N) dan `Tabel.png` (Halaman 2). Dibuat `tools/render-aksara.sh` dari Noto Sans Javanese.
 
 **Tidak dipakai di Fase 2:** model kunci gudang dan jarum terpisah (kunci hanya di inventaris; jarum bagian dari prefab `Boneka`), kalender dinding baru (prefab `Kalender` Fase 1 dipakai lagi), animasi Laras (gemetar diganti guncangan skrip), bisikan Mbah Wiryo (suara tokoh ditunda).
+
+## Suara dari paket pihak ketiga (dipilih dari nama dan durasi, belum didengar)
+
+Paket ada di `Assets/_Project/Audio/ThirdParty/`. File slot di `Audio/SFX/` adalah **salinan** file paket dengan nama slot (`.meta` lama dipertahankan, jadi scene tidak berubah). Untuk menukar: salin file paket lain ke nama slot yang sama, lalu **Bangun Ulang Semua**.
+
+| Slot | File paket | Durasi | Alternatif untuk dicoba |
+|---|---|---|---|
+| `StingerKejutan` | `HorrorSFX/hit/hit3.wav` | 1,9 s | hit2 (1,9 s), hit1 (1,7 s), hit7 (2,4 s) |
+| `DetakJantung` (loop saat bersembunyi) | `HorrorSFX/beat/beat1.wav` | 1,95 s | beat2–beat4 (1,8–1,9 s); cek sambungan loop tidak berbunyi klik |
+| `DentangJam` (jendela obat) | `HorrorSFX/bell/bell4.wav` | 3,3 s | bell2 (2,1 s), bell3 (3,0 s), bell1 (9,6 s, terlalu panjang?) |
+
+`rise/` (riser 3–9,5 s) belum dipakai: tidak ada slot riser sekali-putar di cutscene 23.00 atau Malam 2 (`DroneHoror`/`MusikTegang` adalah loop). Simpan untuk malam berikutnya. `noise/` juga belum dipakai.
+
+Langkah kaki pemain (`LangkahKaki`): `FootstepsEssentials/Footsteps_DirtyGround_Walk|Run` (Tanah: desa, hutan, tanah luar gudang) dan `Footsteps_Wood_Walk|Run` (Kayu: dalam rumah keluarga, jembatan bambu, emper rumah). Permukaan lain dan set lompat/mendarat dihapus dari paket.

@@ -28,6 +28,7 @@ namespace TheSending.EditorTools
             var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
             PembuatGayaPsx.TerapkanKeScene();
             var rig = PembuatRig.Buat(new Vector3(0f, 0.05f, 1.2f));
+            SetAngka(rig.Langkah, "bawaan", (int)JenisPermukaan.Kayu);
 
             var sutradara = new GameObject("Sutradara");
             var prolog = sutradara.AddComponent<AlurPrologRumah>();

@@ -20,6 +20,7 @@ namespace TheSending.EditorTools
         public PanelGembok Gembok;
         public KameraAdegan Adegan;
         public Camera KameraCutscene;
+        public LangkahKaki Langkah;
     }
 
     // Bagian yang sama di setiap scene gameplay: GameManager, pemain + HP, kamera adegan, UI, dan alat bantu tata letak.
@@ -28,6 +29,7 @@ namespace TheSending.EditorTools
     {
         const string JalurMixer = "Assets/_Project/Audio/Resources/MixerUtama.mixer";
         const string JalurJurnal = "Assets/_Project/Data/Jurnal.asset";
+        const string FolderLangkah = "Assets/_Project/Audio/ThirdParty/FootstepsEssentials";
 
         // Pemain selalu mulai menghadap +Z; sutradara memindahkannya lewat PemainGerak.Pindah bila perlu.
         internal static Rig Buat(Vector3 posisiPemain)
@@ -70,6 +72,7 @@ namespace TheSending.EditorTools
             var senterHp = pemain.AddComponent<SenterHP>();
             Set(senterHp, "cahaya", senter);
             Set(pemain.AddComponent<KompasHP>(), "pemain", pemain.transform);
+            var langkah = Langkah(pemain);
 
             // Kamera adegan: mati sampai KameraAdegan.Mulai. Tanpa AudioListener (pendengar tetap di kamera pemain).
             // Tetap di akar scene: Timeline menggerakkannya dengan posisi dunia (PembuatTimeline.Gerak).
@@ -101,7 +104,7 @@ namespace TheSending.EditorTools
             var rig = new Rig
             {
                 Pemain = gerak, Kamera = kamera.transform, Senter = senterHp, Hud = hud,
-                Dialog = dialog, Kartu = kartu, Gembok = gembok, Adegan = adegan, KameraCutscene = camAdegan,
+                Dialog = dialog, Kartu = kartu, Gembok = gembok, Adegan = adegan, KameraCutscene = camAdegan, Langkah = langkah,
             };
             // Klik senter dan suasana malam di setiap scene gameplay. Tanpa teks pengganti: diam sampai filenya ada di Audio/SFX.
             Set(senterHp, "klik", BuatSuara(rig, "KlikSenter", PembuatPengganti.FolderSfx, "SFX", ""));
@@ -110,16 +113,45 @@ namespace TheSending.EditorTools
             return rig;
         }
 
-        // Satu bunyi adegan. Klip null = aset belum ada: komponen Suara menampilkan teks pengganti di HUD.
-        // ruang = suara 3D yang melekat pada benda (misalnya gemerincing paku Sosok Santet); selain itu 2D.
-        internal static Suara BuatSuara(Rig rig, string nama, string folder, string grup, string teksPengganti,
-            bool ulang = false, bool ruang = false)
+        // Langkah kaki pemain: satu AudioSource 2D di grup SFX. Jenis lantai bawaan diatur pembuat scene (SetAngka "bawaan").
+        static LangkahKaki Langkah(GameObject pemain)
+        {
+            var sumber = pemain.AddComponent<AudioSource>();
+            sumber.playOnAwake = false;
+            sumber.spatialBlend = 0f;
+            sumber.outputAudioMixerGroup = GrupMixer("SFX");
+            var langkah = pemain.AddComponent<LangkahKaki>();
+            Set(langkah, "sumber", sumber);
+            SetDaftar(langkah, "tanahJalan", KlipDi("Footsteps_DirtyGround/Footsteps_DirtyGround_Walk"));
+            SetDaftar(langkah, "tanahLari", KlipDi("Footsteps_DirtyGround/Footsteps_DirtyGround_Run"));
+            SetDaftar(langkah, "kayuJalan", KlipDi("Footsteps_Wood/Footsteps_Wood_Walk"));
+            SetDaftar(langkah, "kayuLari", KlipDi("Footsteps_Wood/Footsteps_Wood_Run"));
+            return langkah;
+        }
+
+        static AudioClip[] KlipDi(string subfolder)
+        {
+            string folder = $"{FolderLangkah}/{subfolder}";
+            var klip = Array.ConvertAll(AssetDatabase.FindAssets("t:AudioClip", new[] { folder }),
+                id => AssetDatabase.LoadAssetAtPath<AudioClip>(AssetDatabase.GUIDToAssetPath(id)));
+            if (klip.Length == 0) throw new FileNotFoundException($"Tidak ada klip langkah di {folder}.");
+            return klip;
+        }
+
+        static AudioMixerGroup GrupMixer(string grup)
         {
             var mixer = AssetDatabase.LoadAssetAtPath<AudioMixer>(JalurMixer)
                 ?? throw new FileNotFoundException($"{JalurMixer} belum ada (dibuat tim di 0C).");
             var daftar = mixer.FindMatchingGroups(grup);
             if (daftar.Length == 0) throw new ArgumentException($"Grup mixer '{grup}' tidak ada di MixerUtama.");
+            return daftar[0];
+        }
 
+        // Satu bunyi adegan. Klip null = aset belum ada: komponen Suara menampilkan teks pengganti di HUD.
+        // ruang = suara 3D yang melekat pada benda (misalnya gemerincing paku Sosok Santet); selain itu 2D.
+        internal static Suara BuatSuara(Rig rig, string nama, string folder, string grup, string teksPengganti,
+            bool ulang = false, bool ruang = false)
+        {
             var g = new GameObject("Suara " + nama);
             var sumber = g.AddComponent<AudioSource>();
             sumber.playOnAwake = false;
@@ -131,7 +163,7 @@ namespace TheSending.EditorTools
                 sumber.minDistance = 1f;
                 sumber.maxDistance = 14f;
             }
-            sumber.outputAudioMixerGroup = daftar[0];
+            sumber.outputAudioMixerGroup = GrupMixer(grup);
             sumber.clip = PembuatPengganti.Klip(folder, nama);
             var suara = g.AddComponent<Suara>();
             Set(suara, "sumber", sumber);
