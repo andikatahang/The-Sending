@@ -35,7 +35,7 @@ namespace TheSending.Runtime
             {
                 case SinyalKejang: suaraBatuk.Putar(); StartCoroutine(Kejang()); break;
                 case SinyalPaku: darah.SetActive(true); paku.SetActive(true); suaraPaku.Putar(); break;
-                case SinyalPadam: suaraListrik.Putar(); Padamkan(); break;
+                case SinyalPadam: suaraBatuk.Hentikan(); suaraListrik.Putar(); Padamkan(); break;
                 case SinyalLangkah: suaraLangkah.Putar(); break;
                 default: Debug.LogWarning($"AlurMalam1: sinyal tidak dikenal '{nama}'.", this); break;
             }

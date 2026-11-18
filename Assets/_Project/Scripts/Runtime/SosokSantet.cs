@@ -123,7 +123,7 @@ namespace TheSending.Runtime
             var mata = pemain.Kamera.position;
             var arah = transform.position + Vector3.up * TinggiDada - mata;
             if (Vector3.Angle(pemain.Kamera.forward, arah) > SudutSenter) return false;
-            return !Physics.Raycast(mata, arah.normalized, out var kena, arah.magnitude, ~0, QueryTriggerInteraction.Ignore)
+            return !Physics.Raycast(mata, arah.normalized, out var kena, arah.magnitude, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore)
                    || kena.transform.IsChildOf(transform);
         }
     }

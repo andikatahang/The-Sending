@@ -30,7 +30,7 @@ namespace TheSending.Runtime
             if (gerak != null && gerak.Bersembunyi) return;   // TempatSembunyi sendiri yang membaca E untuk keluar
 
             // Trigger (zona pemicu) tidak pernah menghalangi E; benda Interaktif wajib memakai collider biasa.
-            if (Physics.Raycast(kamera.position, kamera.forward, out var hit, Jangkauan, ~0, QueryTriggerInteraction.Ignore))
+            if (Physics.Raycast(kamera.position, kamera.forward, out var hit, Jangkauan, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore))
             {
                 var benda = hit.collider.GetComponentInParent<Interaktif>();
                 if (benda != null && benda.isActiveAndEnabled && benda.BisaDiinteraksi) Sasaran = benda;

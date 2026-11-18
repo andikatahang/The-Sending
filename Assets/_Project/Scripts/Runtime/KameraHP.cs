@@ -11,6 +11,7 @@ namespace TheSending.Runtime
 
         [SerializeField] Transform kamera;
         [SerializeField] Hud hud;
+        [SerializeField] Suara bunyiFlash;
 
         Image kilatan;
         float sisaKilatan;
@@ -37,14 +38,11 @@ namespace TheSending.Runtime
 
             if (gm.Dijeda || !gm.Kontrol.Kamera.WasPressedThisFrame()) return;
             sisaKilatan = LamaKilatan;
+            if (bunyiFlash != null) bunyiFlash.Putar();
 
-            // Trigger tidak menghalangi foto; PetunjukFoto wajib memakai collider biasa.
-            if (!Physics.Raycast(kamera.position, kamera.forward, out var hit, JangkauanFoto, ~0, QueryTriggerInteraction.Ignore)) return;
+            // Trigger dan pemain sendiri (layer Ignore Raycast) tidak menghalangi foto; PetunjukFoto wajib memakai collider biasa.
+            if (!Physics.Raycast(kamera.position, kamera.forward, out var hit, JangkauanFoto, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore)) return;
             var petunjuk = hit.collider.GetComponentInParent<PetunjukFoto>();
-#if UNITY_EDITOR
-            // Bantu cek Play Mode: benda apa yang terkena foto.
-            Debug.Log($"KameraHP: foto mengenai '{hit.collider.name}' (induk '{hit.collider.transform.root.name}', jarak {hit.distance:0.00} m, petunjuk: {(petunjuk != null ? petunjuk.name : "tidak ada")}).", hit.collider);
-#endif
             if (petunjuk == null) return;
             try
             {

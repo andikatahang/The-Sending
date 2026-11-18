@@ -108,6 +108,9 @@ namespace TheSending.EditorTools
             };
             // Klik senter dan suasana malam di setiap scene gameplay. Tanpa teks pengganti: diam sampai filenya ada di Audio/SFX.
             Set(senterHp, "klik", BuatSuara(rig, "KlikSenter", PembuatPengganti.FolderSfx, "SFX", ""));
+            Set(kameraHp, "bunyiFlash", BuatSuara(rig, "FlashKamera", PembuatPengganti.FolderSfx, "SFX", ""));
+            // Semua raycast berawal dari pemain; kapsulnya sendiri tidak boleh menghalangi (foto ke lantai mengenai kapsul).
+            pemain.layer = 2;   // Ignore Raycast
             BuatSuara(rig, "SuasanaMalam", PembuatPengganti.FolderSfx, "Ambience", "", ulang: true)
                 .GetComponent<AudioSource>().playOnAwake = true;
             return rig;

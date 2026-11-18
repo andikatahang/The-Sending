@@ -59,7 +59,7 @@ namespace TheSending.Runtime
         JenisPermukaan PermukaanDiBawah()
         {
             var asal = transform.position + Vector3.up * 0.1f;
-            if (Physics.Raycast(asal, Vector3.down, out var hit, JarakCekLantai, ~0, QueryTriggerInteraction.Ignore))
+            if (Physics.Raycast(asal, Vector3.down, out var hit, JarakCekLantai, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore))
             {
                 var p = hit.collider.GetComponentInParent<Permukaan>();
                 if (p != null) return p.Jenis;
