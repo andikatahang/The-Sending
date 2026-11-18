@@ -49,6 +49,7 @@ Setiap scene baru memanggil `PembuatGayaPsx.TerapkanKeScene()` dan `SiapkanKamer
 | Karat dan darah; sorotan tombol menu | `#5A1A12` |
 | Teks UI | `#E6E0D1` |
 | Kayu tua | cokelat gelap |
+| Sosok Santet | hitam arang; kain kafan diwarnai `#4A4440` (material `Kafan`), cahaya bulan `#6D86A8` di luar celah gudang |
 
 ## Tekstur
 
@@ -57,6 +58,8 @@ Semua tekstur di `Assets/_Project/Art/` otomatis diimpor dengan ukuran maksimal 
 Aset pihak ketiga ada di `Assets/_Project/Art/ThirdParty/<Paket>/` (EssentialNaturePack, HouseInteriorPack, TraditionalHouseModular, YughuesConcrete; isi yang tidak dipakai sudah dihapus). Karena datang dengan `.meta` sendiri, prasetel di atas tidak berlaku otomatis. Setelah menambah atau memperbarui paket, jalankan **The Sending > Siapkan Aset Luar** (`PembuatAsetLuar`, aman diulang): material built-in diubah ke URP Lit (tekstur, warna, normal map, cutout/transparan, emisi dipertahankan), semua material diberi Smoothness 0, dan semua tekstur diberi ukuran maks 256, Point, tanpa mipmap (normal map tetap bertipe normal map). Daun pohon juga 256; masih terbaca di pratinjau.
 
 TraditionalHouseModular hanya menyimpan varian `512 - native` (varian 2k dihapus). Tekstur tileable-4 "512" sebenarnya 2048 px, tetapi diimpor 256.
+
+Pengecualian: gambar UI aksara Jawa di `Assets/_Project/Art/UI/Aksara/` (dibuat `tools/render-aksara.sh`). Suku 256 px, tabel Halaman 2 diimpor sampai 1024 px (`PembuatDataFase2`) supaya terbaca. Gambar UI tidak terkena render scale PSX karena digambar di Canvas overlay. Gambar belum ada sampai font Noto Sans Javanese dipasang; sementara panel memakai teks pengganti seperti `[RA]`.
 
 ## Font
 
@@ -81,7 +84,7 @@ Pass `PSX_Layar` berjalan sebelum post-processing pada resolusi render-scale, ja
 
 ## Aset pengganti (sejak Fase 1)
 
-Selama aset asli belum ada, gim memakai pengganti buatan skrip (`PembuatPengganti`, `PembuatSuaraPengganti`): material polos di `Assets/_Project/Art/Materials/Pengganti/`, prefab dari primitif di `Assets/_Project/Prefabs/Pengganti/`, dan lima WAV sintetis di `Assets/_Project/Audio/SFX/` dan `Audio/Music/`. Skrip tidak menimpa file yang sudah ada. Cara menukar dengan aset asli: `docs/aset/fase-1.md`, bagian "Nama file dan prefab yang dipakai kode Fase 1".
+Selama aset asli belum ada, gim memakai pengganti buatan skrip (`PembuatPengganti`, `PembuatSuaraPengganti`): material polos di `Assets/_Project/Art/Materials/Pengganti/`, prefab dari primitif di `Assets/_Project/Prefabs/Pengganti/`, dan WAV sintetis (lima di Fase 1, enam di Fase 2) di `Assets/_Project/Audio/SFX/` dan `Audio/Music/`. Skrip tidak menimpa file yang sudah ada. Cara menukar dengan aset asli: `docs/aset/fase-1.md`, bagian "Nama file dan prefab yang dipakai kode Fase 1". Daftar Fase 2: `docs/aset/fase-2.md`, bagian "Nama file dan prefab yang dipakai kode Fase 2".
 
 Prefab aset asli di `Assets/_Project/Prefabs/Asli/` (dibuat `PembuatAsetAsli`) menggantikan prefab pengganti bernama sama. Perabot nappin memakai material kayu pengganti, bukan warna modernnya. Pohon hutan memakai LOD0 hanya sampai sekitar 20 m (dengan lodBias 2 kualitas PC); lebih jauh papan silang LOD1 di dalam kabut. Sekitar 100-200 ribu segitiga terlihat di Scene_Desa.
 

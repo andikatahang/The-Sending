@@ -50,7 +50,12 @@ Gim horor puzzle 3D first person tentang santet di desa Jawa. Unity 6000.6.4f1 (
 - Kursor diatur `GameManager` (`KunciKursor`, diisi `PemainGerak`). Skrip lain tidak menyentuh `Cursor`.
 - **Adegan dan cutscene:** `KameraAdegan.Mulai()` menjeda dan menyalakan `GameManager.Sinematik`. Cutscene memakai Timeline yang dibuat skrip (`PembuatTimeline`: track gerak + `SignalEmitter`), diputar sutradara lewat `PemutarTimeline.PutarDanTunggu()`; director Unscaled Game Time, wrap None. Sinyal diteruskan sebagai nama `SignalAsset` ke sutradara (konstanta `Sinyal...`). Jangan menyunting aset di `Assets/_Project/Timeline/` dengan tangan. Jangan memakai `WaitForSeconds` di adegan. Jam gim hanya maju saat pemain dikendalikan.
 - **Suara tokoh ditunda:** semua percakapan teks saja (panel dialog, kartu). Grup mixer `Dialog` disiapkan untuk voice acting nanti.
-- **Satu sutradara per bagian cerita** (`AlurProlog`, `AlurPrologRumah`, `AlurMalam1`): hanya mengurutkan kejadian dan memanggil kelas aturan Core. Scene awal ditentukan `PetaScene.Untuk(state)`.
+- **Satu sutradara per bagian cerita** (`AlurProlog`, `AlurPrologRumah`, `AlurMalam1`, `AlurMalam2`): hanya mengurutkan kejadian dan memanggil kelas aturan Core. Scene awal ditentukan `PetaScene.Untuk(state)`.
+- **Sosok Santet:** otaknya `PerilakuSantet` (Core, diuji); di scene `SosokSantet` + `NavMeshAgent` (mati sampai objeknya dinyalakan). NavMesh dibangun saat runtime oleh `LantaiNavMesh` (setelan agen radius 0,25 m, trigger dan pemain diabaikan); jangan bake NavMesh ke scene dan jangan ubah setelan agen di ProjectSettings. Bersembunyi lewat `TempatSembunyi` (`PemainGerak.Sembunyi`, `Pindah` mengakhirinya). Sosok mengabaikan langkah jalan (hanya lari, 8 m; jalan hanya dalam 1,5 m) dan melihat senter dalam 6 m.
+- **Aksara Jawa** tidak ditulis dengan `Text`/`TextMesh` (tidak bisa menyusun sandhangan). Pakai gambar dari `tools/render-aksara.sh`.
+- **Raycast dan pemain:** pemain di layer Ignore Raycast dan raycast memakai `Physics.DefaultRaycastLayers`, supaya kapsul pemain tidak menghalangi foto (Q) dan interaksi (E).
+- **Suara langkah** per permukaan lewat `LangkahKaki` dan `Permukaan`. Paket Footsteps dan Horror SFX ada di `Audio/ThirdParty`.
+- **Scene dibuat skrip, jadi suntingan tangan di scene hilang saat `BangunSemua`.** Perubahan permanen harus masuk skrip pembuat (`PembuatMalam2`, `PembuatRumahKeluarga`, dan lain-lain).
 - **Scene gameplay dibuat skrip** (`PembuatDesa`, `PembuatRumahKeluarga`, bagian bersama di `PembuatRig`) dan ditimpa setiap The Sending > Bangun Ulang Semua. Jangan menyunting scene itu dengan tangan. Batchmode: `-executeMethod TheSending.EditorTools.PembuatMenuUtama.BangunSemua`.
 - **Teks dialog** ada di skrip pembuat data (`PembuatDataFase1`), bukan disunting di Inspector. Pembuat menolak teks kosong, penanda `[[...]]`, dan kode efek yang salah.
 - **Aset pengganti** di `Art/Materials/Pengganti/`, `Prefabs/Pengganti/`, `Audio/SFX/`, `Audio/Music/`. Skrip tidak menimpa file yang ada. Benda di scene = objek logika (collider + skrip) dengan prefab visual sebagai anak.
@@ -75,7 +80,7 @@ Gim horor puzzle 3D first person tentang santet di desa Jawa. Unity 6000.6.4f1 (
 |---|---|---|---|
 | 0. Fondasi & Style Lock | H1–H3 | 16–18 Nov | [~] 0A, 0B, 0C selesai di kode (223 EditMode test lulus, build uji Windows berhasil). Menunggu cek Play Mode 0C oleh tim, lalu style guide dikunci |
 | 1. Prolog + Malam 1 | H4–H6 | 19–21 Nov | [x] Selesai (269 EditMode test lulus, build uji Windows berhasil, cek Play Mode tim lulus 18 Nov). Hutan, rumah limasan, tekstur, dan perabot dari paket aset di `Art/ThirdParty` (dibuat `PembuatAsetAsli`); mobil Prolog dari Sketchfab via glTFast. Suara tokoh ditunda |
-| 2. Malam 2 | H7–H8 | 22–23 Nov | [ ] Belum mulai |
+| 2. Malam 2 | H7–H8 | 22–23 Nov | [~] Selesai kecuali Task 10 (gambar aksara; menunggu font Noto Sans Javanese dari tim, panel aksara sementara berteks `[RA]` dst.). 306 EditMode test lulus, cek Play Mode tim 18 Nov "overall oke", build uji Windows berhasil. Sosok Santet dari `pocong-scary`; tokoh lain dan sebagian suara masih pengganti; suara tokoh ditunda |
 | 3. Malam 3 | H9–H10 | 24–25 Nov | [ ] Belum mulai |
 | 4. Malam 4 | H11–H12 | 26–27 Nov | [ ] Belum mulai |
 | 5. Malam 5 | H13–H14 | 28–29 Nov | [ ] Belum mulai |
@@ -99,23 +104,27 @@ Kriteria selesai setiap fase: semua EditMode test lulus, tim sudah mengecek daft
 - Balancing: tanpa menetralkan media sama sekali, Kondisi Ibu habis sekitar pergantian Malam 6 ke 7. Tutorial ritual Malam 3 praktis wajib.
 - Pilihan terakhir dan lolos dari Mbah Wiryo wajib lewat `PenentuEnding.Pilih` dan `PenentuEnding.LolosDariWiryo`.
 
-## Catatan untuk fase berikutnya (dari review 0B, keputusan 0C, dan Fase 1)
+## Catatan untuk fase berikutnya (dari review 0B, keputusan 0C, Fase 1, dan Fase 2)
 
-Semua catatan "Fase 1" dari review 0B sudah dikerjakan di Fase 1: scene per bab (`PetaScene`), inventaris (I), Esc menutup Jurnal/inventaris/gembok (tidak menutup dialog), jam hanya maju saat pemain dikendalikan, penjaga `PanelDialog`, saringan pesan kembar HUD, peringatan lebih dari 4 pilihan, dan test semua aset `DataDialog`.
+Semua catatan "Fase 2" sudah dikerjakan di Fase 2: sutradara Malam 2 menggantikan kartu "bersambung" Malam 1, pintu gudang dibuka `AlurMalam2`, tampilan Kondisi Ibu (`WajahIbu`, K14), tiga Catatan Bapak (weton, aksara, larung). `PetaScene` tidak perlu berubah: Malam 2 tetap di rumah keluarga. **Belum: gambar aksara Jawa (Task 10).** Tim perlu menaruh `NotoSansJavanese-Regular.ttf` di `Assets/_Project/Art/Fonts/Resources/`, lalu Task 10 dikerjakan dan `BangunSemua` dijalankan ulang; sampai itu, panel aksara menampilkan teks pengganti seperti `[RA]`.
 
-Fase 2:
-- `AlurMalam1.GantiMalam` berakhir di kartu "bersambung" lalu kembali ke menu; ganti bagian itu dengan sutradara Malam 2. `AlurMalam1.Start` menampilkan notifikasi sementara jika scene dimuat pada Malam 2 ke atas; hapus saat Malam 2 ada.
-- `PetaScene.Untuk` baru mengenal Prolog dan rumah keluarga; tambah scene bab berikutnya di sana (dengan test).
-- Pintu gudang di `Scene_RumahKeluarga` adalah `InteraktifAlur` tanpa pelanggan (hanya prompt "terkunci"). Sutradara Malam 2 yang membukanya.
-- Ditunda dari Fase 1: tampilan Kondisi Ibu, lampu teplok yang bisa dibawa, model HP di tangan, isi 11 entri Catatan Bapak/Raka lainnya, bentuk aksara di Halaman 2 (sekarang hanya urutan bacanya).
-- Tokoh belum beranimasi. Cutscene sudah Timeline (K1); saat model Mixamo datang, tambahkan `AnimationTrack` tokoh di `PembuatTimeline` (bukan di jendela Timeline). Animator di luar Timeline: Update Mode Unscaled Time.
-- Suara tokoh ditunda (voice acting "belakangan"); Malam 2 juga teks saja kecuali tim memutuskan lain.
-- Pakai ulang untuk malam berikutnya: `PembuatRig`, `PembuatTimeline`, `PemutarTimeline`, `ZonaPemicu`, `InteraktifAlur`, `KameraAdegan`, `Suara`, `TerlihatSaatDisorot`, `JadwalObat` (sudah berlaku Malam 1–6), `PemberiObat`, jalur `foto:` di Papan Bukti.
-- Waktu tunggu (K4) sudah ditangani: kursi di kamar Ibu (`KursiTunggu` + `JamGim.KejadianBerikutnya/Tunggu`) melompatkan jam ke 21.00 atau 23.00 di Malam 1, tidak melewati pemberian obat. Hasil ukur waktu tunggu dan catatan denah (K7): lihat log progres.
+Fase 3:
+- `AlurMalam2.GantiMalam` berakhir di kartu "bersambung" lalu kembali ke menu; ganti bagian itu dengan `gm.MuatScene(gm.SceneUntukState)` dan sutradara Malam 3. `AlurMalam2.Start` menampilkan notifikasi sementara jika scene dimuat pada Malam 3 ke atas; hapus saat Malam 3 ada.
+- `PetaScene.Untuk` belum mengenal `Scene_RumahBuSumi`; tambahkan (dengan test) saat scene itu dibuat.
+- Boneka (M1) yang disimpan tampil di kotak kayu kamar Raka (`BonekaDiKotak`) sampai dinetralkan. Ritual Penangkal Malam 3 mengambilnya dari sana; media yang diserahkan tidak bisa dinetralkan.
+- Gudang sudah ada (alat tani, karung, linggis). Halaman 4 dan tang (Malam 3) ditaruh di sana lewat `PembuatMalam3`, mengikuti pola `PembuatMalam2`.
+- Paku salah urutan memunculkan Sosok Santet: pakai ulang `SosokSantet` (nyalakan objeknya) dan `TempatSembunyi`.
+- `old-sofas` (K16) untuk ruang tengah saat Pakde datang; bawa masuk seperti `pocong-scary` (Task 9 Fase 2).
+- Ditunda: lampu teplok yang bisa dibawa, model HP di tangan, 8 entri Catatan Bapak/Raka lainnya, animasi tokoh (Laras gemetar = guncangan skrip), suara tokoh, `KewaspadaanSantet.JedaKemunculanDetik` (dipakai saat Sosok muncul berulang dalam satu malam).
+- Angka AI Sosok Santet (`PerilakuSantet`, `SosokSantet.KecepatanPatroli`, titik patroli di `PembuatMalam2`) adalah nilai awal; sesudah cek tim: Sosok mengabaikan jalan (hanya lari 8 m, jalan dalam 1,5 m) dan senter terlihat dalam 6 m.
 
-Fase 7: hentikan gerak dan input pemain setelah `State.Ending` terisi. Layar ending tidak punya pemain, jadi kursor otomatis terlihat. `AlurMalam1.GantiMalam` sekarang kembali ke menu utama jika ending tercapai saat pergantian malam; ganti dengan layar ending.
+Fase 4: sekuens kejar pertama memakai `PerilakuSantet` dalam keadaan Kejar; checkpoint wajib sebelum sekuens kejar (desain 2.6). Pandangan dari dalam lemari masih tembus (R4 Fase 2).
 
-Fase 8: `UnityConnectSettings` m_Enabled 1 dan define `SENTIS_ANALYTICS_ENABLED` (ditambah editor sendiri) menyalakan layanan/analytics Unity; pastikan dimatikan untuk build rilis jika tidak dipakai. Pengaturan grafis baru "Layar penuh" saja; tambahkan pemilih resolusi jika tes Windows membutuhkannya. `PembuatBuild.Windows` membuat development build (tombol uji F5/F6/F9 hidup); build rilis harus non-development. Aset pengganti yang masih tersisa ditukar atau dicatat di layar kredit.
+Fase 5: `indonesia-grave` (K16) untuk `Scene_Makam`.
+
+Fase 7: hentikan gerak dan input pemain setelah `State.Ending` terisi. Layar ending tidak punya pemain, jadi kursor otomatis terlihat. `AlurMalam1.GantiMalam`, `AlurMalam2.KeMenuJikaEnding`, dan `AlurMalam2.Tertangkap` kembali ke menu utama jika ending tercapai; ganti dengan layar ending. `the-bathroom` (ganti tekstur bermerek nyata) dan `keris` (K16).
+
+Fase 8: `UnityConnectSettings` m_Enabled 1 dan define `SENTIS_ANALYTICS_ENABLED` (ditambah editor sendiri) menyalakan layanan/analytics Unity; pastikan dimatikan untuk build rilis jika tidak dipakai. Pengaturan grafis baru "Layar penuh" saja; tambahkan pemilih resolusi jika tes Windows membutuhkannya. `PembuatBuild.Windows` membuat development build (tombol uji F5/F6/F9 hidup); build rilis harus non-development. Aset pengganti yang masih tersisa ditukar atau dicatat di layar kredit. Lisensi `pocong-scary`, mobil LMPV, Footsteps, dan Horror SFX diisi di KREDIT. Model Sosok sekitar 30.000 segitiga: cek kinerja di laptop Windows.
 
 ## Daftar Cek Play Mode Fase 0B (dikerjakan tim)
 
@@ -193,12 +202,12 @@ Prasyarat: Task 13 selesai dan editor dibuka sesudahnya. Buka `Assets/_Project/S
 23. Pukul 23.00, di ruangan mana pun pemain berada, cutscene Timeline berjalan (sekitar 11,5 detik): kamera ke ranjang lalu mendekat pelan, guncangan sekitar 3 detik, dua objek muncul di lantai, lampu listrik padam, teplok menyala, kamera memotong ke plafon sekitar 5 detik, lalu kontrol kembali dengan pemain di samping ranjang. Urutan bunyi: batuk, logam jatuh, listrik padam, langkah di atap. Musik latar terus berbunyi tanpa jeda yang terdengar di sambungan loop. Esc selama cutscene tidak membuka menu jeda. Buka `Assets/_Project/Timeline/Malam1_Cutscene23.playable` di jendela Timeline (pilih objek `Timeline Malam1_Cutscene23`): satu track gerak kamera dan empat sinyal di baris marker; director Update Method **Unscaled Game Time**.
 24. Setelah cutscene: Laras tidak ada lagi di ruang tengah dan berlutut di dekat ranjang. Dua notifikasi tutorial memotret muncul berurutan.
 25. Q ke arah paku di lantai (jarak sampai 6 m): kilatan, notifikasi foto, dan Jurnal > Papan Bukti menampilkan satu baris `[FOTO]`. Memotret lagi tidak menambah baris dan tidak memunculkan notifikasi kembar.
-26. Setelah foto: dialog penutup 2 baris. Jika lemari belum dibuka, muncul pengingat lemari dan malam baru berganti setelah lemari dibuka. Jika lemari sudah dibuka: layar hitam, kartu "Malam 2: Boneka di Bawah Lantai" sekitar 8 detik, lalu kembali ke menu utama.
+26. Setelah foto: dialog penutup 2 baris. Jika lemari belum dibuka, muncul pengingat lemari dan malam baru berganti setelah lemari dibuka. Jika lemari sudah dibuka: layar hitam, kartu "Malam 2: Boneka di Bawah Lantai" sekitar 8 detik, lalu kembali ke menu utama. (Sejak Fase 2: kartu Malam 2 ditampilkan di rumah, lalu Malam 2 dimulai.)
 
 **Save**
 
 27. "Mulai Baru" saat sudah ada save memunculkan konfirmasi. "Batal" kembali ke menu. "Ya, mulai baru": Prolog mulai lagi dari gapura dengan Kondisi Ibu 60 dan inventaris kosong.
-28. "Lanjutkan" memuat scene yang benar: keluar ke menu saat masih di jalan desa lalu "Lanjutkan" = jalan desa dari awal Prolog; setelah masuk rumah = rumah keluarga dengan sambutan Laras; setelah kartu Malam 1 = di samping ranjang pada Malam 1 dengan inventaris yang sama dan tanpa Bidan Wulan; setelah kartu Malam 2 = rumah keluarga dengan notifikasi "Malam 2 belum dibuat (Fase 2)." dan Kondisi Ibu 12 lebih rendah daripada di akhir Malam 1.
+28. "Lanjutkan" memuat scene yang benar: keluar ke menu saat masih di jalan desa lalu "Lanjutkan" = jalan desa dari awal Prolog; setelah masuk rumah = rumah keluarga dengan sambutan Laras; setelah kartu Malam 1 = di samping ranjang pada Malam 1 dengan inventaris yang sama dan tanpa Bidan Wulan; setelah kartu Malam 2 = rumah keluarga dengan notifikasi "Malam 2 belum dibuat (Fase 2)." dan Kondisi Ibu 12 lebih rendah daripada di akhir Malam 1. (Sejak Fase 2: kartu Malam 2 ditampilkan di rumah, lalu Malam 2 dimulai.)
 29. Di Malam 1 tekan F9: Kondisi Ibu turun 5 dan scene dimuat ulang dari checkpoint. Stop Play, Play lagi, "Lanjutkan": penalti tetap. Lalu setelah cutscene 23.00 tekan F5, keluar ke menu, "Lanjutkan": rumah langsung dalam keadaan sesudah cutscene (lampu listrik padam, teplok menyala, paku di lantai, Laras di dekat ranjang) dan cutscene tidak terulang.
 
 **Gaya, suara, dan catatan**
@@ -212,6 +221,64 @@ Prasyarat: Task 13 selesai dan editor dibuka sesudahnya. Buka `Assets/_Project/S
 
 Hasil cek 2026-11-18: secara keseluruhan benar ("overall correct"). Dua temuan sudah diperbaiki (`459b5dc` paku dipindah ke genangan darah dan target foto dilebarkan; `12f4c6c` kursi tunggu untuk K4 opsi B) dan perlu dicek ulang di Play Mode: butir 19/25 (paku di atas genangan, Q memberi [FOTO]) dan kursi di kamar Ibu melompat ke 21.00/23.00 (tidak melewati pemberian obat). Juga `ba5c411`: bawaan gaya PSX diselaraskan ke 8 bit / dither 1.5 sesuai style guide.
 
+## Daftar Cek Play Mode Fase 2 (dikerjakan tim)
+
+Prasyarat: Task 12 selesai dan editor dibuka sesudahnya. Tombol uji (editor dan development build): **F5** simpan checkpoint, **F6** jam gim +30 menit, **F9** tertangkap. Bunyi yang filenya belum ada tampil sebagai teks "(Suara: ...)" di HUD; itu dihitung lolos. Percakapan teks saja. Cara cepat ke Malam 2: mainkan Malam 1 sampai selesai, atau "Lanjutkan" dari save yang dibuat setelah kartu Malam 2. Catat nomor butir yang gagal beserta apa yang terlihat.
+
+**Masuk Malam 2**
+
+1. Akhir Malam 1 (setelah foto paku, dialog penutup, lemari sudah dibuka): layar hitam, rumah dimuat ulang (lampu listrik menyala, paku, darah, dan teplok tidak ada), kartu "Malam 2: Boneka di Bawah Lantai" sekitar 8 detik dengan "Malam Kamis Kliwon", ringkasan siang, dan tujuan. Gerimis terdengar.
+2. Raka berdiri di kamar Ibu menghadap ranjang. Dua notifikasi: kamar berbau anyir, dan petunjuk kompas (C). Kondisi Ibu (teks uji kiri atas) 12 lebih rendah daripada akhir Malam 1.
+3. Kompas (C): jarum berputar makin kencang saat mendekat ke sisi timur ranjang Ibu, diam jika jauh (lebih dari 12 m).
+4. Laras di ruang tengah: dialog 3 baris, lalu "Barang baru masuk inventaris". Inventaris (I) berisi "Kunci gudang". Kalender di dapur: "Rabu, Malam Kamis Kliwon." Wajah Ibu sedikit lebih pucat daripada di Malam 1 (K14).
+
+**Gudang, celah, dan linggis**
+
+5. Pintu gudang tanpa kunci: pesan terkunci. Dengan kunci: prompt "Buka pintu gudang", E membuka (bunyi kunci dan pintu), pintu hilang, ada petunjuk senter.
+6. Masuk gudang pertama kali: adegan sekitar 4 detik, kamera mendekat ke celah di dinding kanan (timur), sosok tinggi gelap lewat di luar celah dari kiri ke kanan, stinger terdengar saat sosok di depan celah, lalu kontrol kembali. Tidak terulang saat keluar-masuk gudang lagi.
+7. Linggis (bersandar di dinding gudang): "Ambil linggis", linggis hilang dari scene, inventaris bertambah. Isi gudang: rak alat tani dan tumpukan karung.
+
+**Papan, boneka, dan aksara**
+
+8. Berjalan di atas papan dekat ranjang Ibu: bunyi kopong dan notifikasi satu kali. E sebelum punya linggis: pesan butuh alat.
+9. E dengan linggis ("Bongkar papan lantai dengan linggis"): papan hilang, lubang gelap dan boneka terlihat, notifikasi foto otomatis dan media, panel aksara terbuka. Jurnal > Papan Bukti menampilkan `[MEDIA] M1` tanpa menyebut bacaannya.
+10. Panel aksara: sembilan kotak dalam dua baris (3 dan 6), kotak pertama ditandai warna karat, tabel Halaman 2 di kanan. Aksara tampil sebagai aksara Jawa (bukan kotak kosong); pada SE dan WO tanda taling di kiri aksara, pada KLI pasangan la di bawah ka. (Jika gambar belum dibuat: kotak berisi `[RA]` dan seterusnya, tabel berupa teks; dihitung lolos dengan catatan.)
+11. Tombol 1–4 memilih bacaan. Salah: pesan "Bukan itu", tanda tidak pindah. Benar: bacaan tampil di bawah kotak, tanda pindah ke suku berikutnya. Esc menutup panel tanpa membuka menu jeda; E di boneka membuka lagi dengan kemajuan yang sama. Jam berhenti selama panel terbuka.
+12. Setelah RA-T-MI dan SE-LA-SA-KLI-WO-N: panel tertutup, boneka hilang dari lubang, dialog 4 baris (Laras: "Selasa Kliwon... itu weton Ibu, Mas."), notifikasi hitung mundur, dan HUD kanan atas menampilkan "Selasa Kliwon: 5 malam lagi". Jika belum pukul 21.00, ada petunjuk obat dan kursi.
+
+**Obat dan Mbah Wiryo**
+
+13. Kursi di kamar Ibu setelah aksara terbaca dan sebelum 21.00: prompt "Duduk menunggu sampai 21.00", kartu jam, lalu pengingat obat. Beri obat: Kondisi Ibu +2.
+14. Segera setelah obat (atau pukul 22.00 tanpa obat, setelah teguran Laras): ketukan pintu, layar hitam, kamera membidik Mbah Wiryo di dekat pintu depan, dialog dengan dua pilihan (tombol 1 dan 2). Kutipan "Barang begini jangan disimpan di rumah, Le. Biar Mbah yang larung ke kali, supaya ibumu tenang." tampil persis.
+15. Pilihan "Serahkan": Kondisi Ibu turun 8, notifikasi Mbah Wiryo membawa boneka; kotak kayu di kamar Raka kosong. Jurnal: M1 bertanda "(diserahkan)". Uji terpisah, pilihan "Simpan": Kondisi Ibu tidak berubah, boneka tampil di atas kotak kayu kamar Raka.
+16. Setelah pilihan: kamera ke Laras, "Ingat ya, Nduk." dengan terjemahan, Laras bergetar sekitar 2 detik, layar hitam, Mbah Wiryo dan Laras hilang.
+
+**Sekuens bersembunyi**
+
+17. Kartu "Malam Kamis Kliwon" (Laras masuk kamar, gemerincing paku), Raka di kamar Laras menghadap pintu. Musik tegang dan gemerincing paku terdengar; gemerincing makin keras saat Sosok dekat (suara 3D). Tiga notifikasi tutorial.
+18. Sosok Santet (sekitar 2,2 m) keluar dari dapur dan berpatroli berkeliling ruang tengah tanpa tersangkut di saka, meja, atau pintu.
+19. Lemari pakaian di dinding barat ruang tengah: E "Bersembunyi di lemari" memindahkan pandangan ke dalam lemari; W/A/S/D tidak menggerakkan, mouse masih memutar pandangan; prompt "[E] Keluar [Spasi] Tahan napas"; detak jantung terdengar. E lagi keluar ke depan lemari (tidak langsung masuk lagi).
+20. Di dalam lemari tanpa menahan napas, saat Sosok lewat paling dekat: Sosok berbelok ke lemari dan Raka tertangkap. Dengan Spasi ditahan saat Sosok lewat: aman. Bar "Napas" mengecil saat menahan dan pulih setelah dilepas; setelah sekitar 8 detik napas lepas sendiri.
+21. Model Sosok menghadap arah jalannya (K9-A; jika terbalik, lihat Task 9 Step 2) dan tidak tampak gepeng atau melayang.
+22. Berjalan dalam sekitar 4 m dari Sosok: ia berbalik mendatangi. Berlari: ketahuan dari sekitar 8 m. Diam sambil menahan napas di tempat terbuka: tidak ketahuan walau Sosok lewat dekat.
+23. Senter (F) diarahkan ke Sosok dari kejauhan (sampai 12 m) dengan jalur pandang bebas: Sosok mendatangi. Senter ke Sosok di balik dinding: tidak bereaksi.
+24. Tertangkap: stinger, kartu "Sosok itu menemukan Raka.", layar hitam, rumah dimuat ulang dengan Raka di kamar Laras (bukan di awal Malam 2), Kondisi Ibu 5 lebih rendah (K12-A). Pilihan Mbah Wiryo tetap.
+25. Kolong ranjang Ibu dan balik karung gudang (K13-A): masing-masing bisa dimasuki dan dikeluari dengan E; pandangan rendah (kolong sekitar 25 cm, karung sekitar 90 cm); Sosok tidak menemukan Raka yang menahan napas di sana.
+26. Sampai kamar Raka tanpa tertangkap: Sosok hilang, musik berhenti, notifikasi gemerincing menjauh, sekitar 3 detik kemudian layar hitam, kartu "Malam 3: Tujuh Paku di Saka" dengan "Malam Jumat Legi" dan "(Bersambung...)", lalu menu utama.
+27. Catat apakah sekuens terasa terlalu mudah atau terlalu sulit (berapa kali tertangkap, berapa lama), dan apakah Sosok pernah macet atau menembus dinding.
+
+**Save, gaya, dan catatan**
+
+28. "Lanjutkan" dari menu setelah butir 26: rumah keluarga dengan notifikasi "Malam 3 belum dibuat (Fase 3).", HUD "Selasa Kliwon: 4 malam lagi", Kondisi Ibu 12 lebih rendah. Tekan F5 di tengah Malam 2 setelah mengambil linggis, keluar, "Lanjutkan": pintu gudang sudah terbuka, linggis tidak ada di gudang, kartu Malam 2 tampil lagi.
+29. Gaya PSX sama di kamera pemain dan kamera adegan (celah gudang, Mbah Wiryo). Kabut dan gelap gudang membuat senter perlu. Tidak ada error merah di Console selama butir 1–26.
+30. Esc membuka menu jeda saat bersembunyi; Sosok berhenti selama jeda dan melanjutkan sesudahnya.
+31. Teks (K15): baca semua teks yang ditulis pengembang (dialog Laras, baris Raka saat membaca, Mbah Wiryo selain kutipan, kartu, tiga Catatan Bapak di Jurnal > Catatan, isi Media M1) dan catat suntingannya. Periksa isi budaya Catatan Bapak.
+32. Catat aset pengganti yang paling mengganggu (model atau suara) supaya dicari lebih dulu.
+
+**Jika butir 18 gagal (Sosok tidak bergerak, error "tidak berada di NavMesh"):** periksa Console untuk "NavMesh gagal dibangun". Jalan keluar: perbesar `LantaiNavMesh.ukuran` atau turunkan `agentClimb`; jika pintu tidak bisa dilewati, perkecil `RadiusAgen` ke 0,2. **Jika Sosok berjalan menembus lemari atau saka:** collider benda itu tidak terkumpul (prefab Asli tanpa collider); laporkan. **Jika Sosok macet di titik patroli:** naikkan `SosokSantet.JarakTiba`. **Jika butir 20 terlalu sulit atau mudah:** setel `PerilakuSantet.JarakTangkap`, `KewaspadaanSantet.RadiusNapas`, atau geser titik "Patroli 5" di `PembuatMalam2.Sembunyi`, lalu bangun ulang (test Core mungkin perlu ikut disesuaikan; laporkan dulu). **Jika butir 6 beku atau sosok di celah tidak bergerak:** sama dengan jalan keluar Timeline Fase 1 (Update Method, wrap mode, `removeStartOffset`). **Jika butir 10 menampilkan kotak kosong:** font tidak termuat saat render; jalankan ulang `bash tools/render-aksara.sh` dan periksa nama file font.
+
+Hasil cek 2026-11-18: secara keseluruhan oke. Butir 10 dihitung lolos dengan catatan (teks pengganti `[RA]`, gambar aksara menunggu font). Perbaikan sesudah cek ada di `git log 6106050..HEAD`.
+
 ## Log Progres
 
 - **2026-11-15:** Brainstorming selesai. Dokumen desain ditulis, repo git dibuat. Berikutnya: rencana implementasi Fase 0.
@@ -223,3 +290,4 @@ Hasil cek 2026-11-18: secara keseluruhan benar ("overall correct"). Dua temuan s
 - **2026-11-17:** Graph `PSX_Layar` dibetulkan (Hasil tersambung ke Base Color; sebelumnya layar abu-abu rata) dan dither dibuat tahan terhadap posisi ternormalisasi. Tim memilih BitWarna 8 dan KuatDither 1.5 setelah cek di Play Mode.
 - **2026-11-18:** Fase 1 selesai di kode: Prolog dan Malam 1 bisa dimainkan dari "Mulai Baru" sampai kartu Malam 2. Core: inventaris, `GembokLemari.Buka`, foto petunjuk di Papan Bukti, jendela obat, `PetaScene`, `PemeriksaDialog`, `JamGim.KejadianBerikutnya/Tunggu` (269 EditMode test). Runtime: panel inventaris dan gembok, alat adegan, obat Ibu, ukiran blandar, kursi tunggu, tiga sutradara, tiga cutscene Timeline yang dibuat skrip. Percakapan teks saja (suara tokoh ditunda). `Scene_Desa` dan `Scene_RumahKeluarga` dibuat skrip; semua model dan lima suara masih aset pengganti. Build uji Windows berhasil. Waktu tunggu (K4) dan denah (K7): belum dicatat tim. Berikutnya: cek ulang dua perbaikan di Play Mode, lalu rencana Fase 2 (Malam 2).
 - **2026-11-18:** Ojek Prolog diganti mobil LMPV (Sketchfab, glTFast). Paket aset (Essential Nature Pack, TraditionalHouseModular, Yughues Concrete, nappin House Interior) dipindah ke `Art/ThirdParty`, dikonversi ke URP + prasetel PSX; hutan desa, rumah gaya limasan, tekstur per meter, dan perabot dipasang lewat skrip pembuat (`PembuatAsetAsli`, prefab di `Prefabs/Asli`). Tim mengecek Play Mode: lulus. Fase 1 selesai. Berikutnya: rencana Fase 2 (Malam 2).
+- **2026-11-18:** Fase 2 selesai kecuali Task 10: Malam 2 bisa dimainkan dari akhir Malam 1 sampai kartu Malam 3. Core: barang Malam 2, `BacaanAksara`, hitung mundur Selasa Kliwon, `PerilakuSantet`, kedatangan Mbah Wiryo (306 EditMode test). Runtime: `TempatSembunyi` dan napas, `SosokSantet` dengan NavMesh runtime, `PanelAksara`, `PapanLantai`, `AmbilBarang`, `BonekaDiKotak`, `WajahIbu`, `AlurMalam2`. Timeline celah gudang. Tim mengecek Play Mode 18 Nov: overall oke. Perbaikan sesudah cek: mobil tetap di jalan (pivot glb), raycast mengabaikan kapsul pemain (foto paku), azan hanya `DetikAzan` dengan teks "sudah magrib", suara baru (mobil, klik senter, kilat kamera, batuk, ambience malam, langkah per permukaan, Horror SFX di slot stinger/detak/jam), Sosok mengabaikan jalan (lari 8 m, jalan 1,5 m, senter 6 m), perbaikan tertangkap saat lari, paket Footsteps dan Horror SFX dipindah ke `Audio/ThirdParty`. Terbuka: Task 10 (gambar aksara, menunggu font Noto Sans Javanese). Build uji Windows berhasil. Berikutnya: Task 10 saat font datang, lalu rencana Fase 3 (Malam 3).
