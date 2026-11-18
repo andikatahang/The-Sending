@@ -6,8 +6,10 @@ namespace TheSending.Core
     // Semua angka adalah nilai awal; disetel saat playtest.
     public static class KewaspadaanSantet
     {
-        public const float RadiusNapas = 1.5f, RadiusJalan = 4f, RadiusLari = 8f, FaktorMinyakSereh = 0.6f;
-        public const float JarakCahaya = 12f;
+        // Keputusan tim (playtest 18 Nov): berjalan tidak memanggil Sosok (hanya terdengar sedekat napas), hanya lari;
+        // senter baru menarik perhatiannya dari dekat.
+        public const float RadiusNapas = 1.5f, RadiusJalan = RadiusNapas, RadiusLari = 8f, FaktorMinyakSereh = 0.6f;
+        public const float JarakCahaya = 6f;
         public const float KecepatanDasar = 3.5f, TambahKecepatanPerTingkat = 0.4f;
         public const float JedaDasar = 180f, KurangJedaPerTingkat = 30f, JedaMinimum = 60f;
 

@@ -13,6 +13,14 @@ namespace TheSending.Tests
         }
 
         [Test]
+        public void BerjalanTidakMemanggilSosokKecualiSangatDekat()
+        {
+            Assert.IsFalse(KewaspadaanSantet.Terdengar(3f, Gerak.Jalan, false, false));
+            Assert.IsTrue(KewaspadaanSantet.Terdengar(1.2f, Gerak.Jalan, false, false));
+            Assert.IsTrue(KewaspadaanSantet.Terdengar(7f, Gerak.Lari, false, false));
+        }
+
+        [Test]
         public void LariTerdengarLebihJauhDariJalan()
         {
             Assert.IsTrue(KewaspadaanSantet.Terdengar(7f, Gerak.Lari, false, false));
@@ -29,10 +37,10 @@ namespace TheSending.Tests
         [Test]
         public void CahayaHanyaTerlihatJikaSenterMenyalaDanMengarah()
         {
-            Assert.IsTrue(KewaspadaanSantet.CahayaTerlihat(10f, true, true));
-            Assert.IsFalse(KewaspadaanSantet.CahayaTerlihat(10f, false, true));
-            Assert.IsFalse(KewaspadaanSantet.CahayaTerlihat(10f, true, false));
-            Assert.IsFalse(KewaspadaanSantet.CahayaTerlihat(13f, true, true));
+            Assert.IsTrue(KewaspadaanSantet.CahayaTerlihat(5f, true, true));
+            Assert.IsFalse(KewaspadaanSantet.CahayaTerlihat(5f, false, true));
+            Assert.IsFalse(KewaspadaanSantet.CahayaTerlihat(5f, true, false));
+            Assert.IsFalse(KewaspadaanSantet.CahayaTerlihat(7f, true, true));
         }
 
         [Test]

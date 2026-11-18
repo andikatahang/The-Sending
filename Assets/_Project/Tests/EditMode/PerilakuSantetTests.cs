@@ -5,7 +5,7 @@ namespace TheSending.Tests
 {
     public class PerilakuSantetTests
     {
-        static Pengamatan Jalan(float jarak) => new Pengamatan { Jarak = jarak, Gerak = Gerak.Jalan };
+        static Pengamatan Jalan(float jarak) => new Pengamatan { Jarak = jarak, Gerak = Gerak.Lari };   // langkah yang terdengar = lari
         static Pengamatan Senyap(float jarak) => new Pengamatan { Jarak = jarak, Gerak = Gerak.Diam, TahanNapas = true };
 
         [Test]
