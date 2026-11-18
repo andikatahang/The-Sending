@@ -52,12 +52,6 @@ namespace TheSending.Core
         }
     }
 
-    // Malam 3: salah urutan tidak mengulang, tetapi Runtime memberi penalti KondisiIbu.SalahUrutanPaku.
-    public static class UrutanPaku
-    {
-        public static PuzzleUrutan<Hari> Buat(int malam) => new PuzzleUrutan<Hari>(KalenderJawa.UrutanPaku(malam), false);
-    }
-
     // Malam 7: salah urutan membuat Mbah Wiryo bangun lebih cepat (diurus Runtime).
     public static class LilinSesaji
     {

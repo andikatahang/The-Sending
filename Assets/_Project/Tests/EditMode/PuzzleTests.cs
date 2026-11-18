@@ -67,15 +67,6 @@ namespace TheSending.Tests
         }
 
         [Test]
-        public void PakuMalam3HarusDimulaiDariJumat()
-        {
-            var p = UrutanPaku.Buat(3);
-            Assert.IsFalse(p.Pilih(Hari.Minggu));
-            Assert.IsTrue(p.Pilih(Hari.Jumat));
-            Assert.IsTrue(p.Pilih(Hari.Sabtu));
-        }
-
-        [Test]
         public void LilinMalam7HarusDimulaiDariKliwon()
         {
             var p = LilinSesaji.Buat(7);

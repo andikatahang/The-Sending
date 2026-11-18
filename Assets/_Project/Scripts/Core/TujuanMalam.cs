@@ -10,7 +10,8 @@ namespace TheSending.Core
         public const string TibaDiRumah = "TibaDiRumah", BicaraBidan = "BicaraBidan", MasukKamarIbu = "MasukKamarIbu";
         public const string BukaLemari = "BukaLemari", Cutscene23 = "Cutscene23", PotretPaku = "PotretPaku";
         public const string BacaAksara = "BacaAksara", PilihanWiryo = "PilihanWiryo", SembunyiPertama = "SembunyiPertama";
-        public const string CabutPaku = "CabutPaku", KunjungiSumi = "KunjungiSumi";
+        public const string PakdeDatang = "PakdeDatang", CabutPaku = "CabutPaku", KunjungiSumi = "KunjungiSumi";
+        public const string RitualPertama = "RitualPertama";   // K20-A: tutorial Ritual Penangkal wajib
         public const string AmbilBungkusanSumur = "AmbilBungkusanSumur", LolosKejaranSumur = "LolosKejaranSumur";
         public const string GaliKendi = "GaliKendi", BandingkanTanah = "BandingkanTanah", BicaraLaras = "BicaraLaras";
         public const string SidangWarga = "SidangWarga";
@@ -20,7 +21,7 @@ namespace TheSending.Core
             new[] { TibaDiRumah, BicaraBidan, MasukKamarIbu },        // Prolog
             new[] { BukaLemari, Cutscene23, PotretPaku },             // Malam 1
             new[] { BacaAksara, PilihanWiryo, SembunyiPertama },      // Malam 2
-            new[] { CabutPaku, KunjungiSumi },                        // Malam 3
+            new[] { PakdeDatang, CabutPaku, KunjungiSumi, RitualPertama },   // Malam 3
             new[] { AmbilBungkusanSumur, LolosKejaranSumur },         // Malam 4
             new[] { GaliKendi, BandingkanTanah, BicaraLaras },        // Malam 5
             new[] { SidangWarga },                                    // Malam 6
