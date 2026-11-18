@@ -31,6 +31,8 @@ namespace TheSending.Core
         // true = pemain tertangkap pada frame ini.
         public bool Tick(float detik, Pengamatan p)
         {
+            // Yang sedang dikejar dan terjangkau tertangkap walau diam menahan napas; hanya bersembunyi yang menyelamatkan.
+            if (Keadaan == KeadaanSantet.Kejar && !p.Bersembunyi && p.Jarak <= JarakTangkap) return true;
             if (Mendeteksi(p))
             {
                 if (p.Jarak <= JarakTangkap) return true;

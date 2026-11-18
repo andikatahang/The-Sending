@@ -202,5 +202,14 @@ namespace TheSending.Tests
             if (aksara) TujuanMalam.Selesaikan(s, TujuanMalam.BacaAksara);
             Assert.AreEqual(datang, JamGim.SaatnyaWiryoDatang(s));
         }
+
+        [Test]
+        public void WiryoTidakDatangLagiSetelahPilihanWiryo()
+        {
+            var s = new GameState { MalamKe = 2, MenitGim = 1320f, ObatSudahDiberikan = true };
+            TujuanMalam.Selesaikan(s, TujuanMalam.BacaAksara);
+            TujuanMalam.Selesaikan(s, TujuanMalam.PilihanWiryo);
+            Assert.IsFalse(JamGim.SaatnyaWiryoDatang(s));
+        }
     }
 }

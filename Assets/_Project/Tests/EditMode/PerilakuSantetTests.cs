@@ -37,6 +37,14 @@ namespace TheSending.Tests
         }
 
         [Test]
+        public void SaatMengejarPemainTerjangkauTertangkapWalauMenahanNapas()
+        {
+            var p = new PerilakuSantet();
+            p.Tick(0.1f, Jalan(2.5f));
+            Assert.IsTrue(p.Tick(0.1f, Senyap(0.8f)));
+        }
+
+        [Test]
         public void DiamMenahanNapasTidakKetahuanWalauDekat()
         {
             var p = new PerilakuSantet();
