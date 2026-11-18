@@ -24,6 +24,7 @@ namespace TheSending.EditorTools
         const string TeksturAlam = Pihak3 + "/EssentialNaturePack/Materials/Textures/";
         const string TeksturKit = Pihak3 + "/TraditionalHouseModular/Material/";
         const string TeksturBeton = Pihak3 + "/YughuesConcrete/Textures/T_YFCM_";
+        const string Pocong = Pihak3 + "/pocong-scary/";
 
         // Tekstur untuk material pengganti: (material, tekstur, warna pengali, meter per ulangan). Palet tetap gelap.
         static readonly (string bahan, string tekstur, string hex, float meter)[] DaftarTekstur =
@@ -39,6 +40,7 @@ namespace TheSending.EditorTools
             ("Tembok", TeksturBeton + "Moldy_d.tga", "8A887E", 2f),
             ("TanahHutan", TeksturAlam + "Forest_Leaves.png", "5A5248", 4f),
             ("Jalan", TeksturAlam + "Forest_Road.png", "6A6058", 4f),
+            ("Kafan", Pocong + "textures/Baked_BaseColor.png", "4A4440", 1f),
         };
 
         [MenuItem("The Sending/Buat Aset Asli")]
@@ -57,6 +59,8 @@ namespace TheSending.EditorTools
             Prefab("RumpunBambu", RumpunBambu, false);
             Prefab("RumahKecil", RumahKecil, false);
             Prefab("RumahKeluargaLuar", RumahKeluargaLuar, false);
+            // Sosok Santet (K9-A): pocong-scary, sekitar 30.000 segitiga, tanpa rig; meluncur tanpa animasi.
+            Prefab("SosokSantet", r => Kayu(Tokoh(Pocong + "Model/pocong.fbx", r, 2.2f, 0f), "Kafan"), false);
             AssetDatabase.SaveAssets();
             Debug.Log("Aset asli siap.");
         }
@@ -123,6 +127,25 @@ namespace TheSending.EditorTools
                 kotak.center = bungkus.InverseTransformPoint(Batas(bungkus).center);
                 kotak.size = Vector3.Scale(ukuran, new Vector3(1f / bungkus.lossyScale.x, 1f / bungkus.lossyScale.y, 1f / bungkus.lossyScale.z));
             }
+            return bungkus.gameObject;
+        }
+
+        // Tokoh: diskalakan seragam sampai setinggi `tinggi` (Taruh menskalakan per sumbu dan membuat tokoh gepeng),
+        // alas tengahnya di titik nol induk. Collider vendor dibuang.
+        static GameObject Tokoh(string jalur, Transform induk, float tinggi, float putarY)
+        {
+            var asal = AssetDatabase.LoadAssetAtPath<GameObject>(jalur) ?? throw new FileNotFoundException(jalur);
+            var bungkus = new GameObject(asal.name).transform;
+            bungkus.SetParent(induk, false);
+            var model = (GameObject)PrefabUtility.InstantiatePrefab(asal);
+            PrefabUtility.UnpackPrefabInstance(model, PrefabUnpackMode.Completely, InteractionMode.AutomatedAction);
+            foreach (var c in model.GetComponentsInChildren<Collider>(true)) Object.DestroyImmediate(c);
+            model.transform.SetParent(bungkus, false);
+            model.transform.localRotation = Quaternion.Euler(0f, putarY, 0f);
+            var b = Batas(bungkus);
+            bungkus.localScale = Vector3.one * (tinggi / b.size.y);
+            b = Batas(bungkus);
+            bungkus.position += induk.position - new Vector3(b.center.x, b.min.y, b.center.z);
             return bungkus.gameObject;
         }
 
