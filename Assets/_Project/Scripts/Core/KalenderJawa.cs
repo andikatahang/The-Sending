@@ -31,6 +31,13 @@ namespace TheSending.Core
             return hasil;
         }
 
+        // Weton Ibu (Selasa Kliwon) jatuh pada Malam 7 (Game Story Malam 2 butir 6).
+        public static int SisaMalamKeSelasaKliwon(int malam) => 6 - Urutan(malam);
+
+        // Hitung mundur berjalan sejak tulisan boneka terbaca di Malam 2.
+        public static bool HitungMundurBerjalan(GameState s) =>
+            s.MalamKe >= 3 || (s.MalamKe == 2 && TujuanMalam.Sudah(s, TujuanMalam.BacaAksara));
+
         // Jarak (dalam malam) dari Malam 1. Prolog dihitung sama dengan Malam 1.
         static int Urutan(int malam)
         {
