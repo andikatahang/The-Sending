@@ -76,7 +76,7 @@ namespace TheSending.Tests
         public void SenterYangMengenaiDariJauhMembuatSelidiki()
         {
             var p = new PerilakuSantet();
-            var sorot = Senyap(10f);
+            var sorot = Senyap(5f);
             sorot.SenterMenyala = true;
             sorot.SenterMengarah = true;
             Assert.IsFalse(p.Tick(0.1f, sorot));
