@@ -27,6 +27,7 @@ namespace TheSending.EditorTools
         const string TeksturLinoleum = "Assets/ALP_Assets/Old Floor Linoleum FREE/Textures/OldFloor01_a.png";
         const string Pocong = Pihak3 + "/pocong-scary/";
         const string SofaTua = Pihak3 + "/old-sofas/";
+        const string Makam = Pihak3 + "/indonesia-grave/source/makam/Makam.obj";   // OBJ 3D Builder, sumbu Z ke atas
         // Grup OBJ sofa tiga dudukan (old-sofas berisi empat sofa).
         static readonly string[] SofaTigaDudukan = { "couchinbase_low", "couchin_low", "Couchinl_low", "Couchinm_low", "Couchinr_low" };
 
@@ -70,6 +71,11 @@ namespace TheSending.EditorTools
             // Sofa ruang tengah (K22-A): sofa tiga dudukan dari old-sofas, satu tekstur.
             Prefab("Sofa", r => Kayu(Taruh(SofaTua + "Model/old sofas.obj", r, Vector3.zero, new Vector3(1.9f, 0.8f, 0.8f), 0f,
                 hanya: SofaTigaDudukan), "Sofa"), true);
+            // Makam (indonesia-grave): satu makam = alas + badan (gundukan) dan nisan. Kamboja dan nisan kayu tidak ada di paket.
+            Prefab("GundukanMakam", r => Kayu(Taruh(Makam, r, Vector3.zero, new Vector3(0.9f, 0.4f, 2.0f), 0f,
+                hanya: new[] { "Object.1", "Object.3" }, putarX: -90f), "Tanah"), true);
+            Prefab("NisanBatu", r => Kayu(Taruh(Makam, r, Vector3.zero, new Vector3(0.45f, 0.35f, 0.45f), 0f,
+                hanya: new[] { "Object.2", "Object.4" }, putarX: -90f), "Tembok"), true);
             AssetDatabase.SaveAssets();
             Debug.Log("Aset asli siap.");
         }
@@ -127,7 +133,7 @@ namespace TheSending.EditorTools
         // Model vendor diputar, diskalakan ke `ukuran` (per sumbu), lalu alas tengahnya ditaruh di `alas`. Collider vendor dibuang.
         // hanya: nama anak langsung model yang dipakai (misalnya satu sofa dari OBJ berisi empat); null = semua.
         internal static GameObject Taruh(string jalur, Transform induk, Vector3 alas, Vector3 ukuran, float putarY, bool collider = false,
-            string[] hanya = null)
+            string[] hanya = null, float putarX = 0f)
         {
             var asal = AssetDatabase.LoadAssetAtPath<GameObject>(jalur) ?? throw new FileNotFoundException(jalur);
             var bungkus = new GameObject(asal.name).transform;
@@ -137,7 +143,7 @@ namespace TheSending.EditorTools
             if (hanya != null) Saring(model.transform, hanya, jalur);
             foreach (var c in model.GetComponentsInChildren<Collider>(true)) Object.DestroyImmediate(c);
             model.transform.SetParent(bungkus, false);
-            model.transform.localRotation = Quaternion.Euler(0f, putarY, 0f);
+            model.transform.localRotation = Quaternion.Euler(putarX, putarY, 0f);
 
             var b = Batas(bungkus);
             bungkus.localScale = new Vector3(ukuran.x / b.size.x, ukuran.y / b.size.y, ukuran.z / b.size.z);
