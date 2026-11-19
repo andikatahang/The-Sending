@@ -28,7 +28,7 @@ namespace TheSending.Runtime
                 return;
             }
             padat.Putar();
-            hud.Tampilkan("Saka guru ini berbunyi padat.");
+            hud.Tampilkan("Bunyinya padat. Bukan saka yang ini.");
         }
     }
 }

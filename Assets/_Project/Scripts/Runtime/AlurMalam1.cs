@@ -74,7 +74,7 @@ namespace TheSending.Runtime
             yield return kartu.StartCoroutine(kartu.Tampilkan(
                 "Malam 1: Paku Pertama",
                 "Malam Rabu Wage\n\nTujuan: Mengenal rumah, memberi obat, dan mencari tahu apa yang terjadi", 5f));
-            hud.Tampilkan("Obat Ibu diberikan pukul 21.00. Jam ada di kanan atas.");
+            hud.Tampilkan("Obat Ibu harus diberikan pukul 21.00. Lihat jam di kanan atas.");
             sibuk = false;
         }
 
@@ -111,8 +111,8 @@ namespace TheSending.Runtime
             }
             finally { adegan.Selesai(); }
             TujuanMalam.Selesaikan(s, TujuanMalam.Cutscene23);
-            hud.Tampilkan("Arahkan ke paku di lantai, lalu tekan Q untuk memotretnya.");
-            hud.Tampilkan("Foto petunjuk masuk ke Papan Bukti di Jurnal (Tab).");
+            hud.Tampilkan("Arahkan kamera ke paku di lantai, lalu tekan [Q] untuk memotret.");
+            hud.Tampilkan("Foto petunjuk masuk Papan Bukti di Jurnal [Tab].");
             sibuk = false;
         }
 
@@ -149,7 +149,7 @@ namespace TheSending.Runtime
             penutupSudah = true;
             yield return dialog.MulaiDanTunggu(dialogPenutup);
             if (!PergantianMalam.BisaLanjut(GameManager.Instance.State))
-                hud.Tampilkan("Masih ada yang belum diperiksa: lemari Bapak di kamar Ibu.");
+                hud.Tampilkan("Lemari Bapak di kamar Ibu belum kubuka. Kodenya: tahun rumah ini berdiri.");
             sibuk = false;
         }
 

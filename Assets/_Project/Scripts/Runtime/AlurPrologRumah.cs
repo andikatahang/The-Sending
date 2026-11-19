@@ -82,8 +82,8 @@ namespace TheSending.Runtime
             }
             finally { adegan.Selesai(); }
             hud.Tampilkan("Bidan Wulan pamit pulang.");
-            hud.Tampilkan("Tekan I untuk melihat inventaris.");
-            hud.Tampilkan("Tekan Tab untuk membuka Jurnal.");
+            hud.Tampilkan("Tekan [I] untuk melihat inventaris.");
+            hud.Tampilkan("Tekan [Tab] untuk membuka Jurnal: tujuan, bukti, dan catatan.");
         }
 
         void SaatMasukKamarIbu()

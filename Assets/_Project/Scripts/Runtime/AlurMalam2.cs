@@ -116,7 +116,7 @@ namespace TheSending.Runtime
                 "Malam 2: Boneka di Bawah Lantai",
                 KalenderJawa.NamaMalam(2) + "\n\n" + RingkasanMalam2 + "\n\nTujuan: Mencari sumber bau anyir di kamar Ibu", 8f));
             hud.Tampilkan("Kamar Ibu berbau anyir.");
-            hud.Tampilkan("Tekan C untuk membuka kompas HP. Jarumnya berputar di dekat benda santet.");
+            hud.Tampilkan("Tekan [C] untuk membuka kompas. Jarumnya berputar dekat benda santet.");
             sibuk = false;
         }
 
@@ -150,7 +150,7 @@ namespace TheSending.Runtime
             if (!berjalan || sibuk || kopongSudah || State.MediaDitemukan[Kode.M1]) return;
             kopongSudah = true;
             suaraKopong.Putar();
-            hud.Tampilkan("Papan lantai di dekat ranjang berbunyi kopong.");
+            hud.Tampilkan("Papan lantai dekat ranjang Ibu bunyinya kopong. Butuh linggis.");
         }
 
         // Game Story Malam 2 butir 3: Laras memberikan kunci gudang.
@@ -159,13 +159,13 @@ namespace TheSending.Runtime
             if (!berjalan) return;
             if (!Inventaris.Punya(State, Inventaris.KunciGudang))
             {
-                hud.Tampilkan("Pintu gudang terkunci. Laras mungkin menyimpan kuncinya.");
+                hud.Tampilkan("Gudang terkunci. Minta kuncinya ke Laras di ruang tengah.");
                 return;
             }
             suaraKunci.Putar();
             suaraPintuGudang.Putar();
             pintuGudang.gameObject.SetActive(false);
-            hud.Tampilkan("Gudang gelap. Nyalakan senter (F).");
+            hud.Tampilkan("Gudang gelap. Tekan [F] untuk menyalakan senter.");
         }
 
         void SaatMasukGudang()
@@ -194,7 +194,7 @@ namespace TheSending.Runtime
                 adegan.Selesai();
             }
             hud.Tampilkan("Ada sesuatu di balik dinding bambu.");
-            hud.Tampilkan("Linggis bersandar di dinding gudang.");
+            hud.Tampilkan("Linggis bersandar di dinding gudang. Ambil dengan [E].");
             sibuk = false;
         }
 
@@ -211,7 +211,7 @@ namespace TheSending.Runtime
             suaraBongkar.Putar();
             MediaSantet.Temukan(State, Kode.M1);
             bacaBoneka.gameObject.SetActive(true);
-            hud.Tampilkan("Boneka itu otomatis difoto dan masuk Papan Bukti.");
+            hud.Tampilkan("Boneka itu sudah kufoto. Lihat Papan Bukti di Jurnal [Tab].");
             BukaAksara();
         }
 
@@ -237,7 +237,7 @@ namespace TheSending.Runtime
             var s = State;
             hud.Tampilkan($"Hitung mundur dimulai: Selasa Kliwon {KalenderJawa.SisaMalamKeSelasaKliwon(s.MalamKe)} malam lagi.");
             if (!JamGim.SaatnyaWiryoDatang(s))
-                hud.Tampilkan($"Obat Ibu pukul {JamGim.Format(JamGim.MulaiJendelaObat(s.MalamKe))}. Kursi di kamar Ibu bisa dipakai menunggu.");
+                hud.Tampilkan($"Obat Ibu pukul {JamGim.Format(JamGim.MulaiJendelaObat(s.MalamKe))}. Duduk di kursi kamar Ibu [E] untuk menunggu.");
             sibuk = false;
         }
 
@@ -293,9 +293,9 @@ namespace TheSending.Runtime
             sembunyiBerjalan = true;
             sosok.gameObject.SetActive(true);
             musikTegang.Putar();
-            hud.Tampilkan("Kembali ke kamar Raka tanpa ketahuan.");
-            hud.Tampilkan("Sosok itu mendengar langkah. Jangan berlari.");
-            hud.Tampilkan("Bersembunyi di lemari (E). Tahan Spasi untuk menahan napas.");
+            hud.Tampilkan("Aku harus kembali ke kamarku tanpa ketahuan.");
+            hud.Tampilkan("Sosok itu mendengar langkah. Jangan lari [Shift], jalan pelan.");
+            hud.Tampilkan("Sembunyi di lemari dengan [E]. Tahan [Spasi] untuk menahan napas.");
             sibuk = false;
         }
 

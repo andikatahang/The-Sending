@@ -88,12 +88,12 @@ namespace TheSending.Runtime
             else PerbaruiTujuan();
             switch (p)
             {
-                case Perubahan.Bukti: Tampilkan("Bukti baru masuk Papan Bukti."); break;
-                case Perubahan.Katanya: Tampilkan("Papan Bukti diperbarui."); break;
-                case Perubahan.Diary: Tampilkan("Halaman buku harian ditemukan."); break;
+                case Perubahan.Bukti: Tampilkan("Bukti baru masuk Papan Bukti (Jurnal [Tab])."); break;
+                case Perubahan.Katanya: Tampilkan("Papan Bukti diperbarui (Jurnal [Tab])."); break;
+                case Perubahan.Diary: Tampilkan("Halaman buku harian ditemukan. Baca di Jurnal [Tab]."); break;
                 case Perubahan.Media: Tampilkan("Catatan media santet diperbarui."); break;
-                case Perubahan.Barang: Tampilkan("Barang baru masuk inventaris (I)."); break;
-                case Perubahan.Foto: Tampilkan("Foto masuk Papan Bukti."); break;
+                case Perubahan.Barang: Tampilkan("Barang baru masuk inventaris [I]."); break;
+                case Perubahan.Foto: Tampilkan("Foto masuk Papan Bukti (Jurnal [Tab])."); break;
             }
         }
 

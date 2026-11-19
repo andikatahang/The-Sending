@@ -93,7 +93,7 @@ namespace TheSending.Runtime
             pemain.Pindah(titikMulai);
             yield return kartu.StartCoroutine(kartu.Tampilkan(
                 "Malam 4: Rambut di Dasar Sumur", KalenderJawa.NamaMalam(4) + "\n\n" + RingkasanMalam4 + "\n\n" + TujuanBab, 8f));
-            hud.Tampilkan("Ada sesuatu di dasar sumur belakang. Butuh tali dan pengait; para peronda di pos ronda punya.");
+            hud.Tampilkan("Ada sesuatu di dasar sumur belakang. Pinjam tali dan pengait di pos ronda.");
             sibuk = false;
         }
 
@@ -104,7 +104,7 @@ namespace TheSending.Runtime
             pemain.Pindah(titikPulang);
             yield return kartu.StartCoroutine(kartu.DariHitam());
             if (Inventaris.Punya(State, Inventaris.Pengait) && !TujuanMalam.Sudah(State, TujuanMalam.AmbilBungkusanSumur))
-                hud.Tampilkan("Tali dan pengait sudah ada. Sumur di pekarangan belakang, lewat pintu dapur.");
+                hud.Tampilkan("Tali dan pengait sudah ada. Ke sumur belakang lewat pintu dapur.");
             sibuk = false;
         }
 
@@ -124,7 +124,7 @@ namespace TheSending.Runtime
                 if (!petunjukObat)
                 {
                     petunjukObat = true;
-                    hud.Tampilkan($"Obat Ibu pukul {JamGim.Format(JamGim.MulaiJendelaObat(4))}. Kursi di kamar Ibu bisa dipakai menunggu.");
+                    hud.Tampilkan($"Obat Ibu pukul {JamGim.Format(JamGim.MulaiJendelaObat(4))}. Duduk di kursi kamar Ibu [E] untuk menunggu.");
                 }
                 return;
             }
@@ -206,7 +206,7 @@ namespace TheSending.Runtime
             }
             finally { adegan.Selesai(); }
             yield return kartu.StartCoroutine(kartu.DariHitam());
-            hud.Tampilkan("Bungkusan itu bisa dinetralkan di anglo dapur.");
+            hud.Tampilkan("Netralkan bungkusan itu di anglo dapur [E].");
             sibuk = false;
         }
 

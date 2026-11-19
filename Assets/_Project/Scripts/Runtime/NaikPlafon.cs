@@ -25,7 +25,7 @@ namespace TheSending.Runtime
         {
             if (!Inventaris.Punya(GameManager.Instance.State, Inventaris.TanggaBambu))
             {
-                if (hud != null) hud.Tampilkan("Butuh tangga dari gudang.");
+                if (hud != null) hud.Tampilkan("Terlalu tinggi. Ambil tangga bambu di gudang.");
                 return;
             }
             kartu.StartCoroutine(Pindah());

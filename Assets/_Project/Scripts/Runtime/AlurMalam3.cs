@@ -105,8 +105,8 @@ namespace TheSending.Runtime
             {
                 TampilkanPaku(true);
                 hud.Tampilkan("Di balik dempul hitam tertanam tujuh paku berkarat, masing-masing berukir nama hari.");
-                hud.Tampilkan("Paku-paku itu otomatis difoto dan masuk Papan Bukti.");
-                hud.Tampilkan("Paku santet tidak boleh dicabut sembarangan. Mungkin Bapak menulis sesuatu; periksa gudang.");
+                hud.Tampilkan("Paku-paku itu sudah kufoto. Lihat Papan Bukti di Jurnal [Tab].");
+                hud.Tampilkan("Paku santet tak boleh dicabut asal. Bapak mungkin mencatat caranya; cari di gudang.");
             }
             if (p == Perubahan.Tujuan) PerbaruiPromptPintu(s);
         }
@@ -149,8 +149,8 @@ namespace TheSending.Runtime
                 TujuanMalam.Selesaikan(s, TujuanMalam.PakdeDatang);
             }
             yield return kartu.StartCoroutine(kartu.DariHitam());
-            hud.Tampilkan("Pakde pergi dengan wajah masam. Raka masuk ke kamarnya.");
-            hud.Tampilkan("Ada kotak sepatu lama di dekat dinding kamar.");
+            hud.Tampilkan("Pakde pergi dengan muka masam. Aku masuk ke kamarku.");
+            hud.Tampilkan("Ada kotak sepatu lama di kamarku. Buka dengan [E].");
         }
 
         // "Lanjutkan" atau muat ulang setelah tertangkap, sesudah Pakde pergi.
@@ -169,9 +169,9 @@ namespace TheSending.Runtime
             GameManager.Instance.SimpanCheckpoint(); // hasil kunjungan (kepercayaan, bahan, pintu tertutup) tidak hilang saat keluar gim
             pemain.Pindah(titikPulang);
             yield return kartu.StartCoroutine(kartu.DariHitam());
-            if (!s.RitualDiketahui) hud.Tampilkan("Raka belum tahu cara menetralkan paku itu. Mungkin Bapak menulisnya; periksa gudang.");
-            else if (!RitualPenangkal.BahanLengkap(s)) hud.Tampilkan("Bahan ritual belum lengkap. Halaman 4 menyebut tempatnya (Jurnal, Tab).");
-            else hud.Tampilkan("Bahan ritual sudah lengkap. Anglo ada di dapur.");
+            if (!s.RitualDiketahui) hud.Tampilkan("Aku belum tahu cara menetralkan paku ini. Cari catatan Bapak di gudang.");
+            else if (!RitualPenangkal.BahanLengkap(s)) hud.Tampilkan("Bahan ritual belum lengkap. Tempatnya ada di Halaman 4 (Jurnal [Tab]).");
+            else hud.Tampilkan("Bahan ritual sudah lengkap. Mulai ritual di anglo dapur [E].");
             sibuk = false;
         }
 
@@ -192,7 +192,7 @@ namespace TheSending.Runtime
             {
                 petunjukBuSumi = true;
                 hud.Tampilkan("Paku ketujuh tercabut. Jeritan Ibu berhenti.");
-                hud.Tampilkan("Raka teringat Bu Sumi, peracik jamu di dekat jembatan. Keluar lewat pintu depan.");
+                hud.Tampilkan("Aku teringat Bu Sumi, peracik jamu dekat jembatan. Keluar lewat pintu depan.");
             }
             if (sosokBerjalan || !TujuanMalam.MalamSelesai(s)) return;
             if (!JamGim.ObatSelesai(s))   // K19-A
@@ -200,7 +200,7 @@ namespace TheSending.Runtime
                 if (!petunjukObat)
                 {
                     petunjukObat = true;
-                    hud.Tampilkan($"Obat Ibu pukul {JamGim.Format(JamGim.MulaiJendelaObat(3))}. Kursi di kamar Ibu bisa dipakai menunggu.");
+                    hud.Tampilkan($"Obat Ibu pukul {JamGim.Format(JamGim.MulaiJendelaObat(3))}. Duduk di kursi kamar Ibu [E] untuk menunggu.");
                 }
                 return;
             }
@@ -232,7 +232,7 @@ namespace TheSending.Runtime
             }
             finally { adegan.Selesai(); }
             hud.Tampilkan("Setiap kali jam dinding berdentang, Ibu menjerit seperti ditusuk.");
-            hud.Tampilkan("Buka kompas (C). Jarumnya berputar ke arah saka guru di ruang tengah.");
+            hud.Tampilkan("Tekan [C] untuk membuka kompas. Jarumnya berputar dekat saka guru di ruang tengah.");
             sibuk = false;
         }
 
@@ -246,7 +246,7 @@ namespace TheSending.Runtime
                 return;
             }
             var gm = GameManager.Instance;
-            hud.Tampilkan("Paku itu tidak mau lepas. Ibu mengerang dari kamarnya.");
+            hud.Tampilkan("Paku itu tidak mau lepas; urutannya salah. Ibu mengerang dari kamarnya.");
             if (KeMenuJikaEnding(gm)) return;
             // K21-A: checkpoint sesudah penalti dan sebelum Sosok muncul (desain 2.6), supaya penalti dan paku yang sudah
             // dicabut tidak hilang saat tertangkap.
@@ -262,7 +262,7 @@ namespace TheSending.Runtime
             sosok.transform.SetPositionAndRotation(titikMunculSosok.position, titikMunculSosok.rotation);
             sosok.gameObject.SetActive(true);   // SosokSantet.OnEnable menaruhnya di NavMesh dan mulai berpatroli
             musikTegang.Putar();
-            hud.Tampilkan("Gemerincing paku terdengar dari dapur. Bersembunyi (E di lemari) dan tahan napas (Spasi).");
+            hud.Tampilkan("Gemerincing paku dari dapur! Sembunyi di lemari [E], tahan napas [Spasi].");
         }
 
         // Sosok pergi setelah LamaSosok detik waktu gim (berhenti saat jeda). Detak jantung selama Raka bersembunyi.
@@ -313,9 +313,9 @@ namespace TheSending.Runtime
             if (!berjalan || sibuk) return;
             var s = State;
             if (!TujuanMalam.Sudah(s, TujuanMalam.CabutPaku))
-                hud.Tampilkan("Raka tidak bisa pergi selama Ibu terus menjerit.");
+                hud.Tampilkan("Aku tak bisa pergi selama Ibu menjerit. Cabut dulu paku di saka.");
             else if (TujuanMalam.Sudah(s, TujuanMalam.KunjungiSumi))
-                hud.Tampilkan("Sudah larut. Raka tidak keluar lagi malam ini.");
+                hud.Tampilkan("Sudah larut. Aku tidak keluar lagi malam ini.");
             else if (sosokBerjalan)
                 hud.Tampilkan("Gemerincing paku masih terdengar. Jangan keluar sekarang.");
             else

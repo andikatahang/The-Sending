@@ -18,7 +18,7 @@ namespace TheSending.Runtime
         static readonly string[] PesanLangkah =
         {
             "Media diletakkan di atas anglo.", "Garam ditaburkan.", "Media ditutup daun kelor.", "Api dinyalakan.",
-            "Raka mengaduk dengan bilah bambu kuning sambil berdoa. Media menjadi abu. Kubur abunya di pekarangan belakang.",
+            "Raka mengaduk dengan bilah bambu kuning sambil berdoa. Media menjadi abu. Kubur abunya di pekarangan belakang, lewat pintu dapur.",
         };
 
         [SerializeField] Hud hud;
@@ -40,7 +40,7 @@ namespace TheSending.Runtime
             {
                 ritual = null;
                 Media = -1;
-                hud.Tampilkan("Ritual gagal: urutannya salah. Media diangkat dari anglo; ulangi dari awal.");
+                hud.Tampilkan("Ritual gagal, urutannya salah. Ulangi dari awal: letakkan media di anglo.");
                 return;
             }
             hud.Tampilkan(PesanLangkah[ritual.Kemajuan - 1]);
@@ -48,8 +48,8 @@ namespace TheSending.Runtime
 
         bool Mulai(GameState s, LangkahRitual langkah)
         {
-            if (!s.RitualDiketahui) hud.Tampilkan("Raka belum tahu cara menetralkan media santet.");
-            else if (!RitualPenangkal.BahanLengkap(s)) hud.Tampilkan("Bahan ritual belum lengkap: garam, daun kelor, dan bilah bambu kuning.");
+            if (!s.RitualDiketahui) hud.Tampilkan("Aku belum tahu cara menetralkan media santet.");
+            else if (!RitualPenangkal.BahanLengkap(s)) hud.Tampilkan("Bahannya belum lengkap: garam, daun kelor, bilah bambu kuning.");
             else if (langkah != LangkahRitual.LetakkanMedia) hud.Tampilkan("Belum ada media di atas anglo.");
             else if (RitualPenangkal.MediaBerikutnya(s) < 0) hud.Tampilkan("Tidak ada media yang bisa dinetralkan sekarang.");
             else

@@ -26,7 +26,7 @@ namespace TheSending.Runtime
             {
                 malamDiingatkan = s.MalamKe;
                 if (dentang != null) dentang.Putar();
-                if (hud != null) hud.Tampilkan($"HP: pukul {JamGim.Format(mulai)}. Waktunya obat Ibu.");
+                if (hud != null) hud.Tampilkan($"HP: pukul {JamGim.Format(mulai)}. Waktunya memberi obat Ibu di kamarnya.");
             }
             if (malamDitegur != s.MalamKe && s.MenitGim >= akhir)
             {

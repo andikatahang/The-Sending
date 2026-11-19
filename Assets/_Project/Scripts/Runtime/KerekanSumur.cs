@@ -58,7 +58,7 @@ namespace TheSending.Runtime
         {
             if (!PunyaAlat)
             {
-                if (hud != null) hud.Tampilkan("Butuh tali dan pengait dari pos ronda.");
+                if (hud != null) hud.Tampilkan("Aku butuh tali dan pengait. Pinjam di pos ronda desa.");
                 return;
             }
             menarik = true;
@@ -100,7 +100,7 @@ namespace TheSending.Runtime
             tertarik = 0f;
             GeserBungkusan();
             if (bendaMasukAir != null) bendaMasukAir.Putar();
-            if (hud != null) hud.Tampilkan("Terlalu cepat. Bungkusan itu jatuh lagi ke dasar sumur.");
+            if (hud != null) hud.Tampilkan("Terlalu cepat! Bungkusannya jatuh lagi. Tarik lebih pelan.");
         }
 
         void GeserBungkusan()

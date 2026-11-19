@@ -99,7 +99,7 @@ namespace TheSending.EditorTools
             Set(kerekan, "bendaMasukAir", BuatSuara(rig, "BendaMasukAir", Sfx, "SFX", "(Suara: benda jatuh ke air.)"));
             Set(kerekan, "titikBungkusan", bungkusan.transform);
             Set(kerekan, "hud", rig.Hud);
-            SetTeks(kerekan, "prompt", "Kerekan sumur");
+            SetTeks(kerekan, "prompt", "Periksa sumur");
             Set(alur, "kerekan", kerekan);
 
             Set(alur, "titikSumur", Titik("TitikSumurMalam4", new Vector3(0.5f, 0.05f, 14.3f), new Vector3(-4f, 0.05f, 12f)));

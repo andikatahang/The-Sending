@@ -66,21 +66,21 @@ namespace TheSending.Core
         {
             switch (id)
             {
-                case TibaDiRumah: return "Masuk ke rumah keluarga";
-                case BicaraBidan: return "Bicara dengan Bidan Wulan";
+                case TibaDiRumah: return "Pulang: masuk ke rumah di ujung jalan";
+                case BicaraBidan: return "Bicara dengan Bidan Wulan di depan kamar Ibu";
                 case MasukKamarIbu: return "Masuk ke kamar Ibu";
                 case BukaLemari: return "Buka lemari Bapak di kamar Ibu";
-                case Cutscene23: return "Tunggu sampai pukul 23.00";
-                case PotretPaku: return "Foto paku di lantai kamar Ibu (Q)";
-                case BacaAksara: return "Bongkar papan lantai dan baca tulisan boneka";
+                case Cutscene23: return "Tunggu pukul 23.00 (duduk di kursi kamar Ibu)";
+                case PotretPaku: return "Potret paku di lantai kamar Ibu [Q]";
+                case BacaAksara: return "Bongkar papan dekat ranjang Ibu, baca tulisan boneka";
                 case PilihanWiryo: return "Temui Mbah Wiryo di pintu depan";
-                case SembunyiPertama: return "Sembunyi dari Sosok, lalu capai kamar Raka";
+                case SembunyiPertama: return "Kembali ke kamar Raka tanpa ketahuan Sosok";
                 case PakdeDatang: return "Temui Pakde Darmo";
                 case CabutPaku: return "Cabut tujuh paku di saka";
-                case KunjungiSumi: return "Temui Bu Sumi";
-                case RitualPertama: return "Kubur abu ritual di pekarangan belakang";
-                case AmbilBungkusanSumur: return "Ambil bungkusan di dasar sumur";
-                case LolosKejaranSumur: return "Lolos dari kejaran Sosok";
+                case KunjungiSumi: return "Temui Bu Sumi di desa (lewat pintu depan)";
+                case RitualPertama: return "Netralkan media di anglo dapur, kubur abunya";
+                case AmbilBungkusanSumur: return "Ambil bungkusan di dasar sumur belakang";
+                case LolosKejaranSumur: return "Lari dari Sosok ke pintu belakang dapur";
                 case GaliKendi: return "Gali kendi";
                 case BandingkanTanah: return "Bandingkan tanah";
                 case BicaraLaras: return "Bicara dengan Laras";
@@ -96,10 +96,10 @@ namespace TheSending.Core
             if (id == CabutPaku)
                 return s.MediaDitemukan[Kode.M2]
                     ? "Ambil tang di gudang, lalu cabut tujuh paku sesuai urutan hari"
-                    : "Ketuk saka guru di ruang tengah (E) sampai terdengar berongga";
+                    : "Ketuk saka guru di ruang tengah [E], cari yang berongga";
             if (id != null) return Teks(id);
             if (s.MalamKe < 1 || s.MalamKe > 6 || JamGim.ObatSelesai(s)) return "";
-            return $"Beri obat Ibu pukul {JamGim.Format(JamGim.MulaiJendelaObat(s.MalamKe))}";
+            return $"Beri obat Ibu pukul {JamGim.Format(JamGim.MulaiJendelaObat(s.MalamKe))} di kamarnya";
         }
 }
 }
