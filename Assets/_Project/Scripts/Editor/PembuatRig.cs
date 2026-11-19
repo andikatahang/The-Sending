@@ -225,10 +225,11 @@ namespace TheSending.EditorTools
             return g;
         }
 
-        // Dinding tak terlihat.
+        // Dinding tak terlihat. Layer Ignore Raycast: menahan badan pemain, tapi tidak menghalangi E dan foto (Q)
+        // ke benda di baliknya (misalnya pintu Bu Sumi di luar batas timur jalan desa).
         internal static void Batas(string nama, Vector3 pusat, Vector3 ukuran)
         {
-            var g = new GameObject(nama);
+            var g = new GameObject(nama) { layer = 2 };
             g.transform.position = pusat;
             g.AddComponent<BoxCollider>().size = ukuran;
         }
