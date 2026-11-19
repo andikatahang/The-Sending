@@ -93,6 +93,10 @@ namespace TheSending.Core
         public static string BarisHud(GameState s)
         {
             var id = BerikutnyaBelumSelesai(s);
+            if (id == CabutPaku)
+                return s.MediaDitemukan[Kode.M2]
+                    ? "Ambil tang di gudang, lalu cabut tujuh paku sesuai urutan hari"
+                    : "Ketuk saka guru di ruang tengah (E) sampai terdengar berongga";
             if (id != null) return Teks(id);
             if (s.MalamKe < 1 || s.MalamKe > 6 || JamGim.ObatSelesai(s)) return "";
             return $"Beri obat Ibu pukul {JamGim.Format(JamGim.MulaiJendelaObat(s.MalamKe))}";

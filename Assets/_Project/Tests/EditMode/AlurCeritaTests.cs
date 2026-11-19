@@ -179,5 +179,15 @@ namespace TheSending.Tests
             Assert.AreEqual("", TujuanMalam.BarisHud(s));
             Assert.AreEqual("", TujuanMalam.BarisHud(new GameState { MalamKe = 7 }));
         }
+
+        [Test]
+        public void BarisHudCabutPakuMenyuruhMengetukSakaSebelumDitemukan()
+        {
+            var s = new GameState { MalamKe = 3 };
+            TujuanMalam.Selesaikan(s, TujuanMalam.PakdeDatang);
+            StringAssert.Contains("Ketuk saka guru", TujuanMalam.BarisHud(s));
+            s.MediaDitemukan[Kode.M2] = true;
+            StringAssert.Contains("Ambil tang", TujuanMalam.BarisHud(s));
+        }
 }
 }
