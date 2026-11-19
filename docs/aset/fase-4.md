@@ -1,6 +1,8 @@
 # Daftar Aset Fase 4 (Malam 4: Rambut di Dasar Sumur)
 
-Dikerjakan 26–27 Nov. Cari mulai sekarang. Aturan sama dengan `fase-3.md`: catat lisensi di `KREDIT.md`, beri ✗ jika tidak ketemu (Claude membuat penggantinya).
+Dikerjakan 26–27 Nov.
+
+**Status akhir Fase 4 (19 Nov):** kode selesai. Semua model dan suara di tabel atas masih pengganti buatan Claude (✗ belum ada aset asli dari tim), kecuali musik kejar (`sp-horroraction`, Horror Starter Pack). Daftar nama file pengganti ada di bawah; tukar dengan aset asli tanpa mengganti nama. Cari mulai sekarang. Aturan sama dengan `fase-3.md`: catat lisensi di `KREDIT.md`, beri ✗ jika tidak ketemu (Claude membuat penggantinya).
 
 Model: utamakan **low poly** (di bawah 5.000 segitiga per benda, karakter di bawah 15.000), format FBX atau GLB. Gaya PSX akan menyamakan tampilannya. Paket dari Sketchfab yang datang sebagai `.zip`/`.rar` boleh ditaruh apa adanya di `Assets/_Project/Art/ThirdParty/<nama>/`; Claude mengekstrak, merapikan, dan mengonversinya saat dipakai.
 
@@ -49,7 +51,7 @@ Sumber: **SF** Sketchfab (filter *Downloadable*, lisensi CC0 atau CC-BY) · **AS
 
 ## Nama file dan prefab yang dipakai kode Fase 4
 
-Kode Fase 4 memuat aset pengganti dengan nama di bawah. Untuk menukar dengan aset asli: buka prefab di `Assets/_Project/Prefabs/Pengganti/`, ganti anak visualnya (depan = +Z, titik nol di lantai), atau timpa file suara dengan nama yang sama. Jangan mengganti nama file. Prefab di `Prefabs/Asli/` dipakai lebih dulu jika ada. Nama prefab sesuai rencana Task 6; tim memeriksa daftar akhirnya di folder setelah Task 6 selesai.
+Kode Fase 4 memuat aset pengganti dengan nama di bawah. Untuk menukar dengan aset asli: buka prefab di `Assets/_Project/Prefabs/Pengganti/`, ganti anak visualnya (depan = +Z, titik nol di lantai), atau timpa file suara dengan nama yang sama. Jangan mengganti nama file. Prefab di `Prefabs/Asli/` dipakai lebih dulu jika ada. Daftar di bawah sesuai prefab yang dibuat Task 6.
 
 **Prefab (`Prefabs/Pengganti/`)**
 
