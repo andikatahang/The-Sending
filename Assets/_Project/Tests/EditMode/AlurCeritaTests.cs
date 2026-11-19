@@ -144,7 +144,7 @@ namespace TheSending.Tests
             Assert.AreEqual(s.KondisiIbu, muat.KondisiIbu);
             Assert.IsTrue(muat.MediaDinetralkan[Kode.M5]);
         }
-    
+
         [Test]
         public void BerikutnyaBelumSelesaiMengikutiUrutanDanNullJikaSemuaSelesai()
         {

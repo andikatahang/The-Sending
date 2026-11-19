@@ -53,7 +53,7 @@ namespace TheSending.Core
                 if (!s.TujuanSelesai.Contains(id)) return false;
             return true;
         }
-    
+
         // Tujuan wajib pertama malam ini yang belum selesai; null jika semua selesai (atau Malam 7).
         public static string BerikutnyaBelumSelesai(GameState s)
         {

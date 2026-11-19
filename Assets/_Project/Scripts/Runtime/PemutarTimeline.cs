@@ -47,6 +47,7 @@ namespace TheSending.Runtime
             terkirim.Clear();
             director.time = 0;
             director.Play();
+            yield return null; // Spasi dari frame yang sama (adegan sebelumnya) tidak boleh ikut melewati ini
             // Cadangan state: jika wrap mode bukan None, stopped tidak pernah terpicu dan adegan akan terkunci.
             // director != null: objeknya bisa dihancurkan di tengah cutscene (scene dibongkar).
             while (director != null && !selesai && director.state == PlayState.Playing)

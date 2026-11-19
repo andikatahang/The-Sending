@@ -15,12 +15,13 @@ ukur() { # file -> "LUFS puncak" (puncak sampel dBFS)
   local f="$1" l p
   l=$(ffmpeg -nostats -i "$f" -af ebur128=peak=true -f null - 2>&1 | awk '/Integrated loudness:/{g=1} g&&/I:/{print $2; exit}')
   p=$(ffmpeg -nostats -i "$f" -af volumedetect -f null - 2>&1 | awk '/max_volume/{print $5}')
-  echo "${l:--70} ${p:--99}"
+  case "${p:-}" in ""|*inf*) p=-99 ;; esac   # file senyap: puncak -inf
+  echo "${l:--70} $p"
 }
 kodek() { # ekstensi + file sumber -> argumen encoder
   case "$(echo "$1" | tr A-Z a-z)" in
     mp3) echo "-c:a libmp3lame -b:a 192k" ;;
-    ogg) echo "-c:a vorbis -strict -2 -b:a 160k" ;;
+    ogg) if ffmpeg -hide_banner -encoders 2>/dev/null | grep -q libvorbis; then echo "-c:a libvorbis -b:a 160k"; else echo "-c:a vorbis -strict -2 -b:a 160k"; fi ;;
     *)   echo "-c:a $(ffprobe -v error -select_streams a:0 -show_entries stream=codec_name -of csv=p=0 "$2")" ;;
   esac
 }
@@ -29,6 +30,11 @@ normal() { # sumber tujuan
   dur=$(ffprobe -v error -show_entries format=duration -of csv=p=0 "$src")
   sr=$(ffprobe -v error -select_streams a:0 -show_entries stream=sample_rate -of csv=p=0 "$src")
   read -r l0 p0 <<<"$(ukur "$src")"
+  # suara pendek: dilewati jika puncak sudah dalam 0,5 dB dari target (idempoten)
+  if [ "$src" = "$dst" ] && awk "BEGIN{exit !($dur<1 && ($p0-($PUNCAK))<0.5 && ($p0-($PUNCAK))>-0.5)}"; then
+    printf '%s\t%s\t%s\t(dilewati)\n' "$dst" "$l0" "$p0"; return
+  fi
+  if [ "$p0" = "-99" ]; then printf '%s\t%s\t%s\t(senyap, dilewati)\n' "$dst" "$l0" "$p0"; return; fi
   if [ "$src" = "$dst" ] && awk "BEGIN{exit !(($l0-($TARGET))<1 && ($l0-($TARGET))>-1 && $p0<=($TP)+0.1)}" && awk "BEGIN{exit !($dur>=1)}"; then
     printf '%s\t%s\t%s\t(dilewati)\n' "$dst" "$l0" "$p0"; return
   fi

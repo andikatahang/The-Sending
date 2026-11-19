@@ -76,6 +76,7 @@ namespace TheSending.Runtime
             judul.text = teksJudul;
             isi.text = teksIsi;
             yield return Pudar(grup.alpha, 1f, kartu);
+            yield return null; // Spasi dari frame terakhir memudar masuk tidak dihitung
             // Spasi melewati sisa waktu tahan kartu (memudar keluar tetap berjalan).
             for (float t = 0f; t < detik && kartuAktif == kartu && !(Keyboard.current != null && Keyboard.current.spaceKey.wasPressedThisFrame); t += Time.unscaledDeltaTime) yield return null;
             if (kartuAktif == kartu) yield return Pudar(1f, 0f, kartu);
