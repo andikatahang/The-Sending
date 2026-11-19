@@ -118,6 +118,17 @@ namespace TheSending.EditorTools
             Set(alur, "titikDepanBuSumi", Titik("TitikDepanBuSumi", new Vector3(6.2f, 0.05f, 73.5f), new Vector3(0f, 0.05f, 73.5f)));
         }
 
+        // Latar Scene_MainMenu: desa malam tanpa pemain dan tanpa logika (hanya tampilan).
+        internal static void Latar()
+        {
+            Lingkungan();
+            PembuatPengganti.Pasang("Gapura", null, Vector3.zero);
+            PembuatPengganti.Pasang("RumahKecil", null, new Vector3(10f, 0f, 75f), -90f);
+            Balok("CahayaJendela", new Vector3(7.47f, 1.5f, 76.2f), new Vector3(0.02f, 1.1f, 1.1f), "Kain");
+            Lampu("LampuJendela", new Vector3(7.1f, 1.7f, 76.2f), "FFB46B", 4f, 2f);
+            PembuatPengganti.Pasang("RumahKeluargaLuar", null, new Vector3(0f, 0f, UjungJalan), 180f);
+        }
+
         static void Lingkungan()
         {
             var bulan = new GameObject("CahayaBulan").AddComponent<Light>();
