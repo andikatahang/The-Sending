@@ -20,12 +20,13 @@ namespace TheSending.Runtime
         [SerializeField] Hud hud;
         [SerializeField] PemainGerak pemain;
         [SerializeField] DataDialog dialogPintu, dialogMenunggu, dialogTerimaKasih, dialogPamit, dialogCerita;
+        [SerializeField] DataDialog dialogMalam5Dingin, dialogMalam5Kesaksian, dialogMalam5MinyakSereh, dialogMalam5Pamit;
         [SerializeField] InteraktifAlur buSumi, teplok, sumur, pintuKeluar;
         [SerializeField] GameObject cahayaTeplok;
         [SerializeField] Transform titikMulai, titikBale, titikSumiBale, bidikBale;
         [SerializeField] Suara suaraBanting, suaraTimba, suaraPintu;
 
-        bool berjalan, sibuk, teplokBeres, airBeres, ceritaSudah, peringatanPulang;
+        bool berjalan, malam5, sudahBicara5, sibuk, teplokBeres, airBeres, ceritaSudah, peringatanPulang;
 
         static GameState State => GameManager.Instance.State;
 
@@ -58,6 +59,12 @@ namespace TheSending.Runtime
             kartu.HitamSeketika();
             pemain.Pindah(titikMulai);
             cahayaTeplok.SetActive(false);
+            if (s.MalamKe == 5)
+            {
+                malam5 = true;
+                StartCoroutine(Datang5());
+                return;
+            }
             if (s.MalamKe != 3)
             {
                 // Isi Malam 4 ke atas dibuat di fase berikutnya; pintu keluar tetap bisa dipakai.
@@ -79,8 +86,33 @@ namespace TheSending.Runtime
             sibuk = false;
         }
 
+        IEnumerator Datang5()
+        {
+            sibuk = true;
+            yield return kartu.StartCoroutine(kartu.DariHitam());
+            hud.Tampilkan("Bu Sumi membukakan pintu. Ajak bicara [E].");
+            sibuk = false;
+        }
+
+        // Malam 5 (K36-A: pintu terbuka menurut KepercayaanSumi.PintuTerbuka, dicek desa): kesaksian B5 + Halaman 7, lalu minyak sereh.
+        IEnumerator Bicara5()
+        {
+            sibuk = true;
+            if (sudahBicara5) yield return dialog.MulaiDanTunggu(dialogMalam5Pamit);
+            else
+            {
+                sudahBicara5 = true;
+                var s = State;
+                yield return dialog.MulaiDanTunggu(KepercayaanSumi.BisaBeriKesaksian(s) ? dialogMalam5Kesaksian : dialogMalam5Dingin);
+                if (KepercayaanSumi.BisaBeriMinyakSereh(s) && !s.PunyaMinyakSereh)
+                    yield return dialog.MulaiDanTunggu(dialogMalam5MinyakSereh);
+            }
+            sibuk = false;
+        }
+
         void SaatBuSumi()
         {
+            if (malam5 && !sibuk) { StartCoroutine(Bicara5()); return; }
             if (!berjalan || sibuk) return;
             var s = State;
             DataDialog d;
@@ -187,6 +219,7 @@ namespace TheSending.Runtime
             adegan.Mulai();
             suara.Putar();
             yield return kartu.StartCoroutine(kartu.KeHitam());
+            PetaScene.CatatAsal(State, PetaScene.RumahBuSumi);
             GameManager.Instance.MuatScene(PetaScene.Desa);   // AlurDesaMalam3 menaruh Raka di depan rumah Bu Sumi
         }
     }
