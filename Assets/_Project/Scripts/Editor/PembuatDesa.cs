@@ -92,6 +92,7 @@ namespace TheSending.EditorTools
             Set(sutradara, "suaraPintu", suaraPintu);
             Malam3(rig, alurPintu, suaraPintu);
             Malam4(rig, alurPintu, suaraPintu);
+            Malam5(rig, alurPintu, suaraPintu);
 
             EditorSceneManager.SaveScene(scene, JalurScene);
             AssetDatabase.SaveAssets();
@@ -111,14 +112,58 @@ namespace TheSending.EditorTools
             Set(alur, "suaraPintu", suaraPintu);
             Set(alur, "suaraKetuk", BuatSuara(rig, "KetukPintu", Sfx, "SFX", "(Suara: ketukan di pintu.)"));
 
-            // Tebal dan maju dari dinding depan (x 7,5) supaya sinar E tidak lebih dulu kena collider dinding/bingkai pintu.
-            var pintu = Logika("PintuBuSumi", new Vector3(7.05f, 0f, 73.5f), new Vector3(0.7f, 2.2f, 1.4f));
-            var ketuk = pintu.AddComponent<InteraktifAlur>();
-            SetTeks(ketuk, "prompt", "Ketuk pintu Bu Sumi");
+            var ketuk = PintuBuSumi("PintuBuSumi");
+            var pintu = ketuk.gameObject;
             Set(alur, "pintuBuSumi", ketuk);
             PembuatMalam2.AktifPada(alur.gameObject, 3, 3, pintu);
             Set(alur, "titikDepanRumah", Titik("TitikDepanRumahMalam3", new Vector3(0f, 0.1f, 96.8f), new Vector3(0f, 0.1f, 80f)));
             Set(alur, "titikDepanBuSumi", Titik("TitikDepanBuSumi", new Vector3(6.2f, 0.05f, 73.5f), new Vector3(0f, 0.05f, 73.5f)));
+        }
+
+        // Tebal dan maju dari dinding depan (x 7,5) supaya sinar E tidak lebih dulu kena collider dinding/bingkai pintu.
+        // Tiap malam punya salinannya sendiri: AktifDiMalam ganda pada satu objek akan saling menimpa.
+        static InteraktifAlur PintuBuSumi(string nama)
+        {
+            var ketuk = Logika(nama, new Vector3(7.05f, 0f, 73.5f), new Vector3(0.7f, 2.2f, 1.4f)).AddComponent<InteraktifAlur>();
+            SetTeks(ketuk, "prompt", "Ketuk pintu Bu Sumi");
+            return ketuk;
+        }
+
+        // Malam 5 (K32-A): gerbang makam dan rumah Pakde di kiri (barat) jalan. Ujung utara jalan sudah ditempati rumah
+        // keluarga, jadi gerbang makam di sisi barat dekat ujung utara. Collider logika di dalam BatasBarat (x -6,5).
+        static void Malam5(Rig rig, InteraktifAlur pintuRumah, Suara suaraPintu)
+        {
+            var alur = new GameObject("Sutradara Malam 5").AddComponent<AlurDesaMalam5>();
+            Set(alur, "kartu", rig.Kartu);
+            Set(alur, "adegan", rig.Adegan);
+            Set(alur, "hud", rig.Hud);
+            Set(alur, "pemain", rig.Pemain);
+            Set(alur, "pintuRumah", pintuRumah);
+            Set(alur, "suaraPintu", suaraPintu);
+            Set(alur, "suaraKetuk", BuatSuara(rig, "KetukPintu", Sfx, "SFX", "(Suara: ketukan di pintu.)"));
+            Set(alur, "suasana", BuatSuara(rig, "SuasanaDesaMalam5", Sfx, "Ambience", "", ulang: true));   // tanpa file: diam (SuasanaMalam rig sudah berbunyi)
+
+            PembuatPengganti.Pasang("GerbangMakam", null, new Vector3(-7f, 0f, 92f), 90f);
+            var gerbang = Logika("GerbangMakam Malam 5", new Vector3(-6.2f, 0f, 92f), new Vector3(0.4f, 2.2f, 2.4f));
+            var aGerbang = gerbang.AddComponent<InteraktifAlur>();
+            SetTeks(aGerbang, "prompt", "Masuk makam desa");
+            Set(alur, "gerbangMakam", aGerbang);
+
+            PembuatPengganti.Pasang("RumahPakdeLuar", null, new Vector3(-13f, 0f, 74f), 90f);
+            PembuatPengganti.Pasang("PagarBesi", null, new Vector3(-7f, 0f, 74f), 90f);
+            var pagar = Logika("PagarPakde Malam 5", new Vector3(-6.2f, 0f, 74f), new Vector3(0.4f, 1.4f, 2.2f));
+            var aPagar = pagar.AddComponent<InteraktifAlur>();
+            SetTeks(aPagar, "prompt", "Masuk halaman rumah Pakde");
+            Set(alur, "pagarPakde", aPagar);
+
+            var ketuk = PintuBuSumi("PintuBuSumi Malam 5");
+            Set(alur, "pintuBuSumi", ketuk);
+            PembuatMalam2.AktifPada(alur.gameObject, 5, 5, gerbang, pagar, ketuk.gameObject);
+
+            Set(alur, "titikDepanRumah", Titik("TitikDepanRumahMalam5", new Vector3(0f, 0.1f, 96.8f), new Vector3(0f, 0.1f, 80f)));
+            Set(alur, "titikGerbangMakam", Titik("TitikGerbangMakam", new Vector3(-5f, 0.05f, 92f), new Vector3(0f, 0.05f, 92f)));
+            Set(alur, "titikDepanBuSumi", Titik("TitikDepanBuSumiMalam5", new Vector3(6.2f, 0.05f, 73.5f), new Vector3(0f, 0.05f, 73.5f)));
+            Set(alur, "titikDepanPakde", Titik("TitikDepanPakde", new Vector3(-5f, 0.05f, 74f), new Vector3(0f, 0.05f, 74f)));
         }
 
         // Malam 4 (K26-A): pos ronda di kiri jalan, sekitar 12 m di selatan rumah keluarga. Hanya tampil di Malam 4.
@@ -186,6 +231,8 @@ namespace TheSending.EditorTools
             Batas("BatasBarat", new Vector3(-SetengahLebar, 2f, 50f), new Vector3(0.2f, 4f, 140f));
             Batas("BatasTimur", new Vector3(SetengahLebar, 2f, 50f), new Vector3(0.2f, 4f, 140f));
             Batas("BatasSelatan", new Vector3(0f, 2f, -1.5f), new Vector3(SetengahLebar * 2f, 4f, 0.2f));
+            // R12: ujung utara di balik rumah keluarga, kalau-kalau collider prefab rumah menyisakan celah.
+            Batas("BatasUtara", new Vector3(0f, 2f, 104f), new Vector3(SetengahLebar * 2f, 4f, 0.2f));
 
             float[] zLampu = { 10f, 44f, 90f };
             for (int i = 0; i < zLampu.Length; i++)
@@ -269,6 +316,8 @@ namespace TheSending.EditorTools
             Mathf.Abs(x) < SetengahLebar + 0.5f
             || (z > 46.5f && z < 57.5f)                              // sungai
             || (x > 6f && x < 16f && z > 67f && z < 83f)            // rumah Bu Sumi
+            || (x < -6f && x > -18f && z > 68f && z < 80f)          // rumah Pakde
+            || (x < -6f && x > -10f && z > 89f && z < 95f)          // gerbang makam
             || (Mathf.Abs(x) < 11f && z > 95f && z < 116f);         // rumah keluarga
 
         // Model mobil Sketchfab (diimpor glTFast, sudah berskala meter, depan di +Z). Tanpa model: pakai prefab pengganti.

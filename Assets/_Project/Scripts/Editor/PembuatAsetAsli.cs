@@ -28,6 +28,7 @@ namespace TheSending.EditorTools
         const string Pocong = Pihak3 + "/pocong-scary/";
         const string SofaTua = Pihak3 + "/old-sofas/";
         const string Makam = Pihak3 + "/indonesia-grave/source/makam/Makam.obj";   // OBJ 3D Builder, sumbu Z ke atas
+        // Makam.obj disunting tangan: baris `g Object.N` ditambahkan supaya Unity memecah grupnya (dipakai `hanya:`).
         // Grup OBJ sofa tiga dudukan (old-sofas berisi empat sofa).
         static readonly string[] SofaTigaDudukan = { "couchinbase_low", "couchin_low", "Couchinl_low", "Couchinm_low", "Couchinr_low" };
 
