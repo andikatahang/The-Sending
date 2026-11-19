@@ -22,3 +22,4 @@ Catat setiap aset pihak ketiga di sini saat dimasukkan ke proyek. Aset berlisens
 | Old sofas (sofa tiga dudukan, dipakai di ruang tengah) | `Assets/_Project/Art/ThirdParty/old-sofas/` | **(isi nama pembuat)** | Sketchfab **(isi URL)** | **(isi lisensi; CC-BY wajib kredit)** | **(isi)** |
 | ButtonClick-OldRadio (suara klik tombol UI) | `Assets/_Project/Audio/Resources/ButtonClick-OldRadio.mp3` | **(isi nama pembuat)** | **(isi URL)** | belum dicatat (diisi tim) | **(isi)** |
 | KetukPintu (suara ketuk pintu, pengganti sintetis) | `Assets/_Project/Audio/SFX/KetukPintu.mp3` | **(isi nama pembuat)** | **(isi URL)** | belum dicatat (diisi tim) | **(isi)** |
+| SuaraMauMuntah (suara Ibu terbatuk/muntah di cutscene 23.00, menggantikan BatukTersedak yang dihapus) | `Assets/_Project/Audio/SFX/SuaraMauMuntah.mp3` | **(isi nama pembuat)** | **(isi URL)** | belum dicatat (diisi tim) | **(isi)** |

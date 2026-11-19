@@ -322,7 +322,7 @@ namespace TheSending.EditorTools
             Set(jadwal, "teguranLaras", PembuatDataFase1.Muat(PembuatDataFase1.TeguranObat));
             Set(jadwal, "dentang", BuatSuara(rig, "DentangJam", Sfx, "SFX", "(Suara: jam dinding berdentang.)"));
 
-            Set(malam1, "suaraBatuk", BuatSuara(rig, "BatukTersedak", Sfx, "SFX", "(Suara: Ibu terbatuk.)"));
+            Set(malam1, "suaraBatuk", BuatSuara(rig, "SuaraMauMuntah", Sfx, "SFX", "(Suara: Ibu terbatuk.)"));
             Set(malam1, "suaraPaku", BuatSuara(rig, "PakuJatuh", Sfx, "SFX", "(Suara: logam jatuh ke lantai.)"));
             Set(malam1, "suaraListrik", BuatSuara(rig, "ListrikPadam", Sfx, "SFX", "(Suara: listrik padam.)"));
             Set(malam1, "suaraLangkah", BuatSuara(rig, "LangkahDiAtap", Sfx, "SFX", "(Suara: langkah di atap.)"));
