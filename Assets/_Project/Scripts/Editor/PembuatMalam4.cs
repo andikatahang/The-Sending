@@ -26,6 +26,11 @@ namespace TheSending.EditorTools
             Set(alur, "pemain", rig.Pemain);
             Set(alur, "dialogWargaMenuduh", PembuatDataFase4.Muat(PembuatDataFase4.WargaMenuduh));
             Set(alur, "sosok", sosok);
+            // Bacaan tempo tarikan kerekan (K27-A): canvas sendiri di bawah sutradara, kosong selain saat menarik.
+            var kanvasTempo = UiPabrik.BuatCanvas("TempoUI", 10);
+            kanvasTempo.transform.SetParent(sutradara.transform, false);
+            Set(alur, "teksTempo", UiPabrik.BuatTeks(kanvasTempo.transform, "Tempo", 28, TextAnchor.LowerCenter,
+                new Vector2(0.3f, 0.1f), new Vector2(0.7f, 0.16f)));
             Set(alur, "titikMulai", Titik("TitikMulaiMalam4", new Vector3(0f, 0.05f, 4f), new Vector3(0f, 0.05f, 0f)));
             Set(alur, "titikPulang", Titik("TitikPulangMalam4", new Vector3(0f, 0.05f, 0.9f), new Vector3(0f, 0.05f, 6f)));
 
@@ -61,8 +66,12 @@ namespace TheSending.EditorTools
             Balok("DindingLoteng", new Vector3(7f, yDinding, 10f), new Vector3(0.15f, tinggi, 4f), "Gedek");
             Balok("AtapLoteng", new Vector3(0f, LantaiLoteng + tinggi + 0.1f, 10f), new Vector3(14f, 0.2f, 4f), "KayuGelap");
 
+            // Tutup lubang plafon 1 x 1 m sampai Malam 4 (Malam 0-3).
+            var tutup = Balok("TutupLubangPlafon", new Vector3(Lubang.x, PembuatRumahKeluarga.Tinggi + 0.1f, Lubang.z), new Vector3(1f, 0.2f, 1f), "KayuGelap");
+            PembuatMalam2.AktifPada(sutradara, 0, 3, tutup);
+
             // Collider logika mengisi lubang (y 2..3,5): terbidik dari dapur (mendongak) dan dari loteng (menunduk).
-            var g = Logika("NaikPlafon", new Vector3(Lubang.x, 2f, Lubang.z), new Vector3(0.9f, 1.5f, 0.9f));
+            var g = Logika("NaikPlafon", new Vector3(Lubang.x, 2.4f, Lubang.z), new Vector3(0.9f, 1.5f, 0.9f));
             var naik = g.AddComponent<NaikPlafon>();
             Set(naik, "titikAtas", Titik("TitikAtasPlafon", new Vector3(Lubang.x, LantaiLoteng + 0.05f, 8.8f),
                 new Vector3(-3f, LantaiLoteng + 0.05f, 10.5f)));

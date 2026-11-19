@@ -15,7 +15,7 @@ namespace TheSending.EditorTools
     public static class PembuatRumahKeluarga
     {
         internal const string JalurScene = "Assets/_Project/Scenes/" + PetaScene.RumahKeluarga + ".unity";
-        const float Tinggi = 3f, Tebal = 0.15f;
+        internal const float Tinggi = 3f, Tebal = 0.15f;
         const string Sfx = PembuatPengganti.FolderSfx, Musik = PembuatPengganti.FolderMusik;
         const string WarnaLampuRumah = "FFD9A0", WarnaTeplok = "FFB46B";
         const string JalurFont = "Assets/_Project/Art/Fonts/Resources/VT323-Regular.ttf";
