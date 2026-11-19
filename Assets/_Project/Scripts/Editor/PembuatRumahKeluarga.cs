@@ -57,6 +57,7 @@ namespace TheSending.EditorTools
             SuaraDanJadwal(rig, sutradara, malam1);
             var sosok = PembuatMalam2.Pasang(rig, sutradara, pintuGudang, kalender, laras);
             PembuatMalam3.Pasang(rig, sutradara, sosok, pintuGudang, pintuBelakang, ibu);
+            PembuatMalam4.Pasang(rig, sutradara, sosok);
 
             EditorSceneManager.SaveScene(scene, JalurScene);
             AssetDatabase.SaveAssets();
@@ -73,7 +74,13 @@ namespace TheSending.EditorTools
         static (InteraktifAlur pintuGudang, GameObject pintuBelakang) Bangunan()
         {
             Balok("Lantai", new Vector3(0f, -0.1f, 6f), new Vector3(14f, 0.2f, 12f), "KayuTua");
-            Balok("Plafon", new Vector3(0f, Tinggi + 0.1f, 6f), new Vector3(14f, 0.2f, 12f), "KayuGelap");
+            // Plafon: dapur dan gudang (z 8..12) berlubang 1 x 1 m di (1,5; 10) sebagai jalan naik Malam 4 (NaikPlafon).
+            float yPlafon = Tinggi + 0.1f;
+            Balok("Plafon", new Vector3(0f, yPlafon, 4f), new Vector3(14f, 0.2f, 8f), "KayuGelap");
+            Balok("Plafon", new Vector3(-3f, yPlafon, 10f), new Vector3(8f, 0.2f, 4f), "KayuGelap");
+            Balok("Plafon", new Vector3(4.5f, yPlafon, 10f), new Vector3(5f, 0.2f, 4f), "KayuGelap");
+            Balok("Plafon", new Vector3(1.5f, yPlafon, 8.75f), new Vector3(1f, 0.2f, 1.5f), "KayuGelap");
+            Balok("Plafon", new Vector3(1.5f, yPlafon, 11.25f), new Vector3(1f, 0.2f, 1.5f), "KayuGelap");
 
             // Dinding luar. Pintu depan (selatan) tertutup: di Fase 1 pemain tidak keluar rumah lagi.
             Dinding(-7f, 0f, -0.6f, 0f);
