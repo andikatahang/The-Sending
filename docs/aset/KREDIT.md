@@ -6,7 +6,8 @@ Catat setiap aset pihak ketiga di sini saat dimasukkan ke proyek. Aset berlisens
 |---|---|---|---|---|---|
 | Font VT323 | `Assets/_Project/Art/Fonts/Resources/VT323-Regular.ttf` | Peter Hull | Google Fonts | SIL OFL 1.1 | Tidak |
 | Font Kalam | `Assets/_Project/Art/Fonts/Resources/Kalam-Regular.ttf` | Indian Type Foundry | Google Fonts | SIL OFL 1.1 | Tidak |
-| Suara sintetis: PakuJatuh, ListrikPadam, LangkahDiAtap, DroneHoror, PapanKopong, KetukPintu, GemerincingPaku, GerimisDiAtap, KetukPadat, KetukBerongga, PakuDicabut, ApiAnglo, PintuDibanting | `Assets/_Project/Audio/SFX/*.wav`, `Assets/_Project/Audio/Music/DroneHoror.wav` | Tim The Sending (dibuat skrip `PembuatSuaraPengganti`) | — | Buatan sendiri | Tidak |
+| Suara sintetis: PakuJatuh, ListrikPadam, LangkahDiAtap, DroneHoror, PapanKopong, KetukPintu, GemerincingPaku, KetukPadat, KetukBerongga, PakuDicabut, ApiAnglo, PintuDibanting | `Assets/_Project/Audio/SFX/*.wav`, `Assets/_Project/Audio/Music/DroneHoror.wav` | Tim The Sending (dibuat skrip `PembuatSuaraPengganti`) | — | Buatan sendiri | Tidak |
+| Gerimis hujan (loop Malam 2) | `Assets/_Project/Audio/SFX/GerimisDiAtap.mp3` | belum dicatat (diisi tim) | belum dicatat (diisi tim) | belum dicatat (diisi tim) | belum dicatat (diisi tim) |
 | Material dan prefab pengganti | `Assets/_Project/Art/Materials/Pengganti/`, `Assets/_Project/Prefabs/Pengganti/` | Tim The Sending (dibuat skrip `PembuatPengganti`) | — | Buatan sendiri | Tidak |
 | Mobil LMPV ("indonesian-lmpv-2") | `Assets/_Project/Art/Models/Desa/MobilLMPV.glb` | **(isi nama pembuat)** | Sketchfab **(isi URL)** | **(isi lisensi; CC-BY wajib kredit)** | **(isi)** |
 | Essential Nature Pack (pohon, semak, batu, kayu lapuk, terrain layer) | `Assets/_Project/Art/ThirdParty/EssentialNaturePack/` | Polyeler | Unity Asset Store | Unity Asset Store EULA (readme: boleh komersial, boleh dimodifikasi; dilarang didistribusikan ulang di luar gim) | Tidak |
