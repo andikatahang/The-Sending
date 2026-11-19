@@ -75,3 +75,15 @@ Kode Fase 4 memuat aset pengganti dengan nama di bawah. Untuk menukar dengan ase
 | `BendaMasukAir.wav` | bungkusan jatuh ke air |
 | `Kentongan.wav` | kentongan dipukul |
 | `AyamBerkokok.wav` | ayam berkokok |
+
+## Musik dari Horror Starter Pack
+
+Lagu asli tetap di `Assets/Horror Starter Pack/`; salinan .ogg (loop) ada di `Assets/_Project/Audio/Music/` dengan nama slot, ditemukan pembuat lewat nama dasar.
+
+| Slot | Dipakai di | Lagu |
+|---|---|---|
+| `MusikTegang` | Sosok muncul Malam 2 dan 3 | `sp-underthestairs` (115 dtk) |
+| `MusikKejar` | kejaran Malam 4 | `sp-horroraction` (38 dtk) |
+| `MusikMalam` | musik latar Malam 1 (menggantikan `DroneHoror` sintetis) | `sp-lost` (79 dtk) |
+
+Musik menu utama: belum ada slotnya di kode, jadi tidak dipasang. Sisa lagu belum terpakai.

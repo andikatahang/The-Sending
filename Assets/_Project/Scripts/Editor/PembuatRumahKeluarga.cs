@@ -326,7 +326,7 @@ namespace TheSending.EditorTools
             Set(malam1, "suaraPaku", BuatSuara(rig, "PakuJatuh", Sfx, "SFX", "(Suara: logam jatuh ke lantai.)"));
             Set(malam1, "suaraListrik", BuatSuara(rig, "ListrikPadam", Sfx, "SFX", "(Suara: listrik padam.)"));
             Set(malam1, "suaraLangkah", BuatSuara(rig, "LangkahDiAtap", Sfx, "SFX", "(Suara: langkah di atap.)"));
-            Set(malam1, "musikDrone", BuatSuara(rig, "DroneHoror", Musik, "Music", "(Musik latar.)", ulang: true));
+            Set(malam1, "musikDrone", BuatSuara(rig, PembuatPengganti.AdaSuara(Musik, "MusikMalam") ? "MusikMalam" : "DroneHoror", Musik, "Music", "(Musik latar.)", ulang: true));
         }
     }
 }

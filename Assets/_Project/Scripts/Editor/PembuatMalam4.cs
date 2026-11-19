@@ -51,7 +51,7 @@ namespace TheSending.EditorTools
             Set(alur, "suaraPintuDepan", BuatSuara(rig, "PintuBerderit", Sfx, "SFX", "(Suara: pintu kayu berderit.)"));
             Set(alur, "suaraStinger", BuatSuara(rig, "StingerKejutan", Sfx, "SFX", "(Suara: dentuman mengejutkan.)"));
             Set(alur, "suaraDetak", BuatSuara(rig, "DetakJantung", Sfx, "SFX", "(Suara: detak jantung.)", ulang: true));
-            string tegang = PembuatPengganti.AdaSuara(Musik, "MusikTegang") ? "MusikTegang" : "DroneHoror";
+            string tegang = PembuatPengganti.AdaSuara(Musik, "MusikKejar") ? "MusikKejar" : "DroneHoror";
             Set(alur, "musikTegang", BuatSuara(rig, tegang, Musik, "Music", "(Musik tegang.)", ulang: true));
         }
 
