@@ -115,6 +115,7 @@ namespace TheSending.EditorTools
             var ketuk = pintu.AddComponent<InteraktifAlur>();
             SetTeks(ketuk, "prompt", "Ketuk pintu Bu Sumi");
             Set(alur, "pintuBuSumi", ketuk);
+            PembuatMalam2.AktifPada(alur.gameObject, 3, 3, pintu);
             Set(alur, "titikDepanRumah", Titik("TitikDepanRumahMalam3", new Vector3(0f, 0.1f, 96.8f), new Vector3(0f, 0.1f, 80f)));
             Set(alur, "titikDepanBuSumi", Titik("TitikDepanBuSumi", new Vector3(6.2f, 0.05f, 73.5f), new Vector3(0f, 0.05f, 73.5f)));
         }
@@ -152,6 +153,9 @@ namespace TheSending.EditorTools
             SetTeks(aWarga, "prompt", "Dengarkan obrolan warga");
             Set(alur, "warga", aWarga);
             Lampu("LampuPosRonda", new Vector3(-4.5f, 2.4f, 88f), "FFB46B", 6f, 1.5f).transform.SetParent(pos.transform, true);
+            var suasana = BuatSuara(rig, "SuasanaPosRonda", Sfx, "Ambience", "(Suara: suasana pos ronda, kentongan dan jangkrik.)", ulang: true);
+            suasana.transform.SetParent(pos.transform, false);
+            Set(alur, "suasana", suasana);
             PembuatMalam2.AktifPada(alur.gameObject, 4, 4, pos);
         }
 

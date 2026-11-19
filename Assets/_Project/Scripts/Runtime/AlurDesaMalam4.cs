@@ -15,7 +15,7 @@ namespace TheSending.Runtime
         [SerializeField] PanelDialog panel;
         [SerializeField] InteraktifAlur pintuRumah, pakJoko, warga;
         [SerializeField] Transform titikDepanRumah;
-        [SerializeField] Suara suaraPintu;
+        [SerializeField] Suara suaraPintu, suasana;
         [SerializeField] DataDialog dialogPakJoko;   // pinjam tali + pengait
         [SerializeField] DataDialog dialogGosip;     // K1/K2 + pilihan bela/diam
         [SerializeField] DataDialog dialogB2;        // ayam cemani, hanya jika M4 sudah ditemukan
@@ -43,6 +43,7 @@ namespace TheSending.Runtime
             var gm = GameManager.Instance;
             if (gm == null || gm.State.MalamKe != 4) return;
             berjalan = true;
+            suasana.Putar();
             kartu.HitamSeketika();
             pemain.Pindah(titikDepanRumah);
             StartCoroutine(Tiba());
