@@ -20,7 +20,7 @@ namespace TheSending.Runtime
         [SerializeField] DataDialog dialogGosip;     // K1/K2 + pilihan bela/diam
         [SerializeField] DataDialog dialogB2;        // ayam cemani, hanya jika M4 sudah ditemukan
 
-        bool berjalan, sibuk, sudahJoko, sudahGosip, sudahB2;
+        bool berjalan, sibuk, sudahJoko, sudahGosip;
 
         static GameState State => GameManager.Instance.State;
 
@@ -60,24 +60,24 @@ namespace TheSending.Runtime
         {
             if (!berjalan || sibuk) return;
             if (sudahJoko) { hud.Tampilkan("Pak Joko sudah meminjamkan tali dan pengait."); return; }
-            sudahJoko = true;
-            StartCoroutine(Bicara(dialogPakJoko));
+            sudahJoko = Bicara(dialogPakJoko);
         }
 
         void SaatWarga()
         {
             if (!berjalan || sibuk) return;
             // Syarat B2 dicek di sini: DataDialog/PemeriksaDialog belum punya syarat tampil.
-            if (!sudahGosip) { sudahGosip = true; StartCoroutine(Bicara(dialogGosip)); }
-            else if (!sudahB2 && State.MediaDitemukan[Kode.M4] && !State.BuktiKunci[Kode.B2]) { sudahB2 = true; StartCoroutine(Bicara(dialogB2)); }
+            if (State.MediaDitemukan[Kode.M4] && !State.BuktiKunci[Kode.B2]) Bicara(dialogB2);
+            else if (!sudahGosip) sudahGosip = Bicara(dialogGosip);
             else hud.Tampilkan("Para warga kembali berbisik di antara mereka.");
         }
 
-        IEnumerator Bicara(DataDialog data)
+        // true jika dialog benar-benar mulai; sibuk dilepas saat dialog ditutup.
+        bool Bicara(DataDialog data)
         {
+            if (!panel.Mulai(data, () => sibuk = false)) return false;
             sibuk = true;
-            yield return panel.MulaiDanTunggu(data);
-            sibuk = false;
+            return true;
         }
 
         void SaatPintuRumah()

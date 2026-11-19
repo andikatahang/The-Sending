@@ -13,11 +13,13 @@ namespace TheSending.Runtime
         [SerializeField] PemainGerak pemain;
         [SerializeField] Hud hud;
 
+        bool sibuk;
+
         public bool DiAtas { get; private set; }
 
         public override string Prompt => DiAtas ? "Turun dari plafon" : "Naik ke plafon";
 
-        public override bool BisaDiinteraksi => GameManager.Instance != null && !kartu.Tampil;
+        public override bool BisaDiinteraksi => GameManager.Instance != null && !sibuk && !kartu.Tampil;
 
         public override void Interaksi()
         {
@@ -31,10 +33,12 @@ namespace TheSending.Runtime
 
         IEnumerator Pindah()
         {
+            sibuk = true;
             yield return kartu.StartCoroutine(kartu.KeHitam());
             DiAtas = !DiAtas;
             pemain.Pindah(DiAtas ? titikAtas : titikBawah);
             yield return kartu.StartCoroutine(kartu.DariHitam());
+            sibuk = false;
         }
     }
 }
