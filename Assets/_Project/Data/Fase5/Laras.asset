@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61c3401c87cca4432bb9854f8b661f1e, type: 3}
+  m_Name: Laras
+  m_EditorClassIdentifier: TheSending.Runtime::TheSending.Runtime.DataDialog
+  Baris:
+  - Pembicara: Raka
+    Teks: Ras... boleh Mas masuk?
+    Terjemahan: 
+    Efek: 
+    Akhir: 0
+    Pilihan: []
+  - Pembicara: Laras
+    Teks: ...
+    Terjemahan: 
+    Efek: 
+    Akhir: 0
+    Pilihan: []
+  - Pembicara: Raka
+    Teks: (Laras menatap lantai. Tangannya gemetar.)
+    Terjemahan: 
+    Efek: 
+    Akhir: 0
+    Pilihan:
+    - Teks: Ras, kamu nggak salah apa-apa. Cerita saja, Mas di sini.
+      Efek: 
+      LompatKe: 3
+    - Teks: Kamu nyembunyiin sesuatu, kan? Ngomong sekarang!
+      Efek: laras-kunci
+      LompatKe: 6
+  - Pembicara: Laras
+    Teks: Aku lihat Mbah Wiryo di sumur, Mas. Tengah malam. Dia bilang kalau aku cerita, Ibu cepat mati...
+    Terjemahan: 
+    Efek: 
+    Akhir: 0
+    Pilihan: []
+  - Pembicara: Laras
+    Teks: Ini... aku nemu di lemari Ibu. Tulisan Bapak.
+    Terjemahan: 
+    Efek: bukti:B4; halaman:H6; tujuan:BicaraLaras
+    Akhir: 0
+    Pilihan: []
+  - Pembicara: Raka
+    Teks: Makasih, Ras. Sekarang Mas yang jaga.
+    Terjemahan: 
+    Efek: 
+    Akhir: 1
+    Pilihan: []
+  - Pembicara: Laras
+    Teks: Aku nggak nyembunyiin apa-apa! Keluar, Mas!
+    Terjemahan: 
+    Efek: 
+    Akhir: 1
+    Pilihan: []

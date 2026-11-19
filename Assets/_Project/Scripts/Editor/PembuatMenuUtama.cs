@@ -24,6 +24,7 @@ namespace TheSending.EditorTools
             PembuatDataFase2.Buat();
             PembuatDataFase3.Buat();
             PembuatDataFase4.Buat();
+            PembuatDataFase5.Buat();
             PembuatSandbox.Buat();
             PembuatDesa.Buat();
             PembuatRumahKeluarga.Buat();
