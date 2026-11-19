@@ -76,7 +76,7 @@ namespace TheSending.Core
                 case PilihanWiryo: return "Temui Mbah Wiryo di pintu depan";
                 case SembunyiPertama: return "Kembali ke kamar Raka tanpa ketahuan Sosok";
                 case PakdeDatang: return "Temui Pakde Darmo";
-                case CabutPaku: return "Cabut tujuh paku di saka";
+                case CabutPaku: return "Cabut tujuh paku di tiang kayu";
                 case KunjungiSumi: return "Temui Bu Sumi di desa (lewat pintu depan)";
                 case RitualPertama: return "Netralkan media di anglo dapur, kubur abunya";
                 case AmbilBungkusanSumur: return "Ambil bungkusan di dasar sumur belakang";
@@ -96,7 +96,7 @@ namespace TheSending.Core
             if (id == CabutPaku)
                 return s.MediaDitemukan[Kode.M2]
                     ? "Ambil tang di gudang, lalu cabut tujuh paku sesuai urutan hari"
-                    : "Ketuk saka guru di ruang tengah [E], cari yang berongga";
+                    : "Ketuk keempat tiang kayu besar di ruang tengah [E], cari yang bunyinya kosong";
             if (id != null) return Teks(id);
             if (s.MalamKe < 1 || s.MalamKe > 6 || JamGim.ObatSelesai(s)) return "";
             return $"Beri obat Ibu pukul {JamGim.Format(JamGim.MulaiJendelaObat(s.MalamKe))} di kamarnya";

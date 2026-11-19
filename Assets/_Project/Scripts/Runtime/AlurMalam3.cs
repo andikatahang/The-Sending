@@ -116,7 +116,7 @@ namespace TheSending.Runtime
             sibuk = true;
             pemain.Pindah(titikMulai);
             yield return kartu.StartCoroutine(kartu.Tampilkan(
-                "Malam 3: Tujuh Paku di Saka", KalenderJawa.NamaMalam(3) + "\n\n" + RingkasanMalam3 + "\n\n" + TujuanBab, 8f));
+                "Malam 3: Tujuh Paku di Tiang", KalenderJawa.NamaMalam(3) + "\n\n" + RingkasanMalam3 + "\n\n" + TujuanBab, 8f));
             yield return PakdeDatang(State);
             sibuk = false;
         }
@@ -232,7 +232,7 @@ namespace TheSending.Runtime
             }
             finally { adegan.Selesai(); }
             hud.Tampilkan("Setiap kali jam dinding berdentang, Ibu menjerit seperti ditusuk.");
-            hud.Tampilkan("Tekan [C] untuk membuka kompas. Jarumnya berputar dekat saka guru di ruang tengah.");
+            hud.Tampilkan("Tekan [C] untuk membuka kompas. Jarumnya berputar dekat salah satu tiang kayu besar di ruang tengah.");
             sibuk = false;
         }
 
@@ -313,7 +313,7 @@ namespace TheSending.Runtime
             if (!berjalan || sibuk) return;
             var s = State;
             if (!TujuanMalam.Sudah(s, TujuanMalam.CabutPaku))
-                hud.Tampilkan("Aku tak bisa pergi selama Ibu menjerit. Cabut dulu paku di saka.");
+                hud.Tampilkan("Aku tak bisa pergi selama Ibu menjerit. Cabut dulu paku di tiang kayu.");
             else if (TujuanMalam.Sudah(s, TujuanMalam.KunjungiSumi))
                 hud.Tampilkan("Sudah larut. Aku tidak keluar lagi malam ini.");
             else if (sosokBerjalan)

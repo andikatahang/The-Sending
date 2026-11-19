@@ -185,7 +185,7 @@ namespace TheSending.Tests
         {
             var s = new GameState { MalamKe = 3 };
             TujuanMalam.Selesaikan(s, TujuanMalam.PakdeDatang);
-            StringAssert.Contains("Ketuk saka guru", TujuanMalam.BarisHud(s));
+            StringAssert.Contains("Ketuk keempat tiang kayu", TujuanMalam.BarisHud(s));
             s.MediaDitemukan[Kode.M2] = true;
             StringAssert.Contains("Ambil tang", TujuanMalam.BarisHud(s));
         }

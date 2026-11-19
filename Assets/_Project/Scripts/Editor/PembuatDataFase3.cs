@@ -135,7 +135,7 @@ namespace TheSending.EditorTools
                 "Kalau urutannya salah, ulangi dari awal.\n\n" +
                 "Garam ada di rak bumbu dapur, daun kelor di pohon pekarangan belakang, bambu kuning di gudang.";
             j.Media[Kode.M2].Isi =
-                "Tujuh paku berkarat tertanam berbaris di saka guru ruang tengah, tertutup dempul hitam. Setiap paku " +
+                "Tujuh paku berkarat tertanam berbaris di tiang kayu besar ruang tengah, tertutup dempul hitam. Setiap paku " +
                 "berukir nama hari. Sama dengan paku yang dimuntahkan Ibu.";
             j.Bukti[Kode.B1].Isi =
                 "Halaman 1 dan 3 buku harian Bapak: Darmo menyampaikan tawaran pembeli tanah dan Bapak menolak, lalu Darmo " +
