@@ -4,6 +4,7 @@ Gim horor puzzle 3D first person tentang santet di desa Jawa. Unity 6000.6.4f1 (
 
 - Isi cerita, tokoh, angka: `docs/TheSending_FullGameStory.md` (Game Story) dan `docs/TheSending_GDD.md` (GDD). Baris terakhir GDD adalah gambar base64 sekitar 730 KB, jadi baca GDD sampai baris 620 saja.
 - Desain pengembangan (arsitektur, aturan yang diperjelas, cutscene, jadwal): `docs/superpowers/specs/2026-11-15-the-sending-design.md`. Untuk aturan di Bagian 4 dokumen itu, desain ini mengalahkan Game Story dan GDD.
+- **Memulai fase baru (siapa pun yang melanjutkan):** baca `docs/panduan-rencana-fase.md` (alur fase, bentuk rencana, aturan kerja dengan agent AI; tidak butuh skill khusus) dan `docs/roadmap-fase-4-8.md` (isi dan sumber setiap fase berikutnya). Rencana fase yang sudah ada di `docs/superpowers/plans/`.
 
 ## Catatan dari Tim (wajib diikuti)
 
