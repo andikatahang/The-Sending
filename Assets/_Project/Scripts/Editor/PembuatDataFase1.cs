@@ -40,7 +40,7 @@ namespace TheSending.EditorTools
             Simpan(LarasSambutan,
                 B("Laras", "Mas Raka, akhirnya sampai juga. Kok lama sekali?"),
                 B("Raka", "Maaf, Ras. Ibu gimana?"),
-                B("Laras", "Bu Bidan Wulan lagi periksa Ibu di kamar. Temui beliau dulu, Mas."));
+                B("Laras", "Bu Bidan Wulan lagi meriksa Ibu di kamar. Mas temui dulu, gih."));
             Simpan(BidanWulan,
                 B("Bidan Wulan", "Tensi Ibu rendah, kurang minum dan kurang makan. Saya sudah sarankan dirawat di rumah sakit kecamatan, tapi Ibu menolak. Obat ini diminum jam sembilan malam, jangan sampai lupa ya, Mas.", efek: "barang:ObatIbu"),
                 B("Raka", "Muntah paku itu nggak mungkin, Bu Bidan. Pasti ada penjelasannya."),
@@ -54,7 +54,7 @@ namespace TheSending.EditorTools
             Simpan(LarasKronologi,
                 B("Laras", "Ibu mulai sakit dua minggu lalu, Mas. Awalnya cuma lemas, terus nggak mau makan."),
                 B("Raka", "Mungkin cuma kecapekan, Ras. Kamu juga kurang tidur."),
-                B("Laras", "Bukan cuma itu. Sejak Ibu sakit, orang-orang desa mulai bisik-bisik soal Bu Sumi."),
+                B("Laras", "Bukan cuma itu, Mas. Sejak Ibu sakit, orang desa pada bisik-bisik soal Bu Sumi."),
                 B("Raka", "Gosip lagi. Aku nggak percaya hal begitu."),
                 B("Laras", "Terserah Mas. Tapi lihat sendiri dulu keadaan rumah ini, baru bilang."));
             Simpan(IbuSetelahObat,
@@ -63,8 +63,8 @@ namespace TheSending.EditorTools
                 B("Laras", "Mas, ini sudah lewat jam sembilan. Obat Ibu belum diminum."),
                 B("Raka", "Astaga, aku lupa. Maaf, Ras."));
             Simpan(FotoKeluarga,
-                B("Raka", "Di balik bingkai foto ini ada tulisan tangan."),
-                B("Tulisan Bapak", "Kodenya adalah tahun rumah ini berdiri."));
+                B("Raka", "Eh, di balik bingkai foto ini ada tulisan tangan."),
+                B("Tulisan Bapak", "Kodenya: tahun rumah ini berdiri."));
             Simpan(PenutupMalam1,
                 B("Laras", "Mas, Bapak dulu juga begini. Tujuh malam, terus..."),
                 B("Raka", "Ras, sudah. Besok kita bawa Ibu ke rumah sakit, mau nggak mau."));

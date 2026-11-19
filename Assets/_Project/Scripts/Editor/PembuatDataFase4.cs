@@ -26,7 +26,7 @@ namespace TheSending.EditorTools
 
             // Pos ronda (AlurDesaMalam4)
             Simpan(PakJoko,
-                B("Raka", "Pak Joko, saya mau pinjam tali. Tali timba sumur kami putus."),
+                B("Raka", "Pak Joko, boleh saya pinjam tali? Tali timba sumur di rumah putus."),
                 B("Pak Joko", "Tali tambang ada di pos, Mas. Bawa juga pengait besi ini, siapa tahu timbanya nyangkut.",
                     efek: "barang:TaliTambang; barang:Pengait"));
             Simpan(Gosip,
@@ -46,13 +46,13 @@ namespace TheSending.EditorTools
             Simpan(WargaMenuduh,
                 B("Warga 2", "Lho, itu rambut Mbok Sumi! Siapa lagi yang rambutnya putih panjang begitu?", efek: "katanya:K3"),   // dikutip
                 B("Warga 1", "Benar. Besok kita lapor Pak Joko."),
-                B("Raka", "Belum tentu, Pak. Rambut uban bukan cuma milik Bu Sumi."));
+                B("Raka", "Belum tentu, Pak. Yang ubanan kan bukan cuma Bu Sumi."));
             Simpan(KalenderMalam4,
                 B("Raka", "Jumat. Malam ini malam Sabtu Pahing."),
                 B("Raka", "Ada kertas terselip di balik kalender... halaman buku harian Bapak.", efek: "halaman:H5"));
             Simpan(TelurCemani,
                 B("Raka", "Telur ayam hitam... di dalamnya jarum dan rambut. Rambut Ibu.", efek: "media:M4"),
-                B("Raka", "Ayam hitam legam begini tidak dipelihara sembarang orang."));
+                B("Raka", "Ayam hitam legam begini nggak sembarang orang punya."));
 
             IsiJurnal();
             AssetDatabase.SaveAssets();
