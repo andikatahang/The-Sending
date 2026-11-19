@@ -53,5 +53,49 @@ namespace TheSending.Core
                 if (!s.TujuanSelesai.Contains(id)) return false;
             return true;
         }
-    }
+    
+        // Tujuan wajib pertama malam ini yang belum selesai; null jika semua selesai (atau Malam 7).
+        public static string BerikutnyaBelumSelesai(GameState s)
+        {
+            foreach (var id in Wajib[s.MalamKe])
+                if (!s.TujuanSelesai.Contains(id)) return id;
+            return null;
+        }
+
+        public static string Teks(string id)
+        {
+            switch (id)
+            {
+                case TibaDiRumah: return "Masuk ke rumah keluarga";
+                case BicaraBidan: return "Bicara dengan Bidan Wulan";
+                case MasukKamarIbu: return "Masuk ke kamar Ibu";
+                case BukaLemari: return "Buka lemari Bapak di kamar Ibu";
+                case Cutscene23: return "Tunggu sampai pukul 23.00";
+                case PotretPaku: return "Foto paku di lantai kamar Ibu (Q)";
+                case BacaAksara: return "Bongkar papan lantai dan baca tulisan boneka";
+                case PilihanWiryo: return "Temui Mbah Wiryo di pintu depan";
+                case SembunyiPertama: return "Sembunyi dari Sosok, lalu capai kamar Raka";
+                case PakdeDatang: return "Temui Pakde Darmo";
+                case CabutPaku: return "Cabut tujuh paku di saka";
+                case KunjungiSumi: return "Temui Bu Sumi";
+                case RitualPertama: return "Kubur abu ritual di pekarangan belakang";
+                case AmbilBungkusanSumur: return "Ambil bungkusan di dasar sumur";
+                case LolosKejaranSumur: return "Lolos dari kejaran Sosok";
+                case GaliKendi: return "Gali kendi";
+                case BandingkanTanah: return "Bandingkan tanah";
+                case BicaraLaras: return "Bicara dengan Laras";
+                case SidangWarga: return "Hadapi sidang warga";
+                default: return "";
+            }
+        }
+
+        // Satu baris untuk HUD: tujuan berikutnya, atau petunjuk obat jika semua tujuan selesai. Kosong jika tidak ada.
+        public static string BarisHud(GameState s)
+        {
+            var id = BerikutnyaBelumSelesai(s);
+            if (id != null) return Teks(id);
+            if (s.MalamKe < 1 || s.MalamKe > 6 || JamGim.ObatSelesai(s)) return "";
+            return $"Beri obat Ibu pukul {JamGim.Format(JamGim.MulaiJendelaObat(s.MalamKe))}";
+        }
+}
 }

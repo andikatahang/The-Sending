@@ -13,8 +13,9 @@ namespace TheSending.Runtime
         [SerializeField] PemainInteraksi interaksi;
         [SerializeField] PemainGerak pemain;   // bar napas dan prompt saat bersembunyi; boleh kosong (scene tanpa pemain)
 
-        Text titik, prompt, jam, baterai, notifikasi, napas, hitungMundur;
+        Text titik, prompt, jam, baterai, notifikasi, napas, hitungMundur, tujuan;
         readonly Queue<string> antrean = new Queue<string>();
+        bool obatSelesaiTerakhir;   // Perubahan.Jam datang tiap frame; baris tujuan hanya dihitung ulang saat status obat berubah
         float sisaNotifikasi;
         string pesanTerakhir;   // pesan terakhir yang masuk antrean; null setelah semua selesai tampil
 
@@ -30,6 +31,7 @@ namespace TheSending.Runtime
             notifikasi = UiPabrik.BuatTeks(akar, "Notifikasi", 28, TextAnchor.LowerLeft, new Vector2(0.02f, 0.04f), new Vector2(0.6f, 0.14f));
             napas = UiPabrik.BuatTeks(akar, "Napas", 26, TextAnchor.LowerCenter, new Vector2(0.35f, 0.16f), new Vector2(0.65f, 0.22f));
             hitungMundur = UiPabrik.BuatTeks(akar, "HitungMundur", 24, TextAnchor.UpperRight, new Vector2(0.6f, 0.8f), new Vector2(0.98f, 0.85f));
+            tujuan = UiPabrik.BuatTeks(akar, "Tujuan", 22, TextAnchor.UpperRight, new Vector2(0.5f, 0.75f), new Vector2(0.98f, 0.8f));
         }
 
         void OnEnable()
@@ -42,6 +44,7 @@ namespace TheSending.Runtime
             }
             gm.Berubah += SaatBerubah;
             gm.StateDiganti += SaatStateDiganti;
+            PerbaruiTujuan();
         }
 
         void OnDisable()
@@ -59,6 +62,16 @@ namespace TheSending.Runtime
             notifikasi.text = "";
             sisaNotifikasi = 0f;
             pesanTerakhir = null;
+            PerbaruiTujuan();
+        }
+
+        void PerbaruiTujuan()
+        {
+            var gm = GameManager.Instance;
+            if (gm == null) return;
+            obatSelesaiTerakhir = JamGim.ObatSelesai(gm.State);
+            var baris = TujuanMalam.BarisHud(gm.State);
+            tujuan.text = baris.Length == 0 ? "" : "Tujuan: " + baris;
         }
 
         // Pesan kembar berurutan (memotret ulang, perubahan ganda dari satu aksi) cukup tampil sekali.
@@ -71,6 +84,8 @@ namespace TheSending.Runtime
 
         void SaatBerubah(Perubahan p)
         {
+            if (p == Perubahan.Jam) { if (JamGim.ObatSelesai(GameManager.Instance.State) != obatSelesaiTerakhir) PerbaruiTujuan(); }
+            else PerbaruiTujuan();
             switch (p)
             {
                 case Perubahan.Bukti: Tampilkan("Bukti baru masuk Papan Bukti."); break;
@@ -90,7 +105,7 @@ namespace TheSending.Runtime
 
             // Saat adegan berskrip hanya notifikasi yang tampil (teks pengganti suara harus tetap terbaca).
             bool tampil = !gm.Sinematik;
-            titik.enabled = prompt.enabled = jam.enabled = baterai.enabled = napas.enabled = hitungMundur.enabled = tampil;
+            titik.enabled = prompt.enabled = jam.enabled = baterai.enabled = napas.enabled = hitungMundur.enabled = tujuan.enabled = tampil;
 
             prompt.text = pemain != null && pemain.Bersembunyi ? "[E] Keluar     [Spasi] Tahan napas"
                 : interaksi != null && interaksi.Sasaran != null ? $"[E] {interaksi.Sasaran.Prompt}" : "";
