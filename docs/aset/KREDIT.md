@@ -19,3 +19,4 @@ Catat setiap aset pihak ketiga di sini saat dimasukkan ke proyek. Aset berlisens
 | Font Noto Sans Javanese | `Assets/_Project/Art/Fonts/Resources/NotoSansJavanese-Regular.ttf` | Google (Noto) | Google Fonts | SIL OFL 1.1 | Tidak |
 | Gambar aksara Jawa | `Assets/_Project/Art/UI/Aksara/*.png` | Tim The Sending (dirender `tools/render-aksara.sh` dari Noto Sans Javanese) | — | Buatan sendiri (font OFL) | Tidak |
 | Old sofas (sofa tiga dudukan, dipakai di ruang tengah) | `Assets/_Project/Art/ThirdParty/old-sofas/` | **(isi nama pembuat)** | Sketchfab **(isi URL)** | **(isi lisensi; CC-BY wajib kredit)** | **(isi)** |
+| ButtonClick-OldRadio (suara klik tombol UI) | `Assets/_Project/Audio/Resources/ButtonClick-OldRadio.mp3` | **(isi nama pembuat)** | **(isi URL)** | belum dicatat (diisi tim) | **(isi)** |

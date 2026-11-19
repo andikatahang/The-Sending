@@ -109,9 +109,28 @@ namespace TheSending.Runtime
             warna.selectedColor = WarnaTombolSorot;
             warna.pressedColor = WarnaTombolTekan;
             tombol.colors = warna;
+            tombol.onClick.AddListener(MainkanKlik);
             tombol.onClick.AddListener(saatKlik);
             BuatTeks(img.transform, "Label", 30, TextAnchor.MiddleCenter, Vector2.zero, Vector2.one).text = label;
             return tombol;
+        }
+
+        // Suara klik lewat grup SFX. AudioSource sementara hidup lewat pergantian scene (tombol yang memuat scene tidak memotong bunyinya).
+        static void MainkanKlik()
+        {
+            var klip = Resources.Load<AudioClip>("ButtonClick-OldRadio");
+            if (klip == null) return;
+            var go = new GameObject("KlikTombol");
+            Object.DontDestroyOnLoad(go);
+            var sumber = go.AddComponent<AudioSource>();
+            var mixer = Resources.Load<UnityEngine.Audio.AudioMixer>(PenyimpanPengaturan.JalurMixer);
+            if (mixer != null)
+            {
+                var grup = mixer.FindMatchingGroups("SFX");
+                if (grup.Length > 0) sumber.outputAudioMixerGroup = grup[0];
+            }
+            sumber.PlayOneShot(klip);
+            Object.Destroy(go, klip.length + 0.2f);   // timeScale 0: dihapus setelah lanjut, tidak masalah
         }
 
         // Memindahkan pilihan keyboard ke tombol; null melepas pilihan.
