@@ -111,7 +111,8 @@ namespace TheSending.EditorTools
             Set(alur, "suaraPintu", suaraPintu);
             Set(alur, "suaraKetuk", BuatSuara(rig, "KetukPintu", Sfx, "SFX", "(Suara: ketukan di pintu.)"));
 
-            var pintu = Logika("PintuBuSumi", new Vector3(7.3f, 0f, 73.5f), new Vector3(0.25f, 2.2f, 1f));
+            // Tebal dan maju dari dinding depan (x 7,5) supaya sinar E tidak lebih dulu kena collider dinding/bingkai pintu.
+            var pintu = Logika("PintuBuSumi", new Vector3(7.05f, 0f, 73.5f), new Vector3(0.7f, 2.2f, 1.4f));
             var ketuk = pintu.AddComponent<InteraktifAlur>();
             SetTeks(ketuk, "prompt", "Ketuk pintu Bu Sumi");
             Set(alur, "pintuBuSumi", ketuk);
