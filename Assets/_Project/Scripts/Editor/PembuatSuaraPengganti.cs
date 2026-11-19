@@ -30,6 +30,82 @@ namespace TheSending.EditorTools
             Tulis(PembuatPengganti.FolderSfx, "PakuDicabut", CabutPaku());
             Tulis(PembuatPengganti.FolderSfx, "ApiAnglo", ApiArang());
             Tulis(PembuatPengganti.FolderSfx, "PintuDibanting", Banting());
+            Tulis(PembuatPengganti.FolderSfx, "KerekanDerit", KerekanDerit());
+            Tulis(PembuatPengganti.FolderSfx, "TaliDitarik", TaliDitarik());
+            Tulis(PembuatPengganti.FolderSfx, "BendaMasukAir", BendaMasukAir());
+            Tulis(PembuatPengganti.FolderSfx, "Kentongan", Kentongan());
+            Tulis(PembuatPengganti.FolderSfx, "AyamBerkokok", AyamBerkokok());
+        }
+
+        // Fase dijumlah supaya nada yang berubah tetap mulus.
+        static void Sapu(float[] s, float mulai, float lama, float frekAwal, float frekAkhir, float keras)
+        {
+            int awal = (int)(mulai * Hz), n = (int)(lama * Hz);
+            double fase = 0;
+            for (int i = 0; i < n && awal + i < s.Length; i++)
+            {
+                float t = i / (float)Hz, u = t / lama;
+                fase += 2.0 * Math.PI * Mathf.Lerp(frekAwal, frekAkhir, u) / Hz;
+                s[awal + i] += keras * (float)Math.Sin(fase) * Mathf.Sin(Mathf.PI * u);
+            }
+        }
+
+        // Decit kayu kering naik-turun dua kali.
+        static float[] KerekanDerit()
+        {
+            var s = Kosong(1.6f);
+            Sapu(s, 0f, 0.7f, 600f, 900f, 0.2f);
+            Sapu(s, 0.8f, 0.7f, 650f, 850f, 0.2f);
+            Derau(s, 0f, 1.5f, 0.03f, 0.5f, 100);
+            return s;
+        }
+
+        // Gesekan tali: derau dihaluskan, mengeras lalu hilang.
+        static float[] TaliDitarik()
+        {
+            var s = Kosong(1.2f);
+            var acak = new System.Random(101);
+            float y = 0f;
+            for (int i = 0; i < s.Length; i++)
+            {
+                y += 0.3f * ((float)(acak.NextDouble() * 2.0 - 1.0) - y);
+                s[i] = y * 0.6f * Mathf.Sin(Mathf.PI * i / s.Length);
+            }
+            return s;
+        }
+
+        // Cebur: derau singkat dan nada rendah menurun, lalu gema air.
+        static float[] BendaMasukAir()
+        {
+            var s = Kosong(1.4f);
+            Derau(s, 0f, 0.12f, 0.6f, 25f, 102);
+            Sapu(s, 0f, 0.3f, 300f, 90f, 0.5f);
+            Nada(s, 0.5f, 180f, 0.6f, 0.15f, 7f);
+            return s;
+        }
+
+        // Dua pukulan kentongan kayu: nada rendah bergaung.
+        static float[] Kentongan()
+        {
+            var s = Kosong(1.6f);
+            for (int k = 0; k < 2; k++)
+            {
+                Nada(s, k * 0.5f, 200f, 0.9f, 0.6f, 6f);
+                Nada(s, k * 0.5f, 400f, 0.5f, 0.25f, 10f);
+                Derau(s, k * 0.5f, 0.03f, 0.3f, 80f, 103 + k);
+            }
+            return s;
+        }
+
+        // Kokok: tiga nada naik-turun, lalu satu panjang.
+        static float[] AyamBerkokok()
+        {
+            var s = Kosong(2.2f);
+            Sapu(s, 0f, 0.25f, 500f, 900f, 0.3f);
+            Sapu(s, 0.3f, 0.25f, 700f, 1100f, 0.3f);
+            Sapu(s, 0.6f, 0.25f, 800f, 1200f, 0.3f);
+            Sapu(s, 0.95f, 1f, 1100f, 600f, 0.3f);
+            return s;
         }
 
         static void Tulis(string folder, string nama, float[] sampel)
