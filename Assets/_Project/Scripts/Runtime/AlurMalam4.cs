@@ -23,6 +23,7 @@ namespace TheSending.Runtime
         [SerializeField] PemainGerak pemain;
         [SerializeField] DataDialog dialogWargaMenuduh;   // efek katanya:K3 (Task 7)
         [SerializeField] Transform titikMulai, titikPulang, titikMunculSosok, titikWarga;
+        [SerializeField] Transform titikSumur;            // halaman belakang dekat sumur: awal ulang kejaran
         [SerializeField] GameObject warga;                // dua warga di pintu belakang; mati di luar adegan
         [SerializeField] KerekanSumur kerekan;
         [SerializeField] Text teksTempo;                  // bacaan tempo tarikan; boleh kosong
@@ -148,7 +149,7 @@ namespace TheSending.Runtime
             var gm = GameManager.Instance;
             if (dariCheckpoint)
             {
-                pemain.Pindah(titikPulang);   // shortcut: muat ulang mulai di titik pulang, bukan di sumur
+                pemain.Pindah(titikSumur);   // ulang di sumur: titikPulang terlalu dekat zona Lolos
                 yield return kartu.StartCoroutine(kartu.DariHitam());
             }
             else gm.SimpanCheckpoint();
