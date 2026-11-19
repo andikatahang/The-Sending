@@ -116,19 +116,27 @@ namespace TheSending.Runtime
         }
 
         // Suara klik lewat grup SFX. AudioSource sementara hidup lewat pergantian scene (tombol yang memuat scene tidak memotong bunyinya).
+        static AudioClip klipKlik;
+        static UnityEngine.Audio.AudioMixerGroup grupKlik;
+
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        static void BersihkanKlik() { klipKlik = null; grupKlik = null; }
+
         static void MainkanKlik()
         {
-            var klip = Resources.Load<AudioClip>("ButtonClick-OldRadio");
+            if (klipKlik == null) klipKlik = Resources.Load<AudioClip>("ButtonClick-OldRadio");
+            var klip = klipKlik;
             if (klip == null) return;
             var go = new GameObject("KlikTombol");
             Object.DontDestroyOnLoad(go);
             var sumber = go.AddComponent<AudioSource>();
-            var mixer = Resources.Load<UnityEngine.Audio.AudioMixer>(PenyimpanPengaturan.JalurMixer);
-            if (mixer != null)
+            if (grupKlik == null)
             {
-                var grup = mixer.FindMatchingGroups("SFX");
-                if (grup.Length > 0) sumber.outputAudioMixerGroup = grup[0];
+                var mixer = Resources.Load<UnityEngine.Audio.AudioMixer>(PenyimpanPengaturan.JalurMixer);
+                var grup = mixer != null ? mixer.FindMatchingGroups("SFX") : null;
+                if (grup != null && grup.Length > 0) grupKlik = grup[0];
             }
+            sumber.outputAudioMixerGroup = grupKlik;
             sumber.PlayOneShot(klip);
             Object.Destroy(go, klip.length + 0.2f);   // timeScale 0: dihapus setelah lanjut, tidak masalah
         }
