@@ -22,6 +22,7 @@ namespace TheSending.Tests
         [TestCase(1)]
         [TestCase(2)]
         [TestCase(3)]
+        [TestCase(5)]
         [TestCase(7)]
         public void SetiapMalamDimulaiDiRumahKeluarga(int malam)
         {
@@ -46,6 +47,24 @@ namespace TheSending.Tests
             var s = new GameState { MalamKe = 3 };
             if (sudahBerkunjung) TujuanMalam.Selesaikan(s, TujuanMalam.KunjungiSumi);
             Assert.AreEqual(diDepanBuSumi, PetaScene.DiDepanRumahBuSumi(s));
+        }
+    
+        [Test]
+        public void NamaSceneMalam5()
+        {
+            Assert.AreEqual("Scene_Makam", PetaScene.Makam);
+            Assert.AreEqual("Scene_RumahPakde", PetaScene.RumahPakde);
+        }
+
+        // K32-A: asal dicatat untuk titik muncul di desa; "Lanjutkan" tetap dari rumah keluarga.
+        [Test]
+        public void CatatAsalDisimpanDanTidakMengubahSceneLanjutkan()
+        {
+            var s = new GameState { MalamKe = 5 };
+            Assert.AreEqual("", s.SceneAsal);
+            PetaScene.CatatAsal(s, PetaScene.Makam);
+            Assert.AreEqual(PetaScene.Makam, s.SceneAsal);
+            Assert.AreEqual(PetaScene.RumahKeluarga, PetaScene.Untuk(s));
         }
     }
 }
