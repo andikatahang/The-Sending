@@ -54,9 +54,9 @@ namespace TheSending.Runtime
             else if (!KepercayaanSumi.PintuTerbuka(s))
             {
                 hud.Tampilkan("Bu Sumi membanting pintu di belakang Raka.");
-                hud.Tampilkan("Ritual Penangkal masih bisa dipelajari dari Halaman 4 buku harian Bapak.");
+                hud.Tampilkan("Cara ritualnya masih ada di Halaman 4 buku harian Bapak (Jurnal [Tab]).");
             }
-            else hud.Tampilkan("Rumah keluarga ada di ujung utara jalan.");
+            else hud.Tampilkan("Saatnya pulang. Rumah ada di ujung utara jalan.");
             sibuk = false;
         }
 
@@ -73,7 +73,7 @@ namespace TheSending.Runtime
         {
             if (!berjalan || sibuk) return;
             if (!TujuanMalam.Sudah(State, TujuanMalam.KunjungiSumi))
-                hud.Tampilkan("Raka belum menemui Bu Sumi.");
+                hud.Tampilkan("Aku harus menemui Bu Sumi dulu. Rumahnya di selatan, kanan jalan.");
             else
                 StartCoroutine(Pindah(PetaScene.RumahKeluarga, suaraPintu));
         }

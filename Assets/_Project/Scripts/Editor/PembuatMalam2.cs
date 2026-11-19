@@ -76,7 +76,7 @@ namespace TheSending.EditorTools
             var skripPapan = papan.AddComponent<PapanLantai>();
             Set(skripPapan, "papan", visualPapan);
             Set(skripPapan, "hud", rig.Hud);
-            SetTeks(skripPapan, "prompt", "Papan lantai");
+            SetTeks(skripPapan, "prompt", "Periksa papan lantai");
             Set(alur, "papan", skripPapan);
             Set(alur, "zonaPapan", Zona("ZonaPapan", new Vector3(-5f, 1.2f, 6.6f), new Vector3(0.6f, 2.4f, 1.3f)));
 

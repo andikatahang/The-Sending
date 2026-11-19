@@ -32,7 +32,7 @@ namespace TheSending.Runtime
         {
             if (!PunyaTang)
             {
-                hud.Tampilkan("Pakunya tertanam dalam. Butuh tang.");
+                hud.Tampilkan("Pakunya tertanam dalam. Butuh tang dari gudang.");
                 return;
             }
             var hasil = TujuhPaku.Cabut(GameManager.Instance.State, hari);

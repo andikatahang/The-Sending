@@ -28,7 +28,7 @@ namespace TheSending.EditorTools
 
             Simpan(LarasKunciGudang,
                 B("Laras", "Mas, kamar Ibu bau anyir dari tadi sore. Aku nggak berani masuk."),
-                B("Raka", "Ada papan lantai yang bunyinya kopong di dekat ranjang. Kita punya linggis?"),
+                B("Raka", "Papan lantai dekat ranjang bunyinya kopong. Kita punya linggis, Ras?"),
                 B("Laras", "Ada di gudang. Ini kuncinya, Mas.", efek: "barang:KunciGudang"));
             Simpan(Weton,
                 B("Raka", "Ra... t... mi. Ratmi. Ini nama Ibu."),
@@ -43,7 +43,7 @@ namespace TheSending.EditorTools
                     ("Simpan boneka sendiri", "tujuan:PilihanWiryo", 5)),
                 B("Raka", "Iya, Mbah. Tolong dibuang saja."),
                 B("Mbah Wiryo", "Nah, begitu. Ibumu biar Mbah yang mendoakan.", akhir: true),
-                B("Raka", "Tidak usah, Mbah. Biar saya simpan dulu."),
+                B("Raka", "Nggak usah, Mbah. Biar saya simpan dulu."),
                 B("Mbah Wiryo", "(tersenyum tipis) Yo wis, sakarepmu, Le.", "Ya sudah, terserah kamu, Nak."));
             Simpan(WiryoBisikan,
                 B("Mbah Wiryo (kepada Laras)", "Ingat ya, Nduk.", "Ingat ya, Nak."));                   // dikutip

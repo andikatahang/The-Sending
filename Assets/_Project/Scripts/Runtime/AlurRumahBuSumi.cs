@@ -75,7 +75,7 @@ namespace TheSending.Runtime
         {
             sibuk = true;
             yield return kartu.StartCoroutine(kartu.DariHitam());
-            hud.Tampilkan("Bu Sumi membukakan pintu dan berdiri menghalangi. Dapurnya gelap; teploknya mati.");
+            hud.Tampilkan("Bu Sumi berdiri menghadang. Dapurnya gelap, teploknya mati. Ajak bicara [E].");
             sibuk = false;
         }
 
@@ -122,7 +122,7 @@ namespace TheSending.Runtime
             }
             finally { adegan.Selesai(); }
             hud.Tampilkan("Bu Sumi memberi seikat garam, daun kelor, dan bilah bambu kuning.");
-            hud.Tampilkan("Media santet dinetralkan di anglo dapur rumah.");
+            hud.Tampilkan("Bawa pulang. Media santet dinetralkan di anglo dapur rumah.");
         }
 
         void SaatTeplok() => Bantu(teplokBeres, "Raka membersihkan sumbu dan menuang minyak. Teplok menyala lagi.", () =>
@@ -145,7 +145,7 @@ namespace TheSending.Runtime
             if (!berjalan || sibuk || sudah) return;
             var s = State;
             if (!TujuanMalam.Sudah(s, TujuanMalam.KunjungiSumi))
-                hud.Tampilkan("Raka belum bicara dengan Bu Sumi.");
+                hud.Tampilkan("Aku harus bicara dulu dengan Bu Sumi [E].");
             else if (!s.AksiSumiDipakai[(int)AksiSumi.BantuLampuDanAir])
                 StartCoroutine(Kerja(teks, selesai));
         }
@@ -155,7 +155,7 @@ namespace TheSending.Runtime
             sibuk = true;
             yield return kartu.StartCoroutine(kartu.Tampilkan("", teks, LamaKerja));
             selesai();
-            if (teplokBeres && airBeres) hud.Tampilkan("Beri tahu Bu Sumi.");
+            if (teplokBeres && airBeres) hud.Tampilkan("Sudah beres. Kembali dan beri tahu Bu Sumi [E].");
             sibuk = false;
         }
 
@@ -168,13 +168,13 @@ namespace TheSending.Runtime
                 var s = State;
                 if (!TujuanMalam.Sudah(s, TujuanMalam.KunjungiSumi))
                 {
-                    hud.Tampilkan("Raka belum bicara dengan Bu Sumi.");
+                    hud.Tampilkan("Aku harus bicara dulu dengan Bu Sumi [E].");
                     return;
                 }
                 if (!s.AksiSumiDipakai[(int)AksiSumi.BantuLampuDanAir] && !peringatanPulang)
                 {
                     peringatanPulang = true;
-                    hud.Tampilkan("Bu Sumi masih butuh bantuan (teplok, air). Raka tidak kembali lagi malam ini. Tekan E sekali lagi untuk keluar.");
+                    hud.Tampilkan("Teplok dan air Bu Sumi belum beres. Kalau keluar, aku tak bisa kembali malam ini. Tekan [E] lagi untuk tetap keluar.");
                     return;
                 }
             }

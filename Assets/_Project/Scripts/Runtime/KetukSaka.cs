@@ -20,6 +20,14 @@ namespace TheSending.Runtime
             }
         }
 
+        // Collider ketuk lebih besar dari tiang supaya sinar E tidak terhalang collider prefab tiang; setelah paku
+        // ditemukan collider dimatikan supaya tidak menutupi paku.
+        void Update()
+        {
+            var gm = GameManager.Instance;
+            if (gm != null && gm.State.MediaDitemukan[Kode.M2]) GetComponent<Collider>().enabled = false;
+        }
+
         public override void Interaksi()
         {
             if (TujuhPaku.Ketuk(GameManager.Instance.State, nomor))
@@ -28,7 +36,7 @@ namespace TheSending.Runtime
                 return;
             }
             padat.Putar();
-            hud.Tampilkan("Saka guru ini berbunyi padat.");
+            hud.Tampilkan("Bunyinya padat. Bukan tiang yang ini.");
         }
     }
 }

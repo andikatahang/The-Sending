@@ -13,10 +13,10 @@ namespace TheSending.Tests
         }
 
         [Test]
-        public void SatuJamGimSama250DetikNyata()
+        public void SatuJamGimSama125DetikNyata()
         {
             var s = new GameState { MalamKe = 3, MenitGim = JamGim.MulaiMalam };
-            JamGim.Maju(s, 250f);
+            JamGim.Maju(s, 125f);
             Assert.AreEqual(19 * 60f, s.MenitGim, 0.001f);
         }
 
@@ -52,7 +52,7 @@ namespace TheSending.Tests
         public void SisaWaktuMalam7DalamDetikNyata()
         {
             var s = new GameState { MalamKe = 7, MenitGim = JamGim.Jam23 };
-            Assert.AreEqual(250f, JamGim.SisaDetikMalam7(s), 0.001f);
+            Assert.AreEqual(125f, JamGim.SisaDetikMalam7(s), 0.001f);
         }
 
         [TestCase(1260f, "21.00")]
@@ -255,6 +255,29 @@ namespace TheSending.Tests
         public void Malam3DalamJendelaObatTidakMelompat()
         {
             Assert.IsNull(JamGim.KejadianBerikutnya(Malam3TujuanSelesai(JamGim.Jam21 + 10f)));
+        }
+
+        [Test]
+        public void Malam4SetelahSemuaTujuanMenungguJamObat()
+        {
+            var s = new GameState { MalamKe = 4, MenitGim = 60f };
+            foreach (var id in TujuanMalam.DaftarWajib(4)) TujuanMalam.Selesaikan(s, id);
+            Assert.AreEqual(JamGim.MulaiJendelaObat(4), JamGim.KejadianBerikutnya(s));
+        }
+
+        [Test]
+        public void Malam4SebelumTujuanSelesaiTidakMenunggu()
+        {
+            var s = new GameState { MalamKe = 4, MenitGim = 60f };
+            Assert.IsNull(JamGim.KejadianBerikutnya(s));
+        }
+
+        [Test]
+        public void Malam4SetelahObatTidakMenunggu()
+        {
+            var s = new GameState { MalamKe = 4, MenitGim = 60f, ObatSudahDiberikan = true };
+            foreach (var id in TujuanMalam.DaftarWajib(4)) TujuanMalam.Selesaikan(s, id);
+            Assert.IsNull(JamGim.KejadianBerikutnya(s));
         }
     }
 }

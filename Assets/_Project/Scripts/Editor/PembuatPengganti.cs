@@ -18,7 +18,7 @@ namespace TheSending.EditorTools
 
         static readonly (string nama, string hex)[] DaftarMaterial =
         {
-            ("KayuTua", "5B4030"), ("KayuGelap", "2E2018"), ("Gedek", "8A7A55"), ("Tanah", "3B3026"),
+            ("KayuTua", "5B4030"), ("Linoleum", "8A8068"), ("KayuGelap", "2E2018"), ("Gedek", "8A7A55"), ("Tanah", "3B3026"),
             ("Genteng", "6B3A2A"), ("Bambu", "6F7F3A"), ("Kain", "B9AE96"), ("Kulit", "C69C7B"),
             ("Karat", "5A1A12"), ("Kertas", "E6E0D1"), ("Logam", "6E7074"), ("Gelap", "0B0D10"),
             ("Atap", "4A3B2C"), ("Tembok", "5A5850"), ("TanahHutan", "33302A"), ("Jalan", "4A4038"), ("Kafan", "4A4438"), ("Batik", "6B3A26"), ("Daun", "3E5A2E"), ("BambuKuning", "B59A3A"), ("Api", "E8742A"),
@@ -381,6 +381,78 @@ namespace TheSending.EditorTools
                 K("Bambu", -0.9f, 0.18f, 0.42f, 0.08f, 0.36f, 0.08f),
                 K("Bambu", 0.9f, 0.18f, 0.42f, 0.08f, 0.36f, 0.08f),
             }),
+            // Malam 4: sumur belakang dengan kerekan (bibir 0,8 m, tiang 1,8 m)
+            ("SumurTimba", new[]
+            {
+                T("Tembok", 0f, 0.4f, 0f, 1.1f, 0.4f, 1.1f),
+                T("Gelap", 0f, 0.805f, 0f, 0.85f, 0.005f, 0.85f),
+                K("KayuGelap", -0.6f, 0.9f, 0f, 0.1f, 1.8f, 0.1f),
+                K("KayuGelap", 0.6f, 0.9f, 0f, 0.1f, 1.8f, 0.1f),
+                K("KayuGelap", 0f, 1.76f, 0f, 1.3f, 0.1f, 0.1f),
+                T("KayuTua", 0f, 1.6f, 0f, 0.14f, 0.1f, 0.14f, 0f, 0f, 90f),   // kerekan
+            }),
+            // Plafon dapur 3 x 3 m dengan lubang di tengah sebagai jalan naik
+            ("PlafonAnyaman", new[]
+            {
+                K("Gedek", -1.0f, 0f, 0f, 1.0f, 0.04f, 3f),
+                K("Gedek", 1.0f, 0f, 0f, 1.0f, 0.04f, 3f),
+                K("Gedek", 0f, 0f, -1.0f, 1.0f, 0.04f, 1.0f),
+                K("Gedek", 0f, 0f, 1.0f, 1.0f, 0.04f, 1.0f),
+            }),
+            ("TanggaBambu", new[]
+            {
+                K("Bambu", -0.25f, 1.25f, 0f, 0.06f, 2.5f, 0.06f, 8f),
+                K("Bambu", 0.25f, 1.25f, 0f, 0.06f, 2.5f, 0.06f, 8f),
+                K("Bambu", 0f, 0.4f, -0.03f, 0.5f, 0.04f, 0.04f),
+                K("Bambu", 0f, 0.9f, -0.07f, 0.5f, 0.04f, 0.04f),
+                K("Bambu", 0f, 1.4f, -0.12f, 0.5f, 0.04f, 0.04f),
+                K("Bambu", 0f, 1.9f, -0.16f, 0.5f, 0.04f, 0.04f),
+            }),
+            ("TaliTambang", new[]
+            {
+                T("Kain", 0f, 0.5f, 0f, 0.025f, 0.5f, 0.025f),
+                T("Kain", 0.03f, 0.1f, 0f, 0.06f, 0.05f, 0.06f, 0f, 0f, 90f),   // gulungan
+            }),
+            ("PengaitBesi", new[]
+            {
+                T("Logam", 0f, 0.15f, 0f, 0.012f, 0.15f, 0.012f),
+                K("Logam", 0.04f, 0.02f, 0f, 0.1f, 0.012f, 0.012f),
+                K("Logam", 0.085f, 0.05f, 0f, 0.012f, 0.06f, 0.012f),
+            }),
+            ("BungkusanHitam", new[]
+            {
+                B("Gelap", 0f, 0.07f, 0f, 0.16f),
+                K("Karat", 0f, 0.12f, 0f, 0.05f, 0.01f, 0.05f),                 // simpul benang merah
+            }),
+            ("TelurCemani", new[]
+            {
+                B("Gelap", 0f, 0.03f, 0f, 0.06f),
+                T("Logam", 0.02f, 0.06f, 0f, 0.004f, 0.03f, 0.004f, 0f, 0f, 30f), // jarum
+            }),
+            ("Kentongan", new[]
+            {
+                T("KayuTua", 0f, 0.3f, 0f, 0.12f, 0.3f, 0.12f, 0f, 0f, 90f),
+                K("Gelap", 0f, 0.3f, 0.1f, 0.4f, 0.03f, 0.02f),                  // celah bunyi
+                K("KayuGelap", 0f, 0.6f, 0f, 0.02f, 0.1f, 0.02f),
+            }),
+            // Gardu 3 x 2,5 m: tiang, atap, bangku, termos, gelas kopi, papan catur
+            ("PosRonda", new[]
+            {
+                K("KayuGelap", -1.4f, 1.25f, -1.1f, 0.12f, 2.5f, 0.12f),
+                K("KayuGelap", 1.4f, 1.25f, -1.1f, 0.12f, 2.5f, 0.12f),
+                K("KayuGelap", -1.4f, 1.25f, 1.1f, 0.12f, 2.5f, 0.12f),
+                K("KayuGelap", 1.4f, 1.25f, 1.1f, 0.12f, 2.5f, 0.12f),
+                K("Atap", 0f, 2.6f, 0f, 3.4f, 0.12f, 2.9f),
+                K("KayuTua", 0f, 0.5f, 0f, 2.8f, 0.06f, 2.2f),                   // lantai gardu
+                K("KayuTua", 0f, 0.8f, -0.9f, 2.6f, 0.05f, 0.4f),                // bangku
+                K("KayuTua", 0f, 0.65f, 0.05f, 0.7f, 0.04f, 0.7f),               // meja catur
+                K("Kertas", 0f, 0.675f, 0.05f, 0.5f, 0.005f, 0.5f),              // papan catur
+                T("Logam", 0.9f, 0.62f, 0.3f, 0.07f, 0.12f, 0.07f),              // termos
+                T("Kertas", 0.55f, 0.57f, 0.4f, 0.04f, 0.04f, 0.04f),            // gelas kopi
+            }),
+            ("PakJoko", Sosok("Kain", "KayuGelap")),
+            ("Warga1", Sosok("Batik", "Gelap")),
+            ("Warga2", Sosok("Gelap", "KayuTua")),
         };
 
         [MenuItem("The Sending/Buat Aset Pengganti")]

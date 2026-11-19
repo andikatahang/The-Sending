@@ -8,9 +8,9 @@ Semua nilai render dipasang oleh skrip, bukan lewat Inspector: menu **The Sendin
 
 | Aspek | Nilai | Tempat |
 |---|---|---|
-| Render Scale | 0.4 | `Assets/Settings/PC_RPAsset.asset` (dan Mobile) |
+| Render Scale | 0.8 | `Assets/Settings/PC_RPAsset.asset` (dan Mobile) |
 | Upscaling Filter | Point (Nearest-Neighbor) | aset URP |
-| Anti-aliasing | MSAA mati, AA kamera None | aset URP, kamera |
+| Anti-aliasing | MSAA mati, AA kamera SMAA | aset URP, kamera |
 | Full-screen pass | Kuantisasi 8 bit per kanal + dither Bayer 4×4 (kuat 1.5), dipilih tim saat cek Play Mode supaya gradasi halus, dihitung di ruang sRGB, sebelum post-processing (injection point `BeforeRenderingPostProcessing`, 550) pada resolusi render-scale | Shader Graph `Assets/_Project/Art/Shaders/PSX_Layar.shadergraph` (URP Fullscreen) + Custom Function `PSX_Layar.hlsl`, material `PSX_Layar.mat` di folder yang sama (slider BitWarna = 8, KuatDither = 1.5; nilai material yang berlaku), fitur renderer `PSX_Layar` |
 | SSAO | Mati | fitur renderer `ScreenSpaceAmbientOcclusion` |
 

@@ -6,7 +6,7 @@ namespace TheSending.Core
     // Runtime tidak memanggil Maju saat cutscene, dialog, Jurnal, inventaris, atau jeda terbuka.
     public static class JamGim
     {
-        public const float DetikNyataPerJamGim = 250f;
+        public const float DetikNyataPerJamGim = 125f;
         public const float MulaiProlog = 17 * 60 + 30f;
         public const float MulaiMalam = 18 * 60f;
         public const float Jam20 = 20 * 60f, Jam21 = 21 * 60f, Jam22 = 22 * 60f, Jam23 = 23 * 60f;
@@ -44,7 +44,7 @@ namespace TheSending.Core
         public static float? KejadianBerikutnya(GameState s)
         {
             if (s.MalamKe == 2) return TungguMalam2(s);
-            if (s.MalamKe == 3) return TujuanMalam.MalamSelesai(s) && !ObatSelesai(s) && s.MenitGim < Jam21 ? Jam21 : (float?)null;
+            if (s.MalamKe == 3 || s.MalamKe == 4) return TujuanMalam.MalamSelesai(s) && !ObatSelesai(s) && s.MenitGim < Jam21 ? Jam21 : (float?)null;
             if (s.MalamKe != 1 || TujuanMalam.Sudah(s, TujuanMalam.Cutscene23)) return null;
             if (s.MenitGim < Jam21) return Jam21;
             if (DalamJendelaObat(s) && !s.ObatSudahDiberikan) return null;

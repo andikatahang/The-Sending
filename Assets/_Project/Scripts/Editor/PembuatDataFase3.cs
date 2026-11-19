@@ -31,16 +31,16 @@ namespace TheSending.EditorTools
                 B("Raka", "Terima kasih, Pakde."),
                 B("Pakde Darmo", "Ibumu harus dibawa ke rumah sakit kota. Biayanya besar, Le. Pakde sudah ada pembeli untuk tanah di tepi sungai itu. Orangnya sudah siap bayar.",
                     efek: "katanya:K4"),
-                B("Raka", "Tanah itu peninggalan Bapak, Pakde. Dulu Bapak menolak menjualnya."),
+                B("Raka", "Itu tanah peninggalan Bapak, Pakde. Bapak dulu nggak mau menjualnya."),
                 B("Pakde Darmo", "Kamu itu masih anak kecil, Le. Nggak ngerti keadaan. Tanah itu dijual, ibumu bisa berobat, kalian bisa hidup enak."),   // dikutip
-                B("Raka", "Maaf, Pakde. Tanahnya tidak dijual."),
+                B("Raka", "Maaf, Pakde. Tanahnya nggak akan dijual."),
                 B("Pakde Darmo", "(menghela napas keras) Ya sudah. Nanti kamu menyesal sendiri.", efek: "tujuan:PakdeDatang"));
             Simpan(KotakSepatu,
-                B("Raka", "Kotak sepatu lama... isinya surat-surat Bapak. Ada satu halaman buku harian terselip di dasarnya.", efek: "halaman:H3"),
-                B("Raka", "Darmo marah besar dan bilang Bapak akan menyesal... Sama dengan omongan Pakde tadi."));
+                B("Raka", "Kotak sepatu lama... isinya surat-surat Bapak. Di dasarnya nyelip selembar halaman buku harian.", efek: "halaman:H3"),
+                B("Raka", "Pakde Darmo marah besar, bilang Bapak bakal menyesal... Persis omongan Pakde tadi."));
             Simpan(Halaman4,
-                B("Raka", "Ada halaman buku harian Bapak terselip di rak alat.", efek: "halaman:H4"),
-                B("Raka", "Bapak menulis cara mencabut paku santet dan cara menetralkan medianya. Isinya bisa dibaca di Jurnal."));
+                B("Raka", "Ada halaman buku harian Bapak nyelip di rak alat.", efek: "halaman:H4"),
+                B("Raka", "Bapak nulis cara mencabut paku santet dan menetralkan medianya. Bisa kubaca lagi di Jurnal."));
             Simpan(KalenderMalam3,
                 B("Raka", "Kamis. Malam ini malam Jumat Legi."));
 
@@ -68,7 +68,7 @@ namespace TheSending.EditorTools
             Simpan(SumiCerita,
                 B("Bu Sumi", "Telung taun kepungkur bojoku lara banget. Aku nyilih dhuwit marang ibumu, nanging ditolak.",
                     "Tiga tahun lalu suamiku sakit keras. Aku meminjam uang kepada ibumu, tetapi ditolak."),
-                B("Raka", "Waktu itu uangnya dipakai untuk biaya kuliah saya, Bu."),
+                B("Raka", "Waktu itu uangnya kepakai buat biaya kuliah saya, Bu."),
                 B("Bu Sumi", "Bojoku seda. Aku mung kandha \"Gusti Allah mboten sare\". Wong-wong banjur nganggep aku ngipat-ipati kulawargamu.",
                     "Suamiku meninggal. Aku cuma bilang \"Tuhan tidak tidur\". Orang-orang lalu menganggap aku mengutuk keluargamu."),
                 B("Bu Sumi", "Aku ora tau nyantet sapa-sapa. Aku mung tau nangis.", "Aku tidak pernah menyantet siapa pun. Aku cuma pernah menangis."),   // dikutip
@@ -135,7 +135,7 @@ namespace TheSending.EditorTools
                 "Kalau urutannya salah, ulangi dari awal.\n\n" +
                 "Garam ada di rak bumbu dapur, daun kelor di pohon pekarangan belakang, bambu kuning di gudang.";
             j.Media[Kode.M2].Isi =
-                "Tujuh paku berkarat tertanam berbaris di saka guru ruang tengah, tertutup dempul hitam. Setiap paku " +
+                "Tujuh paku berkarat tertanam berbaris di tiang kayu besar ruang tengah, tertutup dempul hitam. Setiap paku " +
                 "berukir nama hari. Sama dengan paku yang dimuntahkan Ibu.";
             j.Bukti[Kode.B1].Isi =
                 "Halaman 1 dan 3 buku harian Bapak: Darmo menyampaikan tawaran pembeli tanah dan Bapak menolak, lalu Darmo " +

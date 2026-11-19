@@ -15,7 +15,7 @@ namespace TheSending.EditorTools
     public static class PembuatRumahKeluarga
     {
         internal const string JalurScene = "Assets/_Project/Scenes/" + PetaScene.RumahKeluarga + ".unity";
-        const float Tinggi = 3f, Tebal = 0.15f;
+        internal const float Tinggi = 3f, Tebal = 0.15f;
         const string Sfx = PembuatPengganti.FolderSfx, Musik = PembuatPengganti.FolderMusik;
         const string WarnaLampuRumah = "FFD9A0", WarnaTeplok = "FFB46B";
         const string JalurFont = "Assets/_Project/Art/Fonts/Resources/VT323-Regular.ttf";
@@ -57,6 +57,7 @@ namespace TheSending.EditorTools
             SuaraDanJadwal(rig, sutradara, malam1);
             var sosok = PembuatMalam2.Pasang(rig, sutradara, pintuGudang, kalender, laras);
             PembuatMalam3.Pasang(rig, sutradara, sosok, pintuGudang, pintuBelakang, ibu);
+            PembuatMalam4.Pasang(rig, sutradara, sosok);
 
             EditorSceneManager.SaveScene(scene, JalurScene);
             AssetDatabase.SaveAssets();
@@ -72,8 +73,17 @@ namespace TheSending.EditorTools
 
         static (InteraktifAlur pintuGudang, GameObject pintuBelakang) Bangunan()
         {
-            Balok("Lantai", new Vector3(0f, -0.1f, 6f), new Vector3(14f, 0.2f, 12f), "KayuTua");
-            Balok("Plafon", new Vector3(0f, Tinggi + 0.1f, 6f), new Vector3(14f, 0.2f, 12f), "KayuGelap");
+            // Lantai dipecah: dapur (x -7..3, z 8..12) berlinoleum tua, sisanya kayu.
+            Balok("Lantai", new Vector3(0f, -0.1f, 4f), new Vector3(14f, 0.2f, 8f), "KayuTua");
+            Balok("Lantai", new Vector3(5f, -0.1f, 10f), new Vector3(4f, 0.2f, 4f), "KayuTua");
+            Balok("LantaiDapur", new Vector3(-2f, -0.1f, 10f), new Vector3(10f, 0.2f, 4f), "Linoleum");
+            // Plafon: dapur dan gudang (z 8..12) berlubang 1 x 1 m di (1,5; 10) sebagai jalan naik Malam 4 (NaikPlafon).
+            float yPlafon = Tinggi + 0.1f;
+            Balok("Plafon", new Vector3(0f, yPlafon, 4f), new Vector3(14f, 0.2f, 8f), "KayuGelap");
+            Balok("Plafon", new Vector3(-3f, yPlafon, 10f), new Vector3(8f, 0.2f, 4f), "KayuGelap");
+            Balok("Plafon", new Vector3(4.5f, yPlafon, 10f), new Vector3(5f, 0.2f, 4f), "KayuGelap");
+            Balok("Plafon", new Vector3(1.5f, yPlafon, 8.75f), new Vector3(1f, 0.2f, 1.5f), "KayuGelap");
+            Balok("Plafon", new Vector3(1.5f, yPlafon, 11.25f), new Vector3(1f, 0.2f, 1.5f), "KayuGelap");
 
             // Dinding luar. Pintu depan (selatan) tertutup: di Fase 1 pemain tidak keluar rumah lagi.
             Dinding(-7f, 0f, -0.6f, 0f);
@@ -315,11 +325,11 @@ namespace TheSending.EditorTools
             Set(jadwal, "teguranLaras", PembuatDataFase1.Muat(PembuatDataFase1.TeguranObat));
             Set(jadwal, "dentang", BuatSuara(rig, "DentangJam", Sfx, "SFX", "(Suara: jam dinding berdentang.)"));
 
-            Set(malam1, "suaraBatuk", BuatSuara(rig, "BatukTersedak", Sfx, "SFX", "(Suara: Ibu terbatuk.)"));
+            Set(malam1, "suaraBatuk", BuatSuara(rig, "SuaraMauMuntah", Sfx, "SFX", "(Suara: Ibu terbatuk.)"));
             Set(malam1, "suaraPaku", BuatSuara(rig, "PakuJatuh", Sfx, "SFX", "(Suara: logam jatuh ke lantai.)"));
             Set(malam1, "suaraListrik", BuatSuara(rig, "ListrikPadam", Sfx, "SFX", "(Suara: listrik padam.)"));
             Set(malam1, "suaraLangkah", BuatSuara(rig, "LangkahDiAtap", Sfx, "SFX", "(Suara: langkah di atap.)"));
-            Set(malam1, "musikDrone", BuatSuara(rig, "DroneHoror", Musik, "Music", "(Musik latar.)", ulang: true));
+            Set(malam1, "musikDrone", BuatSuara(rig, PembuatPengganti.AdaSuara(Musik, "MusikMalam") ? "MusikMalam" : "DroneHoror", Musik, "Music", "(Musik latar.)", ulang: true));
         }
     }
 }

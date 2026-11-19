@@ -30,7 +30,7 @@ namespace TheSending.Runtime
         public override void Interaksi()
         {
             if (PunyaLinggis) Dibongkar?.Invoke();
-            else if (hud != null) hud.Tampilkan("Papan ini berbunyi kopong. Butuh alat untuk membongkarnya.");
+            else if (hud != null) hud.Tampilkan("Papan ini kopong. Butuh linggis untuk membongkarnya.");
         }
 
         void Update()

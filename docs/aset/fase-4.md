@@ -1,6 +1,8 @@
 # Daftar Aset Fase 4 (Malam 4: Rambut di Dasar Sumur)
 
-Dikerjakan 26–27 Nov. Cari mulai sekarang. Aturan sama dengan `fase-3.md`: catat lisensi di `KREDIT.md`, beri ✗ jika tidak ketemu (Claude membuat penggantinya).
+Dikerjakan 26–27 Nov.
+
+**Status akhir Fase 4 (19 Nov):** kode selesai. Semua model dan suara di tabel atas masih pengganti buatan Claude (✗ belum ada aset asli dari tim), kecuali musik kejar (`sp-horroraction`, Horror Starter Pack). Daftar nama file pengganti ada di bawah; tukar dengan aset asli tanpa mengganti nama. Cari mulai sekarang. Aturan sama dengan `fase-3.md`: catat lisensi di `KREDIT.md`, beri ✗ jika tidak ketemu (Claude membuat penggantinya).
 
 Model: utamakan **low poly** (di bawah 5.000 segitiga per benda, karakter di bawah 15.000), format FBX atau GLB. Gaya PSX akan menyamakan tampilannya. Paket dari Sketchfab yang datang sebagai `.zip`/`.rar` boleh ditaruh apa adanya di `Assets/_Project/Art/ThirdParty/<nama>/`; Claude mengekstrak, merapikan, dan mengonversinya saat dipakai.
 
@@ -46,3 +48,44 @@ Sumber: **SF** Sketchfab (filter *Downloadable*, lisensi CC0 atau CC-BY) · **AS
 | Ayam berkokok di malam hari | `rooster crow night` | FS, PX | dipakai lagi Malam 7 (cemani) | |
 | Napas berat dan langkah cepat Sosok saat mengejar | `monster breathing`, `heavy running footsteps` | FS | sekuens kejar pertama | |
 | Musik kejar | `horror chase music loop` | PX | grup Music, loop | |
+
+## Nama file dan prefab yang dipakai kode Fase 4
+
+Kode Fase 4 memuat aset pengganti dengan nama di bawah. Untuk menukar dengan aset asli: buka prefab di `Assets/_Project/Prefabs/Pengganti/`, ganti anak visualnya (depan = +Z, titik nol di lantai), atau timpa file suara dengan nama yang sama. Jangan mengganti nama file. Prefab di `Prefabs/Asli/` dipakai lebih dulu jika ada. Daftar di bawah sesuai prefab yang dibuat Task 6.
+
+**Prefab (`Prefabs/Pengganti/`)**
+
+| Prefab | Dipakai untuk |
+|---|---|
+| `SumurTimba` | sumur belakang dengan kerekan dan tiang |
+| `PlafonAnyaman` | plafon dapur yang bisa dinaiki |
+| `TanggaBambu` | tangga di gudang |
+| `TaliTambang` | tali puzzle kerekan |
+| `PengaitBesi` | pengait puzzle kerekan |
+| `BungkusanHitam` | Media 3 (bungkusan kain hitam) |
+| `TelurCemani` | Media 4 (telur hitam berisi jarum) |
+| `Kentongan` | pos ronda |
+| `PosRonda` | gardu, bangku, gelas kopi, termos, papan catur di `Scene_Desa` |
+| `PakJoko`, `Warga1`, `Warga2` | tokoh di pos ronda (kapsul pengganti) |
+
+**Suara (`Audio/SFX/`, WAV sintetis, ditandai (S))**
+
+| File | Dipakai untuk |
+|---|---|
+| `KerekanDerit.wav` | kerekan sumur berderit |
+| `TaliDitarik.wav` | tali ditarik dan diulur |
+| `BendaMasukAir.wav` | bungkusan jatuh ke air |
+| `Kentongan.wav` | kentongan dipukul |
+| `AyamBerkokok.wav` | ayam berkokok |
+
+## Musik dari Horror Starter Pack
+
+Lagu asli tetap di `Assets/Horror Starter Pack/`; salinan .ogg (loop) ada di `Assets/_Project/Audio/Music/` dengan nama slot, ditemukan pembuat lewat nama dasar.
+
+| Slot | Dipakai di | Lagu |
+|---|---|---|
+| `MusikTegang` | Sosok muncul Malam 2 dan 3 | `sp-underthestairs` (115 dtk) |
+| `MusikKejar` | kejaran Malam 4 | `sp-horroraction` (38 dtk) |
+| `MusikMalam` | musik latar Malam 1 (menggantikan `DroneHoror` sintetis) | `sp-lost` (79 dtk) |
+
+Musik menu utama: belum ada slotnya di kode, jadi tidak dipasang. Sisa lagu belum terpakai.

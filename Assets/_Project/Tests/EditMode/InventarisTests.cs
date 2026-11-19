@@ -68,5 +68,23 @@ namespace TheSending.Tests
             Assert.IsFalse(Inventaris.Dikenal(null));
             Assert.Throws<ArgumentException>(() => Inventaris.Nama("X"));
         }
+
+        [TestCase(Inventaris.TaliTambang)]
+        [TestCase(Inventaris.Pengait)]
+        [TestCase(Inventaris.TanggaBambu)]
+        public void BarangMalam4Dikenal(string id)
+        {
+            Assert.IsTrue(Inventaris.Dikenal(id));
+            Assert.IsNotEmpty(Inventaris.Nama(id));
+            Assert.IsNotEmpty(Inventaris.Keterangan(id));
+        }
+
+        [Test]
+        public void MenambahBarangMalam4MasukInventaris()
+        {
+            var s = new GameState();
+            Inventaris.Tambah(s, Inventaris.TaliTambang);
+            Assert.IsTrue(Inventaris.Punya(s, Inventaris.TaliTambang));
+        }
     }
 }

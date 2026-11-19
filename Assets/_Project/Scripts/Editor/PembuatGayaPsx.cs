@@ -20,7 +20,7 @@ namespace TheSending.EditorTools
         static readonly string[] JalurRenderer = { "Assets/Settings/PC_Renderer.asset", "Assets/Settings/Mobile_Renderer.asset" };
 
         // Nilai style guide. Ubah di sini, jalankan ulang menu, lalu perbarui docs/style-guide.md.
-        public const float SkalaRender = 0.4f;
+        public const float SkalaRender = 0.8f;
         public const float BitWarna = 8f, KuatDither = 1.5f;
         public const float IntensitasGrain = 0.4f, IntensitasVignette = 0.35f, KehalusanVignette = 0.4f, Saturasi = -30f;
         public const float KepadatanKabut = 0.06f;
@@ -62,7 +62,7 @@ namespace TheSending.EditorTools
             kamera.backgroundColor = WarnaKabut;
             var data = kamera.GetUniversalAdditionalCameraData();
             data.renderPostProcessing = true;
-            data.antialiasing = AntialiasingMode.None;
+            data.antialiasing = AntialiasingMode.SubpixelMorphologicalAntiAliasing;
         }
 
         static Material MuatMaterial()

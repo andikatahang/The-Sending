@@ -1,0 +1,99 @@
+using System.Collections;
+using TheSending.Core;
+using UnityEngine;
+
+namespace TheSending.Runtime
+{
+    // Sutradara Scene_Desa pada Malam 4 (K26-A): pos ronda (pinjam tali, gosip K1/K2, bela atau diam), pulang lewat pintu rumah.
+    // Efek (barang, katanya, kepercayaan, bukti) ada di DataDialog; sutradara hanya memilih dialog dan memindah scene.
+    public class AlurDesaMalam4 : MonoBehaviour
+    {
+        [SerializeField] KartuTeks kartu;
+        [SerializeField] KameraAdegan adegan;
+        [SerializeField] Hud hud;
+        [SerializeField] PemainGerak pemain;
+        [SerializeField] PanelDialog panel;
+        [SerializeField] InteraktifAlur pintuRumah, pakJoko, warga;
+        [SerializeField] Transform titikDepanRumah;
+        [SerializeField] Suara suaraPintu, suasana;
+        [SerializeField] DataDialog dialogPakJoko;   // pinjam tali + pengait
+        [SerializeField] DataDialog dialogGosip;     // K1/K2 + pilihan bela/diam
+        [SerializeField] DataDialog dialogB2;        // ayam cemani, hanya jika M4 sudah ditemukan
+
+        bool berjalan, sibuk, sudahJoko, sudahGosip;
+
+        static GameState State => GameManager.Instance.State;
+
+        void OnEnable()
+        {
+            pintuRumah.Ditekan += SaatPintuRumah;
+            pakJoko.Ditekan += SaatPakJoko;
+            warga.Ditekan += SaatWarga;
+        }
+
+        void OnDisable()
+        {
+            pintuRumah.Ditekan -= SaatPintuRumah;
+            pakJoko.Ditekan -= SaatPakJoko;
+            warga.Ditekan -= SaatWarga;
+        }
+
+        void Start()
+        {
+            var gm = GameManager.Instance;
+            if (gm == null || gm.State.MalamKe != 4) return;
+            berjalan = true;
+            suasana.Putar();
+            kartu.HitamSeketika();
+            pemain.Pindah(titikDepanRumah);
+            StartCoroutine(Tiba());
+        }
+
+        IEnumerator Tiba()
+        {
+            sibuk = true;
+            yield return kartu.StartCoroutine(kartu.DariHitam());
+            hud.Tampilkan("Kentongan terdengar dari pos ronda di ujung jalan.");
+            sibuk = false;
+        }
+
+        void SaatPakJoko()
+        {
+            if (!berjalan || sibuk) return;
+            if (sudahJoko) { hud.Tampilkan("Pak Joko sudah meminjamkan tali dan pengait."); return; }
+            sudahJoko = Bicara(dialogPakJoko);
+        }
+
+        void SaatWarga()
+        {
+            if (!berjalan || sibuk) return;
+            // Syarat B2 dicek di sini: DataDialog/PemeriksaDialog belum punya syarat tampil.
+            if (State.MediaDitemukan[Kode.M4] && !State.BuktiKunci[Kode.B2]) Bicara(dialogB2);
+            else if (!sudahGosip) sudahGosip = Bicara(dialogGosip);
+            else hud.Tampilkan("Para warga kembali berbisik di antara mereka.");
+        }
+
+        // true jika dialog benar-benar mulai; sibuk dilepas saat dialog ditutup.
+        bool Bicara(DataDialog data)
+        {
+            if (!panel.Mulai(data, () => sibuk = false)) return false;
+            sibuk = true;
+            return true;
+        }
+
+        void SaatPintuRumah()
+        {
+            if (!berjalan || sibuk) return;
+            StartCoroutine(Pulang());
+        }
+
+        IEnumerator Pulang()
+        {
+            sibuk = true;
+            adegan.Mulai();
+            suaraPintu.Putar();
+            yield return kartu.StartCoroutine(kartu.KeHitam());
+            GameManager.Instance.MuatScene(PetaScene.RumahKeluarga);   // jeda dilepas KameraAdegan.OnDisable saat scene dibongkar
+        }
+    }
+}

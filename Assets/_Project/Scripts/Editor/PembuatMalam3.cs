@@ -86,14 +86,15 @@ namespace TheSending.EditorTools
             var berongga = BuatSuara(rig, "KetukBerongga", Sfx, "SFX", "(Suara: ketukan kayu berongga.)");
             for (int i = 0; i < Saka.Length; i++)
             {
-                // Sedikit lebih besar dari collider saka (0,3 m) supaya sinar E mengenai logika ini lebih dulu.
-                var g = Logika("KetukSaka " + i, Saka[i], new Vector3(0.4f, 2.6f, 0.4f));
+                // Jauh lebih besar dari collider prefab SakaGuru (0,45 m) supaya sinar E pasti mengenai logika ini;
+                // KetukSaka mematikan collider-nya setelah paku ditemukan supaya paku bisa dibidik.
+                var g = Logika("KetukSaka " + i, Saka[i], new Vector3(0.7f, 2.6f, 0.7f));
                 var k = g.AddComponent<KetukSaka>();
                 SetAngka(k, "nomor", i);
                 Set(k, "hud", rig.Hud);
                 Set(k, "padat", padat);
                 Set(k, "berongga", berongga);
-                SetTeks(k, "prompt", "Ketuk saka guru");
+                SetTeks(k, "prompt", "Ketuk tiang kayu");
             }
 
             // Kompas mengarah ke saka yang benar mulai Malam 3; PenandaMedia mengabaikan media yang sudah ditemukan.

@@ -24,6 +24,7 @@ namespace TheSending.EditorTools
         const string TeksturAlam = Pihak3 + "/EssentialNaturePack/Materials/Textures/";
         const string TeksturKit = Pihak3 + "/TraditionalHouseModular/Material/";
         const string TeksturBeton = Pihak3 + "/YughuesConcrete/Textures/T_YFCM_";
+        const string TeksturLinoleum = "Assets/ALP_Assets/Old Floor Linoleum FREE/Textures/OldFloor01_a.png";
         const string Pocong = Pihak3 + "/pocong-scary/";
         const string SofaTua = Pihak3 + "/old-sofas/";
         // Grup OBJ sofa tiga dudukan (old-sofas berisi empat sofa).
@@ -34,6 +35,7 @@ namespace TheSending.EditorTools
         {
             ("KayuTua", TeksturKit + "tileable-1/512 - native/T1-A 512.png", "9A8270", 2f),
             ("KayuGelap", TeksturKit + "tileable-1/512 - native/T1-A 512.png", "54443A", 2f),
+            ("Linoleum", TeksturLinoleum, "9A9684", 2f),
             ("Gedek", TeksturKit + "tileable-3/512 - native/T3-A 512.png", "9C8C70", 1.5f),
             ("Tanah", TeksturAlam + "Forest_Ground.png", "6E6458", 3f),
             ("Genteng", TeksturBeton + "RevealingBricks_d.tga", "8C5A48", 2f),
@@ -77,6 +79,7 @@ namespace TheSending.EditorTools
             foreach (var (bahan, jalur, hex, meter) in DaftarTekstur)
             {
                 var mat = PembuatPengganti.Material(bahan);
+                SetelPsxLuarArt(jalur);
                 var tekstur = AssetDatabase.LoadAssetAtPath<Texture2D>(jalur)
                     ?? throw new FileNotFoundException($"Tekstur untuk material {bahan} tidak ada: {jalur}");
                 mat.SetTexture("_BaseMap", tekstur);
@@ -85,6 +88,15 @@ namespace TheSending.EditorTools
                 mat.SetFloat("_Smoothness", 0f);
                 EditorUtility.SetDirty(mat);
             }
+        }
+
+        // Tekstur di luar Art/ThirdParty (misalnya ALP_Assets) tidak tersentuh PembuatAsetLuar: terapkan prasetel PSX di sini.
+        static void SetelPsxLuarArt(string jalur)
+        {
+            if (jalur.StartsWith(Pihak3) || AssetImporter.GetAtPath(jalur) is not TextureImporter imp) return;
+            if (imp.maxTextureSize == PrasetelTeksturPsx.UkuranMaks && imp.filterMode == FilterMode.Point && !imp.mipmapEnabled) return;
+            PrasetelTeksturPsx.Terapkan(imp, PrasetelTeksturPsx.UkuranMaks);
+            imp.SaveAndReimport();
         }
 
         static void Prefab(string nama, Action<Transform> isi, bool colliderKotak)

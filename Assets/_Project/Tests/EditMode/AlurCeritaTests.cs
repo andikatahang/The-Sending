@@ -144,5 +144,50 @@ namespace TheSending.Tests
             Assert.AreEqual(s.KondisiIbu, muat.KondisiIbu);
             Assert.IsTrue(muat.MediaDinetralkan[Kode.M5]);
         }
-    }
+
+        [Test]
+        public void BerikutnyaBelumSelesaiMengikutiUrutanDanNullJikaSemuaSelesai()
+        {
+            var s = new GameState { MalamKe = 3 };
+            Assert.AreEqual(TujuanMalam.PakdeDatang, TujuanMalam.BerikutnyaBelumSelesai(s));
+            TujuanMalam.Selesaikan(s, TujuanMalam.PakdeDatang);
+            TujuanMalam.Selesaikan(s, TujuanMalam.KunjungiSumi);   // CabutPaku sengaja dilewati
+            Assert.AreEqual(TujuanMalam.CabutPaku, TujuanMalam.BerikutnyaBelumSelesai(s));
+            TujuanMalam.Selesaikan(s, TujuanMalam.CabutPaku);
+            Assert.AreEqual(TujuanMalam.RitualPertama, TujuanMalam.BerikutnyaBelumSelesai(s));
+            TujuanMalam.Selesaikan(s, TujuanMalam.RitualPertama);
+            Assert.IsNull(TujuanMalam.BerikutnyaBelumSelesai(s));
+            Assert.IsNull(TujuanMalam.BerikutnyaBelumSelesai(new GameState { MalamKe = 7 }));
+        }
+
+        [Test]
+        public void SetiapTujuanWajibPunyaTeks()
+        {
+            for (int m = 0; m <= 7; m++)
+                foreach (var id in TujuanMalam.DaftarWajib(m))
+                    Assert.IsNotEmpty(TujuanMalam.Teks(id), id);
+        }
+
+        [Test]
+        public void BarisHudMenampilkanTujuanLaluPetunjukObat()
+        {
+            var s = new GameState { MalamKe = 3, MenitGim = JamGim.MulaiMalam };
+            Assert.AreEqual(TujuanMalam.Teks(TujuanMalam.PakdeDatang), TujuanMalam.BarisHud(s));
+            foreach (var id in TujuanMalam.DaftarWajib(3)) TujuanMalam.Selesaikan(s, id);
+            StringAssert.Contains("21.00", TujuanMalam.BarisHud(s));
+            s.ObatSudahDiberikan = true;
+            Assert.AreEqual("", TujuanMalam.BarisHud(s));
+            Assert.AreEqual("", TujuanMalam.BarisHud(new GameState { MalamKe = 7 }));
+        }
+
+        [Test]
+        public void BarisHudCabutPakuMenyuruhMengetukSakaSebelumDitemukan()
+        {
+            var s = new GameState { MalamKe = 3 };
+            TujuanMalam.Selesaikan(s, TujuanMalam.PakdeDatang);
+            StringAssert.Contains("Ketuk keempat tiang kayu", TujuanMalam.BarisHud(s));
+            s.MediaDitemukan[Kode.M2] = true;
+            StringAssert.Contains("Ambil tang", TujuanMalam.BarisHud(s));
+        }
+}
 }
