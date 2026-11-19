@@ -14,6 +14,7 @@ namespace TheSending.Core
             s.MalamKe++;
             s.ObatSudahDiberikan = false;
             s.TujuanSelesai.Clear();
+            PetaScene.CatatAsal(s, ""); // asal kunjungan malam lalu tidak boleh melewati pembuka malam baru
             // Prolog bersambung ke Malam 1 pada sore yang sama, jadi jam dan kondisi tidak berubah.
             if (!dariProlog) s.MenitGim = JamGim.MulaiMalam;
             s.Umumkan(Perubahan.Malam);

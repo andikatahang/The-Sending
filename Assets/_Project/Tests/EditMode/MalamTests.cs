@@ -83,6 +83,16 @@ namespace TheSending.Tests
         }
 
         [Test]
+        public void PergantianMalamMengosongkanSceneAsal()
+        {
+            var s = new GameState { MalamKe = 3 };
+            PetaScene.CatatAsal(s, PetaScene.RumahBuSumi);
+            SelesaikanSemua(s);
+            PergantianMalam.Lanjut(s);
+            Assert.AreEqual("", s.SceneAsal);
+        }
+
+        [Test]
         public void PergantianMalamBisaMemicuTerlambat()
         {
             var s = new GameState { MalamKe = 3, KondisiIbu = 10 };
