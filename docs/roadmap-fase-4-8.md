@@ -79,7 +79,7 @@ Sumber: GS 529–570; GDD 197, 569; DS 5 (baris Malam 4).
 - Raka meminjam tali di pos ronda; warga dan Pak Joko membicarakan Bu Sumi; K1 dan K2 masuk sebagai Katanya. Pilihan diam atau membela Bu Sumi (GS 541–543). Membela = `AksiSumi.BelaDiPosRonda` +1 (GS 6.4, baris 310).
 - Puzzle kerekan: pasang tali, atur pengait, turunkan dan tarik pelan; terlalu cepat = bungkusan jatuh lagi (GS 559–561).
 - M3 (bungkusan rambut uban dan kembang busuk) dari dasar sumur. Dua warga menuduh itu rambut Bu Sumi; K3 masuk (GS 545–547).
-- Halaman 5 di balik kalender dapur (GS 549; GS 10.3 baris 829).
+- Halaman 5 di balik kalender dapur (GS 549; GS 10.3 baris 831).
 - Opsional: kompas di dapur, tangga dari gudang, M4 (telur cemani berisi jarum dan rambut Ibu) di plafon. Lalu kembali ke pos ronda untuk B2 (GS 551–553).
 - Sekuens kejar di pekarangan: Sosok keluar dari arah sumur, memburu sampai ke dalam rumah (GS 555).
 - Dialog kunci (GS 563–569) dikutip persis.
@@ -278,7 +278,7 @@ Tulis `docs/aset/fase-6.md` di awal Fase 5: obor, kerumunan warga (boleh model w
 2. Jumlah warga dan cara memperlihatkannya (model, siluet, atau beberapa model diulang).
 3. Kerasukan: cutscene penuh atau adegan berskrip, karena suara tokoh ditunda.
 4. Setelah gagal: pemain melihat rumah terbakar lalu langsung Malam 7, atau ada kartu teks.
-5. Menampilkan Pasal 252 KUHP / main hakim sendiri di Catatan Raka sekarang (GS 9, baris 776; DS 9: dicek ulang di Fase 8).
+5. Menampilkan Pasal 252 KUHP / main hakim sendiri di Catatan Raka sekarang (GS 9, baris 775; DS 9: dicek ulang di Fase 8).
 
 ### Ketergantungan
 
@@ -299,7 +299,7 @@ Tulis `docs/aset/fase-6.md` di awal Fase 5: obor, kerumunan warga (boleh model w
 
 ## Fase 7: Malam 7 + Ending
 
-**Jatah:** H17–H19, 2–4 Des (3 hari). Fase paling berat (DS 9, baris 318).
+**Jatah:** H17–H19, 2–4 Des (3 hari). Fase paling berat (DS 9, baris 315).
 
 ### Cerita dan tujuan
 
