@@ -10,7 +10,7 @@ Sumber: **SF** Sketchfab (filter *Downloadable*, lisensi CC0 atau CC-BY) · **AS
 
 | Nama | Kata kunci (EN / ID) | Sumber | Tujuan | Status |
 |---|---|---|---|---|
-| Makam desa (nisan kayu dan batu, gundukan, kamboja) | `javanese cemetery`, `graveyard low poly`, `frangipani tree` / makam desa, kuburan, kamboja | SF, AS | `Scene_Makam` | sudah diimpor tim: `ThirdParty/indonesia-grave` (belum dikonversi) |
+| Makam desa (nisan kayu dan batu, gundukan, kamboja) | `javanese cemetery`, `graveyard low poly`, `frangipani tree` / makam desa, kuburan, kamboja | SF, AS | `Scene_Makam` | dipakai di `Scene_Makam` (Task 7) |
 | Pohon asem besar dengan dahan atas | `tamarind tree`, `big old tree low poly` / pohon asem, pohon asam jawa | SF, AS | `Scene_Desa` atau pekarangan, batas tanah | |
 | Rumah Pakde Darmo (rumah batu lebih mewah, halaman, teras, pagar) | `village house modern indonesia`, `house with yard low poly` / rumah kampung, rumah tembok | SF, AS | `Scene_RumahPakde` (Lapis B) | |
 | Pot bunga besar di teras | `flower pot big`, `clay pot plant` / pot bunga, pot tanah liat | SF, AS | `Scene_RumahPakde` | |
@@ -65,3 +65,47 @@ Pak Joko, Warga 1, dan Warga 2 (Fase 4) dipakai lagi tanpa aset baru.
 | `the-bathroom` | kamar mandi (FBX) | Fase 7, epilog Balas Dendam | tekstur bermerek nyata diganti label rekaan saat dipakai |
 | `keris` | keris (`.zip` berisi OBJ) | Fase 7, sanggar Mbah Wiryo | |
 | `kuntilanak-merah-scary` | kuntilanak ber-rig | tidak dipakai jika K9-A | hapus jika tidak dipakai |
+
+## Nama file dan prefab yang dipakai kode Fase 5
+
+Claude membuat pengganti dengan nama ini (Task 7). Untuk menukar dengan model asli: buka prefab di folder, ganti anaknya (depan = +Z, titik nol di lantai), jangan ganti nama prefab.
+
+### Prefab di `Assets/_Project/Prefabs/Pengganti/`
+
+| Prefab | Isi |
+|---|---|
+| `PohonAsem` | pohon asem besar, tinggi sekitar 7 m, dahan atas |
+| `Pacul` | cangkul |
+| `Galah` | galah bambu panjang |
+| `KendiTanahMerah` | kendi berisi tanah merah (Media 5) |
+| `KainKafan` | kain kafan berajah di dahan (Media 6) |
+| `NisanKayu` | nisan kayu |
+| `NisanHadi` | nisan makam ayah Raka |
+| `GundukanMakam` | gundukan tanah makam |
+| `Kamboja` | pohon kamboja |
+| `GerbangMakam` | gerbang makam |
+| `PakLasno` | penjaga makam |
+| `Anjing` | anjing kampung penjaga rumah Pakde |
+| `MangkukAnjing` | mangkuk anjing |
+| `PotBunga` | pot bunga besar di teras Pakde |
+| `MejaKerjaLaci` | meja kerja berlaci |
+| `RumahPakdeLuar` | rumah Pakde dari luar (dinding batu putih, teras) |
+| `PagarBesi` | pagar besi |
+| `GelasTeh` | gelas teh |
+| `SisaMakanan` | sisa makanan untuk anjing |
+| `TumpukanTanah` | tumpukan tanah galian |
+
+### Suara di `Assets/_Project/Audio/SFX/`
+
+(S) = ada WAV sintetis pengganti; hapus WAV dan `.meta` sebelum menaruh rekaman bernama sama, lalu jalankan `bash tools/normalisasi-audio.sh`.
+
+| Nama file (tanpa akhiran) | Isi |
+|---|---|
+| `GaliTanah` (S) | pacul menggali tanah |
+| `KainJatuh` (S) | kain digapai galah lalu jatuh |
+| `SuasanaMakam` | angin, jangkrik jauh, burung hantu (Ambience, loop) |
+| `AnjingMenggonggong` (S) | gonggongan |
+| `AnjingMenggeram` | geram pelan (loop 3D) |
+| `AnjingMakan` | mengunyah |
+| `LaciDibuka` (S) | kunci diputar, laci ditarik |
+| `GelasDiletakkan` | gelas teh di meja |
