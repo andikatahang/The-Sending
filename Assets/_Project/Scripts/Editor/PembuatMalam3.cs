@@ -86,8 +86,9 @@ namespace TheSending.EditorTools
             var berongga = BuatSuara(rig, "KetukBerongga", Sfx, "SFX", "(Suara: ketukan kayu berongga.)");
             for (int i = 0; i < Saka.Length; i++)
             {
-                // Sedikit lebih besar dari collider saka (0,3 m) supaya sinar E mengenai logika ini lebih dulu.
-                var g = Logika("KetukSaka " + i, Saka[i], new Vector3(0.4f, 2.6f, 0.4f));
+                // Sedikit lebih besar dari collider prefab SakaGuru (0,45 m, ikut umpak) supaya sinar E mengenai logika ini
+                // lebih dulu; tetap di belakang muka paku (x - 0,24) supaya paku masih bisa dibidik.
+                var g = Logika("KetukSaka " + i, Saka[i], new Vector3(0.46f, 2.6f, 0.46f));
                 var k = g.AddComponent<KetukSaka>();
                 SetAngka(k, "nomor", i);
                 Set(k, "hud", rig.Hud);
