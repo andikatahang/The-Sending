@@ -73,7 +73,10 @@ namespace TheSending.EditorTools
 
         static (InteraktifAlur pintuGudang, GameObject pintuBelakang) Bangunan()
         {
-            Balok("Lantai", new Vector3(0f, -0.1f, 6f), new Vector3(14f, 0.2f, 12f), "KayuTua");
+            // Lantai dipecah: dapur (x -7..3, z 8..12) berlinoleum tua, sisanya kayu.
+            Balok("Lantai", new Vector3(0f, -0.1f, 4f), new Vector3(14f, 0.2f, 8f), "KayuTua");
+            Balok("Lantai", new Vector3(5f, -0.1f, 10f), new Vector3(4f, 0.2f, 4f), "KayuTua");
+            Balok("LantaiDapur", new Vector3(-2f, -0.1f, 10f), new Vector3(10f, 0.2f, 4f), "Linoleum");
             // Plafon: dapur dan gudang (z 8..12) berlubang 1 x 1 m di (1,5; 10) sebagai jalan naik Malam 4 (NaikPlafon).
             float yPlafon = Tinggi + 0.1f;
             Balok("Plafon", new Vector3(0f, yPlafon, 4f), new Vector3(14f, 0.2f, 8f), "KayuGelap");
