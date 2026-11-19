@@ -256,5 +256,28 @@ namespace TheSending.Tests
         {
             Assert.IsNull(JamGim.KejadianBerikutnya(Malam3TujuanSelesai(JamGim.Jam21 + 10f)));
         }
+
+        [Test]
+        public void Malam4SetelahSemuaTujuanMenungguJamObat()
+        {
+            var s = new GameState { MalamKe = 4, MenitGim = 60f };
+            foreach (var id in TujuanMalam.DaftarWajib(4)) TujuanMalam.Selesaikan(s, id);
+            Assert.AreEqual(JamGim.MulaiJendelaObat(4), JamGim.KejadianBerikutnya(s));
+        }
+
+        [Test]
+        public void Malam4SebelumTujuanSelesaiTidakMenunggu()
+        {
+            var s = new GameState { MalamKe = 4, MenitGim = 60f };
+            Assert.IsNull(JamGim.KejadianBerikutnya(s));
+        }
+
+        [Test]
+        public void Malam4SetelahObatTidakMenunggu()
+        {
+            var s = new GameState { MalamKe = 4, MenitGim = 60f, ObatSudahDiberikan = true };
+            foreach (var id in TujuanMalam.DaftarWajib(4)) TujuanMalam.Selesaikan(s, id);
+            Assert.IsNull(JamGim.KejadianBerikutnya(s));
+        }
     }
 }
