@@ -10,7 +10,7 @@ namespace TheSending.Runtime
         public static IEnumerator Posisi(Transform t, float lama, float kuat)
         {
             var awal = t.localPosition;
-            for (float w = 0f; w < lama; w += Time.unscaledDeltaTime)
+            for (float w = 0f; w < lama && !(Input.GetKeyDown(KeyCode.Space) && GameManager.Instance != null && GameManager.Instance.Sinematik); w += Time.unscaledDeltaTime)
             {
                 t.localPosition = awal + new Vector3(Random.Range(-kuat, kuat), 0f, Random.Range(-kuat, kuat));
                 yield return null;

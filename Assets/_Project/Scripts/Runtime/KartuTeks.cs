@@ -75,7 +75,8 @@ namespace TheSending.Runtime
             judul.text = teksJudul;
             isi.text = teksIsi;
             yield return Pudar(grup.alpha, 1f, kartu);
-            for (float t = 0f; t < detik && kartuAktif == kartu; t += Time.unscaledDeltaTime) yield return null;
+            // Spasi melewati sisa waktu tahan kartu (memudar keluar tetap berjalan).
+            for (float t = 0f; t < detik && kartuAktif == kartu && !Input.GetKeyDown(KeyCode.Space); t += Time.unscaledDeltaTime) yield return null;
             if (kartuAktif == kartu) yield return Pudar(1f, 0f, kartu);
             if (kartuAktif == kartu) LepasJeda();
         }

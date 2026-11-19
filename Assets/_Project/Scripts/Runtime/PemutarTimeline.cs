@@ -1,5 +1,7 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
@@ -16,6 +18,8 @@ namespace TheSending.Runtime
 
         PlayableDirector director;
         bool selesai;
+        // Sinyal yang sudah terkirim pada pemutaran ini, supaya Spasi (lewati) tidak mengirimnya dua kali.
+        readonly HashSet<SignalEmitter> terkirim = new HashSet<SignalEmitter>();
 
         void Awake()
         {
@@ -39,16 +43,39 @@ namespace TheSending.Runtime
                 yield break;
             }
             selesai = false;
+            terkirim.Clear();
             director.time = 0;
             director.Play();
             // Cadangan state: jika wrap mode bukan None, stopped tidak pernah terpicu dan adegan akan terkunci.
             // director != null: objeknya bisa dihancurkan di tengah cutscene (scene dibongkar).
-            while (director != null && !selesai && director.state == PlayState.Playing) yield return null;
+            while (director != null && !selesai && director.state == PlayState.Playing)
+            {
+                if (Input.GetKeyDown(KeyCode.Space)) { Lewati(); yield break; }
+                yield return null;
+            }
+        }
+
+        // Spasi: kirim sisa sinyal berurutan (efek cerita tetap terjadi), lompat ke akhir, lalu berhenti.
+        void Lewati()
+        {
+            if (director.playableAsset is TimelineAsset tl)
+            {
+                var sisa = tl.GetOutputTracks().SelectMany(tr => tr.GetMarkers())
+                    .Concat(tl.markerTrack != null ? tl.markerTrack.GetMarkers() : Enumerable.Empty<IMarker>())
+                    .OfType<SignalEmitter>().Where(e => e.asset != null && !terkirim.Contains(e))
+                    .Distinct().OrderBy(e => e.time).ToList();
+                foreach (var e in sisa) { terkirim.Add(e); Sinyal?.Invoke(e.asset.name); }
+            }
+            if (director == null) return;
+            director.time = director.duration;
+            director.Evaluate();
+            director.Stop();
+            selesai = true;
         }
 
         public void OnNotify(Playable origin, INotification notification, object context)
         {
-            if (notification is SignalEmitter e && e.asset != null) Sinyal?.Invoke(e.asset.name);
+            if (notification is SignalEmitter e && e.asset != null && terkirim.Add(e)) Sinyal?.Invoke(e.asset.name);
         }
     }
 }
