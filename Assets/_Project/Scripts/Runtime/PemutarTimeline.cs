@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
 
@@ -50,7 +51,7 @@ namespace TheSending.Runtime
             // director != null: objeknya bisa dihancurkan di tengah cutscene (scene dibongkar).
             while (director != null && !selesai && director.state == PlayState.Playing)
             {
-                if (Input.GetKeyDown(KeyCode.Space)) { Lewati(); yield break; }
+                if (Keyboard.current != null && Keyboard.current.spaceKey.wasPressedThisFrame) { Lewati(); yield break; }
                 yield return null;
             }
         }
