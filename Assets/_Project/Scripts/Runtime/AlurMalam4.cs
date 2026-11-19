@@ -63,11 +63,6 @@ namespace TheSending.Runtime
                 return;
             }
             var s = gm.State;
-            if (s.MalamKe >= 5)
-            {
-                hud.Tampilkan("Malam 5 belum dibuat (Fase 5).");
-                return;
-            }
             if (s.MalamKe != 4) return;
             berjalan = true;
             kartu.HitamSeketika();
@@ -83,6 +78,8 @@ namespace TheSending.Runtime
             else if (!Inventaris.Punya(s, Inventaris.TaliTambang)) StartCoroutine(Pembuka());
             else StartCoroutine(Pulang());
         }
+
+        public bool SedangDikejar => kejarBerjalan;
 
         void PerbaruiPromptPintu(GameState s) =>
             pintuDepan.UbahPrompt(Inventaris.Punya(s, Inventaris.TaliTambang) ? "Keluar ke desa" : "Pergi ke pos ronda");
@@ -106,6 +103,9 @@ namespace TheSending.Runtime
             if (Inventaris.Punya(State, Inventaris.Pengait) && !TujuanMalam.Sudah(State, TujuanMalam.AmbilBungkusanSumur))
                 hud.Tampilkan("Tali dan pengait sudah ada. Ke sumur belakang lewat pintu dapur.");
             sibuk = false;
+            // K38-A: checkpoint di antara lolos dan K3 tidak boleh melewatkan adegan warga.
+            if (TujuanMalam.Sudah(State, TujuanMalam.LolosKejaranSumur) && !State.KatanyaDiketahui[Kode.K3])
+                yield return WargaMenuduh();
         }
 
         void Update()
@@ -275,11 +275,7 @@ namespace TheSending.Runtime
                     yield break;
                 }
                 gm.SimpanCheckpoint();            // checkpoint awal Malam 5
-                // Fase 5 mengganti bagian di bawah ini dengan gm.MuatScene(gm.SceneUntukState) untuk sutradara Malam 5.
-                yield return kartu.StartCoroutine(kartu.Tampilkan(
-                    "Malam 5: Tanah Merah", KalenderJawa.NamaMalam(5) + "\n\n(Bersambung. Malam 5 dibuat di Fase 5.)", 8f));
-                yield return kartu.StartCoroutine(kartu.KeHitam());
-                gm.MuatScene(GameManager.SceneMenuUtama);
+                gm.MuatScene(gm.SceneUntukState);
                 dimuat = true;
             }
             finally { if (!dimuat) adegan.Selesai(); }
