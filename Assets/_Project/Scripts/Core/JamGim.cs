@@ -39,10 +39,12 @@ namespace TheSending.Core
 
         // "Duduk menunggu" melompat ke kejadian berwaktu berikutnya.
         // Malam 1 (K4 opsi B): obat 21.00, cutscene 23.00. Malam 2 (K11-A): setelah tulisan boneka terbaca dan sebelum
-        // Mbah Wiryo datang, menunggu jam obat 21.00. Null jika tidak ada yang ditunggu, atau obat sedang harus diberikan.
+        // Mbah Wiryo datang, menunggu jam obat 21.00. Malam 3 (K19-A): setelah semua tujuan wajib selesai, menunggu jam obat.
+        // Null jika tidak ada yang ditunggu, atau obat sedang harus diberikan.
         public static float? KejadianBerikutnya(GameState s)
         {
             if (s.MalamKe == 2) return TungguMalam2(s);
+            if (s.MalamKe == 3) return TujuanMalam.MalamSelesai(s) && !ObatSelesai(s) && s.MenitGim < Jam21 ? Jam21 : (float?)null;
             if (s.MalamKe != 1 || TujuanMalam.Sudah(s, TujuanMalam.Cutscene23)) return null;
             if (s.MenitGim < Jam21) return Jam21;
             if (DalamJendelaObat(s) && !s.ObatSudahDiberikan) return null;
@@ -57,6 +59,12 @@ namespace TheSending.Core
         public static bool SaatnyaWiryoDatang(GameState s) =>
             s.MalamKe == 2 && TujuanMalam.Sudah(s, TujuanMalam.BacaAksara) && !TujuanMalam.Sudah(s, TujuanMalam.PilihanWiryo)
             && (s.ObatSudahDiberikan || s.MenitGim >= AkhirJendelaObat(2));
+
+        // K19-A: malam tidak ditutup sebelum obat diberikan atau jendela obatnya lewat.
+        public static bool ObatSelesai(GameState s) => s.ObatSudahDiberikan || s.MenitGim >= AkhirJendelaObat(s.MalamKe);
+
+        // Malam 3 (Game Story): Ibu menjerit setiap kali jam dinding berdentang, yaitu setiap jam penuh.
+        public static bool JamBerdentang(float sebelum, float sesudah) => Math.Floor(sesudah / 60f) > Math.Floor(sebelum / 60f);
 
         public static bool Tunggu(GameState s)
         {

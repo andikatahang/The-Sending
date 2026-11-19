@@ -211,5 +211,50 @@ namespace TheSending.Tests
             TujuanMalam.Selesaikan(s, TujuanMalam.PilihanWiryo);
             Assert.IsFalse(JamGim.SaatnyaWiryoDatang(s));
         }
+
+        // Malam 3: Ibu menjerit setiap jam dinding berdentang.
+        [TestCase(1139f, 1141f, true)]    // 18.59 -> 19.01
+        [TestCase(1141f, 1199f, false)]
+        [TestCase(1199f, 1260f, true)]    // kursi tunggu melompat lewat 20.00
+        [TestCase(1200f, 1200f, false)]
+        public void JamBerdentangSetiapJamPenuh(float sebelum, float sesudah, bool dentang)
+        {
+            Assert.AreEqual(dentang, JamGim.JamBerdentang(sebelum, sesudah));
+        }
+
+        // K19-A: Malam 3 tidak ditutup sebelum obat diberikan atau jendela obat lewat.
+        [TestCase(false, 1200f, false)]   // 20.00, belum waktunya
+        [TestCase(true, 1265f, true)]     // obat sudah diberikan
+        [TestCase(false, 1320f, true)]    // 22.00, jendela lewat
+        public void ObatSelesaiSetelahDiberikanAtauJendelaLewat(bool obat, float menit, bool selesai)
+        {
+            var s = new GameState { MalamKe = 3, MenitGim = menit, ObatSudahDiberikan = obat };
+            Assert.AreEqual(selesai, JamGim.ObatSelesai(s));
+        }
+
+        static GameState Malam3TujuanSelesai(float menit)
+        {
+            var s = new GameState { MalamKe = 3, MenitGim = menit };
+            foreach (var id in TujuanMalam.DaftarWajib(3)) TujuanMalam.Selesaikan(s, id);
+            return s;
+        }
+
+        [Test]
+        public void Malam3SebelumTujuanSelesaiTidakMenunggu()
+        {
+            Assert.IsNull(JamGim.KejadianBerikutnya(new GameState { MalamKe = 3, MenitGim = 19 * 60f }));
+        }
+
+        [Test]
+        public void Malam3SetelahTujuanSelesaiMenungguJamObat()
+        {
+            Assert.AreEqual(JamGim.Jam21, JamGim.KejadianBerikutnya(Malam3TujuanSelesai(19 * 60f)));
+        }
+
+        [Test]
+        public void Malam3DalamJendelaObatTidakMelompat()
+        {
+            Assert.IsNull(JamGim.KejadianBerikutnya(Malam3TujuanSelesai(JamGim.Jam21 + 10f)));
+        }
     }
 }

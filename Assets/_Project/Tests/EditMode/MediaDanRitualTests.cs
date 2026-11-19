@@ -56,14 +56,14 @@ namespace TheSending.Tests
         public void RitualDariHalaman4TanpaBahanBelumBisaDimulai()
         {
             var s = new GameState { MalamKe = 3 };
-            MediaSantet.Temukan(s, Kode.M2);
+            MediaSantet.Temukan(s, Kode.M1);
             RitualPenangkal.Pelajari(s, dariBuSumi: false);
-            Assert.IsFalse(RitualPenangkal.BisaMulai(s, Kode.M2));
+            Assert.IsFalse(RitualPenangkal.BisaMulai(s, Kode.M1));
 
             RitualPenangkal.AmbilBahan(s, BahanRitual.Garam);
             RitualPenangkal.AmbilBahan(s, BahanRitual.Kelor);
             RitualPenangkal.AmbilBahan(s, BahanRitual.BambuKuning);
-            Assert.IsTrue(RitualPenangkal.BisaMulai(s, Kode.M2));
+            Assert.IsTrue(RitualPenangkal.BisaMulai(s, Kode.M1));
         }
 
         [Test]
@@ -103,6 +103,45 @@ namespace TheSending.Tests
             MediaSantet.Netralkan(s, Kode.M1);
             Assert.IsFalse(RitualPenangkal.BisaMulai(s, Kode.M1));
             Assert.Throws<InvalidOperationException>(() => MediaSantet.Netralkan(s, Kode.M1));
+        }
+
+        [Test]
+        public void RitualMalam3MenyelesaikanTujuanRitualPertama()
+        {
+            var s = SiapRitual(Kode.M1);
+            var r = new RitualPenangkal(s, Kode.M1);
+            foreach (var langkah in UrutanBenar) r.Lakukan(langkah);
+            Assert.IsTrue(TujuanMalam.Sudah(s, TujuanMalam.RitualPertama));
+        }
+
+        [Test]
+        public void PakuBaruBisaDinetralkanSetelahKetujuhnyaDicabut()
+        {
+            var s = SiapRitual(Kode.M2);
+            Assert.IsFalse(RitualPenangkal.BisaMulai(s, Kode.M2));
+            foreach (var h in KalenderJawa.UrutanPaku(TujuhPaku.MalamPaku)) TujuhPaku.Cabut(s, h);
+            Assert.IsTrue(RitualPenangkal.BisaMulai(s, Kode.M2));
+        }
+
+        // K25-B: anglo memuat media dengan nomor terendah yang bisa dinetralkan.
+        [Test]
+        public void MediaBerikutnyaAdalahNomorTerendahYangBisaDinetralkan()
+        {
+            var s = SiapRitual(Kode.M1);
+            MediaSantet.Temukan(s, Kode.M2);
+            Assert.AreEqual(Kode.M1, RitualPenangkal.MediaBerikutnya(s));   // paku belum tercabut
+            MediaSantet.Netralkan(s, Kode.M1);
+            Assert.AreEqual(-1, RitualPenangkal.MediaBerikutnya(s));
+            foreach (var h in KalenderJawa.UrutanPaku(TujuhPaku.MalamPaku)) TujuhPaku.Cabut(s, h);
+            Assert.AreEqual(Kode.M2, RitualPenangkal.MediaBerikutnya(s));
+        }
+
+        [Test]
+        public void TanpaPengetahuanTidakAdaMediaBerikutnya()
+        {
+            var s = new GameState { MalamKe = 3 };
+            MediaSantet.Temukan(s, Kode.M1);
+            Assert.AreEqual(-1, RitualPenangkal.MediaBerikutnya(s));
         }
 
         [Test]

@@ -105,6 +105,24 @@ namespace TheSending.Tests
         }
 
         [Test]
+        public void PakuDicabutIkutTersimpan()
+        {
+            var s = new GameState { MalamKe = 3 };
+            TujuhPaku.Ketuk(s, TujuhPaku.SakaBenar);
+            TujuhPaku.Cabut(s, Hari.Jumat);
+            Assert.AreEqual(1, SaveData.DariJson(SaveData.KeJson(s)).PakuDicabut);
+        }
+
+        [Test]
+        public void PakuDicabutDiLuarRentangDitolak()
+        {
+            var asli = SaveData.KeJson(new GameState());
+            var json = asli.Replace("\"PakuDicabut\":0", "\"PakuDicabut\":8");
+            Assert.AreNotEqual(asli, json);
+            Assert.Throws<FormatException>(() => SaveData.DariJson(json));
+        }
+
+        [Test]
         public void StatusKatanyaTidakDikenalDitolak()
         {
             var asli = SaveData.KeJson(new GameState());

@@ -29,7 +29,11 @@ namespace TheSending.Core
         {
             if (Selesai) return false;
             bool benar = langkah.Pilih(l);
-            if (Selesai) MediaSantet.Netralkan(s, media);
+            if (Selesai)
+            {
+                MediaSantet.Netralkan(s, media);
+                if (s.MalamKe == 3) TujuanMalam.Selesaikan(s, TujuanMalam.RitualPertama);   // tutorial Malam 3 (K20)
+            }
             return benar;
         }
 
@@ -50,7 +54,17 @@ namespace TheSending.Core
 
         public static bool BahanLengkap(GameState s) => Array.TrueForAll(s.BahanRitual, x => x);
 
+        // Paku (M2) baru bisa dibakar setelah ketujuhnya tercabut dari saka.
         public static bool BisaMulai(GameState s, int media) =>
-            s.RitualDiketahui && BahanLengkap(s) && MediaSantet.BisaDinetralkan(s, media);
+            s.RitualDiketahui && BahanLengkap(s) && MediaSantet.BisaDinetralkan(s, media)
+            && (media != Kode.M2 || TujuhPaku.Selesai(s));
+
+        // K25-B: anglo memuat media dengan nomor terendah yang bisa dinetralkan; -1 jika tidak ada.
+        public static int MediaBerikutnya(GameState s)
+        {
+            for (int m = 0; m < Kode.JumlahMedia; m++)
+                if (BisaMulai(s, m)) return m;
+            return -1;
+        }
     }
 }

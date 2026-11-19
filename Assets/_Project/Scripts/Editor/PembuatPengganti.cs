@@ -21,7 +21,8 @@ namespace TheSending.EditorTools
             ("KayuTua", "5B4030"), ("KayuGelap", "2E2018"), ("Gedek", "8A7A55"), ("Tanah", "3B3026"),
             ("Genteng", "6B3A2A"), ("Bambu", "6F7F3A"), ("Kain", "B9AE96"), ("Kulit", "C69C7B"),
             ("Karat", "5A1A12"), ("Kertas", "E6E0D1"), ("Logam", "6E7074"), ("Gelap", "0B0D10"),
-            ("Atap", "4A3B2C"), ("Tembok", "5A5850"), ("TanahHutan", "33302A"), ("Jalan", "4A4038"), ("Kafan", "4A4438"),
+            ("Atap", "4A3B2C"), ("Tembok", "5A5850"), ("TanahHutan", "33302A"), ("Jalan", "4A4038"), ("Kafan", "4A4438"), ("Batik", "6B3A26"), ("Daun", "3E5A2E"), ("BambuKuning", "B59A3A"), ("Api", "E8742A"),
+            ("Sofa", "6A5A48"),
         };
 
         readonly struct Bagian
@@ -270,6 +271,115 @@ namespace TheSending.EditorTools
                 K("KayuTua", 0f, 1.0f, 0.305f, 0.02f, 1.8f, 0.01f),
                 K("Logam", -0.06f, 1.0f, 0.31f, 0.02f, 0.12f, 0.02f),
                 K("Logam", 0.06f, 1.0f, 0.31f, 0.02f, 0.12f, 0.02f),
+            }),
+            // Malam 3: tokoh
+            ("PakdeDarmo", Sosok("Batik", "KayuGelap")),
+            ("BuSumi", new[]
+            {
+                K("Kain", 0f, 0.4f, 0f, 0.32f, 0.8f, 0.22f),                   // jarik
+                K("Kain", 0f, 1.08f, 0f, 0.38f, 0.56f, 0.22f),                 // kebaya lusuh
+                K("Kain", -0.25f, 1.08f, 0f, 0.09f, 0.52f, 0.09f),
+                K("Kain", 0.25f, 1.08f, 0f, 0.09f, 0.52f, 0.09f),
+                K("Kulit", 0f, 1.47f, 0f, 0.2f, 0.22f, 0.2f),
+                K("Kertas", 0f, 1.57f, -0.02f, 0.22f, 0.08f, 0.22f),           // rambut putih
+                B("Kertas", 0f, 1.53f, -0.14f, 0.13f),                         // sanggul
+            }),
+            // Malam 3: rumah keluarga
+            ("BuahTangan", new[]
+            {
+                K("Kertas", 0f, 0.06f, 0f, 0.3f, 0.12f, 0.2f),
+                B("Karat", -0.06f, 0.15f, 0f, 0.1f),
+                B("Daun", 0.07f, 0.15f, 0.02f, 0.1f),
+            }),
+            ("KotakSepatu", new[]
+            {
+                K("Kertas", 0f, 0.06f, 0f, 0.32f, 0.12f, 0.2f),
+                K("Tanah", 0f, 0.125f, 0f, 0.33f, 0.01f, 0.21f),
+            }),
+            ("Tang", new[]
+            {
+                K("Logam", 0f, 0.01f, 0.05f, 0.04f, 0.02f, 0.1f),
+                K("Karat", -0.02f, 0.01f, -0.05f, 0.02f, 0.02f, 0.12f, 0f, 10f),
+                K("Karat", 0.02f, 0.01f, -0.05f, 0.02f, 0.02f, 0.12f, 0f, -10f),
+            }),
+            ("HalamanSobek", new[] { K("Kertas", 0f, 0.003f, 0f, 0.15f, 0.006f, 0.2f, 0f, 12f) }),
+            ("Dempul", new[] { K("Gelap", 0f, 0f, 0f, 0.02f, 0.95f, 0.2f) }),
+            ("PakuSaka", new[] { T("Karat", 0f, 0f, 0f, 0.015f, 0.04f, 0.015f, 0f, 0f, 90f) }),
+            ("Anglo", new[]
+            {
+                T("Tanah", 0f, 0.15f, 0f, 0.4f, 0.15f, 0.4f),
+                T("Gelap", 0f, 0.305f, 0f, 0.32f, 0.005f, 0.32f),
+            }),
+            ("ApiAnglo", new[]
+            {
+                B("Api", 0f, 0.36f, 0f, 0.18f),
+                B("Api", 0.05f, 0.42f, 0.03f, 0.1f),
+            }),
+            ("RakBumbu", new[]
+            {
+                K("KayuTua", 0f, 0.01f, 0f, 0.45f, 0.02f, 0.2f),
+                T("Kertas", -0.12f, 0.08f, 0f, 0.08f, 0.06f, 0.08f),          // toples garam
+                T("Karat", 0f, 0.07f, 0f, 0.07f, 0.05f, 0.07f),
+                T("Tanah", 0.12f, 0.07f, 0f, 0.07f, 0.05f, 0.07f),
+            }),
+            // Langkah Ritual Penangkal di meja samping anglo (K25-B)
+            ("GaramToples", new[]
+            {
+                T("Kertas", 0f, 0.07f, 0f, 0.09f, 0.07f, 0.09f),
+                T("KayuTua", 0f, 0.145f, 0f, 0.1f, 0.005f, 0.1f),
+            }),
+            ("IkatKelor", new[]
+            {
+                B("Daun", 0f, 0.04f, 0f, 0.12f),
+                B("Daun", 0.06f, 0.04f, 0.03f, 0.09f),
+                T("KayuTua", -0.08f, 0.02f, 0f, 0.01f, 0.06f, 0.01f, 0f, 0f, 90f),
+            }),
+            ("KorekApi", new[] { K("Kertas", 0f, 0.01f, 0f, 0.05f, 0.02f, 0.035f), K("Karat", 0.026f, 0.01f, 0f, 0.002f, 0.018f, 0.03f) }),
+            ("BambuKuning", new[] { K("BambuKuning", 0f, 0.6f, 0f, 0.05f, 1.2f, 0.03f, 0f, 0f, 8f) }),
+            ("PohonKelor", new[]
+            {
+                T("KayuTua", 0f, 1.1f, 0f, 0.12f, 1.1f, 0.12f),
+                B("Daun", 0f, 2.4f, 0f, 1.3f),
+                B("Daun", 0.4f, 2.1f, 0.2f, 0.8f),
+            }),
+            ("Sofa", new[]
+            {
+                K("Sofa", 0f, 0.22f, 0f, 1.9f, 0.44f, 0.8f),                  // dudukan
+                K("Sofa", 0f, 0.6f, -0.3f, 1.9f, 0.4f, 0.2f),                 // sandaran di -Z
+                K("Sofa", -0.85f, 0.55f, 0.05f, 0.2f, 0.3f, 0.7f),
+                K("Sofa", 0.85f, 0.55f, 0.05f, 0.2f, 0.3f, 0.7f),
+            }),
+            // Malam 3: rumah Bu Sumi
+            ("Sumur", new[]
+            {
+                T("Tembok", 0f, 0.4f, 0f, 1.1f, 0.4f, 1.1f),
+                T("Gelap", 0f, 0.805f, 0f, 0.85f, 0.005f, 0.85f),
+                K("KayuGelap", -0.6f, 0.9f, 0f, 0.08f, 1.8f, 0.08f),
+                K("KayuGelap", 0.6f, 0.9f, 0f, 0.08f, 1.8f, 0.08f),
+                K("KayuGelap", 0f, 1.76f, 0f, 1.3f, 0.08f, 0.08f),
+                T("KayuTua", 0.3f, 0.92f, 0.35f, 0.12f, 0.12f, 0.12f),          // timba di bibir sumur
+            }),
+            ("RakBotol", new[]
+            {
+                K("KayuGelap", 0f, 0.9f, 0f, 1.0f, 1.8f, 0.3f),
+                T("Bambu", -0.3f, 1.3f, 0.12f, 0.07f, 0.1f, 0.07f),
+                T("Karat", 0f, 1.3f, 0.12f, 0.07f, 0.1f, 0.07f),
+                T("Daun", 0.3f, 1.3f, 0.12f, 0.07f, 0.1f, 0.07f),
+                T("Kertas", -0.15f, 0.8f, 0.12f, 0.07f, 0.1f, 0.07f),
+            }),
+            ("Lumpang", new[]
+            {
+                T("Tembok", 0f, 0.15f, 0f, 0.4f, 0.15f, 0.4f),
+                T("Gelap", 0f, 0.302f, 0f, 0.25f, 0.002f, 0.25f),
+                T("KayuTua", 0.1f, 0.45f, 0f, 0.05f, 0.25f, 0.05f, 0f, 0f, 20f), // alu
+            }),
+            ("BaleBale", new[]
+            {
+                K("Bambu", 0f, 0.4f, 0f, 2.0f, 0.08f, 1.0f),
+                K("Bambu", -0.9f, 0.18f, -0.42f, 0.08f, 0.36f, 0.08f),
+                K("Bambu", 0.9f, 0.18f, -0.42f, 0.08f, 0.36f, 0.08f),
+                K("Bambu", -0.9f, 0.18f, 0.42f, 0.08f, 0.36f, 0.08f),
+                K("Bambu", 0.9f, 0.18f, 0.42f, 0.08f, 0.36f, 0.08f),
             }),
         };
 

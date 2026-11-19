@@ -29,6 +29,7 @@ namespace TheSending.Core
 
         public bool RitualDiketahui;
         public bool[] BahanRitual = new bool[Kode.JumlahBahanRitual];
+        public int PakuDicabut;             // Malam 3: paku saka yang sudah dicabut berurutan (TujuhPaku)
 
         public HasilSidang HasilSidang;
         public PilihanAkhir PilihanAkhir;

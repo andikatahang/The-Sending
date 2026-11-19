@@ -45,6 +45,7 @@ Setiap scene baru memanggil `PembuatGayaPsx.TerapkanKeScene()` dan `SiapkanKamer
 |---|---|
 | Hangat = aman (lampu teplok) | `#FFB46B` |
 | Lampu listrik rumah (padam sejak cutscene Malam 1 pukul 23.00) | `#FFD9A0` |
+| Api anglo (Ritual Penangkal) | `#FF8A3D`, lebih jingga dari teplok `#FFB46B`; hanya menyala selama ritual |
 | Dingin = ancaman (cahaya bulan) | `#6D86A8` |
 | Karat dan darah; sorotan tombol menu | `#5A1A12` |
 | Teks UI | `#E6E0D1` |
@@ -84,7 +85,7 @@ Pass `PSX_Layar` berjalan sebelum post-processing pada resolusi render-scale, ja
 
 ## Aset pengganti (sejak Fase 1)
 
-Selama aset asli belum ada, gim memakai pengganti buatan skrip (`PembuatPengganti`, `PembuatSuaraPengganti`): material polos di `Assets/_Project/Art/Materials/Pengganti/`, prefab dari primitif di `Assets/_Project/Prefabs/Pengganti/`, dan WAV sintetis (lima di Fase 1, enam di Fase 2) di `Assets/_Project/Audio/SFX/` dan `Audio/Music/`. Skrip tidak menimpa file yang sudah ada. Cara menukar dengan aset asli: `docs/aset/fase-1.md`, bagian "Nama file dan prefab yang dipakai kode Fase 1". Daftar Fase 2: `docs/aset/fase-2.md`, bagian "Nama file dan prefab yang dipakai kode Fase 2".
+Selama aset asli belum ada, gim memakai pengganti buatan skrip (`PembuatPengganti`, `PembuatSuaraPengganti`): material polos di `Assets/_Project/Art/Materials/Pengganti/`, prefab dari primitif di `Assets/_Project/Prefabs/Pengganti/`, dan WAV sintetis (lima di Fase 1, enam di Fase 2, lima di Fase 3) di `Assets/_Project/Audio/SFX/` dan `Audio/Music/`. Skrip tidak menimpa file yang sudah ada. Cara menukar dengan aset asli: `docs/aset/fase-1.md`, bagian "Nama file dan prefab yang dipakai kode Fase 1". Daftar Fase 2: `docs/aset/fase-2.md`, bagian "Nama file dan prefab yang dipakai kode Fase 2". Daftar Fase 3: `docs/aset/fase-3.md`, bagian "Nama file dan prefab yang dipakai kode Fase 3".
 
 Prefab aset asli di `Assets/_Project/Prefabs/Asli/` (dibuat `PembuatAsetAsli`) menggantikan prefab pengganti bernama sama. Perabot nappin memakai material kayu pengganti, bukan warna modernnya. Pohon hutan memakai LOD0 hanya sampai sekitar 20 m (dengan lodBias 2 kualitas PC); lebih jauh papan silang LOD1 di dalam kabut. Sekitar 100-200 ribu segitiga terlihat di Scene_Desa.
 

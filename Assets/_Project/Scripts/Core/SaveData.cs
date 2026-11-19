@@ -54,6 +54,7 @@ namespace TheSending.Core
             EnumValid(s.Ending, nameof(s.Ending));
             foreach (var status in s.StatusKatanya) EnumValid(status, nameof(s.StatusKatanya));
             Rentang(s.PintuSumiTerbukaMulaiMalam, 0, 8, nameof(s.PintuSumiTerbukaMulaiMalam));
+            Rentang(s.PakuDicabut, 0, TujuhPaku.Jumlah, nameof(s.PakuDicabut));
             foreach (var malam in s.MalamMediaDitemukan) Rentang(malam, 0, 7, nameof(s.MalamMediaDitemukan));
         }
 

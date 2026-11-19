@@ -11,6 +11,8 @@ namespace TheSending.EditorTools
     public static class PembuatMenuUtama
     {
         const string JalurScene = "Assets/_Project/Scenes/" + GameManager.SceneMenuUtama + ".unity";
+        // Lebih tipis dari kabut gameplay supaya desa terlihat dari ketinggian kamera.
+        const float KabutMenu = 0.035f;
 
         [MenuItem("The Sending/Bangun Ulang Semua (gaya PSX + scene)")]
         public static void BangunSemua()
@@ -20,9 +22,11 @@ namespace TheSending.EditorTools
             PembuatAsetAsli.Buat();
             PembuatDataFase1.Buat();
             PembuatDataFase2.Buat();
+            PembuatDataFase3.Buat();
             PembuatSandbox.Buat();
             PembuatDesa.Buat();
             PembuatRumahKeluarga.Buat();
+            PembuatRumahBuSumi.Buat();
             Buat();   // terakhir: mendaftarkan scene dan meninggalkan menu utama terbuka
         }
 
@@ -35,26 +39,19 @@ namespace TheSending.EditorTools
 
             new GameObject("GameManager").AddComponent<GameManager>();
 
+            // Latar: desa malam dilihat dari atas sudut jalan, ke arah rumah Bu Sumi dan rumah keluarga.
+            PembuatDesa.Latar();
+            RenderSettings.fogDensity = KabutMenu;
             var kamera = new GameObject("Kamera");
             kamera.tag = "MainCamera";
-            kamera.transform.position = new Vector3(0f, 1.4f, -3.5f);
-            kamera.transform.rotation = Quaternion.Euler(8f, 0f, 0f);
+            kamera.transform.position = new Vector3(-5f, 10f, 68f);
+            var bidikan = new Vector3(1.5f, 0f, 88f);
+            kamera.transform.LookAt(bidikan);
+            var melayang = new SerializedObject(kamera.AddComponent<KameraMenuMelayang>());
+            melayang.FindProperty("bidikan").vector3Value = bidikan;
+            melayang.ApplyModifiedPropertiesWithoutUndo();
             PembuatGayaPsx.SiapkanKamera(kamera.AddComponent<Camera>());
             kamera.AddComponent<AudioListener>();
-
-            // Latar sederhana supaya gaya PSX terlihat di belakang menu: lantai, meja, dan lampu teplok hangat.
-            var lantai = GameObject.CreatePrimitive(PrimitiveType.Plane);
-            lantai.name = "Lantai";
-            var meja = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            meja.name = "Meja";
-            meja.transform.position = new Vector3(0.8f, 0.4f, 1f);
-            meja.transform.localScale = new Vector3(1.2f, 0.8f, 0.6f);
-            var teplok = new GameObject("Teplok").AddComponent<Light>();
-            teplok.type = LightType.Point;
-            teplok.color = new Color32(0xFF, 0xB4, 0x6B, 0xFF);
-            teplok.range = 6f;
-            teplok.intensity = 2f;
-            teplok.transform.position = new Vector3(0.8f, 1.1f, 1f);
 
             var ui = new GameObject("UI");
             var pengaturan = ui.AddComponent<PanelPengaturan>();
@@ -75,6 +72,7 @@ namespace TheSending.EditorTools
                 new EditorBuildSettingsScene(PembuatDesa.JalurScene, true),
                 new EditorBuildSettingsScene(PembuatRumahKeluarga.JalurScene, true),
                 new EditorBuildSettingsScene(PembuatSandbox.JalurScene, true),
+                new EditorBuildSettingsScene(PembuatRumahBuSumi.JalurScene, true),
             };
         }
     }

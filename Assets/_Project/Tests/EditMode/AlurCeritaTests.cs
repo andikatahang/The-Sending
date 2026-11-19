@@ -40,7 +40,8 @@ namespace TheSending.Tests
             TutupMalam(s);                                          // Malam 3 (40)
 
             BeriObatTepatWaktu(s);                                  // 42
-            MediaSantet.Temukan(s, Kode.M2);
+            Assert.IsTrue(TujuhPaku.Ketuk(s, TujuhPaku.SakaBenar));   // M2
+            foreach (var h in KalenderJawa.UrutanPaku(TujuhPaku.MalamPaku)) Assert.AreEqual(HasilCabut.Benar, TujuhPaku.Cabut(s, h));
             BukuHarian.Temukan(s, Kode.H3);                         // B1
             BukuHarian.Temukan(s, Kode.H4);
             KepercayaanSumi.Tambah(s, AksiSumi.MintaMaaf);

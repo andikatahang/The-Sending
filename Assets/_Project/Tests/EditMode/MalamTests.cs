@@ -30,6 +30,14 @@ namespace TheSending.Tests
         }
 
         [Test]
+        public void Malam3ButuhEmpatTujuanWajib()
+        {
+            CollectionAssert.AreEqual(
+                new[] { TujuanMalam.PakdeDatang, TujuanMalam.CabutPaku, TujuanMalam.KunjungiSumi, TujuanMalam.RitualPertama },
+                TujuanMalam.DaftarWajib(3));
+        }
+
+        [Test]
         public void Malam7TidakPernahSelesaiLewatTujuan()
         {
             Assert.IsFalse(TujuanMalam.MalamSelesai(new GameState { MalamKe = 7 }));
