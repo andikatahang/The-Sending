@@ -15,8 +15,6 @@ namespace TheSending.Runtime
         // Game Story, Malam 3 dan Malam 4, "Ringkasan siang" dan tujuan bab (dikutip persis).
         const string RingkasanMalam3 =
             "Raka mencari informasi di desa. Sebagian warga menyapanya ramah, sebagian menghindar.";
-        const string RingkasanMalam4 =
-            "Air sumur berbau busuk. Kabar bahwa keluarga Raka kena santet sudah menyebar ke seluruh desa.";
         const string TujuanBab = "Tujuan: Menghentikan jeritan Ibu dan mencari sekutu";
 
         [SerializeField] KameraAdegan adegan;
@@ -65,11 +63,6 @@ namespace TheSending.Runtime
                 return;
             }
             var s = gm.State;
-            if (s.MalamKe >= 4)
-            {
-                hud.Tampilkan("Malam 4 belum dibuat (Fase 4).");
-                return;
-            }
             if (s.MalamKe != 3) return;
             berjalan = true;
             kartu.HitamSeketika();
@@ -364,12 +357,7 @@ namespace TheSending.Runtime
                     yield break;
                 }
                 gm.SimpanCheckpoint();            // checkpoint awal Malam 4
-                // Fase 4 mengganti bagian di bawah ini dengan gm.MuatScene(gm.SceneUntukState) untuk sutradara Malam 4.
-                yield return kartu.StartCoroutine(kartu.Tampilkan(
-                    "Malam 4: Rambut di Dasar Sumur",
-                    KalenderJawa.NamaMalam(4) + "\n\n" + RingkasanMalam4 + "\n\n(Bersambung. Malam 4 dibuat di Fase 4.)", 8f));
-                yield return kartu.StartCoroutine(kartu.KeHitam());
-                gm.MuatScene(GameManager.SceneMenuUtama);
+                gm.MuatScene(gm.SceneUntukState);   // AlurMalam4 memulai Malam 4
                 dimuat = true;
             }
             finally { if (!dimuat) adegan.Selesai(); }   // jeda dilepas KameraAdegan.OnDisable saat scene dibongkar
