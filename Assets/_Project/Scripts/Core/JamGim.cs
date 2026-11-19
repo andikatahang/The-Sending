@@ -6,7 +6,7 @@ namespace TheSending.Core
     // Runtime tidak memanggil Maju saat cutscene, dialog, Jurnal, inventaris, atau jeda terbuka.
     public static class JamGim
     {
-        public const float DetikNyataPerJamGim = 250f;
+        public const float DetikNyataPerJamGim = 125f;
         public const float MulaiProlog = 17 * 60 + 30f;
         public const float MulaiMalam = 18 * 60f;
         public const float Jam20 = 20 * 60f, Jam21 = 21 * 60f, Jam22 = 22 * 60f, Jam23 = 23 * 60f;

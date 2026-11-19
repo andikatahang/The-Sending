@@ -13,10 +13,10 @@ namespace TheSending.Tests
         }
 
         [Test]
-        public void SatuJamGimSama250DetikNyata()
+        public void SatuJamGimSama125DetikNyata()
         {
             var s = new GameState { MalamKe = 3, MenitGim = JamGim.MulaiMalam };
-            JamGim.Maju(s, 250f);
+            JamGim.Maju(s, 125f);
             Assert.AreEqual(19 * 60f, s.MenitGim, 0.001f);
         }
 
@@ -52,7 +52,7 @@ namespace TheSending.Tests
         public void SisaWaktuMalam7DalamDetikNyata()
         {
             var s = new GameState { MalamKe = 7, MenitGim = JamGim.Jam23 };
-            Assert.AreEqual(250f, JamGim.SisaDetikMalam7(s), 0.001f);
+            Assert.AreEqual(125f, JamGim.SisaDetikMalam7(s), 0.001f);
         }
 
         [TestCase(1260f, "21.00")]
