@@ -58,6 +58,7 @@ namespace TheSending.EditorTools
             var sosok = PembuatMalam2.Pasang(rig, sutradara, pintuGudang, kalender, laras);
             PembuatMalam3.Pasang(rig, sutradara, sosok, pintuGudang, pintuBelakang, ibu);
             PembuatMalam4.Pasang(rig, sutradara, sosok);
+            PembuatMalam5.Pasang(rig, sutradara);
 
             EditorSceneManager.SaveScene(scene, JalurScene);
             AssetDatabase.SaveAssets();
