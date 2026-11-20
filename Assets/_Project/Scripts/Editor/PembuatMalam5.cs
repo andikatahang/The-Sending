@@ -61,7 +61,7 @@ namespace TheSending.EditorTools
             var ambil = g.AddComponent<AmbilBarang>();
             SetTeks(ambil, "barang", barang);
             SetTeks(ambil, "prompt", prompt);
-            PembuatMalam2.AktifPada(sutradara, 5, 7, g);
+            SetAngka(ambil, "dariMalam", 5);
         }
 
         // Pohon asem di ujung pekarangan (K31-A); pohon tetap ada sejak Malam 0, kendi dan kain kafan hanya Malam 5.

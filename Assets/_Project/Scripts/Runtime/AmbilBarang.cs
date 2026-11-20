@@ -8,8 +8,10 @@ namespace TheSending.Runtime
     public class AmbilBarang : Interaktif
     {
         [SerializeField] string barang;
+        [SerializeField, Range(0, 7)] int dariMalam;   // benda tampil sejak Prolog, baru bisa diambil mulai malam ini
 
-        public override bool BisaDiinteraksi => GameManager.Instance != null && Inventaris.Dikenal(barang);
+        public override bool BisaDiinteraksi =>
+            GameManager.Instance != null && GameManager.Instance.State.MalamKe >= dariMalam && Inventaris.Dikenal(barang);
 
         void Start()
         {

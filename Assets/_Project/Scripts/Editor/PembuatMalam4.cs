@@ -43,7 +43,7 @@ namespace TheSending.EditorTools
             var ambil = tangga.AddComponent<AmbilBarang>();
             SetTeks(ambil, "barang", Inventaris.TanggaBambu);
             SetTeks(ambil, "prompt", "Ambil tangga bambu");
-            PembuatMalam2.AktifPada(sutradara, 4, 7, tangga);
+            SetAngka(ambil, "dariMalam", 4);
 
             Loteng(rig, sutradara);
             SumurDanKejaran(rig, alur);

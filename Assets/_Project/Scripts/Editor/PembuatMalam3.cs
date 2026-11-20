@@ -76,6 +76,9 @@ namespace TheSending.EditorTools
                 PembuatDataFase3.Muat(PembuatDataFase3.KotakSepatu), "Buka kotak sepatu lama");
             SetBool(kotak, "sekaliSaja", true);
             PembuatMalam2.AktifPada(sutradara, 3, 3, kotak.gameObject);
+            // Kotak sepatu tetap tampak di malam lain (tanpa prompt); satu salinan per rentang karena AktifDiMalam tidak bisa digabung.
+            foreach (var (dari, sampai) in new[] { (0, 2), (4, 7) })
+                PembuatMalam2.AktifPada(sutradara, dari, sampai, PembuatPengganti.Pasang("KotakSepatu", null, new Vector3(-4.4f, 0f, 3.55f)));
             Set(alur, "titikKamarRaka", Titik("TitikKamarRakaMalam3", new Vector3(-4.2f, 0.05f, 2.2f), new Vector3(-4.4f, 0.05f, 3.55f)));
         }
 
@@ -134,6 +137,7 @@ namespace TheSending.EditorTools
             var ambil = tang.AddComponent<AmbilBarang>();
             SetTeks(ambil, "barang", Inventaris.Tang);
             SetTeks(ambil, "prompt", "Ambil tang");
+            SetAngka(ambil, "dariMalam", 3);
 
             var halaman = PembuatRumahKeluarga.BendaDialog(rig, "HalamanSobek", new Vector3(3.9f, 1.03f, 11.65f), new Vector3(0.2f, 0.08f, 0.25f), 0f,
                 false, PembuatDataFase3.Muat(PembuatDataFase3.Halaman4), "Ambil halaman buku harian");

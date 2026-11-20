@@ -166,7 +166,7 @@ namespace TheSending.EditorTools
             Set(alur, "titikDepanPakde", Titik("TitikDepanPakde", new Vector3(-5f, 0.05f, 74f), new Vector3(0f, 0.05f, 74f)));
         }
 
-        // Malam 4 (K26-A): pos ronda di kiri jalan, sekitar 12 m di selatan rumah keluarga. Hanya tampil di Malam 4.
+        // Malam 4 (K26-A): pos ronda di kiri jalan, sekitar 12 m di selatan rumah keluarga. Bangunannya selalu ada; orang dan suasananya hanya Malam 4.
         static void Malam4(Rig rig, InteraktifAlur pintuRumah, Suara suaraPintu)
         {
             var alur = new GameObject("Sutradara Malam 4").AddComponent<AlurDesaMalam4>();
@@ -183,8 +183,8 @@ namespace TheSending.EditorTools
             Set(alur, "titikDepanRumah", Titik("TitikDepanRumahMalam4", new Vector3(0f, 0.1f, 96.8f), new Vector3(0f, 0.1f, 80f)));
 
             var pos = new GameObject("PosRonda Malam 4");
-            PembuatPengganti.Pasang("PosRonda", pos.transform, new Vector3(-4.5f, 0f, 88f), 90f);
-            PembuatPengganti.Pasang("Kentongan", pos.transform, new Vector3(-3.05f, 1.6f, 87f), 90f);
+            PembuatPengganti.Pasang("PosRonda", null, new Vector3(-4.5f, 0f, 88f), 90f);
+            PembuatPengganti.Pasang("Kentongan", null, new Vector3(-3.05f, 1.6f, 87f), 90f);
             var joko = Logika("PakJoko", new Vector3(-2.6f, 0f, 88.6f), new Vector3(0.6f, 1.8f, 0.6f));
             joko.transform.SetParent(pos.transform, true);
             PembuatPengganti.Pasang("PakJoko", joko.transform, Vector3.zero, 90f);
@@ -198,7 +198,7 @@ namespace TheSending.EditorTools
             var aWarga = warga.AddComponent<InteraktifAlur>();
             SetTeks(aWarga, "prompt", "Dengarkan obrolan warga");
             Set(alur, "warga", aWarga);
-            Lampu("LampuPosRonda", new Vector3(-4.5f, 2.4f, 88f), "FFB46B", 6f, 1.5f).transform.SetParent(pos.transform, true);
+            Lampu("LampuPosRonda", new Vector3(-4.5f, 2.4f, 88f), "FFB46B", 6f, 1.5f);
             var suasana = BuatSuara(rig, "SuasanaPosRonda", Sfx, "Ambience", "(Suara: suasana pos ronda, kentongan dan jangkrik.)", ulang: true);
             suasana.transform.SetParent(pos.transform, false);
             Set(alur, "suasana", suasana);
