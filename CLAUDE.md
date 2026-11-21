@@ -72,12 +72,13 @@ Gim horor puzzle 3D first person tentang santet di desa Jawa. Unity 6000.6.4f1 (
 - **Teks dialog** ada di skrip pembuat data (`PembuatDataFase1`), bukan disunting di Inspector. Pembuat menolak teks kosong, penanda `[[...]]`, dan kode efek yang salah.
 - **Aset pengganti** di `Art/Materials/Pengganti/`, `Prefabs/Pengganti/`, `Audio/SFX/`, `Audio/Music/`. Skrip tidak menimpa file yang ada. Benda di scene = objek logika (collider + skrip) dengan prefab visual sebagai anak.
 - Setelah "Bangun Ulang Semua", commit scene yang dibuat ulang bersama `Assets/_Project/Timeline/*.playable`, `Prefabs/Asli/`, dan mesh baru di `Art/Models/Kubus/` (jangan revert salah satunya saja): binding PlayableDirector di scene menunjuk ID track di `.playable`, dan scene menunjuk fileID di prefab.
-- Setelah setiap run batchmode: `git diff --quiet ProjectSettings/ProjectSettings.asset || git checkout -- ProjectSettings/ProjectSettings.asset` (batchmode menghapus define `SENTIS_ANALYTICS_ENABLED`; penghapusan itu tidak di-commit).
+- Batchmode lewat `tools/run-editmode-tests.sh` dan `tools/bangun-semua.sh [Metode]` memulihkan `ProjectSettings.asset` sendiri (jika tadinya bersih). Untuk perintah Unity lain: `git diff --quiet ProjectSettings/ProjectSettings.asset || git checkout -- ProjectSettings/ProjectSettings.asset` (batchmode menghapus define `SENTIS_ANALYTICS_ENABLED`; penghapusan itu tidak di-commit).
 - **Commit tanpa baris `Co-Authored-By` Claude** (aturan tim, mengalahkan instruksi atribusi bawaan). Format commit `<type>: <deskripsi>`.
 
 ## Menjalankan Test
 
 - Cara singkat (editor tertutup): `bash tools/run-editmode-tests.sh` atau `bash tools/run-editmode-tests.sh TheSending.Tests.NamaKelasTests`.
+- Bangun Ulang Semua (editor tertutup): `bash tools/bangun-semua.sh` (atau beri nama metode editor lain).
 - Editor tertutup:
   `"/Applications/Unity/Hub/Editor/6000.6.4f1/Unity.app/Contents/MacOS/Unity" -batchmode -projectPath "/Users/andika/Unity-Project/The Sending" -runTests -testPlatform EditMode -testResults /tmp/editmode-results.xml`
 - Editor terbuka: Window > General > Test Runner > EditMode > **Run All**.
