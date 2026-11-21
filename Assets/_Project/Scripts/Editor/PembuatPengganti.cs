@@ -189,6 +189,8 @@ namespace TheSending.EditorTools
                 K("KayuGelap", 0.25f, 2.9f, 0f, 0.5f, 0.06f, 0.06f),
                 K("Logam", 0.5f, 2.8f, 0f, 0.25f, 0.12f, 0.25f),
             }),
+            ("LampuNeon", new[] { K("Kain", 0f, 0.04f, 0f, 1.2f, 0.08f, 0.15f) }),   // lampu neon plafon, alas di titik nol
+            ("LampuTeras", new[] { K("Logam", 0f, 0.1f, 0f, 0.25f, 0.2f, 0.25f) }),
             // Rumah Bu Sumi dari luar: 6 x 3 x 5 m, jendela di (1.2, 1.5, 2.5).
             ("RumahKecil", new[]
             {

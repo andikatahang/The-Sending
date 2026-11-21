@@ -175,12 +175,19 @@ namespace TheSending.EditorTools
         // Lampu listrik yang padam pada cutscene 23.00.
         static Light[] LampuListrik() => new[]
         {
-            Lampu("Lampu ruang tengah", new Vector3(0f, 2.5f, 2.5f), WarnaLampuRumah, 7f, 1.6f),
-            Lampu("Lampu kamar Ibu", new Vector3(-5f, 2.6f, 6f), WarnaLampuRumah, 7f, 1.6f),
-            Lampu("Lampu kamar Raka", new Vector3(-5f, 2.6f, 2f), WarnaLampuRumah, 7f, 1.6f),
-            Lampu("Lampu kamar Laras", new Vector3(5f, 2.6f, 6f), WarnaLampuRumah, 7f, 1.6f),
-            Lampu("Lampu dapur", new Vector3(-2f, 2.6f, 10f), WarnaLampuRumah, 7f, 1.6f),
+            Listrik("Lampu ruang tengah", new Vector3(0f, 2.5f, 2.5f)),
+            Listrik("Lampu kamar Ibu", new Vector3(-5f, 2.6f, 6f)),
+            Listrik("Lampu kamar Raka", new Vector3(-5f, 2.6f, 2f)),
+            Listrik("Lampu kamar Laras", new Vector3(5f, 2.6f, 6f)),
+            Listrik("Lampu dapur", new Vector3(-2f, 2.6f, 10f)),
         };
+
+        // Lampu neon di bawah plafon tepat di atas cahayanya. Terpisah dari Light supaya tetap tampak saat listrik padam.
+        static Light Listrik(string nama, Vector3 posisi)
+        {
+            PembuatPengganti.Pasang("LampuNeon", null, new Vector3(posisi.x, Tinggi - 0.12f, posisi.z));
+            return Lampu(nama, posisi, WarnaLampuRumah, 7f, 1.6f);
+        }
 
         // Angka tahun di sisi selatan blandar. Hanya terbaca saat disorot senter (TerlihatSaatDisorot).
         static void Ukiran(Rig rig)

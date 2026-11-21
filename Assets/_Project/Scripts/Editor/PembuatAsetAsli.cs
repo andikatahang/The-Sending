@@ -27,6 +27,10 @@ namespace TheSending.EditorTools
         const string TeksturLinoleum = "Assets/ALP_Assets/Old Floor Linoleum FREE/Textures/OldFloor01_a.png";
         const string Pocong = Pihak3 + "/pocong-scary/";
         const string SofaTua = Pihak3 + "/old-sofas/";
+        // Paket tim di luar Art/ThirdParty. Materialnya tidak dipakai (diganti material proyek lewat Kayu), jadi tanpa konversi URP.
+        const string LampuJalanVendor = "Assets/Sat Productions/G-01/Street Lights Pack 01/Prefabs/Street_Light_A_05.prefab";   // satu kepala lampu di (-0,69; 2,94; 0)
+        const string PaketLampu = "Assets/New Solution Studio/PBR Lamps Pack/";
+        const string Kabin = "Assets/WoodInterior/models/";
         const string Makam = Pihak3 + "/indonesia-grave/source/makam/Makam.obj";   // OBJ 3D Builder, sumbu Z ke atas
         // Makam.obj disunting tangan: baris `g Object.N` ditambahkan supaya Unity memecah grupnya (dipakai `hanya:`).
         // Grup OBJ sofa tiga dudukan (old-sofas berisi empat sofa).
@@ -70,6 +74,11 @@ namespace TheSending.EditorTools
             Prefab("RumpunBambu", RumpunBambu, false);
             Prefab("RumahKecil", RumahKecil, false);
             Prefab("RumahKeluargaLuar", RumahKeluargaLuar, false);
+            Prefab("RumahPakdeLuar", RumahPakdeLuar, false);
+            Prefab("LampuJalan", LampuJalan, false);
+            Prefab("LampuNeon", r => Kayu(Seragam(PaketLampu + "Classic fluorescent lamp/Classic_fluorescent_lamp.fbx", r, Vector3.zero, 1.2f), "Kain"), false);
+            Prefab("LampuTeras", r => Kayu(Seragam(PaketLampu + "Small roof lamp/Small_roof_lamp.FBX", r, Vector3.zero, 0.3f), "Logam"), false);
+            Prefab("RakBotol", r => Kayu(Taruh(Kabin + "wood_props_shelf.fbx", r, Vector3.zero, new Vector3(1.0f, 1.8f, 0.3f), 0f), "KayuGelap"), true);
             // Sosok Santet (K9-A): pocong-scary, sekitar 30.000 segitiga, tanpa rig; meluncur tanpa animasi.
             Prefab("SosokSantet", r => Kayu(Tokoh(Pocong + "Model/pocong.fbx", r, 2.2f, 0f, -90f), "Kafan"), false);   // FBX berbaring (sumbu Z ke atas): ditegakkan
             // Sofa ruang tengah (K22-A): sofa tiga dudukan dari old-sofas, satu tekstur.
@@ -194,6 +203,37 @@ namespace TheSending.EditorTools
             return bungkus.gameObject;
         }
 
+        // Model diskalakan seragam sampai sisi datar terpanjangnya `panjang` m, alas tengahnya di `alas` (lampu: arah model tidak diketahui).
+        static GameObject Seragam(string jalur, Transform induk, Vector3 alas, float panjang)
+        {
+            var asal = AssetDatabase.LoadAssetAtPath<GameObject>(jalur) ?? throw new FileNotFoundException(jalur);
+            var bungkus = new GameObject(asal.name).transform;
+            bungkus.SetParent(induk, false);
+            var model = (GameObject)PrefabUtility.InstantiatePrefab(asal);
+            PrefabUtility.UnpackPrefabInstance(model, PrefabUnpackMode.Completely, InteractionMode.AutomatedAction);
+            foreach (var c in model.GetComponentsInChildren<Collider>(true)) Object.DestroyImmediate(c);
+            foreach (var l in model.GetComponentsInChildren<Light>(true)) Object.DestroyImmediate(l);
+            model.transform.SetParent(bungkus, false);
+            var b = Batas(bungkus);
+            bungkus.localScale = Vector3.one * (panjang / Mathf.Max(b.size.x, b.size.z));
+            b = Batas(bungkus);
+            bungkus.position += induk.TransformPoint(alas) - new Vector3(b.center.x, b.min.y, b.center.z);
+            return bungkus.gameObject;
+        }
+
+        // Tiang lampu jalan: pivot vendor di kaki tiang, diputar supaya kepala lampu di +X (0,69 m, 2,94 m), seperti pengganti.
+        // Cahayanya dipasang PembuatDesa; lampu sorot bawaan paket dibuang. Collider hanya di tiang (lengan di atas kepala).
+        static void LampuJalan(Transform r)
+        {
+            var g = Vendor(LampuJalanVendor, r, Vector3.zero, 180f, 1f);
+            foreach (var l in g.GetComponentsInChildren<Light>(true)) Object.DestroyImmediate(l);
+            Kayu(g, "Logam");
+            var kapsul = r.gameObject.AddComponent<CapsuleCollider>();
+            kapsul.radius = 0.12f;
+            kapsul.height = 3f;
+            kapsul.center = new Vector3(0f, 1.5f, 0f);
+        }
+
         // ---------- Perabot dan alam ----------
 
         static void Kayu(GameObject g, string bahan)
@@ -284,7 +324,30 @@ namespace TheSending.EditorTools
             var emper = new MeshDuaSisi();
             emper.Segiempat(new Vector3(-4.4f, 2.95f, 0f), new Vector3(4.4f, 2.95f, 0f), new Vector3(4.4f, 2.5f, 2.4f), new Vector3(-4.4f, 2.5f, 2.4f));
             Pasang(r, "AtapEmper", emper.Simpan("AtapEmper"), "Atap");
+            Kayu(Seragam(PaketLampu + "Small roof lamp/Small_roof_lamp.FBX", r, new Vector3(0f, 2.55f, 1.0f), 0.3f), "Logam");
             Atap(r, "AtapRumahKeluarga", new Vector3(0f, tinggi, -6f), 7.6f, 6.6f, 1.8f);
+        }
+
+        // Rumah Pakde: badan 8 x 6 m (x -4..4, z -3..3), depan +Z, teras z 3..5 dengan atap sorong dan lampu teras di (0, z 4).
+        // Ukuran sama dengan pengganti lama (Scene_RumahPakde menaruh pot di teras dan lampu di atasnya).
+        static void RumahPakdeLuar(Transform r)
+        {
+            const float tinggi = 3.2f;
+            Badan(r, -4f, 4f, -3f, 3f, tinggi, "BatuPutih", "BatuPutih");
+            Pintu(r, new Vector3(0f, 0f, 3f));
+            foreach (float x in new[] { -2.4f, 2.4f })
+            {
+                Kotak(r, "KacaJendela", "Gelap", new Vector3(x, 1.5f, 3.01f), new Vector3(1.0f, 1.0f, 0.02f), false);
+                Bingkai(r, new Vector3(x, 1.5f, 3.05f), 1.0f, 1.0f);
+            }
+            Kotak(r, "LantaiTeras", "Tembok", new Vector3(0f, 0.1f, 4f), new Vector3(8f, 0.2f, 2f), true);
+            foreach (float x in new[] { -3.8f, 3.8f })
+                Kotak(r, "TiangTeras", "BatuPutih", new Vector3(x, 1.475f, 4.8f), new Vector3(0.25f, 2.95f, 0.25f), true);
+            var teras = new MeshDuaSisi();
+            teras.Segiempat(new Vector3(-4.3f, tinggi, 3f), new Vector3(4.3f, tinggi, 3f), new Vector3(4.3f, 2.9f, 5.3f), new Vector3(-4.3f, 2.9f, 5.3f));
+            Pasang(r, "AtapTerasPakde", teras.Simpan("AtapTerasPakde"), "Genteng");
+            Kayu(Seragam(PaketLampu + "Small roof lamp/Small_roof_lamp.FBX", r, new Vector3(0f, 2.85f, 4f), 0.3f), "Logam");
+            Atap(r, "AtapRumahPakde", new Vector3(0f, tinggi, 0f), 4.5f, 3.5f, 1.0f);
         }
 
         // Badan rumah: dinding (bahan depan dan bahan sisi lain), alas tembok lumut, plafon, dan tiang sudut dari kit.

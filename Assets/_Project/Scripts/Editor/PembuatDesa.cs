@@ -80,6 +80,7 @@ namespace TheSending.EditorTools
 
             // Rumah keluarga: prefab menghadap selatan (ke arah pemain), pintunya memindahkan ke Scene_RumahKeluarga.
             // Kayu: yang bisa diinjak dari luar hanya lantai emper (teras).
+            Lampu("LampuEmper", new Vector3(0f, 2.4f, UjungJalan - 1f), "FFB46B", 6f, 1.2f);   // di bawah lampu teras prefab
             PembuatPengganti.Pasang("RumahKeluargaLuar", null, new Vector3(0f, 0f, UjungJalan), 180f)
                 .AddComponent<Permukaan>().Jenis = JenisPermukaan.Kayu;
             var pintu = Balok("PintuRumah", new Vector3(0f, 1.05f, UjungJalan - 0.15f), new Vector3(1.1f, 2.1f, 0.2f), "KayuGelap");
@@ -153,6 +154,7 @@ namespace TheSending.EditorTools
             Set(alur, "gerbangMakam", aGerbang);
 
             PembuatPengganti.Pasang("RumahPakdeLuar", null, new Vector3(-13f, 0f, 74f), 90f);
+            Lampu("LampuTerasPakde", new Vector3(-9f, 2.6f, 74f), "FFD9A0", 6f, 0.8f);   // teras prefab di x -9 (lokal z 4)
             PembuatPengganti.Pasang("PagarBesi", null, new Vector3(-7f, 0f, 74f), 90f);
             var pagar = Logika("PagarPakde Malam 5", new Vector3(-6.2f, 0f, 74f), new Vector3(0.4f, 1.4f, 2.2f));
             var aPagar = pagar.AddComponent<InteraktifAlur>();
@@ -237,12 +239,13 @@ namespace TheSending.EditorTools
             // R12: ujung utara di balik rumah keluarga, kalau-kalau collider prefab rumah menyisakan celah.
             Batas("BatasUtara", new Vector3(0f, 2f, 104f), new Vector3(SetengahLebar * 2f, 4f, 0.2f));
 
-            float[] zLampu = { 10f, 44f, 90f };
+            // Selang-seling barat/timur; di luar kebun bambu (z 20-42) dan bidikan jendela Bu Sumi (z 72-76).
+            float[] zLampu = { 10f, 44f, 62f, 80f, 90f };
             for (int i = 0; i < zLampu.Length; i++)
             {
                 float x = i % 2 == 0 ? -3f : 3f;
                 PembuatPengganti.Pasang("LampuJalan", null, new Vector3(x, 0f, zLampu[i]), x < 0f ? 0f : 180f);
-                Lampu("CahayaLampuJalan", new Vector3(x < 0f ? x + 0.5f : x - 0.5f, 2.6f, zLampu[i]), "FFB46B", 8f, 1.5f);
+                Lampu("CahayaLampuJalan", new Vector3(x < 0f ? x + 0.7f : x - 0.7f, 2.8f, zLampu[i]), "FFB46B", 8f, 1.5f);   // di bawah kepala lampu
             }
 
             // Kebun bambu z 20-40: enam rumpun di tiap sisi, selang-seling jaraknya dari jalan.
