@@ -74,6 +74,7 @@ namespace TheSending.Runtime
             pemain.Pindah(titikMulai);
             yield return kartu.StartCoroutine(kartu.Tampilkan(
                 "Malam 5: Tanah Merah", KalenderJawa.NamaMalam(5) + "\n\n" + RingkasanMalam5 + "\n\n" + TujuanBab, 8f));
+            hud.Tampilkan("Malam kelima. Ibu makin lemah; aku harus cepat.");
             hud.Tampilkan("Jarum kompas bergetar ke arah pohon asem di ujung pekarangan belakang. Pacul ada di gudang.");
             sibuk = false;
         }
@@ -110,6 +111,7 @@ namespace TheSending.Runtime
         {
             if (!berjalan) return;
             suaraGali.Putar();
+            hud.Tampilkan("Kendi dikubur di bawah pohon asem kami sendiri...");
             hud.Tampilkan("Tanah merah lengket. Tanah makam desa ini hitam berpasir, kata catatan Bapak. Bandingkan di makam (lewat pintu depan).");
         }
 

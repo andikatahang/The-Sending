@@ -191,6 +191,7 @@ namespace TheSending.Runtime
             if (!petunjukBuSumi && TujuanMalam.Sudah(s, TujuanMalam.CabutPaku))
             {
                 petunjukBuSumi = true;
+                hud.Tampilkan("Akhirnya... Ibu sudah diam.");
                 hud.Tampilkan("Paku ketujuh tercabut. Jeritan Ibu berhenti.");
                 hud.Tampilkan("Aku teringat Bu Sumi, peracik jamu dekat jembatan. Keluar lewat pintu depan.");
             }
@@ -215,6 +216,7 @@ namespace TheSending.Runtime
             if (!dentang || !jeritanPertama || TujuanMalam.Sudah(s, TujuanMalam.CabutPaku)) return;
             suaraDentang.Putar();
             suaraJerit.Putar();
+            hud.Tampilkan("Ibu! Tiap jam berdentang, Ibu menjerit lagi.");
             hud.Tampilkan("Jam berdentang. Ibu menjerit seperti ditusuk.");
         }
 
@@ -262,6 +264,7 @@ namespace TheSending.Runtime
             sosok.transform.SetPositionAndRotation(titikMunculSosok.position, titikMunculSosok.rotation);
             sosok.gameObject.SetActive(true);   // SosokSantet.OnEnable menaruhnya di NavMesh dan mulai berpatroli
             musikTegang.Putar();
+            hud.Tampilkan("Sial, aku salah cabut. Ada yang datang!");
             hud.Tampilkan("Gemerincing paku dari dapur! Sembunyi di lemari [E], tahan napas [Spasi].");
         }
 

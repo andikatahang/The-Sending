@@ -86,6 +86,7 @@ namespace TheSending.Runtime
         {
             sibuk = true;
             yield return kartu.StartCoroutine(kartu.DariHitam());
+            if (!sudahBanding) hud.Tampilkan("Makam desa. Sudah lama aku tidak ziarah ke makam Bapak.");
             if (!sudahBanding) hud.Tampilkan("Makam Bapak di bawah kamboja besar. Ambil sampel tanah di tiga titik [E].");
             sibuk = false;
         }

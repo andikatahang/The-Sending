@@ -63,6 +63,7 @@ namespace TheSending.Runtime
                 return;
             }
             anjing.gameObject.SetActive(!s.BuktiKunci[Kode.B6]);
+            hud.Tampilkan("Rumah Pakde. Aku harus pelan-pelan, jangan sampai anjingnya menggonggong.");
             hud.Tampilkan("Anjing Pakde berpatroli di halaman. Kunci laci, kata Laras dulu, selalu Pakde selipkan di pot teras.");
         }
 
@@ -100,8 +101,11 @@ namespace TheSending.Runtime
             hud.Tampilkan("Anjing itu sibuk makan.");
         }
 
-        void SaatLaci() =>
+        void SaatLaci()
+        {
+            hud.Tampilkan("Pakde... jadi Pakde sudah menerima uang dari mereka?");
             hud.Tampilkan("Kuitansi uang muka dan catatan pembayaran untuk \"W\". Pakde menerima uang dari pembeli tanah.");
+        }
 
         void SaatKeluar()
         {

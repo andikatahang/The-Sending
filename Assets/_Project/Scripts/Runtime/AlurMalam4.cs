@@ -138,6 +138,7 @@ namespace TheSending.Runtime
             var s = State;
             if (!s.MediaDitemukan[Kode.M3]) MediaSantet.Temukan(s, Kode.M3);   // M3 otomatis terfoto
             TujuanMalam.Selesaikan(s, TujuanMalam.AmbilBungkusanSumur);
+            hud.Tampilkan("Rambut putih panjang... siapa yang menaruh ini di sumur kami?");
             hud.Tampilkan("Bungkusan kain hitam berisi gumpalan rambut dan tanah. Media santet ketiga.");
             StartCoroutine(Kejaran(dariCheckpoint: false));
         }
@@ -164,6 +165,7 @@ namespace TheSending.Runtime
             sosok.gameObject.SetActive(true);   // Kejar dipicu PerilakuSantet saat Sosok melihat/mendengar Raka
             musikTegang.Putar();
             kejarBerjalan = true;
+            hud.Tampilkan("Dia di sini! Aku harus lari.");
             hud.Tampilkan("Gemerincing paku dari arah sumur. Lari ke pintu belakang dapur!");
             sibuk = false;
         }
