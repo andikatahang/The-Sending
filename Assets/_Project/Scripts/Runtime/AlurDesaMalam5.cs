@@ -39,7 +39,7 @@ namespace TheSending.Runtime
         void Start()
         {
             var gm = GameManager.Instance;
-            if (gm == null || gm.State.MalamKe != 5) return;
+            if (gm == null || (gm.State.MalamKe != 5 && gm.State.MalamKe != 6) || SidangWarga.SaatnyaSidang(gm.State)) return;   // sidang diurus AlurDesaMalam6
             berjalan = true;
             suasana.Putar();
             kartu.HitamSeketika();
@@ -55,23 +55,26 @@ namespace TheSending.Runtime
         {
             sibuk = true;
             yield return kartu.StartCoroutine(kartu.DariHitam());
-            if (dariRumah) hud.Tampilkan("Makam desa di ujung utara jalan. Rumah Bu Sumi di selatan, rumah Pakde di seberangnya.");
+            if (dariRumah && State.MalamKe == 6) hud.Tampilkan("Jalan desa sepi. Dari arah balai dusun terdengar orang ramai.");
+            else if (dariRumah) hud.Tampilkan("Makam desa di ujung utara jalan. Rumah Bu Sumi di selatan, rumah Pakde di seberangnya.");
             sibuk = false;
         }
 
-        bool Siap => berjalan && !sibuk;
+        bool Siap => berjalan && !sibuk && !SidangWarga.SaatnyaSidang(State);
 
         void SaatGerbangMakam()
         {
             if (!Siap) return;
-            if (!TujuanMalam.Sudah(State, TujuanMalam.GaliKendi)) hud.Tampilkan("Belum ada yang perlu kubandingkan di makam.");
+            if (State.MalamKe == 6) hud.Tampilkan("Tidak ada lagi yang perlu kulakukan di makam.");
+            else if (!TujuanMalam.Sudah(State, TujuanMalam.GaliKendi)) hud.Tampilkan("Belum ada yang perlu kubandingkan di makam.");
             else StartCoroutine(Pindah(PetaScene.Makam, suaraPintu));
         }
 
         void SaatPintuBuSumi()
         {
             if (!Siap) return;
-            if (!KepercayaanSumi.PintuTerbuka(State)) hud.Tampilkan("Pintu Bu Sumi tertutup rapat. Tidak ada jawaban.");
+            if (State.MalamKe == 6) hud.Tampilkan("Dari balik pintu terdengar Bu Sumi menangis. Ia tidak membukakan pintu.");
+            else if (!KepercayaanSumi.PintuTerbuka(State)) hud.Tampilkan("Pintu Bu Sumi tertutup rapat. Tidak ada jawaban.");
             else StartCoroutine(Pindah(PetaScene.RumahBuSumi, suaraKetuk));
         }
 
@@ -81,7 +84,9 @@ namespace TheSending.Runtime
             if (!pesanPakde)
             {
                 pesanPakde = true;
-                hud.Tampilkan("Pakde sedang di pos ronda. Rumahnya kosong, hanya anjingnya.");
+                hud.Tampilkan(State.MalamKe == 6
+                    ? "Pakde ikut berkumpul di balai dusun. Rumahnya kosong, hanya anjingnya."
+                    : "Pakde sedang di pos ronda. Rumahnya kosong, hanya anjingnya.");
             }
             StartCoroutine(Pindah(PetaScene.RumahPakde, suaraPintu));
         }
