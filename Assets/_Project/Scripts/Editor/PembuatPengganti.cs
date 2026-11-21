@@ -9,7 +9,7 @@ namespace TheSending.EditorTools
     // Aset pengganti sampai tim mendapat aset asli: material polos dan prefab dari primitif.
     // TIDAK menimpa file yang sudah ada, supaya prefab dan material yang sudah ditukar tim aman.
     // Batchmode: Unity -batchmode -quit -projectPath <proyek> -executeMethod TheSending.EditorTools.PembuatPengganti.Buat
-    public static class PembuatPengganti
+    public static partial class PembuatPengganti
     {
         const string FolderMaterial = "Assets/_Project/Art/Materials/Pengganti";
         const string FolderPrefab = "Assets/_Project/Prefabs/Pengganti";
@@ -45,37 +45,9 @@ namespace TheSending.EditorTools
         static Bagian B(string m, float x, float y, float z, float s) =>
             new Bagian(PrimitiveType.Sphere, m, new Vector3(x, y, z), Vector3.one * s, Vector3.zero);
 
-        // Sosok berdiri setinggi 1,67 m dari kotak-kotak.
-        static Bagian[] Sosok(string baju, string bawah, string kulit = "Kulit") => new[]
-        {
-            K(bawah, 0f, 0.4f, 0f, 0.3f, 0.8f, 0.2f),
-            K(baju, 0f, 1.1f, 0f, 0.4f, 0.6f, 0.22f),
-            K(baju, -0.27f, 1.1f, 0f, 0.1f, 0.55f, 0.1f),
-            K(baju, 0.27f, 1.1f, 0f, 0.1f, 0.55f, 0.1f),
-            K(kulit, 0f, 1.52f, 0f, 0.22f, 0.24f, 0.22f),
-            K("Gelap", 0f, 1.62f, -0.02f, 0.24f, 0.1f, 0.24f),
-        };
-
         static readonly (string nama, Bagian[] bagian)[] DaftarPrefab =
         {
-            // Tokoh
-            ("Laras", Sosok("Kain", "KayuGelap")),
-            ("Laras_Berdoa", new[]
-            {
-                K("KayuGelap", 0f, 0.15f, -0.2f, 0.3f, 0.3f, 0.5f),
-                K("Kain", 0f, 0.6f, 0f, 0.4f, 0.6f, 0.22f),
-                K("Kain", 0f, 0.75f, 0.18f, 0.3f, 0.1f, 0.25f),
-                K("Kulit", 0f, 1.0f, 0.03f, 0.22f, 0.24f, 0.22f, 20f),
-                K("Gelap", 0f, 1.1f, 0f, 0.24f, 0.1f, 0.24f, 20f),
-            }),
-            ("BidanWulan", Sosok("Kertas", "Logam")),
-            ("BuRatmi_Berbaring", new[]
-            {
-                K("Kain", 0f, 0.12f, 0.1f, 0.45f, 0.2f, 1.3f),
-                K("Kulit", 0f, 0.12f, -0.72f, 0.22f, 0.2f, 0.24f),
-                K("Gelap", 0f, 0.1f, -0.86f, 0.24f, 0.18f, 0.08f),
-            }),
-            ("BuSumi_Siluet", Sosok("Gelap", "Gelap", "Gelap")),
+            // Ojek (tokoh manusia ada di PembuatPengganti.Tokoh.cs)
             ("Ojek", new[]
             {
                 K("Logam", 0f, 0.5f, 0f, 0.25f, 0.4f, 1.6f),
@@ -220,16 +192,6 @@ namespace TheSending.EditorTools
                 K("Gelap", -0.25f, 1.25f, 0.04f, 0.06f, 0.95f, 0.06f, 0f, 0f, 4f),
                 K("Gelap", 0.25f, 1.25f, 0.04f, 0.06f, 0.95f, 0.06f, 0f, 0f, -4f),
             }),
-            ("MbahWiryo", new[]
-            {
-                K("Gelap", 0f, 0.4f, 0f, 0.3f, 0.8f, 0.2f),
-                K("Gelap", 0f, 1.1f, 0f, 0.42f, 0.6f, 0.22f),
-                K("Gelap", -0.27f, 1.1f, 0f, 0.1f, 0.55f, 0.1f),
-                K("Gelap", 0.27f, 1.1f, 0f, 0.1f, 0.55f, 0.1f),
-                K("Kulit", 0f, 1.52f, 0f, 0.22f, 0.24f, 0.22f),
-                K("KayuGelap", 0f, 1.66f, 0f, 0.25f, 0.08f, 0.25f),             // blangkon
-                K("KayuGelap", 0f, 1.62f, -0.13f, 0.1f, 0.08f, 0.06f),          // mondolan blangkon
-            }),
             ("Boneka", new[]
             {
                 K("Kain", 0f, 0.035f, 0f, 0.12f, 0.06f, 0.2f),
@@ -275,17 +237,6 @@ namespace TheSending.EditorTools
                 K("Logam", 0.06f, 1.0f, 0.31f, 0.02f, 0.12f, 0.02f),
             }),
             // Malam 3: tokoh
-            ("PakdeDarmo", Sosok("Batik", "KayuGelap")),
-            ("BuSumi", new[]
-            {
-                K("Kain", 0f, 0.4f, 0f, 0.32f, 0.8f, 0.22f),                   // jarik
-                K("Kain", 0f, 1.08f, 0f, 0.38f, 0.56f, 0.22f),                 // kebaya lusuh
-                K("Kain", -0.25f, 1.08f, 0f, 0.09f, 0.52f, 0.09f),
-                K("Kain", 0.25f, 1.08f, 0f, 0.09f, 0.52f, 0.09f),
-                K("Kulit", 0f, 1.47f, 0f, 0.2f, 0.22f, 0.2f),
-                K("Kertas", 0f, 1.57f, -0.02f, 0.22f, 0.08f, 0.22f),           // rambut putih
-                B("Kertas", 0f, 1.53f, -0.14f, 0.13f),                         // sanggul
-            }),
             // Malam 3: rumah keluarga
             ("BuahTangan", new[]
             {
@@ -452,9 +403,6 @@ namespace TheSending.EditorTools
                 T("Logam", 0.9f, 0.62f, 0.3f, 0.07f, 0.12f, 0.07f),              // termos
                 T("Kertas", 0.55f, 0.57f, 0.4f, 0.04f, 0.04f, 0.04f),            // gelas kopi
             }),
-            ("PakJoko", Sosok("Kain", "KayuGelap")),
-            ("Warga1", Sosok("Batik", "Gelap")),
-            ("Warga2", Sosok("Gelap", "KayuTua")),
             // Malam 5: makam, pohon asem, rumah Pakde
             ("PohonAsem", new[]
             {
@@ -500,7 +448,6 @@ namespace TheSending.EditorTools
                 K("BatuPutih", 1.2f, 1.1f, 0f, 0.4f, 2.2f, 0.4f),
                 K("BatuPutih", 0f, 2.35f, 0f, 2.8f, 0.3f, 0.4f),
             }),
-            ("PakLasno", Sosok("Kain", "Batik")),   // peci = topi gelap dari Sosok
             ("Anjing", new[]
             {
                 K("KayuGelap", 0f, 0.45f, 0f, 0.3f, 0.3f, 0.9f),
@@ -559,9 +506,10 @@ namespace TheSending.EditorTools
             AssetDatabase.Refresh();
             foreach (var m in DaftarMaterial) Material(m.nama);
             foreach (var p in DaftarPrefab) BuatPrefab(p.nama, p.bagian);
+            BuatTokoh();
             PembuatSuaraPengganti.Buat();
             AssetDatabase.SaveAssets();
-            Debug.Log($"Aset pengganti siap: {DaftarMaterial.Length} material, {DaftarPrefab.Length} prefab.");
+            Debug.Log($"Aset pengganti siap: {DaftarMaterial.Length} material, {DaftarPrefab.Length} prefab, {DaftarTokoh.Length} tokoh.");
         }
 
         internal static Material Material(string nama)
