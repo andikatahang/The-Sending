@@ -61,7 +61,9 @@ namespace TheSending.Runtime
             api.SetActive(false);
             if (gm == null || gm.State.MalamKe != 6) return;
             berjalan = true;
-            if (SidangWarga.SaatnyaSidang(gm.State)) StartCoroutine(Sidang(true));   // datang dari scene lain (layar hitam)
+            if (!SidangWarga.SaatnyaSidang(gm.State)) return;
+            kartu.HitamSeketika();
+            StartCoroutine(Sidang(true));   // datang dari scene lain (layar hitam)
         }
 
         void Update()
@@ -94,6 +96,7 @@ namespace TheSending.Runtime
             if (!dariHitam) yield return kartu.StartCoroutine(kartu.KeHitam());
             pemain.Pindah(titikSidang);
             kerumunan.SetActive(true);
+            timelineDatang.EvaluasiAwal();   // kerumunan di pose awal sebelum layar terbuka
             musik.Putar();
             suaraKerumunan.Putar();
             yield return kartu.StartCoroutine(kartu.DariHitam());
