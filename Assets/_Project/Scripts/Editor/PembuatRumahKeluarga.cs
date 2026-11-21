@@ -162,12 +162,14 @@ namespace TheSending.EditorTools
             SetTeks(pengisi, "prompt", "Isi baterai HP");
 
             // Kamar Raka, kamar Laras, kamar mandi, dapur
-            PembuatPengganti.Pasang("Ranjang", null, new Vector3(-6.2f, 0f, 2f));
+            PembuatPengganti.Pasang("RanjangKayu", null, new Vector3(-6.2f, 0f, 2f));
+            PembuatPengganti.Pasang("Kabinet", null, new Vector3(-5.35f, 0f, 1.25f));
             PembuatPengganti.Pasang("Meja", null, new Vector3(-4.2f, 0f, 0.5f));
-            PembuatPengganti.Pasang("Ranjang", null, new Vector3(6.2f, 0f, 6f));
+            PembuatPengganti.Pasang("RanjangKayu", null, new Vector3(6.2f, 0f, 6f));
+            PembuatPengganti.Pasang("Kabinet", null, new Vector3(5.35f, 0f, 5.25f));
             PembuatPengganti.Pasang("Laci", null, new Vector3(4.6f, 0f, 4.33f));
             Balok("BakMandi", new Vector3(6.3f, 0.4f, 0.8f), new Vector3(1f, 0.8f, 1f), "Tanah");
-            PembuatPengganti.Pasang("Meja", null, new Vector3(-5f, 0f, 10.5f));
+            PembuatPengganti.Pasang("MejaKayu", null, new Vector3(-5f, 0f, 10.5f));
             return BendaDialog(rig, "Kalender", new Vector3(-1.5f, 1.25f, 8.13f), new Vector3(0.35f, 0.5f, 0.1f), 0f, true,
                 PembuatDataFase1.Muat(PembuatDataFase1.Kalender), "Lihat kalender").gameObject;
         }

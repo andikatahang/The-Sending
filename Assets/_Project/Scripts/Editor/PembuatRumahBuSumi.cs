@@ -84,7 +84,7 @@ namespace TheSending.EditorTools
             Set(alur, "suaraBanting", BuatSuara(rig, "PintuDibanting", Sfx, "SFX", "(Suara: pintu dibanting.)"));
 
             // Teplok mati di meja: dapur hanya diterangi cahaya redup dari pintu belakang sampai teplok diperbaiki.
-            PembuatPengganti.Pasang("Meja", null, new Vector3(-2.5f, 0f, 1.2f));
+            PembuatPengganti.Pasang("MejaKayu", null, new Vector3(-2.5f, 0f, 1.2f));
             var teplok = Logika("TeplokMeja", new Vector3(-2.5f, 0.76f, 1.2f), new Vector3(0.3f, 0.35f, 0.3f));
             PembuatPengganti.Pasang("Teplok", teplok.transform, Vector3.zero);
             var perbaiki = teplok.AddComponent<InteraktifAlur>();

@@ -79,6 +79,18 @@ namespace TheSending.EditorTools
             Prefab("LampuNeon", r => Kayu(Seragam(PaketLampu + "Classic fluorescent lamp/Classic_fluorescent_lamp.fbx", r, Vector3.zero, 1.2f), "Kain"), false);
             Prefab("LampuTeras", r => Kayu(Seragam(PaketLampu + "Small roof lamp/Small_roof_lamp.FBX", r, Vector3.zero, 0.3f), "Logam"), false);
             Prefab("RakBotol", r => Kayu(Taruh(Kabin + "wood_props_shelf.fbx", r, Vector3.zero, new Vector3(1.0f, 1.8f, 0.3f), 0f), "KayuGelap"), true);
+            // WoodInterior, skala asli (tidak terdistorsi). Ranjang: kepala di -Z seperti pengganti; bantal di posisi demo paket.
+            Prefab("RanjangKayu", r =>
+            {
+                Kayu(Vendor(Kabin + "wood_props_bed.fbx", r, Vector3.zero, 0f, 1f), "KayuTua");
+                Kayu(Vendor(Kabin + "wood_props_bed_cussion.fbx", r, new Vector3(0f, 0.57f, -0.79f), 0f, 1f), "Kain");
+            }, true);
+            Prefab("Kabinet", r =>   // nakas 0,5 x 0,54 x 0,4 m, laci di +Z
+            {
+                Kayu(Vendor(Kabin + "wood_props_night_stand.fbx", r, Vector3.zero, 0f, 1f), "KayuGelap");
+                Kayu(Vendor(Kabin + "wood_props_night_stand_drawer.fbx", r, Vector3.zero, 0f, 1f), "KayuTua");
+            }, true);
+            Prefab("MejaKayu", r => Kayu(Taruh(Kabin + "wood_props_table.fbx", r, Vector3.zero, new Vector3(1.0f, 0.75f, 0.6f), 0f), "KayuTua"), true);
             // Sosok Santet (K9-A): pocong-scary, sekitar 30.000 segitiga, tanpa rig; meluncur tanpa animasi.
             Prefab("SosokSantet", r => Kayu(Tokoh(Pocong + "Model/pocong.fbx", r, 2.2f, 0f, -90f), "Kafan"), false);   // FBX berbaring (sumbu Z ke atas): ditegakkan
             // Sofa ruang tengah (K22-A): sofa tiga dudukan dari old-sofas, satu tekstur.
