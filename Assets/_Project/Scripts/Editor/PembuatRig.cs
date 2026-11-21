@@ -59,9 +59,9 @@ namespace TheSending.EditorTools
             senterGo.transform.SetParent(kamera.transform, false);
             var senter = senterGo.AddComponent<Light>();
             senter.type = LightType.Spot;
-            senter.range = 15f;
+            senter.range = 20f;
             senter.spotAngle = 50f;
-            senter.intensity = 3f;
+            senter.intensity = 5.5f;
             senter.shadows = LightShadows.Soft;
             senter.enabled = false;
 

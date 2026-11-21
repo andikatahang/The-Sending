@@ -57,17 +57,17 @@ namespace TheSending.EditorTools
 
             // Rumah Bu Sumi di kanan jalan, menghadap jalan. Jendela prefab (1.2, 1.5, 2.5) jatuh di (7.5, 1.5, 76.2).
             PembuatPengganti.Pasang("RumahKecil", null, new Vector3(10f, 0f, 75f), -90f);
-            // Semua lapisan jendela di dalam ceruk bingkai (x 7,41-7,49, kaca di 7,49), urut dari luar: tirai, siluet, cahaya.
-            // Siluet dipipihkan dan diturunkan supaya hanya pinggang ke atas tampak di bingkai; sisanya tertutup dinding.
+            // Tirai di ceruk bingkai (x 7,41-7,49, kaca di 7,49). Siluet berdiri di dalam rumah 0,4 m di belakang kaca,
+            // menghadap jalan, dengan lampu dan bidang cahaya di belakangnya; dari ambang (0,92) ke bawah tertutup dinding.
             Balok("AmbangJendela", new Vector3(7.42f, 0.92f, 76.2f), new Vector3(0.14f, 0.06f, 1.3f), "KayuGelap");
-            Balok("CahayaJendela", new Vector3(7.474f, 1.5f, 76.2f), new Vector3(0.01f, 1.1f, 1.1f), "Kain");
-            var siluet = PembuatPengganti.Pasang("BuSumi_Siluet", null, new Vector3(7.458f, -0.08f, 76.2f), -90f);
+            Balok("CahayaJendela", new Vector3(8.4f, 1.5f, 76.2f), new Vector3(0.01f, 2f, 2.4f), "Kain");
+            var siluet = PembuatPengganti.Pasang("BuSumi_Siluet", null, new Vector3(7.9f, -0.08f, 76.2f), -90f);
             siluet.transform.localScale = new Vector3(1f, 1f, 0.05f);
             var tirai = Balok("Tirai", new Vector3(7.44f, 1.5f, 76.2f), new Vector3(0.01f, 1.1f, 1.1f), "Kain");
             tirai.SetActive(false);
             Set(sutradara, "siluetBuSumi", siluet);
             Set(sutradara, "tiraiJendela", tirai);
-            Set(sutradara, "lampuJendela", Lampu("LampuJendela", new Vector3(7.1f, 1.7f, 76.2f), "FFB46B", 4f, 2f));
+            Set(sutradara, "lampuJendela", Lampu("LampuJendela", new Vector3(8.2f, 1.7f, 76.2f), "FFB46B", 4f, 2f));
             var bidikJendela = Titik("BidikJendela", new Vector3(2.5f, 1.6f, 74.5f), new Vector3(7.4f, 1.5f, 76.2f));
             Set(sutradara, "bidikJendela", bidikJendela);
             // Cutscene Bu Sumi (4 detik): kamera adegan mendekat pelan ke jendela, tirai menutup pada 2,5 detik.
@@ -217,7 +217,7 @@ namespace TheSending.EditorTools
             PembuatPengganti.Pasang("Gapura", null, Vector3.zero);
             PembuatPengganti.Pasang("RumahKecil", null, new Vector3(10f, 0f, 75f), -90f);
             Balok("CahayaJendela", new Vector3(7.47f, 1.5f, 76.2f), new Vector3(0.02f, 1.1f, 1.1f), "Kain");
-            Lampu("LampuJendela", new Vector3(7.1f, 1.7f, 76.2f), "FFB46B", 4f, 2f);
+            Lampu("LampuJendela", new Vector3(8.2f, 1.7f, 76.2f), "FFB46B", 4f, 2f);
             PembuatPengganti.Pasang("RumahKeluargaLuar", null, new Vector3(0f, 0f, UjungJalan), 180f);
         }
 
