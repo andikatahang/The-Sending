@@ -37,6 +37,10 @@ namespace TheSending.Core
             return s.BuktiKunci[item.Indeks] && Array.IndexOf(BuktiValid[tuduhan], item.Indeks) >= 0;
         }
 
+        // Desain 4.3: Malam 6 pukul 21.00 warga berkumpul; di mana pun Raka berada, sidang dimulai (K43-A).
+        public static bool SaatnyaSidang(GameState s) =>
+            s.MalamKe == 6 && s.HasilSidang == HasilSidang.Belum && JamGim.BatasKerasTercapai(s);
+
         public static HasilSidang Selesaikan(GameState s, int jumlahBenar) =>
             Tetapkan(s, jumlahBenar >= MinimalBenar ? HasilSidang.Berhasil : HasilSidang.Gagal);
 

@@ -189,5 +189,22 @@ namespace TheSending.Tests
             s.MediaDitemukan[Kode.M2] = true;
             StringAssert.Contains("Ambil tang", TujuanMalam.BarisHud(s));
         }
+
+        [Test]
+        public void BarisHudMalam6SebelumSidangMenyuruhMenyiapkanBukti()
+        {
+            var s = new GameState { MalamKe = 6, MenitGim = 19 * 60f };
+            StringAssert.Contains("bukti", TujuanMalam.BarisHud(s));
+            StringAssert.Contains("21.00", TujuanMalam.BarisHud(s));
+        }
+
+        [Test]
+        public void BarisHudMalam6MengingatkanObatDalamJendela()
+        {
+            var s = new GameState { MalamKe = 6, MenitGim = JamGim.Jam20 + 5f };
+            StringAssert.Contains("obat", TujuanMalam.BarisHud(s));
+            KondisiIbu.BeriObat(s);
+            StringAssert.Contains("bukti", TujuanMalam.BarisHud(s));
+        }
 }
 }

@@ -81,5 +81,22 @@ namespace TheSending.Tests
         {
             Assert.Throws<ArgumentOutOfRangeException>(() => SidangWarga.JawabanBenar(DenganBukti(), 3, ItemPapan.Bukti(Kode.B1)));
         }
-    }
+    
+        [Test]
+        public void SidangDimulaiPukul21DiMalam6()
+        {
+            var s = new GameState { MalamKe = 6, MenitGim = JamGim.Jam21 - 1f };
+            Assert.IsFalse(SidangWarga.SaatnyaSidang(s));
+            s.MenitGim = JamGim.Jam21;
+            Assert.IsTrue(SidangWarga.SaatnyaSidang(s));
+            SidangWarga.Diam(s);
+            Assert.IsFalse(SidangWarga.SaatnyaSidang(s));
+        }
+
+        [Test]
+        public void TidakAdaSidangDiMalamLain()
+        {
+            Assert.IsFalse(SidangWarga.SaatnyaSidang(new GameState { MalamKe = 5, MenitGim = JamGim.Jam21 }));
+        }
+}
 }

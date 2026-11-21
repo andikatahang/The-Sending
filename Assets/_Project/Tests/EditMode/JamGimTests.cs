@@ -287,5 +287,37 @@ namespace TheSending.Tests
             foreach (var id in TujuanMalam.DaftarWajib(5)) TujuanMalam.Selesaikan(s, id);
             Assert.AreEqual(JamGim.MulaiJendelaObat(5), JamGim.KejadianBerikutnya(s));
         }
-    }
+    
+        // K41-A: Malam 6 memakai laju lama (250 detik nyata per jam gim), malam lain 125.
+        [Test]
+        public void Malam6BerjalanSetengahLajuMalamLain()
+        {
+            Assert.AreEqual(250f, JamGim.DetikPerJamGim(6));
+            Assert.AreEqual(125f, JamGim.DetikPerJamGim(5));
+            var m6 = new GameState { MalamKe = 6, MenitGim = JamGim.MulaiMalam };
+            var m5 = new GameState { MalamKe = 5, MenitGim = JamGim.MulaiMalam };
+            JamGim.Maju(m6, 125f);
+            JamGim.Maju(m5, 125f);
+            Assert.AreEqual(JamGim.MulaiMalam + 30f, m6.MenitGim, 0.001f);
+            Assert.AreEqual(JamGim.MulaiMalam + 60f, m5.MenitGim, 0.001f);
+        }
+
+        [Test]
+        public void Malam6KursiMenungguJamObatLaluSidang()
+        {
+            var s = new GameState { MalamKe = 6, MenitGim = 19 * 60f };
+            Assert.AreEqual(JamGim.Jam20, JamGim.KejadianBerikutnya(s));
+            s.MenitGim = JamGim.Jam20 + 10f;
+            Assert.IsNull(JamGim.KejadianBerikutnya(s));
+            Assert.IsTrue(KondisiIbu.BeriObat(s));
+            Assert.AreEqual(JamGim.Jam21, JamGim.KejadianBerikutnya(s));
+        }
+
+        [Test]
+        public void Malam6TidakMenungguSetelahSidang()
+        {
+            var s = new GameState { MalamKe = 6, MenitGim = 19 * 60f, HasilSidang = HasilSidang.Berhasil };
+            Assert.IsNull(JamGim.KejadianBerikutnya(s));
+        }
+}
 }

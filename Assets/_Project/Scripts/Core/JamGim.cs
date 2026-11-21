@@ -7,6 +7,8 @@ namespace TheSending.Core
     public static class JamGim
     {
         public const float DetikNyataPerJamGim = 125f;
+        public const float DetikNyataPerJamGimMalam6 = 250f;   // K41-A: 18.00-21.00 sekitar 12,5 menit nyata
+        public static float DetikPerJamGim(int malam) => malam == 6 ? DetikNyataPerJamGimMalam6 : DetikNyataPerJamGim;
         public const float MulaiProlog = 17 * 60 + 30f;
         public const float MulaiMalam = 18 * 60f;
         public const float Jam20 = 20 * 60f, Jam21 = 21 * 60f, Jam22 = 22 * 60f, Jam23 = 23 * 60f;
@@ -19,7 +21,7 @@ namespace TheSending.Core
         public static void Maju(GameState s, float detikNyata)
         {
             if (detikNyata <= 0f) return;
-            float baru = Math.Min(s.MenitGim + detikNyata * 60f / DetikNyataPerJamGim, Batas(s.MalamKe));
+            float baru = Math.Min(s.MenitGim + detikNyata * 60f / DetikPerJamGim(s.MalamKe), Batas(s.MalamKe));
             if (baru <= s.MenitGim) return;
             s.MenitGim = baru;
             s.Umumkan(Perubahan.Jam);
@@ -43,12 +45,21 @@ namespace TheSending.Core
         // Null jika tidak ada yang ditunggu, atau obat sedang harus diberikan.
         public static float? KejadianBerikutnya(GameState s)
         {
+            if (s.MalamKe == 6) return TungguMalam6(s);
             if (s.MalamKe == 2) return TungguMalam2(s);
             if (s.MalamKe >= 3 && s.MalamKe <= 5) return TujuanMalam.MalamSelesai(s) && !ObatSelesai(s) && s.MenitGim < Jam21 ? Jam21 : (float?)null;
             if (s.MalamKe != 1 || TujuanMalam.Sudah(s, TujuanMalam.Cutscene23)) return null;
             if (s.MenitGim < Jam21) return Jam21;
             if (DalamJendelaObat(s) && !s.ObatSudahDiberikan) return null;
             return s.MenitGim < Jam23 ? Jam23 : (float?)null;
+        }
+
+        // K41-A: kursi di Malam 6 menunggu jam obat 20.00, lalu (setelah obat) pukul 21.00 saat warga berkumpul.
+        static float? TungguMalam6(GameState s)
+        {
+            if (s.HasilSidang != HasilSidang.Belum || s.MenitGim >= Jam21) return null;
+            if (s.MenitGim < Jam20) return Jam20;
+            return s.ObatSudahDiberikan ? Jam21 : (float?)null;
         }
 
         static float? TungguMalam2(GameState s) =>

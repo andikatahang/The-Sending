@@ -84,7 +84,7 @@ namespace TheSending.Core
                 case GaliKendi: return "Gali kendi";
                 case BandingkanTanah: return "Bandingkan tanah";
                 case BicaraLaras: return "Bicara dengan Laras";
-                case SidangWarga: return "Hadapi sidang warga";
+                case SidangWarga: return "Hadapi sidang warga di depan rumah Bu Sumi";
                 default: return "";
             }
         }
@@ -97,6 +97,10 @@ namespace TheSending.Core
                 return s.MediaDitemukan[Kode.M2]
                     ? "Ambil tang di gudang, lalu cabut tujuh paku sesuai urutan hari"
                     : "Ketuk keempat tiang kayu besar di ruang tengah [E], cari yang bunyinya kosong";
+            if (id == SidangWarga)
+                return s.MenitGim >= JamGim.MulaiJendelaObat(6) && !JamGim.ObatSelesai(s)
+                    ? $"Beri obat Ibu sebelum pukul {JamGim.Format(JamGim.AkhirJendelaObat(6))} di kamarnya"
+                    : "Siapkan bukti di Jurnal [Tab] sebelum warga berkumpul pukul 21.00";
             if (id != null) return Teks(id);
             if (s.MalamKe < 1 || s.MalamKe > 6 || JamGim.ObatSelesai(s)) return "";
             return $"Beri obat Ibu pukul {JamGim.Format(JamGim.MulaiJendelaObat(s.MalamKe))} di kamarnya";
