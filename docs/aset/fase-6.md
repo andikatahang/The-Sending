@@ -73,4 +73,8 @@ Nama ini dipakai persis oleh kode (Task 7). Jika menukar dengan aset asli, perta
 | `Kentongan` | dipakai ulang jika sudah ada | `Audio/SFX/` |
 | `MusikSidang` | drone tegang (jika tidak ada: slot `MusikTegang`) | `Audio/Music/` |
 
+## Status per 22 Nov
+
+Semua baris di atas masih **pengganti** buatan skrip (warga, obor, api, asap, puing, kaca, material Hangus, suara sintetis) kecuali tokoh dasar PSX (`tokoh-dasar`, lihat `KREDIT.md`). `TeriakBakar` belum ada (tampil teks). Belum ada aset asli dari tim untuk Fase 6.
+
 Suara baru dijalankan lewat `bash tools/normalisasi-audio.sh`, lisensinya dicatat di `KREDIT.md`.
