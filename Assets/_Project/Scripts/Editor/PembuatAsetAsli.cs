@@ -305,8 +305,14 @@ namespace TheSending.EditorTools
         {
             const float tinggi = 2.8f;
             Badan(r, -3f, 3f, -2.5f, 2.5f, tinggi, "Gedek", "Gedek");
-            // Jendela: kaca gelap dan bingkai. Cahaya, siluet, dan tirai dipasang PembuatDesa di depannya.
-            Kotak(r, "KacaJendela", "Gelap", new Vector3(1.2f, 1.5f, 2.51f), new Vector3(1.1f, 1.1f, 0.02f), false);
+            // Jendela berlubang (x 0,65-1,75, y 0,95-2,05): dinding depan diganti empat potong di sekelilingnya, tanpa kaca,
+            // supaya cahaya dan siluet Bu Sumi yang dipasang PembuatDesa di dalam rumah terlihat dari jalan.
+            Object.DestroyImmediate(r.Find("DindingDepan").gameObject);
+            const float zd = 2.425f, td = 0.15f;
+            Kotak(r, "DindingDepan", "Gedek", new Vector3(-1.175f, 1.55f, zd), new Vector3(3.65f, 2.5f, td), true);
+            Kotak(r, "DindingDepan", "Gedek", new Vector3(2.375f, 1.55f, zd), new Vector3(1.25f, 2.5f, td), true);
+            Kotak(r, "DindingDepan", "Gedek", new Vector3(1.2f, 0.625f, zd), new Vector3(1.1f, 0.65f, td), true);
+            Kotak(r, "DindingDepan", "Gedek", new Vector3(1.2f, 2.425f, zd), new Vector3(1.1f, 0.75f, td), true);
             Bingkai(r, new Vector3(1.2f, 1.5f, 2.55f), 1.1f, 1.1f);
             Pintu(r, new Vector3(-1.5f, 0f, 2.5f));
             Taruh(Kit + "pd4.prefab", r, new Vector3(1.2f, 2.15f, 2.56f), new Vector3(0.9f, 0.35f, 0.05f), 0f);
