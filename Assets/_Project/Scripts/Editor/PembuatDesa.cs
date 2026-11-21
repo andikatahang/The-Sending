@@ -57,10 +57,13 @@ namespace TheSending.EditorTools
 
             // Rumah Bu Sumi di kanan jalan, menghadap jalan. Jendela prefab (1.2, 1.5, 2.5) jatuh di (7.5, 1.5, 76.2).
             PembuatPengganti.Pasang("RumahKecil", null, new Vector3(10f, 0f, 75f), -90f);
-            Balok("AmbangJendela", new Vector3(7.25f, 0.45f, 76.2f), new Vector3(0.1f, 0.9f, 1.4f), "Gedek");
-            Balok("CahayaJendela", new Vector3(7.47f, 1.5f, 76.2f), new Vector3(0.02f, 1.1f, 1.1f), "Kain");
-            var siluet = PembuatPengganti.Pasang("BuSumi_Siluet", null, new Vector3(7.38f, 0f, 76.2f), -90f);
-            var tirai = Balok("Tirai", new Vector3(7.2f, 1.5f, 76.2f), new Vector3(0.03f, 1.2f, 1.3f), "Kain");
+            // Semua lapisan jendela di dalam ceruk bingkai (x 7,41-7,49, kaca di 7,49), urut dari luar: tirai, siluet, cahaya.
+            // Siluet dipipihkan dan dipendekkan supaya hanya tampak kepala-bahu di bingkai, tidak menonjol dari dinding.
+            Balok("AmbangJendela", new Vector3(7.42f, 0.92f, 76.2f), new Vector3(0.14f, 0.06f, 1.3f), "KayuGelap");
+            Balok("CahayaJendela", new Vector3(7.474f, 1.5f, 76.2f), new Vector3(0.01f, 1.1f, 1.1f), "Kain");
+            var siluet = PembuatPengganti.Pasang("BuSumi_Siluet", null, new Vector3(7.458f, 0.95f, 76.2f), -90f);
+            siluet.transform.localScale = new Vector3(1f, 0.6f, 0.05f);
+            var tirai = Balok("Tirai", new Vector3(7.44f, 1.5f, 76.2f), new Vector3(0.01f, 1.1f, 1.1f), "Kain");
             tirai.SetActive(false);
             Set(sutradara, "siluetBuSumi", siluet);
             Set(sutradara, "tiraiJendela", tirai);
