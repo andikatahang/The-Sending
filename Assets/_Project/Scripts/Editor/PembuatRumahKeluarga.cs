@@ -233,10 +233,10 @@ namespace TheSending.EditorTools
             Set(obat, "panel", rig.Dialog);
             Set(obat, "dialogSetelahObat", PembuatDataFase1.Muat(PembuatDataFase1.IbuSetelahObat));
             Set(malam1, "ibu", visualIbu.transform);
-            // K14-A: wajah Ibu memucat mengikuti Kondisi Ibu. Hanya renderer bermaterial Kulit (prefab pengganti).
-            var kulit = System.Array.FindAll(visualIbu.GetComponentsInChildren<Renderer>(), r => r.sharedMaterial != null && r.sharedMaterial.name == "Kulit");
+            // K14-A: wajah Ibu memucat mengikuti Kondisi Ibu. Hanya renderer kepala model tokoh.
+            var kulit = System.Array.FindAll(visualIbu.GetComponentsInChildren<Renderer>(), r => r.name == "head");
             if (kulit.Length > 0) SetDaftar(visualIbu.AddComponent<WajahIbu>(), "kulit", kulit);
-            else Debug.LogWarning("Model Ibu tanpa material Kulit: WajahIbu tidak dipasang.");
+            else Debug.LogWarning("Model Ibu tanpa renderer kepala: WajahIbu tidak dipasang.");
 
             // Lemari Bapak di dinding utara kamar, menghadap selatan; gembok di depan pintunya.
             var lemari = Logika("LemariAyah", new Vector3(-4.2f, 0f, 7.6f), new Vector3(1.2f, 2f, 0.6f));
