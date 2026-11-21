@@ -28,6 +28,7 @@ namespace TheSending.Runtime
                 if (dentang != null) dentang.Putar();
                 if (hud != null) hud.Tampilkan($"HP: pukul {JamGim.Format(mulai)}. Waktunya memberi obat Ibu di kamarnya.");
             }
+            if (s.MalamKe == 6) return;   // Malam 6: pukul 21.00 sudah sidang, tanpa teguran Laras
             if (malamDitegur != s.MalamKe && s.MenitGim >= akhir)
             {
                 malamDitegur = s.MalamKe;

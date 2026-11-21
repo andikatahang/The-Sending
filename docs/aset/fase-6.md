@@ -48,3 +48,33 @@ Sumber: **SF** Sketchfab (filter *Downloadable*, CC0 atau CC-BY) · **AS** Unity
 
 - Sidang Warga memakai `Core.SidangWarga` (sudah ada). Panel pilih bukti memakai Papan Bukti; tidak butuh aset khusus selain UI.
 - Rumah Pakde (Fase 5) dibuka juga di awal Malam 6 (GS 595); aset dari `fase-5.md` dipakai ulang.
+
+## Nama file dan prefab yang dipakai kode Fase 6
+
+Nama ini dipakai persis oleh kode (Task 7). Jika menukar dengan aset asli, pertahankan nama dan letaknya. Tokoh di `Prefabs/Pengganti/` selalu dibuat ulang oleh `PembuatPengganti.Tokoh`; ganti lewat `DaftarTokoh`, bukan prefab.
+
+| Nama | Isi | Folder |
+|---|---|---|
+| `Warga3`, `Warga4`, `Warga5` | tokoh warga baru (baju berbeda, satu perempuan berkerudung) | `Prefabs/Pengganti/` |
+| `PakJoko_Obor` | sama dengan `PakJoko`, obor di tangan kanan | `Prefabs/Pengganti/` |
+| `Obor` | batang bambu 0,9 m, kepala kain bercahaya, `Light` jingga, `ApiBerkedip` | `Prefabs/Pengganti/` |
+| `ApiBesar` | `ParticleSystem` api 40 partikel + `Light` jingga + `ApiBerkedip` | `Prefabs/Pengganti/` |
+| `AsapHitam` | `ParticleSystem` asap gelap 20 partikel | `Prefabs/Pengganti/` |
+| `PuingRumahKecil` | balok hangus rendah: dinding runtuh, tiang miring, atap jatuh | `Prefabs/Pengganti/` |
+| `KacaGelap` | balok tipis penutup jendela rumah Bu Sumi (material `KacaGelap`) | dibuat di scene oleh `PembuatDesa` |
+| `Hangus` | material hitam kecoklatan, kasar | `Art/Materials/Pengganti/` |
+| `KacaGelap` (material) | hitam kebiruan, smoothness 0,6 | `Art/Materials/Pengganti/` |
+| `KerumunanMarah` | gumam dan teriakan warga (loop 3D, Ambience) | `Audio/SFX/` |
+| `TeriakBakar` | teriakan "Bakar!" bersahutan | `Audio/SFX/` |
+| `OborBerkobar` | api obor (loop 3D) | `Audio/SFX/` |
+| `RumahTerbakar` | api besar, kayu berderak (loop 3D) | `Audio/SFX/` |
+| `GeramIbu` | geram berat tanpa kata (efek) | `Audio/SFX/` |
+| `LangkahLariKayu` | Laras berlari di lantai kayu | `Audio/SFX/` |
+| `Kentongan` | dipakai ulang jika sudah ada | `Audio/SFX/` |
+| `MusikSidang` | drone tegang (jika tidak ada: slot `MusikTegang`) | `Audio/Music/` |
+
+## Status per 22 Nov
+
+Semua baris di atas masih **pengganti** buatan skrip (warga, obor, api, asap, puing, kaca, material Hangus, suara sintetis) kecuali tokoh dasar PSX (`tokoh-dasar`, lihat `KREDIT.md`). `TeriakBakar` belum ada (tampil teks). Belum ada aset asli dari tim untuk Fase 6.
+
+Suara baru dijalankan lewat `bash tools/normalisasi-audio.sh`, lisensinya dicatat di `KREDIT.md`.

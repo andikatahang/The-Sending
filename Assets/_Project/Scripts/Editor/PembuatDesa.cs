@@ -1,4 +1,5 @@
 using System.IO;
+using System.Linq;
 using TheSending.Core;
 using TheSending.Runtime;
 using UnityEditor;
@@ -56,7 +57,9 @@ namespace TheSending.EditorTools
             Set(sutradara, "zonaBuSumi", Zona("ZonaBuSumi", new Vector3(0f, 1.5f, 72f), selebarJalan));
 
             // Rumah Bu Sumi di kanan jalan, menghadap jalan. Jendela prefab (1.2, 1.5, 2.5) jatuh di (7.5, 1.5, 76.2).
-            PembuatPengganti.Pasang("RumahKecil", null, new Vector3(10f, 0f, 75f), -90f);
+            // Semua bagian rumah utuh (termasuk pintu Bu Sumi tiap malam) di satu induk: PuingRumahSumi mematikannya di jalur Fitnah.
+            rumahSumiUtuh = new GameObject("RumahBuSumi Utuh").transform;
+            PembuatPengganti.Pasang("RumahKecil", rumahSumiUtuh, new Vector3(10f, 0f, 75f), -90f);
             // Tirai di ceruk bingkai (x 7,41-7,49, kaca di 7,49). Siluet berdiri di dalam rumah 0,4 m di belakang kaca,
             // menghadap jalan, dengan lampu dan bidang cahaya di belakangnya; dari ambang (0,92) ke bawah tertutup dinding.
             Balok("AmbangJendela", new Vector3(7.42f, 0.92f, 76.2f), new Vector3(0.14f, 0.06f, 1.3f), "KayuGelap");
@@ -67,7 +70,13 @@ namespace TheSending.EditorTools
             tirai.SetActive(false);
             Set(sutradara, "siluetBuSumi", siluet);
             Set(sutradara, "tiraiJendela", tirai);
-            Set(sutradara, "lampuJendela", Lampu("LampuJendela", new Vector3(8.2f, 1.7f, 76.2f), "FFB46B", 4f, 2f));
+            var lampuJendela = Lampu("LampuJendela", new Vector3(8.2f, 1.7f, 76.2f), "FFB46B", 4f, 2f);
+            Set(sutradara, "lampuJendela", lampuJendela);
+            // K47-A: kaca gelap di lubang jendela, di luar Prolog (siluet Prolog terlihat tanpa kaca).
+            var kaca = Balok("KacaGelap", new Vector3(7.47f, 1.5f, 76.2f), new Vector3(0.02f, 1.2f, 1.3f), "KacaGelap");
+            PembuatMalam2.AktifPada(sutradara.gameObject, 1, 7, kaca);
+            foreach (var g in new[] { GameObject.Find("AmbangJendela"), GameObject.Find("CahayaJendela"), siluet, tirai, lampuJendela.gameObject, kaca })
+                g.transform.SetParent(rumahSumiUtuh, true);
             var bidikJendela = Titik("BidikJendela", new Vector3(2.5f, 1.6f, 74.5f), new Vector3(7.4f, 1.5f, 76.2f));
             Set(sutradara, "bidikJendela", bidikJendela);
             // Cutscene Bu Sumi (4 detik): kamera adegan mendekat pelan ke jendela, tirai menutup pada 2,5 detik.
@@ -97,6 +106,7 @@ namespace TheSending.EditorTools
             Malam3(rig, alurPintu, suaraPintu);
             Malam4(rig, alurPintu, suaraPintu);
             Malam5(rig, alurPintu, suaraPintu);
+            Malam6(rig);
 
             EditorSceneManager.SaveScene(scene, JalurScene);
             AssetDatabase.SaveAssets();
@@ -129,6 +139,7 @@ namespace TheSending.EditorTools
         static InteraktifAlur PintuBuSumi(string nama)
         {
             var ketuk = Logika(nama, new Vector3(7.05f, 0f, 73.5f), new Vector3(0.7f, 2.2f, 1.4f)).AddComponent<InteraktifAlur>();
+            ketuk.transform.SetParent(rumahSumiUtuh, true);
             SetTeks(ketuk, "prompt", "Ketuk pintu Bu Sumi");
             return ketuk;
         }
@@ -163,12 +174,118 @@ namespace TheSending.EditorTools
 
             var ketuk = PintuBuSumi("PintuBuSumi Malam 5");
             Set(alur, "pintuBuSumi", ketuk);
-            PembuatMalam2.AktifPada(alur.gameObject, 5, 5, gerbang, pagar, ketuk.gameObject);
+            PembuatMalam2.AktifPada(alur.gameObject, 5, 6, gerbang, pagar, ketuk.gameObject);   // K46-A
 
             Set(alur, "titikDepanRumah", Titik("TitikDepanRumahMalam5", new Vector3(0f, 0.1f, 96.8f), new Vector3(0f, 0.1f, 80f)));
             Set(alur, "titikGerbangMakam", Titik("TitikGerbangMakam", new Vector3(-5f, 0.05f, 92f), new Vector3(0f, 0.05f, 92f)));
             Set(alur, "titikDepanBuSumi", Titik("TitikDepanBuSumiMalam5", new Vector3(6.2f, 0.05f, 73.5f), new Vector3(0f, 0.05f, 73.5f)));
             Set(alur, "titikDepanPakde", Titik("TitikDepanPakde", new Vector3(-5f, 0.05f, 74f), new Vector3(0f, 0.05f, 74f)));
+        }
+
+        static Transform rumahSumiUtuh;
+
+        // Malam 6: sidang warga ber-obor di jalan depan rumah Bu Sumi (pintu x 7,5; z 73,5).
+        static void Malam6(Rig rig)
+        {
+            var alur = new GameObject("Sutradara Malam 6").AddComponent<AlurDesaMalam6>();
+            Set(alur, "adegan", rig.Adegan);
+            Set(alur, "kartu", rig.Kartu);
+            Set(alur, "dialog", rig.Dialog);
+            Set(alur, "hud", rig.Hud);
+            Set(alur, "pemain", rig.Pemain);
+            Set(alur, "jurnal", AssetDatabase.LoadAssetAtPath<DataJurnal>("Assets/_Project/Data/Jurnal.asset"));
+            Set(alur, "panel", new GameObject("PanelSidang").AddComponent<PanelSidang>());
+            Set(alur, "titikSidang", Titik("TitikSidang", new Vector3(2.5f, 0.05f, 73.5f), new Vector3(10f, 0.05f, 73.5f)));
+            Set(alur, "bidikKerumunan", Titik("BidikKerumunan", new Vector3(-1f, 2.2f, 66f), new Vector3(4f, 1.4f, 73.5f)));
+            Set(alur, "bidikBuSumi", Titik("BidikBuSumiSidang", new Vector3(4.5f, 1.6f, 73.5f), new Vector3(7.2f, 1.5f, 73.5f)));
+            Set(alur, "bidikRumah", Titik("BidikRumahSumi", new Vector3(-2f, 3f, 70f), new Vector3(10f, 2f, 75f)));
+
+            // Kerumunan di induk bertransform identitas (posisi lokal = dunia), mati di awal; tokoh menghadap rumah (timur).
+            var kerumunan = new GameObject("Kerumunan Malam 6");
+            var buSumi = PembuatPengganti.Pasang("BuSumi", kerumunan.transform, new Vector3(6.8f, 0f, 73.5f), -90f);
+            var tokoh = new (string nama, Vector3 pos, bool obor)[]
+            {
+                ("PakJoko_Obor", new Vector3(4.2f, 0f, 72f), false),   // obornya sudah di prefab
+                ("Warga1", new Vector3(4.5f, 0f, 70f), true),
+                ("Warga2", new Vector3(3.5f, 0f, 71.3f), true),
+                ("Warga3", new Vector3(3.5f, 0f, 75.7f), true),
+                ("Warga4", new Vector3(4.5f, 0f, 77f), true),
+                ("Warga5", new Vector3(5.5f, 0f, 76f), false),
+            };
+            var datang = PembuatTimeline.Buat("Malam6_WargaDatang", 6f);
+            var orang = new GameObject[tokoh.Length];
+            for (int i = 0; i < tokoh.Length; i++)
+            {
+                var (nama, pos, obor) = tokoh[i];
+                orang[i] = PembuatPengganti.Pasang(nama, kerumunan.transform, pos, 90f);
+                if (obor) PembuatPengganti.Pasang("Obor", PembuatPengganti.Tulang(orang[i], "hand.R"), Vector3.zero);
+                PembuatTimeline.Gerak(datang.Tl, datang.Director, orang[i],
+                    (0f, Titik($"Datang {nama} Awal", pos + Vector3.forward * 15f, pos + Vector3.forward * 14f)),
+                    (5f, Titik($"Datang {nama} Akhir", pos, pos + Vector3.right)));
+            }
+            PembuatTimeline.Sinyal(datang.Tl, 1f, AlurDesaMalam6.SinyalObor);
+            PembuatTimeline.Simpan(datang.Tl);
+            Set(alur, "timelineDatang", datang.Pemutar);
+            SetDaftar(alur, "lampuObor", kerumunan.GetComponentsInChildren<Light>(true));
+
+            var berhasil = PembuatTimeline.Buat("Malam6_Berhasil", 4f);
+            PembuatTimeline.Gerak(berhasil.Tl, berhasil.Director, orang[0],
+                (0f, Titik("Berhasil Joko Awal", tokoh[0].pos, tokoh[0].pos + Vector3.right)),
+                (2f, Titik("Berhasil Joko Akhir", tokoh[0].pos + Vector3.right, tokoh[0].pos + Vector3.right * 2f)));
+            PembuatTimeline.Sinyal(berhasil.Tl, 2.5f, AlurDesaMalam6.SinyalTurunkanObor);
+            PembuatTimeline.Simpan(berhasil.Tl);
+            Set(alur, "timelineBerhasil", berhasil.Pemutar);
+
+            var gagal = PembuatTimeline.Buat("Malam6_Gagal", 5f);
+            foreach (var (i, z) in new[] { (1, 72f), (4, 75f) })
+            {
+                var tujuan = new Vector3(7f, 0f, z);
+                PembuatTimeline.Gerak(gagal.Tl, gagal.Director, orang[i],
+                    (0f, Titik($"Gagal {tokoh[i].nama} Awal", tokoh[i].pos, tujuan)),
+                    (3f, Titik($"Gagal {tokoh[i].nama} Akhir", tujuan, tujuan + Vector3.right)));
+            }
+            PembuatTimeline.Sinyal(gagal.Tl, 3f, AlurDesaMalam6.SinyalApi);
+            PembuatTimeline.Simpan(gagal.Tl);
+            Set(alur, "timelineGagal", gagal.Pemutar);
+
+            var api = new GameObject("Api RumahSumi");
+            foreach (float z in new[] { 72f, 74.5f, 77f })
+                PembuatPengganti.Pasang("ApiBesar", api.transform, new Vector3(8f, 0f, z));
+            PembuatPengganti.Pasang("AsapHitam", api.transform, new Vector3(9f, 3f, 75f));
+            Lampu("LampuApi", new Vector3(7f, 2f, 74.5f), "FF7A2A", 16f, 3f).transform.SetParent(api.transform, true);
+            api.SetActive(false);
+            Set(alur, "api", api);
+
+            var rumah = new GameObject("RumahSumi Utuh/Puing").AddComponent<PuingRumahSumi>();
+            SetDaftar(rumah, "utuh", new[] { rumahSumiUtuh.gameObject });
+            SetDaftar(rumah, "puing", new[] { PembuatPengganti.Pasang("PuingRumahKecil", null, new Vector3(10f, 0f, 75f), -90f) });
+            Set(alur, "rumahSumi", rumah);
+
+            Set(alur, "dialogPembuka", PembuatDataFase6.Muat(PembuatDataFase6.SidangPembuka));
+            SetDaftar(alur, "dialogTuduhan", new[] { PembuatDataFase6.Tuduhan1, PembuatDataFase6.Tuduhan2, PembuatDataFase6.Tuduhan3 }.Select(PembuatDataFase6.Muat).ToArray());
+            SetDaftar(alur, "dialogBenar", new[] { PembuatDataFase6.Benar1, PembuatDataFase6.Benar2, PembuatDataFase6.Benar3 }.Select(PembuatDataFase6.Muat).ToArray());
+            SetDaftar(alur, "dialogSalah", new[] { PembuatDataFase6.Salah1, PembuatDataFase6.Salah2, PembuatDataFase6.Salah3 }.Select(PembuatDataFase6.Muat).ToArray());
+            Set(alur, "dialogBerhasil", PembuatDataFase6.Muat(PembuatDataFase6.SidangBerhasil));
+            Set(alur, "dialogGagal", PembuatDataFase6.Muat(PembuatDataFase6.SidangGagal));
+            Set(alur, "dialogDiam", PembuatDataFase6.Muat(PembuatDataFase6.SidangDiam));
+            Set(alur, "dialogMenuduh", PembuatDataFase6.Muat(PembuatDataFase6.SidangMenuduh));
+
+            var kerumunanSuara = BuatSuara(rig, "KerumunanMarah", Sfx, "SFX", "(Suara: kerumunan warga marah.)", ulang: true, ruang: true);
+            kerumunanSuara.transform.SetParent(kerumunan.transform, false);
+            kerumunanSuara.transform.localPosition = new Vector3(4.5f, 1.5f, 73.5f);
+            Set(alur, "suaraKerumunan", kerumunanSuara);
+            Set(alur, "suaraTeriak", BuatSuara(rig, "TeriakBakar", Sfx, "SFX", "(Suara: warga berteriak \"Bakar!\")"));
+            var suaraApi = BuatSuara(rig, "RumahTerbakar", Sfx, "SFX", "(Suara: api melalap rumah.)", ulang: true, ruang: true);
+            suaraApi.transform.position = new Vector3(8f, 1.5f, 74.5f);
+            Set(alur, "suaraApi", suaraApi);
+            const string Musik = PembuatPengganti.FolderMusik;
+            string musik = PembuatPengganti.AdaSuara(Musik, "MusikSidang") ? "MusikSidang"
+                : PembuatPengganti.AdaSuara(Musik, "MusikTegang") ? "MusikTegang" : "DroneHoror";
+            Set(alur, "musik", BuatSuara(rig, musik, Musik, "Music", "(Musik tegang.)", ulang: true));
+
+            Set(alur, "kerumunan", kerumunan);
+            Set(alur, "buSumi", buSumi);
+            kerumunan.SetActive(false);
         }
 
         // Malam 4 (K26-A): pos ronda di kiri jalan, sekitar 12 m di selatan rumah keluarga. Bangunannya selalu ada; orang dan suasananya hanya Malam 4.

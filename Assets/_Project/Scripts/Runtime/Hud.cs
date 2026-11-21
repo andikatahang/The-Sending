@@ -30,8 +30,8 @@ namespace TheSending.Runtime
             baterai = UiPabrik.BuatTeks(akar, "Baterai", 24, TextAnchor.UpperRight, new Vector2(0.75f, 0.85f), new Vector2(0.98f, 0.9f));
             notifikasi = UiPabrik.BuatTeks(akar, "Notifikasi", 28, TextAnchor.LowerLeft, new Vector2(0.02f, 0.04f), new Vector2(0.6f, 0.14f));
             napas = UiPabrik.BuatTeks(akar, "Napas", 26, TextAnchor.LowerCenter, new Vector2(0.35f, 0.16f), new Vector2(0.65f, 0.22f));
-            hitungMundur = UiPabrik.BuatTeks(akar, "HitungMundur", 24, TextAnchor.UpperRight, new Vector2(0.6f, 0.8f), new Vector2(0.98f, 0.85f));
-            tujuan = UiPabrik.BuatTeks(akar, "Tujuan", 22, TextAnchor.UpperRight, new Vector2(0.5f, 0.75f), new Vector2(0.98f, 0.8f));
+            hitungMundur = UiPabrik.BuatTeks(akar, "HitungMundur", 24, TextAnchor.UpperRight, new Vector2(0.6f, 0.75f), new Vector2(0.98f, 0.85f));
+            tujuan = UiPabrik.BuatTeks(akar, "Tujuan", 22, TextAnchor.UpperRight, new Vector2(0.5f, 0.7f), new Vector2(0.98f, 0.75f));
         }
 
         void OnEnable()
@@ -142,7 +142,11 @@ namespace TheSending.Runtime
         {
             if (!KalenderJawa.HitungMundurBerjalan(s)) return "";
             int sisa = KalenderJawa.SisaMalamKeSelasaKliwon(s.MalamKe);
-            return sisa == 0 ? "Malam ini Selasa Kliwon" : $"Selasa Kliwon: {sisa} malam lagi";
+            string teks = sisa == 0 ? "Malam ini Selasa Kliwon" : $"Selasa Kliwon: {sisa} malam lagi";
+            if (s.MalamKe != 6 || s.HasilSidang != HasilSidang.Belum) return teks;
+            // Menit nyata sampai warga berkumpul pukul 21.00 (Malam 6 punya laju jam sendiri).
+            int menit = Mathf.CeilToInt((JamGim.Batas(6) - s.MenitGim) * JamGim.DetikPerJamGim(6) / 60f / 60f);
+            return teks + "\n" + (menit <= 0 ? "Warga berkumpul sekarang!" : $"Warga berkumpul pukul 21.00: {menit} menit lagi");
         }
     }
 }

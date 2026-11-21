@@ -49,6 +49,11 @@ namespace TheSending.EditorTools
             Ruang(rig, alur);
             HalamanBelakang(rig, alur);
 
+            var pemanggil = new GameObject("PemanggilSidang").AddComponent<PemanggilSidang>();   // Malam 6, 21.00: ke sidang di desa
+            Set(pemanggil, "kartu", rig.Kartu);
+            Set(pemanggil, "adegan", rig.Adegan);
+            SetTeks(pemanggil, "sceneIni", PetaScene.RumahBuSumi);
+
             EditorSceneManager.SaveScene(scene, JalurScene);
             AssetDatabase.SaveAssets();
             Debug.Log($"Scene rumah Bu Sumi dibuat: {JalurScene}");

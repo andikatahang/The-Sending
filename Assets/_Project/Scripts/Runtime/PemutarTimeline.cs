@@ -35,6 +35,14 @@ namespace TheSending.Runtime
 
         void SaatBerhenti(PlayableDirector _) => selesai = true;
 
+        // Taruh objek yang digerakkan Timeline di pose awal (t=0) tanpa memutar, supaya tidak melompat saat PutarDanTunggu mulai.
+        public void EvaluasiAwal()
+        {
+            if (director == null || director.playableAsset == null) return;
+            director.time = 0;
+            director.Evaluate();
+        }
+
         // Dipanggil sutradara: yield return pemutar.PutarDanTunggu();
         public IEnumerator PutarDanTunggu()
         {

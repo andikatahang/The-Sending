@@ -56,7 +56,7 @@ namespace TheSending.Runtime
             kartu.HitamSeketika();
             pemain.Pindah(titikMulai);
             kartu.StartCoroutine(kartu.DariHitam());
-            if (s.MalamKe != 5)
+            if (s.MalamKe != 5 && s.MalamKe != 6)
             {
                 anjing.gameObject.SetActive(false);
                 hud.Tampilkan("Rumah Pakde gelap. Tidak ada yang bisa dilakukan di sini malam ini.");

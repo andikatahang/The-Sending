@@ -14,7 +14,7 @@ namespace TheSending.EditorTools
         const string Sfx = PembuatPengganti.FolderSfx;
         static readonly Vector3 Asem = new Vector3(2.2f, 0f, 18.2f);
 
-        internal static void Pasang(Rig rig, GameObject sutradara)
+        internal static PakaiAlat Pasang(Rig rig, GameObject sutradara)
         {
             var alur = sutradara.AddComponent<AlurMalam5>();
             Set(alur, "adegan", rig.Adegan);
@@ -42,9 +42,9 @@ namespace TheSending.EditorTools
                 0f, false, PembuatDataFase5.Muat(PembuatDataFase5.AmbilTeh), "Buat teh hangat");
             SetBool(teh, "sekaliSaja", true);
             PembuatPengganti.Pasang("SisaMakanan", teh.transform, new Vector3(0.25f, 0f, 0f));
-            PembuatMalam2.AktifPada(sutradara, 5, 5, teh.gameObject);
+            PembuatMalam2.AktifPada(sutradara, 5, 6, teh.gameObject);   // sisa makanan untuk anjing Malam 6
 
-            PohonAsem(rig, sutradara, alur);
+            var kafan = PohonAsem(rig, sutradara, alur);
             KamarLaras(sutradara, alur);
 
             var depan = Logika("PintuDepanMalam5", new Vector3(0f, 0f, 0.12f), new Vector3(1.2f, 2.1f, 0.1f));
@@ -52,6 +52,7 @@ namespace TheSending.EditorTools
             SetTeks(pintu, "prompt", "Keluar ke desa");
             Set(alur, "pintuDepan", pintu);
             PembuatMalam2.AktifPada(sutradara, 5, 5, depan);
+            return kafan;
         }
 
         static void Alat(GameObject sutradara, string prefab, string barang, Vector3 posisi, Vector3 ukuran, string prompt)
@@ -65,7 +66,7 @@ namespace TheSending.EditorTools
         }
 
         // Pohon asem di ujung pekarangan (K31-A); pohon tetap ada sejak Malam 0, kendi dan kain kafan hanya Malam 5.
-        static void PohonAsem(Rig rig, GameObject sutradara, AlurMalam5 alur)
+        static PakaiAlat PohonAsem(Rig rig, GameObject sutradara, AlurMalam5 alur)
         {
             PembuatPengganti.Pasang("PohonAsem", null, Asem);
 
@@ -90,7 +91,8 @@ namespace TheSending.EditorTools
             var pakai = Alat(rig, kafan, Inventaris.Galah, "Turunkan kain di dahan dengan galah",
                 "Terlalu tinggi. Galah bambu di gudang mungkin sampai.", PembuatDataFase5.KainKafan, kain);
             Set(alur, "kainKafan", pakai);
-            PembuatMalam2.AktifPada(sutradara, 5, 5, kafan);
+            PembuatMalam2.AktifPada(sutradara, 5, 6, kafan);   // M6 tetap bisa diambil di Malam 6
+            return pakai;
         }
 
         static PakaiAlat Alat(Rig rig, GameObject g, string barang, string promptPunya, string pesanKurang, string dialog, GameObject hilang)

@@ -55,11 +55,6 @@ namespace TheSending.Runtime
                 return;
             }
             var s = gm.State;
-            if (s.MalamKe >= 6)
-            {
-                hud.Tampilkan("Malam 6 belum dibuat (Fase 6).");
-                return;
-            }
             if (s.MalamKe != 5) return;
             berjalan = true;
             kartu.HitamSeketika();
@@ -195,11 +190,7 @@ namespace TheSending.Runtime
                     yield break;
                 }
                 gm.SimpanCheckpoint();            // checkpoint awal Malam 6
-                // Fase 6 mengganti bagian di bawah ini dengan gm.MuatScene(gm.SceneUntukState) untuk sutradara Malam 6.
-                yield return kartu.StartCoroutine(kartu.Tampilkan(
-                    "Malam 6: Obor", KalenderJawa.NamaMalam(6) + "\n\n(Bersambung. Malam 6 dibuat di Fase 6.)", 8f));
-                yield return kartu.StartCoroutine(kartu.KeHitam());
-                gm.MuatScene(GameManager.SceneMenuUtama);
+                gm.MuatScene(gm.SceneUntukState);
                 dimuat = true;
             }
             finally { if (!dimuat) adegan.Selesai(); }
