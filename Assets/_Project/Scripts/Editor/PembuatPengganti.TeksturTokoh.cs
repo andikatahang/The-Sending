@@ -27,8 +27,6 @@ namespace TheSending.EditorTools
         }
 
         static bool Wajah(int x, int y) => x >= 194 && x <= 232 && y >= 100 && y <= 140;
-        static bool OvalWajah(int x, int y) => Mathf.Pow((x - 211) / 19f, 2) + Mathf.Pow((y - 120) / 16f, 2) <= 1f;
-        static bool Kepala(int x, int y) => x >= 172 && y > 55 && y < 190;
 
         static float Terang(Color c) => 0.299f * c.r + 0.587f * c.g + 0.114f * c.b;
 
@@ -74,8 +72,8 @@ namespace TheSending.EditorTools
                         case Kelas.Baju: w = Kain(t.Baju, t.Aksen, t.PolaBaju, x, y, bayang); break;
                         case Kelas.Bawah: w = Kain(t.Bawah, t.Aksen, t.PolaBawah, x, y, bayang); break;
                         case Kelas.Rambut:
-                            w = t.WarnaKerudung != null && Kepala(x, y) ? Hex(t.WarnaKerudung) * Mathf.Clamp(bayang, 0.85f, 1.1f)
-                                : Hex(t.Rambut) * Mathf.Clamp(bayang, 0.6f, 1.5f);
+                            w = Hex(t.Rambut) * Mathf.Clamp(bayang, 0.6f, 1.5f);
+                            if (t.Pucat && (x * 7 + y * 3) % 11 == 0) w = new Color(0.7f, 0.68f, 0.66f);   // uban
                             break;
                         case Kelas.Sepatu: w = Terang(c) > 0.5f ? c * 0.7f : Hex(t.Sepatu) * (0.6f + Terang(c)); break;
                         case Kelas.Kulit:
@@ -84,8 +82,6 @@ namespace TheSending.EditorTools
                             w = Wajah(x, y)   // diratakan: bayangan jenggot dan bingkai kacamata asli hilang
                                 ? target * Mathf.Clamp(bayang, 0.92f, 1.05f)
                                 : new Color(c.r * target.r / kulitAsli.r, c.g * target.g / kulitAsli.g, c.b * target.b / kulitAsli.b);
-                            if (t.WarnaKerudung != null && Kepala(x, y) && x >= 190 && !OvalWajah(x, y))
-                                w = Hex(t.WarnaKerudung) * Mathf.Clamp(bayang, 0.85f, 1.1f);
                             break;
                         default: w = c; break;
                     }

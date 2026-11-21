@@ -33,32 +33,24 @@ namespace TheSending.EditorTools
             public string Baju, Bawah, Rambut, Kulit = "C69C7B", Sepatu = "3A3028", Aksen = "D9C08A";
             public Pola PolaBaju, PolaBawah;
             public bool Wanita, Tua, Pucat, Kacamata, Siluet;
-            public string WarnaKerudung;   // diisi = rambut dan kepala dicat jadi kain kerudung
             public Pose Pose;
             public Bagian[] Kepala = new Bagian[0];   // di koordinat prefab (meter), ditempel ke tulang kepala
         }
 
         // Aksesori kepala: posisi relatif terhadap tengah mesh kepala (tinggi kepala sekitar 0,3 m, lebar 0,19, dalam 0,22).
-        // Kerudung dicat di tekstur kepala; dua lembar tipis menjuntai di depan dan belakang leher.
-        static Bagian[] Kerudung(string m) => new[]
-        {
-            K(m, 0f, -0.2f, 0.06f, 0.2f, 0.12f, 0.015f, 15f),
-            K(m, 0f, -0.2f, -0.09f, 0.22f, 0.14f, 0.015f, -10f),
-        };
-        static Bagian Sanggul(string m) => B(m, 0f, 0.03f, -0.14f, 0.11f);
-        static Bagian RambutPanjang(string m) => K(m, 0f, -0.14f, -0.095f, 0.16f, 0.36f, 0.02f);
+        static Bagian RambutPanjang(string m) => K(m, 0f, -0.2f, -0.1f, 0.17f, 0.5f, 0.02f, -6f);   // terurai sampai punggung
         static Bagian Peci() => K("Gelap", 0f, 0.12f, 0.005f, 0.19f, 0.07f, 0.21f);
 
         static readonly Tokoh[] DaftarTokoh =
         {
-            new Tokoh { Nama = "Laras", Baju = "7A4650", Bawah = "2E2A36", Rambut = "1E1814", Wanita = true, WarnaKerudung = "A89C80", Kepala = Kerudung("Kain") },
-            new Tokoh { Nama = "Laras_Berdoa", Baju = "7A4650", Bawah = "2E2A36", Rambut = "1E1814", Wanita = true, WarnaKerudung = "A89C80", Kepala = Kerudung("Kain"), Pose = Pose.Berdoa },
-            new Tokoh { Nama = "BidanWulan", Baju = "E6E4DC", Bawah = "D4D2C8", Rambut = "1E1814", Sepatu = "DAD6CC", Wanita = true, WarnaKerudung = "E6E0D1", Kepala = Kerudung("Kertas") },
+            new Tokoh { Nama = "Laras", Baju = "7A4650", Bawah = "2E2A36", Rambut = "141010", Wanita = true, Kepala = new[] { RambutPanjang("Gelap") } },
+            new Tokoh { Nama = "Laras_Berdoa", Baju = "7A4650", Bawah = "2E2A36", Rambut = "141010", Wanita = true, Kepala = new[] { RambutPanjang("Gelap") }, Pose = Pose.Berdoa },
+            new Tokoh { Nama = "BidanWulan", Baju = "E6E4DC", Bawah = "D4D2C8", Rambut = "141010", Sepatu = "DAD6CC", Wanita = true, Kepala = new[] { RambutPanjang("Gelap") } },
             new Tokoh { Nama = "BuRatmi_Berbaring", Baju = "4E5A78", Bawah = "4E5A78", Aksen = "C8B88A", PolaBaju = Pola.Bunga, PolaBawah = Pola.Bunga,
-                Rambut = "8A8680", Kulit = "C8AE98", Wanita = true, Tua = true, Pucat = true, Kepala = new[] { Sanggul("Logam") }, Pose = Pose.Berbaring },
+                Rambut = "3A3633", Kulit = "C8AE98", Wanita = true, Tua = true, Pucat = true, Kepala = new[] { RambutPanjang("Gelap") }, Pose = Pose.Berbaring },
             new Tokoh { Nama = "BuSumi", Baju = "8A7E68", Bawah = "5A3A24", Aksen = "B89A6A", PolaBawah = Pola.Batik, Rambut = "E6E2DA", Kulit = "B08A6C",
-                Wanita = true, Tua = true, Kepala = new[] { RambutPanjang("Kertas"), Sanggul("Kertas") } },
-            new Tokoh { Nama = "BuSumi_Siluet", Siluet = true, Pose = Pose.Siluet, Kepala = new[] { RambutPanjang("Gelap"), Sanggul("Gelap") } },
+                Wanita = true, Tua = true, Kepala = new[] { RambutPanjang("Kertas") } },
+            new Tokoh { Nama = "BuSumi_Siluet", Siluet = true, Pose = Pose.Siluet, Kepala = new[] { RambutPanjang("Gelap") } },
             new Tokoh { Nama = "PakdeDarmo", Baju = "6B3A26", Bawah = "2E2E30", Rambut = "3C3C3C", PolaBaju = Pola.Batik, Kacamata = true },
             new Tokoh { Nama = "MbahWiryo", Baju = "1E1E24", Bawah = "3A2A1E", Aksen = "8A6A42", PolaBawah = Pola.Batik, Rambut = "8A8680", Kulit = "A07858", Tua = true,
                 Kepala = new[] { K("Batik", 0f, 0.11f, 0.005f, 0.2f, 0.08f, 0.22f), K("Batik", 0f, 0.05f, -0.115f, 0.09f, 0.07f, 0.04f) } },
@@ -181,7 +173,7 @@ namespace TheSending.EditorTools
                 g.transform.SetPositionAndRotation(tengahKepala + b.Posisi, Quaternion.Euler(b.Putar));
                 g.transform.localScale = b.Ukuran;
                 g.transform.SetParent(kepala, true);
-                g.GetComponent<Renderer>().sharedMaterial = t.Siluet ? Material("Gelap") : Material(b.Material);
+                g.GetComponent<Renderer>().sharedMaterial = t.Siluet ? mat : Material(b.Material);
             }
 
             var animator = model.GetComponent<Animator>();
@@ -301,6 +293,13 @@ namespace TheSending.EditorTools
             }
             var ada = AssetDatabase.LoadAssetAtPath<Material>(jalurMat);
             if (ada != null) return ada;
+            if (t.Siluet)   // hitam rata: Unlit, tidak diterangi lampu jendela
+            {
+                var hitam = new Material(Shader.Find("Universal Render Pipeline/Unlit"));
+                hitam.SetColor("_BaseColor", Color.black);
+                AssetDatabase.CreateAsset(hitam, jalurMat);
+                return hitam;
+            }
             var mat = new Material(Shader.Find("Universal Render Pipeline/Lit"));
             mat.SetTexture("_BaseMap", AssetDatabase.LoadAssetAtPath<Texture2D>(jalurTeks));
             mat.SetFloat("_Smoothness", 0f);
