@@ -37,10 +37,10 @@ namespace TheSending.EditorTools
         }
 
         // Gerak lurus antar titik kunci (posisi dan arah hadap titik). Dua kunci berselisih 0,01 detik = potongan kamera.
-        // Benda harus di akar scene, supaya posisi lokal = posisi dunia.
+        // Benda harus di akar scene (atau di induk bertransform identitas), supaya posisi lokal = posisi dunia.
         internal static void Gerak(TimelineAsset tl, PlayableDirector director, GameObject benda, params (float detik, Transform titik)[] kunci)
         {
-            if (benda.transform.parent != null) throw new ArgumentException($"'{benda.name}' harus di akar scene.");
+            if (benda.transform.parent != null && benda.transform.parent.localToWorldMatrix != Matrix4x4.identity) throw new ArgumentException($"'{benda.name}' harus di akar scene.");
             if (kunci.Length < 2) throw new ArgumentException("Gerak butuh minimal dua kunci.");
             var animator = benda.GetComponent<Animator>();
             if (animator == null) animator = benda.AddComponent<Animator>();   // tanpa controller: hanya Timeline yang menggerakkan

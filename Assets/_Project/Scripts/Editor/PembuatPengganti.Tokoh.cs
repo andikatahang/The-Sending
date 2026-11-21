@@ -242,7 +242,7 @@ namespace TheSending.EditorTools
             return b.center;
         }
 
-        static Transform Tulang(GameObject model, string nama) =>
+        internal static Transform Tulang(GameObject model, string nama) =>
             model.GetComponentsInChildren<Transform>().FirstOrDefault(x => x.name == nama)
             ?? throw new InvalidOperationException($"Tulang '{nama}' tidak ada di model tokoh.");
 
