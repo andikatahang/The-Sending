@@ -1,5 +1,7 @@
 # Daftar Aset Fase 5 (Malam 5: Tanah Merah)
 
+Status (21 Nov): Fase 5 selesai di kode. Baris tanpa status masih memakai pengganti dari Claude (`Prefabs/Pengganti/`, suara sintetis); tim boleh menukar dengan aset asli.
+
 Dikerjakan 28–29 Nov. Cari mulai sekarang. Aturan sama dengan `fase-4.md`: catat lisensi di `KREDIT.md`, beri ✗ jika tidak ketemu (Claude membuat penggantinya).
 
 Model: utamakan **low poly** (di bawah 5.000 segitiga per benda, karakter di bawah 15.000), format FBX atau GLB. Gaya PSX akan menyamakan tampilannya. Paket dari Sketchfab yang datang sebagai `.zip`/`.rar` boleh ditaruh apa adanya di `Assets/_Project/Art/ThirdParty/<nama>/`; Claude mengekstrak, merapikan, dan mengonversinya saat dipakai.
@@ -61,7 +63,7 @@ Pak Joko, Warga 1, dan Warga 2 (Fase 4) dipakai lagi tanpa aset baru.
 
 | Paket | Isi | Dipakai di | Catatan |
 |---|---|---|---|
-| `indonesia-grave` | makam (`.rar` berisi OBJ + foto tekstur) | Fase 5, `Scene_Makam` | dikonversi saat Fase 5 dimulai |
+| `indonesia-grave` | makam (`.rar` berisi OBJ + foto tekstur) | Fase 5, `Scene_Makam` | sudah dikonversi dan dipakai (Task 7) |
 | `the-bathroom` | kamar mandi (FBX) | Fase 7, epilog Balas Dendam | tekstur bermerek nyata diganti label rekaan saat dipakai |
 | `keris` | keris (`.zip` berisi OBJ) | Fase 7, sanggar Mbah Wiryo | |
 | `kuntilanak-merah-scary` | kuntilanak ber-rig | tidak dipakai jika K9-A | hapus jika tidak dipakai |
