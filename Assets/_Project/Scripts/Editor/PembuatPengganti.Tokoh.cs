@@ -25,7 +25,7 @@ namespace TheSending.EditorTools
         const string TulangKepala = "spine.005";
 
         enum Pola { Polos, Batik, Bunga, Kotak }
-        enum Pose { Berdiri, Berdoa, Berbaring }
+        enum Pose { Berdiri, Berdoa, Berbaring, Siluet }
 
         sealed class Tokoh
         {
@@ -33,36 +33,35 @@ namespace TheSending.EditorTools
             public string Baju, Bawah, Rambut, Kulit = "C69C7B", Sepatu = "3A3028", Aksen = "D9C08A";
             public Pola PolaBaju, PolaBawah;
             public bool Wanita, Tua, Pucat, Kacamata, Siluet;
+            public string WarnaKerudung;   // diisi = rambut dan kepala dicat jadi kain kerudung
             public Pose Pose;
             public Bagian[] Kepala = new Bagian[0];   // di koordinat prefab (meter), ditempel ke tulang kepala
         }
 
         // Aksesori kepala: posisi relatif terhadap tengah mesh kepala (tinggi kepala sekitar 0,3 m, lebar 0,19, dalam 0,22).
+        // Kerudung dicat di tekstur kepala; dua lembar tipis menjuntai di depan dan belakang leher.
         static Bagian[] Kerudung(string m) => new[]
         {
-            K(m, 0f, 0.155f, -0.01f, 0.22f, 0.04f, 0.25f),
-            K(m, 0f, -0.01f, -0.115f, 0.22f, 0.34f, 0.04f),
-            K(m, -0.105f, 0.01f, -0.005f, 0.025f, 0.3f, 0.22f),
-            K(m, 0.105f, 0.01f, -0.005f, 0.025f, 0.3f, 0.22f),
-            K(m, 0f, -0.16f, -0.01f, 0.34f, 0.06f, 0.26f),
+            K(m, 0f, -0.2f, 0.06f, 0.2f, 0.12f, 0.015f, 15f),
+            K(m, 0f, -0.2f, -0.09f, 0.22f, 0.14f, 0.015f, -10f),
         };
         static Bagian Sanggul(string m) => B(m, 0f, 0.03f, -0.14f, 0.11f);
-        static Bagian RambutPanjang(string m) => K(m, 0f, -0.12f, -0.12f, 0.2f, 0.4f, 0.04f);
-        static Bagian Peci() => K("Gelap", 0f, 0.13f, -0.01f, 0.2f, 0.08f, 0.23f);
+        static Bagian RambutPanjang(string m) => K(m, 0f, -0.14f, -0.095f, 0.16f, 0.36f, 0.02f);
+        static Bagian Peci() => K("Gelap", 0f, 0.12f, 0.005f, 0.19f, 0.07f, 0.21f);
 
         static readonly Tokoh[] DaftarTokoh =
         {
-            new Tokoh { Nama = "Laras", Baju = "7A4650", Bawah = "2E2A36", Rambut = "1E1814", Wanita = true, Kepala = Kerudung("Kain") },
-            new Tokoh { Nama = "Laras_Berdoa", Baju = "7A4650", Bawah = "2E2A36", Rambut = "1E1814", Wanita = true, Kepala = Kerudung("Kain"), Pose = Pose.Berdoa },
-            new Tokoh { Nama = "BidanWulan", Baju = "E6E4DC", Bawah = "D4D2C8", Rambut = "1E1814", Sepatu = "DAD6CC", Wanita = true, Kepala = Kerudung("Kertas") },
+            new Tokoh { Nama = "Laras", Baju = "7A4650", Bawah = "2E2A36", Rambut = "1E1814", Wanita = true, WarnaKerudung = "A89C80", Kepala = Kerudung("Kain") },
+            new Tokoh { Nama = "Laras_Berdoa", Baju = "7A4650", Bawah = "2E2A36", Rambut = "1E1814", Wanita = true, WarnaKerudung = "A89C80", Kepala = Kerudung("Kain"), Pose = Pose.Berdoa },
+            new Tokoh { Nama = "BidanWulan", Baju = "E6E4DC", Bawah = "D4D2C8", Rambut = "1E1814", Sepatu = "DAD6CC", Wanita = true, WarnaKerudung = "E6E0D1", Kepala = Kerudung("Kertas") },
             new Tokoh { Nama = "BuRatmi_Berbaring", Baju = "4E5A78", Bawah = "4E5A78", Aksen = "C8B88A", PolaBaju = Pola.Bunga, PolaBawah = Pola.Bunga,
-                Rambut = "3A3632", Kulit = "C8AE98", Wanita = true, Tua = true, Pucat = true, Kepala = new[] { Sanggul("Gelap") }, Pose = Pose.Berbaring },
+                Rambut = "8A8680", Kulit = "C8AE98", Wanita = true, Tua = true, Pucat = true, Kepala = new[] { Sanggul("Logam") }, Pose = Pose.Berbaring },
             new Tokoh { Nama = "BuSumi", Baju = "8A7E68", Bawah = "5A3A24", Aksen = "B89A6A", PolaBawah = Pola.Batik, Rambut = "E6E2DA", Kulit = "B08A6C",
                 Wanita = true, Tua = true, Kepala = new[] { RambutPanjang("Kertas"), Sanggul("Kertas") } },
-            new Tokoh { Nama = "BuSumi_Siluet", Siluet = true, Kepala = new[] { RambutPanjang("Gelap"), Sanggul("Gelap") } },
+            new Tokoh { Nama = "BuSumi_Siluet", Siluet = true, Pose = Pose.Siluet, Kepala = new[] { RambutPanjang("Gelap"), Sanggul("Gelap") } },
             new Tokoh { Nama = "PakdeDarmo", Baju = "6B3A26", Bawah = "2E2E30", Rambut = "3C3C3C", PolaBaju = Pola.Batik, Kacamata = true },
             new Tokoh { Nama = "MbahWiryo", Baju = "1E1E24", Bawah = "3A2A1E", Aksen = "8A6A42", PolaBawah = Pola.Batik, Rambut = "8A8680", Kulit = "A07858", Tua = true,
-                Kepala = new[] { K("Batik", 0f, 0.12f, -0.01f, 0.21f, 0.08f, 0.24f), K("Batik", 0f, 0.05f, -0.13f, 0.1f, 0.08f, 0.06f) } },
+                Kepala = new[] { K("Batik", 0f, 0.11f, 0.005f, 0.2f, 0.08f, 0.22f), K("Batik", 0f, 0.05f, -0.115f, 0.09f, 0.07f, 0.04f) } },
             new Tokoh { Nama = "PakJoko", Baju = "5E6A52", Bawah = "2A2A2C", Rambut = "1E1814", Kepala = new[] { Peci() } },
             new Tokoh { Nama = "Warga1", Baju = "5A3420", Bawah = "18181A", Rambut = "1E1814", PolaBaju = Pola.Batik },
             new Tokoh { Nama = "Warga2", Baju = "A8A290", Bawah = "3E4E34", Aksen = "6E2A22", PolaBawah = Pola.Kotak, Rambut = "1E1814", Sepatu = "3A2A1E" },
@@ -167,7 +166,10 @@ namespace TheSending.EditorTools
             var mat = MaterialTokoh(t);
             foreach (var r in model.GetComponentsInChildren<SkinnedMeshRenderer>())
                 // Hanya Pakde berkacamata: tanpa material kedua, submesh lensa di kepala tidak digambar.
+            {
+                if (r.name == "head" && !t.Kacamata) r.sharedMesh = KepalaTanpaLensa(r.sharedMesh);   // buang submesh lensa
                 r.sharedMaterials = r.name == "head" && t.Kacamata ? new[] { mat, Material("Logam") } : new[] { mat };
+            }
 
             var kepala = Tulang(model, TulangKepala);
             var tengahKepala = TengahKepala(model);
@@ -199,11 +201,37 @@ namespace TheSending.EditorTools
             else
             {
                 Object.DestroyImmediate(animator);   // pose statis: tulang diputar di sini, tanpa Animator
-                if (t.Pose == Pose.Berdoa) PoseBerdoa(model); else PoseBerbaring(model, akar);
+                if (t.Pose == Pose.Berdoa) PoseBerdoa(model);
+                else if (t.Pose == Pose.Berbaring) PoseBerbaring(model, akar);
+                else PoseSiluet(model, akar);
             }
 
             PrefabUtility.SaveAsPrefabAsset(akar, $"{FolderPrefab}/{t.Nama}.prefab");
             Object.DestroyImmediate(akar);
+        }
+
+        // Siluet di jendela (akar dipipihkan PembuatDesa): tanpa Animator, karena animasi Humanoid di induk berskala
+        // tidak seragam menggeser tubuh ke atas. Lengan turun, kaki di y 0 seperti prefab lama.
+        static void PoseSiluet(GameObject model, GameObject akar)
+        {
+            Lengan(model, new Vector3(-0.15f, -1f, 0f), new Vector3(-0.05f, -1f, 0.05f));
+            var kapsul = akar.AddComponent<CapsuleCollider>();
+            kapsul.center = new Vector3(0f, 0.83f, 0f);
+            kapsul.radius = 0.22f;
+            kapsul.height = 1.66f;
+        }
+
+        const string JalurKepalaTanpaLensa = "Assets/_Project/Art/Models/Tokoh/KepalaTanpaLensa.asset";
+
+        static Mesh KepalaTanpaLensa(Mesh asal)
+        {
+            var ada = AssetDatabase.LoadAssetAtPath<Mesh>(JalurKepalaTanpaLensa);
+            if (ada != null) return ada;
+            Directory.CreateDirectory(Path.GetDirectoryName(JalurKepalaTanpaLensa));
+            var m = Object.Instantiate(asal);
+            m.subMeshCount = 1;
+            AssetDatabase.CreateAsset(m, JalurKepalaTanpaLensa);
+            return m;
         }
 
         static Vector3 TengahKepala(GameObject model)
@@ -253,18 +281,11 @@ namespace TheSending.EditorTools
             kotak.size = new Vector3(0.45f, 1f, 0.7f);
         }
 
-        // Telentang di kasur (akar di permukaan kasur), kepala ke -Z, berselimut dari dada ke kaki.
+        // Telentang di kasur (akar di permukaan kasur), kepala ke -Z.
         static void PoseBerbaring(GameObject model, GameObject akar)
         {
             Lengan(model, new Vector3(-0.15f, -1f, 0f), new Vector3(-0.05f, -1f, 0.1f));
             model.transform.SetPositionAndRotation(new Vector3(0f, 0.12f, 0.79f), Quaternion.Euler(-90f, 0f, 0f));
-            var selimut = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            Object.DestroyImmediate(selimut.GetComponent<Collider>());
-            selimut.name = "Selimut";
-            selimut.transform.SetParent(akar.transform, false);
-            selimut.transform.localPosition = new Vector3(0f, 0.2f, 0.2f);
-            selimut.transform.localScale = new Vector3(0.5f, 0.22f, 1.3f);
-            selimut.GetComponent<Renderer>().sharedMaterial = Material("Kain");
             var kotak = akar.AddComponent<BoxCollider>();
             kotak.center = new Vector3(0f, 0.13f, 0f);
             kotak.size = new Vector3(0.5f, 0.26f, 1.75f);
