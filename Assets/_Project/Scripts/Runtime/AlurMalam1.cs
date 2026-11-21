@@ -111,6 +111,7 @@ namespace TheSending.Runtime
             }
             finally { adegan.Selesai(); }
             TujuanMalam.Selesaikan(s, TujuanMalam.Cutscene23);
+            hud.Tampilkan("Listriknya padam... Tadi itu langkah di atap? Ada paku di lantai, ada darah.");
             hud.Tampilkan("Arahkan kamera ke paku di lantai, lalu tekan [Q] untuk memotret.");
             hud.Tampilkan("Foto petunjuk masuk Papan Bukti di Jurnal [Tab].");
             sibuk = false;

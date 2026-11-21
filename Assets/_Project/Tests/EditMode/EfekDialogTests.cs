@@ -135,5 +135,13 @@ namespace TheSending.Tests
             Assert.Throws<FormatException>(() => EfekDialog.Periksa("tujuan:TidakAda"));
             Assert.Throws<FormatException>(() => EfekDialog.Periksa("salah-ketik"));
         }
+    
+        [Test]
+        public void LarasKunciMembuatLarasMengunciDiri()
+        {
+            var s = new GameState();
+            EfekDialog.Jalankan(s, "laras-kunci");
+            Assert.IsTrue(s.LarasMengunciDiri);
+        }
     }
 }

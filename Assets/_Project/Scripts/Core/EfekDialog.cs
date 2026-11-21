@@ -49,6 +49,7 @@ namespace TheSending.Core
                 case "tuduh-sumi": TanpaIsi(isi, asli); return s => KepercayaanSumi.Tuduh(s);
                 case "ritual-dari-sumi": TanpaIsi(isi, asli); return s => RitualPenangkal.Pelajari(s, dariBuSumi: true);
                 case "minyak-sereh": TanpaIsi(isi, asli); return s => KepercayaanSumi.TerimaMinyakSereh(s);
+                case "laras-kunci": TanpaIsi(isi, asli); return s => KesaksianLaras.Bentak(s);
                 case "pilihan-akhir": { var v = NilaiEnum<PilihanAkhir>(isi, asli); return s => PenentuEnding.Pilih(s, v); }
                 default: throw new FormatException($"Efek dialog tidak dikenal: '{asli}'.");
             }

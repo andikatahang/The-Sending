@@ -81,6 +81,7 @@ namespace TheSending.Runtime
                 yield return kartu.StartCoroutine(kartu.DariHitam());
             }
             finally { adegan.Selesai(); }
+            hud.Tampilkan("Ibu kelihatan jauh lebih kurus dari terakhir aku pulang.");
             hud.Tampilkan("Bidan Wulan pamit pulang.");
             hud.Tampilkan("Tekan [I] untuk melihat inventaris.");
             hud.Tampilkan("Tekan [Tab] untuk membuka Jurnal: tujuan, bukti, dan catatan.");

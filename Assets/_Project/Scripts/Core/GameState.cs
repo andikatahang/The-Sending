@@ -29,6 +29,8 @@ namespace TheSending.Core
 
         public bool RitualDiketahui;
         public bool[] BahanRitual = new bool[Kode.JumlahBahanRitual];
+        public string SceneAsal = "";          // scene terakhir sebelum kembali ke Scene_Desa (PetaScene.CatatAsal, K32-A)
+        public bool LarasMengunciDiri;         // Malam 5: dibentak, terbuka lagi dengan teh (KesaksianLaras)
         public int PakuDicabut;             // Malam 3: paku saka yang sudah dicabut berurutan (TujuhPaku)
 
         public HasilSidang HasilSidang;

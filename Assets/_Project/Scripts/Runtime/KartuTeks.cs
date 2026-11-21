@@ -22,6 +22,9 @@ namespace TheSending.Runtime
 
         public bool Tampil { get; private set; }
 
+        // Musik kartu pergantian malam ("Malam N: ..."), dari Audio/Resources (sp-conjuring).
+        AudioSource musik;
+
         void Awake()
         {
             var akar = UiPabrik.BuatCanvas("KartuTeks", 40).transform;
@@ -43,6 +46,7 @@ namespace TheSending.Runtime
         void OnDisable()
         {
             if (grup != null) grup.alpha = 0f;
+            if (musik != null) musik.Stop();
             LepasJeda();
         }
 
@@ -75,12 +79,33 @@ namespace TheSending.Runtime
             GameManager.Instance.Jeda(true);
             judul.text = teksJudul;
             isi.text = teksIsi;
+            bool kartuMalam = teksJudul.StartsWith("Malam ") && teksJudul.Contains(":");
+            if (kartuMalam) PutarMusik();
             yield return Pudar(grup.alpha, 1f, kartu);
             yield return null; // Spasi dari frame terakhir memudar masuk tidak dihitung
             // Spasi melewati sisa waktu tahan kartu (memudar keluar tetap berjalan).
             for (float t = 0f; t < detik && kartuAktif == kartu && !(Keyboard.current != null && Keyboard.current.spaceKey.wasPressedThisFrame); t += Time.unscaledDeltaTime) yield return null;
-            if (kartuAktif == kartu) yield return Pudar(1f, 0f, kartu);
+            if (kartuAktif == kartu) yield return Pudar(1f, 0f, kartu, kartuMalam ? musik : null);
+            if (kartuMalam && musik != null && kartuAktif == kartu) musik.Stop();
             if (kartuAktif == kartu) LepasJeda();
+        }
+
+        void PutarMusik()
+        {
+            if (musik == null)
+            {
+                var klip = Resources.Load<AudioClip>("MusikKartuMalam");
+                if (klip == null) return;
+                musik = gameObject.AddComponent<AudioSource>();
+                musik.clip = klip;
+                musik.loop = true;
+                musik.playOnAwake = false;
+                var mixer = Resources.Load<UnityEngine.Audio.AudioMixer>(PenyimpanPengaturan.JalurMixer);
+                var grupMusik = mixer != null ? mixer.FindMatchingGroups("Music") : null;
+                if (grupMusik != null && grupMusik.Length > 0) musik.outputAudioMixerGroup = grupMusik[0];
+            }
+            musik.volume = 1f;
+            musik.Play();
         }
 
         // Layar langsung hitam tanpa memudar. Dipanggil sutradara di Start, sebelum frame pertama tergambar.
@@ -105,12 +130,14 @@ namespace TheSending.Runtime
             yield return Pudar(grup.alpha, 0f);
         }
 
-        IEnumerator Pudar(float dari, float ke, int kartu = 0)
+        // suara (opsional) ikut memudar ke senyap bersama layar.
+        IEnumerator Pudar(float dari, float ke, int kartu = 0, AudioSource suara = null)
         {
             for (float t = 0f; t < LamaPudar; t += Time.unscaledDeltaTime)
             {
                 if (grup == null || (kartu != 0 && kartu != kartuAktif)) yield break;
                 grup.alpha = Mathf.Lerp(dari, ke, t / LamaPudar);
+                if (suara != null) suara.volume = 1f - t / LamaPudar;
                 yield return null;
             }
             if (grup == null || (kartu != 0 && kartu != kartuAktif)) yield break;

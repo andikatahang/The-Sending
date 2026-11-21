@@ -35,6 +35,10 @@ namespace TheSending.EditorTools
             Tulis(PembuatPengganti.FolderSfx, "BendaMasukAir", BendaMasukAir());
             Tulis(PembuatPengganti.FolderSfx, "Kentongan", Kentongan());
             Tulis(PembuatPengganti.FolderSfx, "AyamBerkokok", AyamBerkokok());
+            Tulis(PembuatPengganti.FolderSfx, "GaliTanah", GaliTanah());
+            Tulis(PembuatPengganti.FolderSfx, "KainJatuh", KainJatuh());
+            Tulis(PembuatPengganti.FolderSfx, "AnjingMenggonggong", AnjingMenggonggong());
+            Tulis(PembuatPengganti.FolderSfx, "LaciDibuka", LaciDibuka());
         }
 
         // Fase dijumlah supaya nada yang berubah tetap mulus.
@@ -105,6 +109,50 @@ namespace TheSending.EditorTools
             Sapu(s, 0.3f, 0.25f, 700f, 1100f, 0.3f);
             Sapu(s, 0.6f, 0.25f, 800f, 1200f, 0.3f);
             Sapu(s, 0.95f, 1f, 1100f, 600f, 0.3f);
+            return s;
+        }
+
+        // Dua ayunan pacul: hentak rendah dan derau tanah.
+        static float[] GaliTanah()
+        {
+            var s = Kosong(1.4f);
+            for (int k = 0; k < 2; k++)
+            {
+                Nada(s, k * 0.7f, 90f, 0.25f, 0.5f, 15f);
+                Derau(s, k * 0.7f, 0.35f, 0.4f, 10f, 104 + k);
+            }
+            return s;
+        }
+
+        // Kain bergesek di dahan lalu jatuh ke tanah.
+        static float[] KainJatuh()
+        {
+            var s = Kosong(1.3f);
+            Derau(s, 0f, 0.6f, 0.15f, 2f, 106);
+            Derau(s, 0.9f, 0.2f, 0.3f, 20f, 107);
+            return s;
+        }
+
+        // Tiga gonggongan pendek.
+        static float[] AnjingMenggonggong()
+        {
+            var s = Kosong(1.5f);
+            for (int k = 0; k < 3; k++)
+            {
+                Sapu(s, k * 0.4f, 0.15f, 450f, 250f, 0.5f);
+                Derau(s, k * 0.4f, 0.12f, 0.2f, 20f, 108 + k);
+            }
+            return s;
+        }
+
+        // Kunci diputar (klik), lalu laci kayu ditarik.
+        static float[] LaciDibuka()
+        {
+            var s = Kosong(1.2f);
+            Nada(s, 0f, 2400f, 0.05f, 0.4f, 60f);
+            Nada(s, 0.15f, 1800f, 0.05f, 0.4f, 60f);
+            Sapu(s, 0.4f, 0.6f, 180f, 140f, 0.15f);
+            Derau(s, 0.4f, 0.6f, 0.12f, 1f, 111);
             return s;
         }
 

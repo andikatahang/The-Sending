@@ -50,7 +50,10 @@ namespace TheSending.Runtime
             sibuk = true;
             yield return kartu.StartCoroutine(kartu.DariHitam());
             if (!dariBuSumi)
+            {
+                hud.Tampilkan("Kabutnya tebal sekali. Desa ini sepi kalau malam.");
                 hud.Tampilkan("Rumah Bu Sumi di sisi kanan jalan, ke arah jembatan. Jendelanya masih menyala.");
+            }
             else if (!KepercayaanSumi.PintuTerbuka(s))
             {
                 hud.Tampilkan("Bu Sumi membanting pintu di belakang Raka.");

@@ -8,6 +8,12 @@ namespace TheSending.Core
         // jadi Untuk() tidak pernah memilih keduanya di Malam 3.
         public const string RumahBuSumi = "Scene_RumahBuSumi";
 
+        // Malam 5 (K32-A): makam dan rumah Pakde dimuat dari gerbang di Scene_Desa, tanpa checkpoint.
+        public const string Makam = "Scene_Makam", RumahPakde = "Scene_RumahPakde";
+
+        // Dicatat sebelum kembali ke Scene_Desa; sutradara desa memilih titik muncul dari sini (tanpa field static).
+        public static void CatatAsal(GameState s, string scene) => s.SceneAsal = scene ?? "";
+
         // Titik muncul di Scene_Desa pada Malam 3: depan rumah Bu Sumi setelah berkunjung, selain itu depan rumah keluarga.
         public static bool DiDepanRumahBuSumi(GameState s) => s.MalamKe == 3 && TujuanMalam.Sudah(s, TujuanMalam.KunjungiSumi);
 

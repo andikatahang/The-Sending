@@ -22,7 +22,7 @@ namespace TheSending.EditorTools
             ("Genteng", "6B3A2A"), ("Bambu", "6F7F3A"), ("Kain", "B9AE96"), ("Kulit", "C69C7B"),
             ("Karat", "5A1A12"), ("Kertas", "E6E0D1"), ("Logam", "6E7074"), ("Gelap", "0B0D10"),
             ("Atap", "4A3B2C"), ("Tembok", "5A5850"), ("TanahHutan", "33302A"), ("Jalan", "4A4038"), ("Kafan", "4A4438"), ("Batik", "6B3A26"), ("Daun", "3E5A2E"), ("BambuKuning", "B59A3A"), ("Api", "E8742A"),
-            ("Sofa", "6A5A48"),
+            ("Sofa", "6A5A48"), ("BatuPutih", "A8A49A"), ("Terakota", "7A3420"),
         };
 
         readonly struct Bagian
@@ -189,6 +189,8 @@ namespace TheSending.EditorTools
                 K("KayuGelap", 0.25f, 2.9f, 0f, 0.5f, 0.06f, 0.06f),
                 K("Logam", 0.5f, 2.8f, 0f, 0.25f, 0.12f, 0.25f),
             }),
+            ("LampuNeon", new[] { K("Kain", 0f, 0.04f, 0f, 1.2f, 0.08f, 0.15f) }),   // lampu neon plafon, alas di titik nol
+            ("LampuTeras", new[] { K("Logam", 0f, 0.1f, 0f, 0.25f, 0.2f, 0.25f) }),
             // Rumah Bu Sumi dari luar: 6 x 3 x 5 m, jendela di (1.2, 1.5, 2.5).
             ("RumahKecil", new[]
             {
@@ -453,6 +455,100 @@ namespace TheSending.EditorTools
             ("PakJoko", Sosok("Kain", "KayuGelap")),
             ("Warga1", Sosok("Batik", "Gelap")),
             ("Warga2", Sosok("Gelap", "KayuTua")),
+            // Malam 5: makam, pohon asem, rumah Pakde
+            ("PohonAsem", new[]
+            {
+                T("KayuGelap", 0f, 2.5f, 0f, 0.7f, 2.5f, 0.7f),
+                T("KayuGelap", 1.2f, 4.6f, 0f, 0.25f, 1.4f, 0.25f, 0f, 0f, -50f), // dahan atas (kain kafan)
+                B("Daun", 0f, 5.6f, 0f, 4.2f),
+                B("Daun", 1.8f, 5.2f, 0.6f, 2.6f),
+            }),
+            ("Pacul", new[]
+            {
+                T("KayuTua", 0f, 0.55f, 0f, 0.035f, 0.55f, 0.035f),
+                K("Logam", 0f, 1.08f, 0.12f, 0.2f, 0.02f, 0.25f, 20f),
+            }),
+            ("Galah", new[] { T("Bambu", 0f, 2f, 0f, 0.04f, 2f, 0.04f) }),
+            ("KendiTanahMerah", new[]
+            {
+                B("Terakota", 0f, 0.1f, 0f, 0.2f),
+                T("Terakota", 0f, 0.22f, 0f, 0.06f, 0.04f, 0.06f),
+                T("Karat", 0f, 0.262f, 0f, 0.05f, 0.002f, 0.05f),              // tanah merah di mulut
+            }),
+            ("KainKafan", new[]
+            {
+                K("Kertas", 0f, -0.45f, 0f, 0.4f, 0.9f, 0.01f),                // tergantung dari titik nol (dahan)
+                K("Karat", 0f, -0.35f, 0.006f, 0.2f, 0.2f, 0.002f),            // rajah
+            }),
+            ("NisanKayu", new[] { K("KayuTua", 0f, 0.35f, 0f, 0.25f, 0.7f, 0.05f) }),
+            ("NisanBatu", new[] { K("Tembok", 0f, 0.3f, 0f, 0.4f, 0.6f, 0.12f) }),
+            ("NisanHadi", new[]
+            {
+                K("KayuTua", 0f, 0.4f, 0f, 0.3f, 0.8f, 0.05f),
+                K("Kertas", 0f, 0.55f, 0.026f, 0.22f, 0.12f, 0.002f),          // papan nama
+            }),
+            ("GundukanMakam", new[] { K("Tanah", 0f, 0.15f, 0f, 0.9f, 0.3f, 2.0f) }),
+            ("Kamboja", new[]
+            {
+                T("KayuTua", 0f, 1f, 0f, 0.18f, 1f, 0.18f),
+                B("Daun", 0f, 2.4f, 0f, 1.8f),
+                B("Kertas", 0.5f, 2.6f, 0.5f, 0.3f),                           // bunga putih
+            }),
+            ("GerbangMakam", new[]
+            {
+                K("BatuPutih", -1.2f, 1.1f, 0f, 0.4f, 2.2f, 0.4f),
+                K("BatuPutih", 1.2f, 1.1f, 0f, 0.4f, 2.2f, 0.4f),
+                K("BatuPutih", 0f, 2.35f, 0f, 2.8f, 0.3f, 0.4f),
+            }),
+            ("PakLasno", Sosok("Kain", "Batik")),   // peci = topi gelap dari Sosok
+            ("Anjing", new[]
+            {
+                K("KayuGelap", 0f, 0.45f, 0f, 0.3f, 0.3f, 0.9f),
+                K("KayuGelap", 0f, 0.6f, 0.5f, 0.2f, 0.2f, 0.25f),             // kepala ke depan (+Z)
+                K("KayuGelap", -0.1f, 0.15f, 0.3f, 0.06f, 0.3f, 0.06f),
+                K("KayuGelap", 0.1f, 0.15f, 0.3f, 0.06f, 0.3f, 0.06f),
+                K("KayuGelap", -0.1f, 0.15f, -0.3f, 0.06f, 0.3f, 0.06f),
+                K("KayuGelap", 0.1f, 0.15f, -0.3f, 0.06f, 0.3f, 0.06f),
+            }),
+            ("MangkukAnjing", new[] { T("Logam", 0f, 0.04f, 0f, 0.25f, 0.04f, 0.25f) }),
+            ("PotBunga", new[]
+            {
+                T("Terakota", 0f, 0.3f, 0f, 0.5f, 0.3f, 0.5f),
+                B("Daun", 0f, 0.8f, 0f, 0.7f),
+            }),
+            ("MejaKerjaLaci", new[]
+            {
+                K("KayuTua", 0f, 0.73f, 0f, 1.2f, 0.04f, 0.6f),
+                K("KayuGelap", 0.35f, 0.36f, 0f, 0.45f, 0.7f, 0.55f),          // blok laci
+                K("Logam", 0.35f, 0.55f, 0.28f, 0.1f, 0.02f, 0.01f),           // pegangan laci
+                K("KayuGelap", -0.55f, 0.36f, 0f, 0.05f, 0.7f, 0.55f),
+            }),
+            // Rumah 8 x 6 m, depan (+Z) dengan teras; pintu tidak dibuka (Lapis B masuk lewat skrip pembuat).
+            ("RumahPakdeLuar", new[]
+            {
+                K("BatuPutih", 0f, 1.6f, 0f, 8f, 3.2f, 6f),
+                K("Genteng", 0f, 3.4f, 0f, 8.6f, 0.3f, 6.6f),
+                K("Tembok", 0f, 0.1f, 4f, 8f, 0.2f, 2f),                       // lantai teras
+                K("BatuPutih", -3.8f, 1.6f, 4.8f, 0.25f, 3.2f, 0.25f),
+                K("BatuPutih", 3.8f, 1.6f, 4.8f, 0.25f, 3.2f, 0.25f),
+                K("KayuGelap", 0f, 1.05f, 3.01f, 1f, 2.1f, 0.05f),             // pintu
+            }),
+            ("PagarBesi", new[]
+            {
+                K("Logam", 0f, 0.05f, 0f, 2f, 0.05f, 0.05f),
+                K("Logam", 0f, 1.2f, 0f, 2f, 0.05f, 0.05f),
+                K("Logam", -0.75f, 0.6f, 0f, 0.03f, 1.2f, 0.03f),
+                K("Logam", -0.25f, 0.6f, 0f, 0.03f, 1.2f, 0.03f),
+                K("Logam", 0.25f, 0.6f, 0f, 0.03f, 1.2f, 0.03f),
+                K("Logam", 0.75f, 0.6f, 0f, 0.03f, 1.2f, 0.03f),
+            }),
+            ("GelasTeh", new[] { T("Kertas", 0f, 0.05f, 0f, 0.07f, 0.05f, 0.07f) }),
+            ("SisaMakanan", new[]
+            {
+                K("Daun", 0f, 0.01f, 0f, 0.25f, 0.02f, 0.25f),                 // bungkus daun pisang
+                B("Kertas", 0f, 0.05f, 0f, 0.15f),                             // nasi
+            }),
+            ("TumpukanTanah", new[] { B("Tanah", 0f, 0f, 0f, 0.8f) }),
         };
 
         [MenuItem("The Sending/Buat Aset Pengganti")]

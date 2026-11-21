@@ -40,6 +40,10 @@ namespace TheSending.EditorTools
             Set(alur, "dialogTerimaKasih", PembuatDataFase3.Muat(PembuatDataFase3.SumiTerimaKasih));
             Set(alur, "dialogPamit", PembuatDataFase3.Muat(PembuatDataFase3.SumiPamit));
             Set(alur, "dialogCerita", PembuatDataFase3.Muat(PembuatDataFase3.SumiCerita));
+            Set(alur, "dialogMalam5Dingin", PembuatDataFase5.Muat(PembuatDataFase5.SumiDingin));
+            Set(alur, "dialogMalam5Kesaksian", PembuatDataFase5.Muat(PembuatDataFase5.SumiKesaksian));
+            Set(alur, "dialogMalam5MinyakSereh", PembuatDataFase5.Muat(PembuatDataFase5.SumiMinyakSereh));
+            Set(alur, "dialogMalam5Pamit", PembuatDataFase5.Muat(PembuatDataFase5.SumiPamit));
             Set(alur, "titikMulai", Titik("TitikMulai", new Vector3(0f, 0.05f, 0.8f), new Vector3(0f, 0.05f, 5f)));
 
             Ruang(rig, alur);
@@ -80,7 +84,7 @@ namespace TheSending.EditorTools
             Set(alur, "suaraBanting", BuatSuara(rig, "PintuDibanting", Sfx, "SFX", "(Suara: pintu dibanting.)"));
 
             // Teplok mati di meja: dapur hanya diterangi cahaya redup dari pintu belakang sampai teplok diperbaiki.
-            PembuatPengganti.Pasang("Meja", null, new Vector3(-2.5f, 0f, 1.2f));
+            PembuatPengganti.Pasang("MejaKayu", null, new Vector3(-2.5f, 0f, 1.2f));
             var teplok = Logika("TeplokMeja", new Vector3(-2.5f, 0.76f, 1.2f), new Vector3(0.3f, 0.35f, 0.3f));
             PembuatPengganti.Pasang("Teplok", teplok.transform, Vector3.zero);
             var perbaiki = teplok.AddComponent<InteraktifAlur>();

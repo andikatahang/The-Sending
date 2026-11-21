@@ -53,6 +53,7 @@ namespace TheSending.Runtime
         {
             sibuk = true;
             yield return kartu.StartCoroutine(kartu.DariHitam());
+            hud.Tampilkan("Ada yang ronda malam ini. Mungkin mereka punya tali.");
             hud.Tampilkan("Kentongan terdengar dari pos ronda di ujung jalan.");
             sibuk = false;
         }

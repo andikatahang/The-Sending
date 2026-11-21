@@ -115,6 +115,7 @@ namespace TheSending.Runtime
             yield return kartu.StartCoroutine(kartu.Tampilkan(
                 "Malam 2: Boneka di Bawah Lantai",
                 KalenderJawa.NamaMalam(2) + "\n\n" + RingkasanMalam2 + "\n\nTujuan: Mencari sumber bau anyir di kamar Ibu", 8f));
+            hud.Tampilkan("Wah, malah gerimis. Malam ini rasanya lebih dingin.");
             hud.Tampilkan("Kamar Ibu berbau anyir.");
             hud.Tampilkan("Tekan [C] untuk membuka kompas. Jarumnya berputar dekat benda santet.");
             sibuk = false;
@@ -193,6 +194,7 @@ namespace TheSending.Runtime
                 sosokCelah.SetActive(false);
                 adegan.Selesai();
             }
+            hud.Tampilkan("Apa itu tadi? Ada yang lewat di luar gudang.");
             hud.Tampilkan("Ada sesuatu di balik dinding bambu.");
             hud.Tampilkan("Linggis bersandar di dinding gudang. Ambil dengan [E].");
             sibuk = false;
@@ -248,6 +250,7 @@ namespace TheSending.Runtime
             sibuk = true;
             var gm = GameManager.Instance;
             suaraKetuk.Putar();
+            hud.Tampilkan("Malam-malam begini, siapa yang bertamu?");
             hud.Tampilkan("Ada yang mengetuk pintu depan.");
             adegan.Mulai();
             try
@@ -293,6 +296,7 @@ namespace TheSending.Runtime
             sembunyiBerjalan = true;
             sosok.gameObject.SetActive(true);
             musikTegang.Putar();
+            hud.Tampilkan("Suara apa itu... gemerincing paku?");
             hud.Tampilkan("Aku harus kembali ke kamarku tanpa ketahuan.");
             hud.Tampilkan("Sosok itu mendengar langkah. Jangan lari [Shift], jalan pelan.");
             hud.Tampilkan("Sembunyi di lemari dengan [E]. Tahan [Spasi] untuk menahan napas.");

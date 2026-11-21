@@ -86,5 +86,17 @@ namespace TheSending.Tests
             Inventaris.Tambah(s, Inventaris.TaliTambang);
             Assert.IsTrue(Inventaris.Punya(s, Inventaris.TaliTambang));
         }
+    
+        [TestCase(Inventaris.Pacul)]
+        [TestCase(Inventaris.Galah)]
+        [TestCase(Inventaris.TehHangat)]
+        [TestCase(Inventaris.SisaMakanan)]
+        [TestCase(Inventaris.KunciLaci)]
+        public void BarangMalam5Dikenal(string id)
+        {
+            Assert.IsTrue(Inventaris.Dikenal(id));
+            Assert.IsNotEmpty(Inventaris.Nama(id));
+            Assert.IsNotEmpty(Inventaris.Keterangan(id));
+        }
     }
 }

@@ -8,6 +8,7 @@ namespace TheSending.Core
         public const string ObatIbu = "ObatIbu", BukuHarianAyah = "BukuHarianAyah", MapSertifikat = "MapSertifikat";
         public const string KunciGudang = "KunciGudang", Linggis = "Linggis", Tang = "Tang";
         public const string TaliTambang = "TaliTambang", Pengait = "Pengait", TanggaBambu = "TanggaBambu";
+        public const string Pacul = "Pacul", Galah = "Galah", TehHangat = "TehHangat", SisaMakanan = "SisaMakanan", KunciLaci = "KunciLaci";
 
         // id, nama, keterangan
         static readonly string[][] Daftar =
@@ -21,6 +22,11 @@ namespace TheSending.Core
             new[] { TaliTambang, "Tali tambang", "Dipinjam dari pos ronda. Untuk kerekan sumur belakang." },
             new[] { Pengait, "Pengait besi", "Dari pos ronda. Menyangkutkan bungkusan di dasar sumur." },
             new[] { TanggaBambu, "Tangga bambu", "Dari gudang. Untuk naik ke plafon dapur." },
+            new[] { Pacul, "Pacul", "Dari gudang. Untuk menggali tanah di bawah pohon asem." },
+            new[] { Galah, "Galah bambu", "Dari gudang. Cukup panjang untuk menggapai dahan tinggi." },
+            new[] { TehHangat, "Teh hangat", "Dibuat di dapur. Untuk menenangkan Laras." },
+            new[] { SisaMakanan, "Sisa makanan", "Nasi dan tulang ayam dari dapur. Bisa mengalihkan perhatian anjing." },
+            new[] { KunciLaci, "Kunci laci kecil", "Terselip di pot bunga teras rumah Pakde." },
         };
 
         public static bool Dikenal(string id) => Cari(id) != null;

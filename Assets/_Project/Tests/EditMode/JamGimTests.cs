@@ -279,5 +279,13 @@ namespace TheSending.Tests
             foreach (var id in TujuanMalam.DaftarWajib(4)) TujuanMalam.Selesaikan(s, id);
             Assert.IsNull(JamGim.KejadianBerikutnya(s));
         }
+    
+        [Test]
+        public void Malam5SetelahSemuaTujuanMenungguJamObat()
+        {
+            var s = new GameState { MalamKe = 5, MenitGim = 60f };
+            foreach (var id in TujuanMalam.DaftarWajib(5)) TujuanMalam.Selesaikan(s, id);
+            Assert.AreEqual(JamGim.MulaiJendelaObat(5), JamGim.KejadianBerikutnya(s));
+        }
     }
 }

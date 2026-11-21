@@ -24,10 +24,13 @@ namespace TheSending.EditorTools
             PembuatDataFase2.Buat();
             PembuatDataFase3.Buat();
             PembuatDataFase4.Buat();
+            PembuatDataFase5.Buat();
             PembuatSandbox.Buat();
             PembuatDesa.Buat();
             PembuatRumahKeluarga.Buat();
             PembuatRumahBuSumi.Buat();
+            PembuatMakam.Buat();
+            PembuatRumahPakde.Buat();
             Buat();   // terakhir: mendaftarkan scene dan meninggalkan menu utama terbuka
         }
 
@@ -74,6 +77,8 @@ namespace TheSending.EditorTools
                 new EditorBuildSettingsScene(PembuatRumahKeluarga.JalurScene, true),
                 new EditorBuildSettingsScene(PembuatSandbox.JalurScene, true),
                 new EditorBuildSettingsScene(PembuatRumahBuSumi.JalurScene, true),
+                new EditorBuildSettingsScene(PembuatMakam.JalurScene, true),
+                new EditorBuildSettingsScene(PembuatRumahPakde.JalurScene, true),
             };
         }
     }

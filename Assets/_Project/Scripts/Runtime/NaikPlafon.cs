@@ -12,6 +12,7 @@ namespace TheSending.Runtime
         [SerializeField] KartuTeks kartu;
         [SerializeField] PemainGerak pemain;
         [SerializeField] Hud hud;
+        [SerializeField] AlurMalam4 alur;   // boleh kosong
 
         bool sibuk;
 
@@ -23,6 +24,11 @@ namespace TheSending.Runtime
 
         public override void Interaksi()
         {
+            if (alur != null && alur.SedangDikejar)
+            {
+                if (hud != null) hud.Tampilkan("Tidak sempat naik sekarang!");
+                return;
+            }
             if (!Inventaris.Punya(GameManager.Instance.State, Inventaris.TanggaBambu))
             {
                 if (hud != null) hud.Tampilkan("Terlalu tinggi. Ambil tangga bambu di gudang.");

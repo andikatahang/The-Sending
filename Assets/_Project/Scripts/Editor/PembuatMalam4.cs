@@ -43,7 +43,7 @@ namespace TheSending.EditorTools
             var ambil = tangga.AddComponent<AmbilBarang>();
             SetTeks(ambil, "barang", Inventaris.TanggaBambu);
             SetTeks(ambil, "prompt", "Ambil tangga bambu");
-            PembuatMalam2.AktifPada(sutradara, 4, 7, tangga);
+            SetAngka(ambil, "dariMalam", 4);
 
             Loteng(rig, sutradara);
             SumurDanKejaran(rig, alur);
@@ -79,6 +79,7 @@ namespace TheSending.EditorTools
             Set(naik, "kartu", rig.Kartu);
             Set(naik, "pemain", rig.Pemain);
             Set(naik, "hud", rig.Hud);
+            Set(naik, "alur", sutradara.GetComponent<AlurMalam4>());
             PembuatMalam2.AktifPada(sutradara, 4, 4, g);
 
             var telur = PembuatRumahKeluarga.BendaDialog(rig, "TelurCemani", new Vector3(-3f, LantaiLoteng, 10.5f), new Vector3(0.3f, 0.2f, 0.3f),
