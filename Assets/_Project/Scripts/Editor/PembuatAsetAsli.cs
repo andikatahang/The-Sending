@@ -49,6 +49,9 @@ namespace TheSending.EditorTools
             ("Jalan", TeksturAlam + "Forest_Road.png", "6A6058", 4f),
             ("Kafan", Pocong + "textures/Baked_BaseColor.png", "4A4440", 1f),
             ("Sofa", SofaTua + "textures/low_old sofa_BaseColor.png", "8A7A6A", 1f),
+            ("BatuPutih", TeksturBeton + "Plastered_d.tga", "A8A49A", 2f),          // gerbang makam, rumah Pakde
+            ("Terakota", TeksturBeton + "Plastered_d.tga", "8A4430", 0.5f),        // kendi, pot bunga
+            ("BambuKuning", TeksturAlam + "Bamboo_wood.png", "C8AA50", 1f),
         };
 
         [MenuItem("The Sending/Buat Aset Asli")]
