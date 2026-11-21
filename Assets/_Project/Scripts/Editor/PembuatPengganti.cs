@@ -23,6 +23,7 @@ namespace TheSending.EditorTools
             ("Karat", "5A1A12"), ("Kertas", "E6E0D1"), ("Logam", "6E7074"), ("Gelap", "0B0D10"),
             ("Atap", "4A3B2C"), ("Tembok", "5A5850"), ("TanahHutan", "33302A"), ("Jalan", "4A4038"), ("Kafan", "4A4438"), ("Batik", "6B3A26"), ("Daun", "3E5A2E"), ("BambuKuning", "B59A3A"), ("Api", "E8742A"),
             ("Sofa", "6A5A48"), ("BatuPutih", "A8A49A"), ("Terakota", "7A3420"),
+            ("Hangus", "1E1712"), ("KacaGelap", "101820"), ("KainObor", "E8742A"),
         };
 
         readonly struct Bagian
@@ -496,6 +497,19 @@ namespace TheSending.EditorTools
                 B("Kertas", 0f, 0.05f, 0f, 0.15f),                             // nasi
             }),
             ("TumpukanTanah", new[] { B("Tanah", 0f, 0f, 0f, 0.8f) }),
+            // Malam 6
+            ("PuingRumahKecil", new[]
+            {
+                K("Hangus", 0f, 0.05f, 0f, 5.5f, 0.1f, 4.5f),                  // lantai gosong
+                K("Hangus", -2.7f, 0.6f, 0f, 0.15f, 1.2f, 4.4f),               // dinding runtuh 0,4-1,2 m
+                K("Hangus", 2.7f, 0.4f, 0.8f, 0.15f, 0.8f, 2.6f),
+                K("Hangus", -0.8f, 0.3f, 2.2f, 3.2f, 0.6f, 0.15f),
+                K("Hangus", 1.5f, 0.2f, -2.2f, 2f, 0.4f, 0.15f),
+                K("Hangus", -2.5f, 1.2f, -2f, 0.15f, 2.4f, 0.15f, 0f, 0f, 18f),   // tiang miring
+                K("Hangus", 2.4f, 0.9f, 2f, 0.15f, 1.8f, 0.15f, 25f, 0f, 0f),
+                K("Hangus", 0.3f, 0.5f, -0.4f, 4f, 0.1f, 3f, 12f, 8f, -10f),    // atap jatuh
+            }),
+            ("KacaGelap", new[] { K("KacaGelap", 0f, 0.5f, 0f, 1f, 1f, 0.02f) }),
         };
 
         [MenuItem("The Sending/Buat Aset Pengganti")]
@@ -506,6 +520,7 @@ namespace TheSending.EditorTools
             AssetDatabase.Refresh();
             foreach (var m in DaftarMaterial) Material(m.nama);
             foreach (var p in DaftarPrefab) BuatPrefab(p.nama, p.bagian);
+            BuatApi();   // sebelum tokoh: PakJoko_Obor memakai prefab Obor
             BuatTokoh();
             PembuatSuaraPengganti.Buat();
             AssetDatabase.SaveAssets();
@@ -526,7 +541,12 @@ namespace TheSending.EditorTools
             if (!ColorUtility.TryParseHtmlString("#" + hex, out var warna))
                 throw new FormatException($"Warna material '{nama}' salah: {hex}");
             baru.SetColor("_BaseColor", warna);
-            baru.SetFloat("_Smoothness", 0f);
+            baru.SetFloat("_Smoothness", nama == "KacaGelap" ? 0.6f : 0f);
+            if (nama == "KainObor")
+            {
+                baru.EnableKeyword("_EMISSION");
+                baru.SetColor("_EmissionColor", warna * 2f);
+            }
             AssetDatabase.CreateAsset(baru, jalur);
             return baru;
         }

@@ -39,6 +39,10 @@ namespace TheSending.EditorTools
             Tulis(PembuatPengganti.FolderSfx, "KainJatuh", KainJatuh());
             Tulis(PembuatPengganti.FolderSfx, "AnjingMenggonggong", AnjingMenggonggong());
             Tulis(PembuatPengganti.FolderSfx, "LaciDibuka", LaciDibuka());
+            Tulis(PembuatPengganti.FolderSfx, "KerumunanMarah", KerumunanMarah());
+            Tulis(PembuatPengganti.FolderSfx, "OborBerkobar", Kobaran(4f, 0.3f, 21));
+            Tulis(PembuatPengganti.FolderSfx, "RumahTerbakar", RumahTerbakar());
+            Tulis(PembuatPengganti.FolderSfx, "GeramIbu", GeramIbu());
         }
 
         // Fase dijumlah supaya nada yang berubah tetap mulus.
@@ -402,6 +406,60 @@ namespace TheSending.EditorTools
             Nada(s, 0f, 70f, 1f, 0.9f, 6f);
             Derau(s, 0f, 0.15f, 0.7f, 25f, 90);
             Nada(s, 0.02f, 190f, 0.4f, 0.3f, 15f);
+            return s;
+        }
+    
+        // Gumam banyak orang: sapuan suara rendah acak di atas derau, sesekali teriakan.
+        static float[] KerumunanMarah()
+        {
+            var s = Kosong(6f);
+            var acak = new System.Random(31);
+            Derau(s, 0f, 6f, 0.08f, 0f, 32);
+            for (int k = 0; k < 30; k++)
+            {
+                float f = 110f + (float)acak.NextDouble() * 120f;
+                Sapu(s, (float)acak.NextDouble() * 5.4f, 0.4f + (float)acak.NextDouble() * 0.5f, f, f * 0.8f, 0.12f);
+            }
+            for (int k = 0; k < 4; k++) Sapu(s, 0.8f + k * 1.3f, 0.5f, 320f, 240f, 0.18f);
+            return s;
+        }
+
+        // Derau api bergemuruh dengan letupan; keras dan jumlah letupan mengatur besarnya.
+        static float[] Kobaran(float detik, float keras, int benih)
+        {
+            var s = Kosong(detik);
+            var acak = new System.Random(benih);
+            float y = 0f;
+            for (int i = 0; i < s.Length; i++)
+            {
+                y += 0.08f * ((float)(acak.NextDouble() * 2.0 - 1.0) - y);
+                s[i] = y * keras;
+            }
+            for (int k = 0; k < detik * 4; k++) Derau(s, (float)acak.NextDouble() * (detik - 0.1f), 0.02f, 0.5f, 150f, benih + k + 1);
+            return s;
+        }
+
+        // Kobaran besar, dentum rendah, dan kayu runtuh.
+        static float[] RumahTerbakar()
+        {
+            var s = Kobaran(8f, 0.6f, 41);
+            Nada(s, 0f, 45f, 8f, 0.2f, 0.1f);
+            Derau(s, 3f, 0.6f, 0.6f, 6f, 42);
+            Nada(s, 3f, 80f, 1f, 0.5f, 4f);
+            return s;
+        }
+
+        // Geram rendah bergetar dari tenggorokan.
+        static float[] GeramIbu()
+        {
+            var s = Kosong(3f);
+            for (int i = 0; i < s.Length; i++)
+            {
+                float t = i / (float)Hz, u = t / 3f;
+                float getar = 0.6f + 0.4f * Mathf.Sin(2f * Mathf.PI * 9f * t);
+                s[i] = 0.4f * getar * Mathf.Sin(Mathf.PI * u) * (Mathf.Sin(2f * Mathf.PI * 70f * t) + 0.5f * Mathf.Sin(2f * Mathf.PI * 143f * t));
+            }
+            Derau(s, 0f, 3f, 0.08f, 0.3f, 51);
             return s;
         }
     }

@@ -32,7 +32,7 @@ namespace TheSending.EditorTools
             public string Nama;
             public string Baju, Bawah, Rambut, Kulit = "C69C7B", Sepatu = "3A3028", Aksen = "D9C08A";
             public Pola PolaBaju, PolaBawah;
-            public bool Wanita, Tua, Pucat, Kacamata, Siluet;
+            public bool Wanita, Tua, Pucat, Kacamata, Siluet, Obor;   // Obor = prefab Obor di tangan kanan
             public Pose Pose;
             public Bagian[] Kepala = new Bagian[0];   // di koordinat prefab (meter), ditempel ke tulang kepala
         }
@@ -55,8 +55,12 @@ namespace TheSending.EditorTools
             new Tokoh { Nama = "MbahWiryo", Baju = "1E1E24", Bawah = "3A2A1E", Aksen = "8A6A42", PolaBawah = Pola.Batik, Rambut = "8A8680", Kulit = "A07858", Tua = true,
                 Kepala = new[] { K("Batik", 0f, 0.11f, 0.005f, 0.2f, 0.08f, 0.22f), K("Batik", 0f, 0.05f, -0.115f, 0.09f, 0.07f, 0.04f) } },
             new Tokoh { Nama = "PakJoko", Baju = "5E6A52", Bawah = "2A2A2C", Rambut = "1E1814", Kepala = new[] { Peci() } },
+            new Tokoh { Nama = "PakJoko_Obor", Baju = "5E6A52", Bawah = "2A2A2C", Rambut = "1E1814", Kepala = new[] { Peci() }, Obor = true },
             new Tokoh { Nama = "Warga1", Baju = "5A3420", Bawah = "18181A", Rambut = "1E1814", PolaBaju = Pola.Batik },
             new Tokoh { Nama = "Warga2", Baju = "A8A290", Bawah = "3E4E34", Aksen = "6E2A22", PolaBawah = Pola.Kotak, Rambut = "1E1814", Sepatu = "3A2A1E" },
+            new Tokoh { Nama = "Warga3", Baju = "3E4A5E", Bawah = "2A2A2C", Rambut = "1E1814", PolaBaju = Pola.Kotak, Kepala = new[] { Peci() } },
+            new Tokoh { Nama = "Warga4", Baju = "7A5A30", Bawah = "3A2A1E", Aksen = "C8B88A", PolaBawah = Pola.Batik, Rambut = "2A2622", Kulit = "A87E5C", Tua = true },
+            new Tokoh { Nama = "Warga5", Baju = "6E2A3A", Bawah = "3A2E36", PolaBawah = Pola.Batik, Rambut = "141010", Wanita = true, Kepala = new[] { RambutPanjang("Gelap") } },
             new Tokoh { Nama = "PakLasno", Baju = "6E6048", Bawah = "4A3A2A", Rambut = "2A2622", Kulit = "A87E5C", Tua = true, Kepala = new[] { Peci() } },
         };
 
@@ -175,6 +179,8 @@ namespace TheSending.EditorTools
                 g.transform.SetParent(kepala, true);
                 g.GetComponent<Renderer>().sharedMaterial = t.Siluet ? mat : Material(b.Material);
             }
+
+            if (t.Obor) Pasang("Obor", Tulang(model, "hand.R"), Vector3.zero);
 
             var animator = model.GetComponent<Animator>();
             if (animator == null) animator = model.AddComponent<Animator>();
