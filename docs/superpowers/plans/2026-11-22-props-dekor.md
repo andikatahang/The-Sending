@@ -517,3 +517,11 @@ Prasyarat: editor dibuka setelah "Bangun Ulang Semua". Tombol uji F5/F6/F9 seper
 3. **Pintu `low-poly-door`:** rumah keluarga sebagian besar bukaan tanpa daun pintu (dan pintu gudang hilang mulai Malam 3). Default: hanya mengganti visual pintu yang sudah ada (pintu depan, pintu belakang) tanpa menambah daun pintu di bukaan kamar. Setuju?
 4. **Tangga:** item inventaris bernama "Tangga bambu" tetapi model `wooden-ladder` adalah tangga kayu. Pakai model kayu dan ubah teksnya jadi "Tangga kayu", atau biarkan teks bambu?
 5. **Kulkas/dispenser/TV di rumah desa 2003:** ini perlu dipasang meski `PembuatAsetAsli` sebelumnya sengaja mengganti perabot modern menjadi kayu (komentar "rumah desa 2003")? Keputusan tim #2 berkata ya; konfirmasi bahwa kulkas berat (38 MB FBX) boleh diganti kotak bila > 50.000 segitiga.
+
+## Keputusan Tim (22 Nov, mengalahkan isi task di atas)
+
+- D1 Teplok tetap pengganti; `candle-low` hanya dekor.
+- D2 `CeilingLightRound` mengganti lampu neon di **semua ruangan** rumah keluarga (cahaya/logika lampu padam Malam 1 tetap sama, hanya visual).
+- D3 `low-poly-door` dipasang di **semua ambang kamar** juga, dalam posisi **terbuka menempel dinding, tanpa collider** (tidak menghalangi NavMesh Sosok, pemain, atau raycast E/Q).
+- D4 "Tangga bambu" diganti "Tangga kayu" di semua teks (nama barang Core, prompt, notifikasi, dialog); perbarui test yang menyebut teks itu.
+- D5 `kulkas` **tidak dipakai** (tim mencari pengganti). Jangan impor, jangan commit; hapus dari daftar task.
