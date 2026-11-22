@@ -170,7 +170,7 @@ namespace TheSending.EditorTools
             var model = (GameObject)PrefabUtility.InstantiatePrefab(asal);
             PrefabUtility.UnpackPrefabInstance(model, PrefabUnpackMode.Completely, InteractionMode.AutomatedAction);
             if (hanya != null) Saring(model.transform, hanya, jalur);
-            foreach (var c in model.GetComponentsInChildren<Collider>(true)) Object.DestroyImmediate(c);
+            Bersihkan(model);
             model.transform.SetParent(bungkus, false);
             model.transform.localRotation = Quaternion.Euler(putarX, putarY, 0f);
 
@@ -209,7 +209,7 @@ namespace TheSending.EditorTools
             bungkus.SetParent(induk, false);
             var model = (GameObject)PrefabUtility.InstantiatePrefab(asal);
             PrefabUtility.UnpackPrefabInstance(model, PrefabUnpackMode.Completely, InteractionMode.AutomatedAction);
-            foreach (var c in model.GetComponentsInChildren<Collider>(true)) Object.DestroyImmediate(c);
+            Bersihkan(model);
             model.transform.SetParent(bungkus, false);
             model.transform.localRotation = Quaternion.Euler(putarX, putarY, 0f);
             var b = Batas(bungkus);
@@ -217,6 +217,14 @@ namespace TheSending.EditorTools
             b = Batas(bungkus);
             bungkus.position += induk.position - new Vector3(b.center.x, b.min.y, b.center.z);
             return bungkus.gameObject;
+        }
+
+        // Buang collider, serta kamera dan lampu bawaan FBX/glTF: kamera impor yang aktif mengambil alih layar (tanpa kabut PSX).
+        static void Bersihkan(GameObject model)
+        {
+            foreach (var c in model.GetComponentsInChildren<Collider>(true)) Object.DestroyImmediate(c);
+            foreach (var k in model.GetComponentsInChildren<Camera>(true)) Object.DestroyImmediate(k.gameObject);
+            foreach (var l in model.GetComponentsInChildren<Light>(true)) Object.DestroyImmediate(l.gameObject);
         }
 
         // Model diskalakan seragam sampai sisi datar terpanjangnya `panjang` m, alas tengahnya di `alas` (lampu: arah model tidak diketahui).
@@ -227,8 +235,7 @@ namespace TheSending.EditorTools
             bungkus.SetParent(induk, false);
             var model = (GameObject)PrefabUtility.InstantiatePrefab(asal);
             PrefabUtility.UnpackPrefabInstance(model, PrefabUnpackMode.Completely, InteractionMode.AutomatedAction);
-            foreach (var c in model.GetComponentsInChildren<Collider>(true)) Object.DestroyImmediate(c);
-            foreach (var l in model.GetComponentsInChildren<Light>(true)) Object.DestroyImmediate(l);
+            Bersihkan(model);
             model.transform.SetParent(bungkus, false);
             var b = Batas(bungkus);
             bungkus.localScale = Vector3.one * (panjang / Mathf.Max(b.size.x, b.size.z));
