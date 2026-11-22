@@ -6,7 +6,7 @@ namespace TheSending.Runtime
 {
     // NavMesh lantai scene, dibangun saat Sosok Santet pertama kali muncul (runtime), supaya pembuat scene di batchmode
     // tidak perlu menyimpan aset NavMesh. Setelan agen sendiri (radius 0,25 m) supaya pintu rumah bisa dilewati tanpa
-    // mengubah ProjectSettings. Hanya collider padat yang dihitung: trigger (zona) dan objek yang diabaikan tidak.
+    // mengubah ProjectSettings. Hanya collider padat yang dihitung: trigger (zona), daun pintu kamar (PintuKamar), dan objek yang diabaikan tidak.
     public class LantaiNavMesh : MonoBehaviour
     {
         public const float RadiusAgen = 0.25f, TinggiAgen = 2f;
@@ -32,7 +32,8 @@ namespace TheSending.Runtime
             var batas = new Bounds(transform.position, ukuran);
             var sumber = new List<NavMeshBuildSource>();
             NavMeshBuilder.CollectSources(batas, ~0, NavMeshCollectGeometry.PhysicsColliders, 0, new List<NavMeshBuildMarkup>(), sumber);
-            sumber.RemoveAll(x => x.component is Collider c && (c.isTrigger || Diabaikan(c.transform, abaikan)));
+            sumber.RemoveAll(x => x.component is Collider c && (c.isTrigger || c.GetComponentInParent<PintuKamar>() != null
+                || Diabaikan(c.transform, abaikan)));
             var data = NavMeshBuilder.BuildNavMeshData(setelan, sumber, batas, Vector3.zero, Quaternion.identity);
             if (data == null)
             {
