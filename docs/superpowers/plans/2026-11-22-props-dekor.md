@@ -36,11 +36,11 @@
 | foto-keluarga.jpg | — | Tidak | 1 jpg | Ganti isi `FotoKeluarga` |
 | house-texture.jpg | — | Tidak | 1 jpg (8 MB) | Dinding luar rumah Pakde/Bu Sumi (lihat Task 5) |
 | kitchen-decor-pack | `source/KitchenDecorPack.fbx` (7,8 MB, banyak objek) | Tidak | **338 file, 115 MB** | Pilih 4–6 objek saja (`hanya:`); hapus tekstur yang tidak dipakai. Berat |
-| kulkas | `source/KULKAS.fbx` (**38 MB**) | Tidak | jpeg 3K | Dapur. **Kemungkinan sangat berat**, cek segitiga |
+| kulkas | `source/KULKAS.fbx` (**38 MB**) | Tidak | jpeg 3K | Dapur. **Kemungkinan sangat berat**, cek segitiga | **(dibatalkan, D5: tidak dipakai)**
 | led-tv | `source/led tv.rar` → `tv.fbx` | Ya (rar) | jpeg | Ruang tengah |
 | low-poly-door | `source/PortalDoor.zip` → `PortalDoor.fbx` | Ya (zip) | jpg 2K | Daun pintu (lihat Ambigu 3) |
 | plastic-chair | `source/Plastic Chair.fbx` | Tidak | png (tanpa BaseColor; pakai warna material) | Pos ronda, teras, dapur |
-| pos-ronda | `source/model.glb` | Tidak | jpeg | Ganti `PosRonda` |
+| pos-ronda | `source/model.glb` | Tidak | jpeg | Ganti `PosRonda` | **(dibatalkan: 553k segitiga, kembali ke pengganti)**
 | power-outlet-light-switch | `source/Untitled 2.fbx` | Tidak | png | Ganti `StopKontak` + sakelar dekor |
 | simple-wood-fence | `source/Simple Wood Fence.rar` → fbx | Ya (rar; isinya 29 MB png → pakai `textures/` yang sudah ada) | png | Pagar pekarangan/desa |
 | sink-set | `source/sink2.fbx` | Tidak | jpeg 1K | Kamar mandi |
@@ -222,7 +222,7 @@ Jangan ikut-sertakan `Assets/ALP_Assets` atau file untracked lain di luar daftar
 
 **Interfaces:**
 - Consumes: `Prefab`, `Taruh`, `Seragam`, `Kayu`, `Bahan`, `Props` dari Task 1.
-- Produces: prefab Asli `Gapura`, `PosRonda`, `SumurTimba`, `Sumur`, `TanggaBambu`, `Boneka`, `Gembok`, `FotoKeluarga`, `StopKontak`, `Linggis`, `Tang`, `JamDinding`, `LemariPakaian`.
+- Produces: prefab Asli `Gapura`, `SumurTimba`, `Sumur`, `TanggaBambu`, `Boneka`, `Gembok`, `FotoKeluarga`, `StopKontak`, `Linggis`, `Tang`, `JamDinding`, `LemariPakaian`.
 
 Aturan ukuran: `ukuran` di `Taruh` = ukuran collider logika (atau pengganti) di skrip pembuat, supaya model mengisi tempat yang sama. Titik nol prefab = alas tengah (seperti pengganti), kecuali benda dinding (`FotoKeluarga`, `JamDinding`, `StopKontak`) yang dipasang `BendaDialog(..., tengah: true)`/offset di pembuat: cek pengganti di `PembuatPengganti.cs` (daftar `("FotoKeluarga", ...)` dll.) dan samakan titik nolnya. Untuk menemukan nama anak FBX multi-objek (Tools.fbx): panggil `Taruh(..., hanya: new[] { "?" })` sekali; `Saring` melempar exception berisi "Anak yang ada: ...". Baca log, isi nama yang benar.
 
@@ -233,6 +233,7 @@ Aturan ukuran: `ukuran` di `Taruh` = ukuran collider logika (atau pengganti) di 
         {
             // --- Penggantian visual (Task 2) ---
             Prefab("Gapura", r => Kayu(Taruh(Props + "gapura/2Gapura.fbx", r, Vector3.zero, new Vector3(5f, 4f, 0.8f), 0f), "BatuPutih"), false);
+            // dibatalkan (553k segitiga, PosRonda kembali ke pengganti):
             Prefab("PosRonda", r => Taruh(Props + "pos-ronda/source/model.glb", r, Vector3.zero, new Vector3(3f, 2.8f, 2.5f), 0f), true);
             Prefab("SumurTimba", r => Bahan(Taruh(Props + "well-building-sumur/source/Sumur_Baked.fbx", r, Vector3.zero,
                 new Vector3(1.3f, 2.4f, 1.3f), 0f), "well-building-sumur", "textures/Diffuse_Bake.jpg"), false);
@@ -299,7 +300,7 @@ git commit -m "feat: ganti visual pengganti dengan props (gapura, pos ronda, sum
 
 **Interfaces:**
 - Consumes: Task 1–2.
-- Produces: prefab Asli `TvLed`, `RemoteTv`, `Kulkas`, `Dispenser`, `KursiPlastik`, `Sakelar`, `LampuPlafon`, `Bohlam`, `Kloset`, `Wastafel`, `AksesorisMandi`, `LemariDapur`, `MejaMakan`, `TekoTeh`, `DekorDapur`, `Karpet`, `Gorden`, `Lemari`, `Lilin`; material `UbinMandi`, `DindingMandi`.
+- Produces: prefab Asli `TvLed`, `RemoteTv`, `Dispenser`, `KursiPlastik`, `Sakelar`, `LampuPlafon`, `Bohlam`, `Kloset`, `Wastafel`, `AksesorisMandi`, `LemariDapur`, `MejaMakan`, `TekoTeh`, `DekorDapur`, `Karpet`, `Gorden`, `Lemari`, `Lilin`; material `UbinMandi`, `DindingMandi`.
 
 Denah rumah (dari `PembuatRumahKeluarga.cs`): rumah x −7..7, z 0..12, tinggi plafon `Tinggi`. Ruang tengah x −3..3, z 0..8 (saka di x ±1,5, z 2,5/5,5; sofa (−1,95; 0,5); meja (−2,2; 3,6); lemari persembunyian (−2,65; 4,8)). **Kamar mandi x 3..7, z 0..4**, pintu di sekat x = 3, z 1,5–2,5; ada `BakMandi` (6,3; 0,4; 0,8) ukuran 1 × 0,8 × 1. Kamar Laras x 3..7, z 4..8. Dapur x −7..3?, z 8..12 (pintu dari ruang tengah x −0,6..0,6; meja kayu (−5; 10,5) dengan rak bumbu; anglo (−2,6; 11,3); meja ritual (−1,5; 11,4); bambu (−0,85; 11,55); titik muncul Sosok (−0,5; 10,5); pintu belakang (−4; 12)). Gudang x 3..7, z 8..12. **Zona terlarang** (jangan taruh apa pun): jalur pintu ±0,6 m di depan setiap pintu, garis lurus pintu dapur (x −0,6..0,6, z 7..11), sekitar anglo/meja ritual (x −3,2..−0,4, z 10,6..12), titik muncul Sosok, jalur ke pintu belakang (x −4,6..−3,4, z 10..12), sekitar lemari persembunyian dan `KeluarLemari` (−1,9; 4,8).
 
@@ -310,6 +311,7 @@ Denah rumah (dari `PembuatRumahKeluarga.cs`): rumah x −7..7, z 0..12, tinggi p
             Prefab("TvLed", r => Bahan(Taruh(Props + "led-tv/source/tv.fbx", r, Vector3.zero, new Vector3(0.9f, 0.55f, 0.15f), 0f),
                 "led-tv", "textures/phong1_Base_Color.jpeg"), false);
             Prefab("RemoteTv", r => Taruh(Props + "props-lepas/tv_remote.glb", r, Vector3.zero, new Vector3(0.05f, 0.02f, 0.17f), 0f), false);
+            // dibatalkan (D5, kulkas tidak dipakai):
             Prefab("Kulkas", r => Taruh(Props + "kulkas/source/KULKAS.fbx", r, Vector3.zero, new Vector3(0.6f, 1.5f, 0.6f), 0f), true);
             Prefab("Dispenser", r => Bahan(Taruh(Props + "water-dispenser/source/Waterdispenser.fbx", r, Vector3.zero,
                 new Vector3(0.32f, 1.1f, 0.32f), 0f), "water-dispenser", "textures/BakedWaterDispenser.png"), true);
@@ -374,7 +376,7 @@ Jika `PembuatPengganti.Material` menolak nama yang belum ada di daftar warna pen
 
             // Dapur: lemari dan kulkas di dinding barat, dispenser dan meja makan di sisi timur pintu dapur.
             PembuatPengganti.Pasang("LemariDapur", null, new Vector3(-6.65f, 0f, 9.4f), 90f);
-            PembuatPengganti.Pasang("Kulkas", null, new Vector3(-6.6f, 0f, 11.4f), 90f);
+            // dibatalkan (D5): PembuatPengganti.Pasang("Kulkas", null, new Vector3(-6.6f, 0f, 11.4f), 90f);
             PembuatPengganti.Pasang("DekorDapur", null, new Vector3(-6.65f, 0.9f, 9.4f), 90f);
             PembuatPengganti.Pasang("Dispenser", null, new Vector3(2.6f, 0f, 8.4f));
             PembuatPengganti.Pasang("MejaMakan", null, new Vector3(1.6f, 0f, 10.6f));
@@ -473,7 +475,7 @@ Model (.fbx/.glb/.gltf/.obj/.bin) yang dipakai prefab muncul lewat GUID di prefa
 | Kitchen Cabinets (dapur) | `Assets/_Project/Art/ThirdParty/wooden-kitchen-cabinet/` | jimbogies | https://sketchfab.com/3d-models/kitchen-cabinets-5926fa64fcaa498c818682990db3df27 | CC-BY-4.0 | Ya |
 ```
 
-Sisanya (jam dinding, lilin, karpet, ubin Poliigon, gembok, kulkas, TV, pintu, kursi plastik, pos ronda, stop kontak, pagar, wastafel, gapura, lampu plafon, bohlam, kloset, alat, remote TV, boneka voodoo, dispenser, sumur, gorden, lemari, lemari dapur, meja makan, tangga, lemari pakaian, jendela, dan foto/house-texture/toilet-wall/floor-tile jpg) dengan kolom Pembuat/Sumber/Lisensi = `cek lisensi (isi tim)`, Kredit wajib = `**(isi)**`.
+Sisanya (jam dinding, lilin, karpet, ubin Poliigon, gembok, TV, pintu, kursi plastik, stop kontak, pagar, wastafel, gapura, lampu plafon, bohlam, kloset, alat, remote TV, boneka voodoo, dispenser, sumur, gorden, lemari, lemari dapur, meja makan, tangga, lemari pakaian, jendela, dan foto/house-texture/toilet-wall/floor-tile jpg) dengan kolom Pembuat/Sumber/Lisensi = `cek lisensi (isi tim)`, Kredit wajib = `**(isi)**`.
 
 - [ ] **Step 4: Build Windows.** `bash tools/bangun-semua.sh TheSending.EditorTools.PembuatBuild.Windows` → log berisi "Build Finished, Result: Success" (abaikan GAGAL palsu karena kata "Exception" di nama file pada laporan ukuran build, lihat log Fase 6). Catat ukuran `Builds/Windows/` dibanding sebelumnya.
 
@@ -497,17 +499,17 @@ Prasyarat: editor dibuka setelah "Bangun Ulang Semua". Tombol uji F5/F6/F9 seper
 2. Rumah keluarga: foto keluarga menampilkan gambar foto, E tetap membuka dialog, Q tetap memberi `[FOTO]` bila dipakai. Stop kontak baru: E tetap mengisi baterai. Jam dinding antik tampil di dinding (tidak menembus).
 3. Gembok lemari Bapak: model gembok di tempat yang sama, panel kode tetap terbuka, gembok hilang setelah kode benar.
 4. Malam 2: boneka voodoo di lubang lantai dan (jika disimpan) di kotak kayu kamar Raka; linggis baru bisa diambil. Lemari persembunyian (model lemari baru): masuk/keluar dengan E, Sosok berpatroli tanpa macet di sekitar lemari, karpet, TV, dan meja.
-5. Malam 3: tang baru bisa diambil; ritual dapur tetap bisa dibidik (anglo, garam, kelor, korek, bambu) dan tidak tertutup lemari dapur/meja makan/kulkas. Sosok muncul dari dapur tanpa error NavMesh dan tidak macet di meja makan atau dispenser.
-6. Malam 4: sumur baru di pekarangan: tahan E kerekan bekerja; Sosok kejaran tidak macet di sumur; tangga kayu di gudang bisa diambil. Pos ronda baru: Pak Joko dan warga tidak menembus pos; kursi plastik tidak menghalangi.
+5. Malam 3: tang baru bisa diambil; ritual dapur tetap bisa dibidik (anglo, garam, kelor, korek, bambu) dan tidak tertutup lemari dapur/meja makan. Sosok muncul dari dapur tanpa error NavMesh dan tidak macet di meja makan atau dispenser.
+6. Malam 4: sumur baru di pekarangan: tahan E kerekan bekerja; Sosok kejaran tidak macet di sumur; "Tangga kayu" di gudang bisa diambil. Pos ronda (pengganti, model asli dibatalkan): kursi plastik tidak menghalangi Pak Joko dan warga.
 7. Kamar mandi: pintu bisa dilewati, ruangan berubin, ada kloset, wastafel, aksesori, bak mandi, bohlam. Tidak ada interaksi baru. Tidak tersangkut di dalam.
-8. Dapur: lemari dapur, kulkas, dispenser, meja makan, teko, dekor dapur tampil; jalan ke pintu belakang dan gudang lapang; kalender tetap terbaca.
+8. Dapur: lemari dapur, dispenser, meja makan, teko, dekor dapur tampil; jalan ke pintu belakang dan gudang lapang; kalender tetap terbaca.
 9. Ruang tengah: TV, remote, karpet, sakelar, kursi plastik tampil; Pakde (Malam 3) dan Laras tidak berdiri menembus perabot baru.
 10. Desa: pagar kayu tidak menghalangi jalan, pintu rumah, gerbang makam, atau pagar Pakde. Kerumunan sidang Malam 6 tidak menembus pagar.
 11. Rumah Bu Sumi: lilin dan teko tampil; teplok, sumur, dan pintu tetap bisa dipakai.
 12. Rumah Pakde: anjing berpatroli tanpa macet di karpet/kursi; pot, laci, mangkuk tetap bekerja.
 13. Makam: lilin di depan nisan; sampel tanah dan nisan Pak Hadi tetap bisa dipakai.
 14. Gaya PSX sama di semua props (piksel tajam, tidak ada tekstur yang terlihat halus/tajam beresolusi tinggi atau mengkilap). Catat props yang tampak tidak cocok (terlalu modern, warna mencolok).
-15. Tidak ada error merah di Console di semua scene. Catat FPS kasar di rumah keluarga (props terberat: kulkas, dispenser, dekor dapur).
+15. Tidak ada error merah di Console di semua scene. Catat FPS kasar di rumah keluarga (props terberat: lemari dapur, wastafel, aksesori mandi, dekor dapur).
 16. Build Windows (Fase 8): cek ulang FPS di laptop Windows di dapur dan kamar mandi.
 
 ## Ambigu yang Perlu Diputuskan Tim (sebelum Task 3–4)
