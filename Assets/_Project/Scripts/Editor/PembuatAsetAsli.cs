@@ -13,7 +13,7 @@ namespace TheSending.EditorTools
     // ubah angka di sini. Ukuran, depan (+Z), dan titik nol (lantai) sama dengan prefab pengganti.
     // Juga memberi tekstur pada material pengganti dan menyediakan kubus ber-UV meter (PembuatRig.Balok).
     // Batchmode: -executeMethod TheSending.EditorTools.PembuatAsetAsli.Buat
-    public static class PembuatAsetAsli
+    public static partial class PembuatAsetAsli
     {
         internal const string FolderPrefab = "Assets/_Project/Prefabs/Asli";
         const string FolderMesh = "Assets/_Project/Art/Models/Asli";
@@ -101,6 +101,8 @@ namespace TheSending.EditorTools
                 hanya: new[] { "Object.1", "Object.3" }, putarX: -90f), "Tanah"), true);
             Prefab("NisanBatu", r => Kayu(Taruh(Makam, r, Vector3.zero, new Vector3(0.45f, 0.35f, 0.45f), 0f,
                 hanya: new[] { "Object.2", "Object.4" }, putarX: -90f), "Tembok"), true);
+            BuatProps();
+            LaporSegitiga();
             AssetDatabase.SaveAssets();
             Debug.Log("Aset asli siap.");
         }
