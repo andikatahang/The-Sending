@@ -1,4 +1,6 @@
+using System;
 using System.IO;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -25,8 +27,7 @@ namespace TheSending.EditorTools
                 "low-poly-ladder", "textures/towercolours4.png"), false);
             Prefab("Boneka", r => Bahan(Taruh(Props + "voodoo-doll/source/Doll(stab).fbx", r, Vector3.zero,
                 new Vector3(0.3f, 0.12f, 0.4f), 0f), "voodoo-doll", "textures/voodoo_-_base.jpg"), false);
-            Prefab("Gembok", r => Bahan(Taruh(Props + "door-padlock-key/source/padlock.fbx", r, Vector3.zero,
-                new Vector3(0.08f, 0.12f, 0.04f), 0f), "door-padlock-key", "textures/padlock_Padlock_BaseColor.png"), false);
+            Prefab("Gembok", r => Bahan(Nyata(Props + "door-padlock-key/source/padlock.fbx", r, Vector3.zero, 1, 0.08f), "door-padlock-key", "textures/padlock_Padlock_BaseColor.png"), false);
             Prefab("StopKontak", r => Bahan(Taruh(Props + "power-outlet-light-switch/source/Untitled 2.fbx", r, new Vector3(0f, -0.05f, 0f),
                 new Vector3(0.1f, 0.1f, 0.03f), 0f), "power-outlet-light-switch", "textures/BaseColor.png"), false);
             Prefab("JamDinding", r => Bahan(Nyata(Props + "antique-wall-clock/source/clock.obj", r, new Vector3(0f, -0.165f, 0f), 0, 0.33f), "antique-wall-clock", "textures/clock_low_clock_BaseColor.png"), false);
@@ -40,30 +41,31 @@ namespace TheSending.EditorTools
             // --- Dekor rumah keluarga (Task 3). Kulkas tidak dipakai (D5). ---
             Prefab("TvLed", r => Bahan(Nyata(Props + "led-tv/source/led tv/led tv.fbx", r, Vector3.zero, 0, 0.9f),
                 "led-tv", "textures/phong1_Base_Color.jpeg"), false);
-            Prefab("RemoteTv", r => Nyata(Props + "props-lepas/tv_remote.glb", r, Vector3.zero, 2, 0.17f), false);
+            Prefab("RemoteTv", r => Nyata(Props + "props-lepas/tv_remote.glb", r, Vector3.zero, 2, 0.17f), false);   // material glb sudah bertekstur
             Prefab("Dispenser", r => Bahan(Nyata(Props + "water-dispenser/source/Waterdispenser.fbx", r, Vector3.zero, 1, 1.0f), "water-dispenser", "textures/BakedWaterDispenser.png"), true);
-            Prefab("KursiPlastik", r => Nyata(Props + "plastic-chair/source/Plastic Chair.fbx", r, Vector3.zero, 1, 0.85f), true);
-            Prefab("Sakelar", r => Bahan(Taruh(Props + "power-outlet-light-switch/source/Untitled 2.fbx", r, Vector3.zero,
-                new Vector3(0.08f, 0.12f, 0.03f), 0f), "power-outlet-light-switch", "textures/BaseColor.png"), false);
-            Prefab("LampuPlafon", r => Kayu(Seragam(Props + "lampu-plafon/CeilingLightRound.fbx", r, Vector3.zero, 0.35f), "Kertas"), false);
-            Prefab("Bohlam", r => Kayu(Seragam(Props + "bohlam/BbLght.obj", r, Vector3.zero, 0.12f), "Kertas"), false);
+            Prefab("KursiPlastik", r => Bahan(Nyata(Props + "plastic-chair/source/Plastic Chair.fbx", r, Vector3.zero, 1, 0.85f), "plastic-chair", null), true);
+            // Satu sakelar tunggal (light_switch1_4), skala seragam: pelat 14 cm model -> 8,6 cm. Titik nol di tengah, muka di +Z.
+            Prefab("Sakelar", r => Bahan(Nyata(Props + "power-outlet-light-switch/source/Untitled 2.fbx", r, new Vector3(0f, -0.043f, 0f), 0, 0.086f,
+                hanya: new[] { "01_4/light_switch1_4" }), "power-outlet-light-switch", "textures/BaseColor.png"), false);
+            Prefab("LampuPlafon", r => Bahan(Seragam(Props + "lampu-plafon/CeilingLightRound.fbx", r, Vector3.zero, 0.35f), "lampu-plafon", null), false);
+            Prefab("Bohlam", r => Bahan(Seragam(Props + "bohlam/BbLght.obj", r, Vector3.zero, 0.12f), "bohlam", null), false);
             Prefab("Kloset", r => Bahan(Nyata(Props + "toilet/source/Toilet.fbx", r, Vector3.zero, 1, 0.76f),
                 "toilet", "textures/Toilet_BaseColor.png"), true);
             Prefab("Wastafel", r => Bahan(Nyata(Props + "sink-set/source/sink2.fbx", r, Vector3.zero, 1, 0.9f, -90f,
                 new[] { "sink", "sink_bot_hole", "sink_bolt", "sink_sd_hole", "tap", "tap_handle", "sink_hot_cold" }),
                 "sink-set", "textures/Fabric020_1K_Color.jpeg"), false);
-            Prefab("AksesorisMandi", r => Nyata(Props + "bathroom_accesories/scene.gltf", r, Vector3.zero, 0, 0.45f), false);
+            Prefab("AksesorisMandi", r => Bahan(Nyata(Props + "bathroom_accesories/scene.gltf", r, Vector3.zero, 0, 0.45f), "bathroom_accesories", null), false);
             Prefab("MejaMakan", r => Bahan(Nyata(Props + "wooden-kitchen-table-chair/source/Table_and_Chair.fbx", r, Vector3.zero, 1, 0.845f,
                 hanya: new[] { "Table", "Chair", "Chair.001", "Chair.002", "Chair.003" }), "wooden-kitchen-table-chair", "textures/Table_BaseColor.png"), true);
-            Prefab("TekoTeh", r => Nyata(Props + "teapot/scene.gltf", r, Vector3.zero, 1, 0.15f), false);
-            Prefab("DekorDapur", r => Nyata(Props + "kitchen-decor-pack/source/KitchenDecorPack.fbx", r, Vector3.zero, 0, 0.9f, hanya: new[] { "CuttingWood", "SpiceJars", "Plate", "TallSpiceBottles", "Bowl" }), false);
+            Prefab("TekoTeh", r => Bahan(Nyata(Props + "teapot/scene.gltf", r, Vector3.zero, 1, 0.19f), "teapot", null), false);
+            Prefab("DekorDapur", r => Bahan(Nyata(Props + "kitchen-decor-pack/source/KitchenDecorPack.fbx", r, Vector3.zero, 0, 0.9f, hanya: new[] { "CuttingWood", "SpiceJars", "Plate", "TallSpiceBottles", "Bowl" }), "kitchen-decor-pack", null), false);
             Prefab("Karpet", r => Bahan(Nyata(Props + "carpet/source/Carpet_Sketchfab.fbx", r, Vector3.zero, 0, 2f, hanya: new[] { "SM_Carpet_01" }),
                 "carpet", "textures/TX_Carpet_0102_albedo.jpg"), false);
             Prefab("Gorden", r =>
             {
                 var g = Taruh(Props + "window-curtains/source/curtains-animated-512.glb", r, Vector3.zero, new Vector3(1.2f, 1.6f, 0.1f), 0f);
-                foreach (var a in g.GetComponentsInChildren<Animator>(true)) Object.DestroyImmediate(a);
-                foreach (var a in g.GetComponentsInChildren<Animation>(true)) Object.DestroyImmediate(a);
+                foreach (var a in g.GetComponentsInChildren<Animator>(true)) UnityEngine.Object.DestroyImmediate(a);
+                foreach (var a in g.GetComponentsInChildren<Animation>(true)) UnityEngine.Object.DestroyImmediate(a);
                 Bahan(g, "window-curtains", "textures/A23DTEX_Albedo_1.jpeg");
             }, false);
             Prefab("Lemari", r => Bahan(Nyata(Props + "wooden-cabinet/source/Cabinet_old.fbx", r, Vector3.zero, 0, 1.0f, -90f,
@@ -80,14 +82,14 @@ namespace TheSending.EditorTools
                 hanya: new[] { "Cube.003" }), "pintu-kamar-mandi", "textures/pintu kamar mandi.png"), false);
 
             // --- Dapur cor (dapur-L): kulkas, tabung LPG di rongga meja, kompor di atasnya, pengisi HP di stop kontak. ---
-            Prefab("Kulkas", r => Kayu(Nyata(Props + "kulkas-fridge/Fridge.fbx", r, Vector3.zero, 1, 1.5f), "Kertas"), true);
+            Prefab("Kulkas", r => Bahan(Nyata(Props + "kulkas-fridge/Fridge.fbx", r, Vector3.zero, 1, 1.5f), "kulkas-fridge", null), true);
             // Tulisan timbul dan katup rinci (sekitar 26k segitiga) dibuang.
             Prefab("TabungGas", r => Bahan(Nyata(Props + "gas-lpg-3kg/source/gasssskeyn.obj", r, Vector3.zero, 1, 0.36f,
                 hanya: new[] { "g_Capsule01_Capsule01", "g_ChamferBox03_ChamferBox03", "g_Cylinder31_Cylinder31", "g_Torus10_Torus10", "g_Sphere102_Sphere102" }),
                 "gas-lpg-3kg", "textures/wire_088177027_Base_Color.png"), false);
-            Prefab("KomporGas", r => Kayu(Nyata(Props + "kompor-gas-rinnai/Kompor-Gas-Rinnai.skp", r, Vector3.zero, 0, 0.7f), "Logam"), false);
-            Prefab("PengisiHp", r => Kayu(Nyata(Props + "charger/charge.fbx", r, Vector3.zero, 1, 0.07f,
-                hanya: new[] { "Cube", "Cube.001", "Cube.002" }), "Kertas"), false);   // kabel spiral (42k segitiga) dibuang
+            Prefab("KomporGas", r => Bahan(Nyata(Props + "kompor-gas-rinnai/Kompor-Gas-Rinnai.skp", r, Vector3.zero, 0, 0.7f), "kompor-gas-rinnai", null), false);
+            Prefab("PengisiHp", r => Bahan(Nyata(Props + "charger/charge.fbx", r, Vector3.zero, 1, 0.07f,
+                hanya: new[] { "Cube", "Cube.001", "Cube.002" }), "charger", null), false);   // kabel spiral (42k segitiga) dibuang
 
             // --- Scene lain (Task 4) --- Pagar dekor tanpa collider: batas tak terlihat di scene yang membatasi.
             Prefab("PagarKayu", r => Bahan(Nyata(Props + "simple-wood-fence/source/Simple Wood Fence/model/obj/fance.obj", r, Vector3.zero, 0, 2f, 90f),
@@ -103,9 +105,9 @@ namespace TheSending.EditorTools
         // Bingkai photo-frame + foto (props-lepas/foto-keluarga.jpg). Titik nol di tengah seperti pengganti (0,6 x 0,45 x 0,04).
         static void FotoKeluarga(Transform r)
         {
-            Kayu(Taruh(Props + "photo-frame/Frames.FBX", r, new Vector3(0f, -0.225f, 0f), new Vector3(0.6f, 0.45f, 0.04f), 0f), "KayuGelap");
+            Bahan(Taruh(Props + "photo-frame/Frames.FBX", r, new Vector3(0f, -0.225f, 0f), new Vector3(0.6f, 0.45f, 0.04f), 0f), "photo-frame", null);
             var foto = GameObject.CreatePrimitive(PrimitiveType.Quad);
-            Object.DestroyImmediate(foto.GetComponent<Collider>());
+            UnityEngine.Object.DestroyImmediate(foto.GetComponent<Collider>());
             foto.name = "Foto";
             foto.transform.SetParent(r, false);
             foto.transform.localPosition = new Vector3(0f, 0f, 0.021f);   // sisi +Z; pengganti diputar 180° di pembuat
@@ -136,24 +138,122 @@ namespace TheSending.EditorTools
             return bungkus.gameObject;
         }
 
-        // Material URP Lit dari satu tekstur warna; dipasang ke semua renderer (material bawaan FBX hanya-baca).
+        // Material asli per slot (URP Lit): tekstur bawaan slot, atau tekstur folder yang namanya diawali nama material, atau
+        // `baseColor` cadangan (null = warna impor slot). Normal, metallic, dan AO dicari di folder yang sama dengan awalan
+        // tekstur warna. Material bawaan FBX hanya-baca: setiap kombinasi disimpan sebagai .mat di folder props.
         static void Bahan(GameObject g, string folder, string baseColor, string warnaHex = "FFFFFF")
         {
-            string jalurTex = Props + folder + "/" + baseColor;
-            var tex = AssetDatabase.LoadAssetAtPath<Texture2D>(jalurTex) ?? throw new FileNotFoundException(jalurTex);
-            string jalurMat = $"{Props}{folder}/Bahan_{Path.GetFileNameWithoutExtension(baseColor)}.mat";
+            string akar = Props + folder;
+            Texture2D cadangan = null;
+            if (baseColor != null)
+                cadangan = AssetDatabase.LoadAssetAtPath<Texture2D>(akar + "/" + baseColor) ?? throw new FileNotFoundException(akar + "/" + baseColor);
+            var semua = AssetDatabase.FindAssets("t:Texture2D", new[] { akar }).Select(AssetDatabase.GUIDToAssetPath).ToArray();
+            foreach (var r in g.GetComponentsInChildren<Renderer>())
+                r.sharedMaterials = r.sharedMaterials.Select(m => MaterialAsli(m, akar, semua, cadangan, warnaHex)).ToArray();
+        }
+
+        static readonly string[] KataWarna = { "basecolor", "base_color", "albedo", "diffuse", "color", "col" };
+
+        static Material MaterialAsli(Material asal, string akar, string[] semua, Texture2D cadangan, string warnaHex)
+        {
+            string namaAsal = asal != null ? asal.name : "Default";
+            var tex = asal != null ? asal.mainTexture as Texture2D : null;
+            if (tex == null)
+            {
+                string kunci = Bersih(namaAsal);
+                string cocok = kunci.Length < 2 ? null : semua.FirstOrDefault(j => Bersih(Path.GetFileNameWithoutExtension(j)).StartsWith(kunci)
+                    && KataWarna.Any(k => Path.GetFileNameWithoutExtension(j).ToLower().Contains(k)));
+                tex = cocok != null ? AssetDatabase.LoadAssetAtPath<Texture2D>(cocok) : cadangan;
+            }
+            Color warna = PembuatRig.Hex(warnaHex);
+            if (tex == null && asal != null)
+                warna = asal.HasProperty("_BaseColor") ? asal.GetColor("_BaseColor") : asal.HasProperty("_Color") ? asal.GetColor("_Color") : Color.gray;
+            string id = tex != null ? Path.GetFileNameWithoutExtension(AssetDatabase.GetAssetPath(tex)) : "Warna_" + Bersih(namaAsal);
+            if (warnaHex != "FFFFFF") id += "_" + warnaHex;
+            string jalurMat = $"{akar}/Bahan_{id}.mat";
             var mat = AssetDatabase.LoadAssetAtPath<Material>(jalurMat);
             if (mat == null)
             {
                 mat = new Material(Shader.Find("Universal Render Pipeline/Lit"));
                 AssetDatabase.CreateAsset(mat, jalurMat);
             }
-            mat.SetTexture("_BaseMap", tex);
-            mat.SetColor("_BaseColor", PembuatRig.Hex(warnaHex));
+            mat.SetColor("_BaseColor", warna);
             mat.SetFloat("_Smoothness", 0f);
+            mat.SetTexture("_BaseMap", tex);
+            if (tex != null)
+            {
+                string jalurTex = AssetDatabase.GetAssetPath(tex);
+                SetelTeksturProps(jalurTex, false, true);
+                string awalan = Awalan(Path.GetFileNameWithoutExtension(jalurTex));
+                string dir = Path.GetDirectoryName(jalurTex).Replace('\\', '/');
+                Peta(mat, Cari(semua, dir, awalan, "normal"), "_BumpMap", "_NORMALMAP", true);
+                Peta(mat, Cari(semua, dir, awalan, "metal"), "_MetallicGlossMap", "_METALLICSPECGLOSSMAP", false);
+                Peta(mat, Cari(semua, dir, awalan, "ao", "occlusion"), "_OcclusionMap", "_OCCLUSIONMAP", false);
+            }
             EditorUtility.SetDirty(mat);
-            foreach (var r in g.GetComponentsInChildren<Renderer>())
-                r.sharedMaterials = System.Array.ConvertAll(r.sharedMaterials, _ => mat);
+            return mat;
+        }
+
+        static void Peta(Material mat, string jalur, string slot, string keyword, bool normal)
+        {
+            if (jalur == null) { mat.SetTexture(slot, null); mat.DisableKeyword(keyword); return; }
+            SetelTeksturProps(jalur, normal, false);
+            mat.SetTexture(slot, AssetDatabase.LoadAssetAtPath<Texture2D>(jalur));
+            mat.EnableKeyword(keyword);
+        }
+
+        // Peta pendamping di folder yang sama: awalan sama dan nama memuat salah satu kata (mis. "_Normal", "_AO").
+        static string Cari(string[] semua, string dir, string awalan, params string[] kata) => semua.FirstOrDefault(j =>
+        {
+            if (Path.GetDirectoryName(j).Replace('\\', '/') != dir) return false;
+            string n = Path.GetFileNameWithoutExtension(j);
+            if (!Bersih(n).StartsWith(awalan)) return false;
+            string sisa = n.ToLower().Substring(Math.Min(n.Length, awalan.Length));
+            return kata.Any(k => k == "ao" ? System.Text.RegularExpressions.Regex.IsMatch(sisa, @"(^|[_\s.-])(mixed_)?ao($|[_\s.-])") : sisa.Contains(k))
+                && !(kata[0] == "normal" && sisa.Contains("normaldx") && semua.Any(o => o.ToLower().Contains(awalan) && o.ToLower().Contains("normalgl")));
+        });
+
+        static string Bersih(string s) => new string(s.ToLower().Where(char.IsLetterOrDigit).ToArray());
+
+        // "phong1_Base_Color" -> "phong1"; "Wood027_2K_Color" -> "wood0272k".
+        static string Awalan(string namaTex)
+        {
+            string n = namaTex.ToLower();
+            foreach (var k in KataWarna)
+            {
+                int i = n.LastIndexOf(k);
+                if (i > 0) return Bersih(namaTex.Substring(0, i));
+            }
+            return Bersih(namaTex);
+        }
+
+        // Tekstur props tidak ikut turun ke 256 px PSX: resolusi asli dibatasi 1024 px, filter bilinear (efek PSX layar tetap).
+        internal const int UkuranProps = 1024;
+
+        internal static bool TeksturProps(string jalur) => FolderProps.Any(f => jalur.StartsWith(Props + f + "/"));
+
+        static readonly string[] FolderProps =
+        {
+            "gapura", "well-building-sumur", "low-poly-ladder", "voodoo-doll", "door-padlock-key", "power-outlet-light-switch",
+            "antique-wall-clock", "wooden-wardrobe", "tools-asset", "led-tv", "water-dispenser", "plastic-chair", "lampu-plafon",
+            "bohlam", "toilet", "sink-set", "bathroom_accesories", "wooden-kitchen-table-chair", "teapot", "kitchen-decor-pack",
+            "carpet", "window-curtains", "wooden-cabinet", "candle-low", "low-poly-door", "pintu-kamar-mandi", "kulkas-fridge",
+            "gas-lpg-3kg", "kompor-gas-rinnai", "charger", "simple-wood-fence", "wooden-window", "photo-frame",
+        };
+
+        static void SetelTeksturProps(string jalur, bool normal, bool srgb)
+        {
+            if (!TeksturProps(jalur) || AssetImporter.GetAtPath(jalur) is not TextureImporter imp) return;
+            var tipe = normal ? TextureImporterType.NormalMap : TextureImporterType.Default;
+            bool srgbAkhir = !normal && srgb;
+            if (imp.maxTextureSize == UkuranProps && imp.filterMode == FilterMode.Bilinear && imp.mipmapEnabled
+                && imp.textureType == tipe && imp.sRGBTexture == srgbAkhir) return;
+            imp.maxTextureSize = UkuranProps;
+            imp.filterMode = FilterMode.Bilinear;
+            imp.mipmapEnabled = true;
+            imp.textureType = tipe;
+            imp.sRGBTexture = srgbAkhir;
+            imp.SaveAndReimport();
         }
 
         // Jumlah segitiga per prefab Asli, untuk mencatat model berat (Global Constraints).

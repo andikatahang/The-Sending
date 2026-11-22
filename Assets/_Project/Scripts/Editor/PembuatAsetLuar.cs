@@ -31,6 +31,7 @@ namespace TheSending.EditorTools
             {
                 var jalur = AssetDatabase.GUIDToAssetPath(guid);
                 if (AssetImporter.GetAtPath(jalur) is not TextureImporter imp) continue;
+                if (PembuatAsetAsli.TeksturProps(jalur)) continue;   // props: resolusi asli <= 1024 (PembuatAsetAsli.Bahan)
                 const int maks = PrasetelTeksturPsx.UkuranMaks; // daun pohon juga 256: sudah dicek di pratinjau, masih terbaca
                 if (imp.maxTextureSize == maks && imp.filterMode == FilterMode.Point && !imp.mipmapEnabled) continue;
                 PrasetelTeksturPsx.Terapkan(imp, maks);

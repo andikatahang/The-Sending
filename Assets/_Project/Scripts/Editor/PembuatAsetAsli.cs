@@ -193,11 +193,15 @@ namespace TheSending.EditorTools
         static void Saring(Transform model, string[] hanya, string jalur)
         {
             var ada = new List<string>();
+            var atas = hanya.Select(h => h.Split('/')[0]).ToArray();
             for (int i = model.childCount - 1; i >= 0; i--)
             {
                 var anak = model.GetChild(i);
                 ada.Add(anak.name);
-                if (Array.IndexOf(hanya, anak.name) < 0) Object.DestroyImmediate(anak.gameObject);
+                if (Array.IndexOf(atas, anak.name) < 0) { Object.DestroyImmediate(anak.gameObject); continue; }
+                // "induk/anak": di dalam induk itu hanya anak yang disebut yang disimpan.
+                var dalam = hanya.Where(h => h.StartsWith(anak.name + "/")).Select(h => h.Substring(anak.name.Length + 1)).ToArray();
+                if (dalam.Length > 0) Saring(anak, dalam, jalur);
             }
             if (model.childCount == 0)
                 throw new InvalidOperationException($"{jalur}: tidak ada anak bernama {string.Join(", ", hanya)}. Anak yang ada: {string.Join(", ", ada)}");

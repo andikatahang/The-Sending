@@ -113,7 +113,7 @@ namespace TheSending.EditorTools
         static void KamarLaras(GameObject sutradara, AlurMalam5 alur)
         {
             var g = Logika("PintuKamarLaras", new Vector3(3f, 0f, 6f), new Vector3(0.1f, 2.1f, 1f));
-            Balok("DaunPintuLaras", new Vector3(3f, 1.05f, 6f), new Vector3(0.06f, 2.1f, 1f), "KayuGelap").transform.SetParent(g.transform, true);
+            Balok("DaunPintuLaras", new Vector3(3f, 1.05f, 6.0001f), new Vector3(0.06f, 2.1f, 0.8780679f), "KayuGelap").transform.SetParent(g.transform, true);   // ukuran: edit manual tim
             var pintu = g.AddComponent<InteraktifAlur>();
             SetTeks(pintu, "prompt", "Ketuk pintu kamar Laras");
             Set(alur, "pintuLaras", pintu);
