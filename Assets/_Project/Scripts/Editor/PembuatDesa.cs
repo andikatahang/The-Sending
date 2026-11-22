@@ -308,8 +308,8 @@ namespace TheSending.EditorTools
             var pos = new GameObject("PosRonda Malam 4");
             PembuatPengganti.Pasang("PosRonda", null, new Vector3(-4.5f, 0f, 88f), 90f);
             PembuatPengganti.Pasang("Kentongan", null, new Vector3(-3.05f, 1.6f, 87f), 90f);
-            PembuatPengganti.Pasang("KursiPlastik", null, new Vector3(-3.3f, 0f, 87.5f), 90f);
-            PembuatPengganti.Pasang("KursiPlastik", null, new Vector3(-3.3f, 0f, 89f), 90f);
+            PembuatPengganti.Pasang("KursiPlastik", null, new Vector3(-3.3f, 0f, 87.5f), -90f);   // menghadap pos (-X)
+            PembuatPengganti.Pasang("KursiPlastik", null, new Vector3(-3.3f, 0f, 89f), -90f);   // menghadap pos (-X)
             var joko = Logika("PakJoko", new Vector3(-2.6f, 0f, 88.6f), new Vector3(0.6f, 1.8f, 0.6f));
             joko.transform.SetParent(pos.transform, true);
             PembuatPengganti.Pasang("PakJoko", joko.transform, Vector3.zero, 90f);

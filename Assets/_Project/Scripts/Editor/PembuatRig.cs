@@ -141,7 +141,7 @@ namespace TheSending.EditorTools
             return klip;
         }
 
-        static AudioMixerGroup GrupMixer(string grup)
+        internal static AudioMixerGroup GrupMixer(string grup)
         {
             var mixer = AssetDatabase.LoadAssetAtPath<AudioMixer>(JalurMixer)
                 ?? throw new FileNotFoundException($"{JalurMixer} belum ada (dibuat tim di 0C).");

@@ -183,8 +183,8 @@ namespace TheSending.EditorTools
         // ruang tengah, lemari pakaian di dinding barat untuk bersembunyi, kamar Raka sebagai tujuan.
         static SosokSantet Sembunyi(Rig rig, AlurMalam2 alur)
         {
-            var lemari = Persembunyian(rig, "LemariPakaian", new Vector3(-2.65f, 0f, 4.8f), new Vector3(0.6f, 2f, 1f), "Bersembunyi di lemari",
-                Titik("DalamLemari", new Vector3(-2.65f, 0.05f, 4.8f), new Vector3(0f, 0.05f, 4.8f)),
+            var lemari = Persembunyian(rig, "LemariPakaian", new Vector3(-2.55f, 0f, 4.8f), new Vector3(0.6f, 2f, 1f), "Bersembunyi di lemari",
+                Titik("DalamLemari", new Vector3(-2.55f, 0.05f, 4.8f), new Vector3(0f, 0.05f, 4.8f)),
                 Titik("KeluarLemari", new Vector3(-1.9f, 0.05f, 4.8f), new Vector3(0f, 0.05f, 4.8f)), "LemariPakaian", 90f);
             DindingDalamLemari(lemari.transform);
             Set(alur, "titikKamarLaras", Titik("TitikKamarLaras", new Vector3(6f, 0.05f, 6.5f), new Vector3(3f, 0.05f, 6f)));
@@ -230,12 +230,13 @@ namespace TheSending.EditorTools
         {
             (Vector3 pusat, Vector3 ukuran)[] sisi =
             {
-                (new Vector3(-0.27f, 1f, 0f), new Vector3(0.02f, 2f, 0.96f)),          // belakang
-                (new Vector3(0f, 1f, -0.48f), new Vector3(0.56f, 2f, 0.02f)),          // kiri
-                (new Vector3(0f, 1f, 0.48f), new Vector3(0.56f, 2f, 0.02f)),           // kanan
-                (new Vector3(0f, 1.97f, 0f), new Vector3(0.56f, 0.02f, 0.96f)),        // atap
-                (new Vector3(0.28f, 1f, -0.255f), new Vector3(0.02f, 1.96f, 0.43f)),   // daun pintu
-                (new Vector3(0.28f, 1f, 0.255f), new Vector3(0.02f, 1.96f, 0.43f)),
+                // Di dalam model lemari (tinggi 1,85 m, dalam 0,77 m, lebar 1,24 m).
+                (new Vector3(-0.27f, 0.9f, 0f), new Vector3(0.02f, 1.8f, 0.96f)),        // belakang
+                (new Vector3(0f, 0.9f, -0.48f), new Vector3(0.56f, 1.8f, 0.02f)),        // kiri
+                (new Vector3(0f, 0.9f, 0.48f), new Vector3(0.56f, 1.8f, 0.02f)),         // kanan
+                (new Vector3(0f, 1.79f, 0f), new Vector3(0.56f, 0.02f, 0.96f)),          // atap
+                (new Vector3(0.28f, 0.9f, -0.255f), new Vector3(0.02f, 1.76f, 0.43f)),   // daun pintu
+                (new Vector3(0.28f, 0.9f, 0.255f), new Vector3(0.02f, 1.76f, 0.43f)),
             };
             foreach (var (pusat, ukuran) in sisi)
             {

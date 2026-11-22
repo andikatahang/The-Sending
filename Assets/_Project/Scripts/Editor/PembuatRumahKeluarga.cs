@@ -189,7 +189,7 @@ namespace TheSending.EditorTools
             Balok("DindingMandiTimur", new Vector3(6.915f, 0.75f, 2f), new Vector3(0.02f, 1.5f, 3.85f), "DindingMandi");
             Balok("DindingMandiSelatan", new Vector3(5f, 0.75f, 0.085f), new Vector3(3.85f, 1.5f, 0.02f), "DindingMandi");
             PembuatPengganti.Pasang("Kloset", null, new Vector3(6.6f, 0f, 3.2f), -90f);
-            PembuatPengganti.Pasang("Wastafel", null, new Vector3(4.2f, 0f, 3.75f), 180f);
+            PembuatPengganti.Pasang("Wastafel", null, new Vector3(4.2f, 0f, 3.62f), 180f);
             PembuatPengganti.Pasang("AksesorisMandi", null, new Vector3(4.2f, 1.2f, 3.88f), 180f);
             PembuatPengganti.Pasang("Bohlam", null, new Vector3(5f, Tinggi - 0.3f, 2f));
 
@@ -217,12 +217,41 @@ namespace TheSending.EditorTools
             PembuatPengganti.Pasang("Lemari", null, new Vector3(-4.2f, 0f, 3.7f), 180f);
             PembuatPengganti.Pasang("Lilin", null, new Vector3(4.6f, Atas(laci), 4.33f));
 
-            // Daun pintu terbuka menempel sekat di dalam ruangan (D3). Gudang dilewati: PintuGudang terkunci di Malam 0-2.
-            PembuatPengganti.Pasang("DaunPintu", null, new Vector3(-3.1f, 0f, 2.95f), 90f);   // kamar Raka
-            PembuatPengganti.Pasang("DaunPintu", null, new Vector3(-3.1f, 0f, 6.95f), 90f);   // kamar Ibu
-            PembuatPengganti.Pasang("DaunPintuMandi", null, new Vector3(3.1f, 0f, 2.95f), 90f);   // kamar mandi
-            PembuatPengganti.Pasang("DaunPintu", null, new Vector3(3.1f, 0f, 6.95f), 90f);    // kamar Laras
-            PembuatPengganti.Pasang("DaunPintu", null, new Vector3(1.05f, 0f, 8.1f));         // dapur
+            // Pintu kamar berengsel (PintuKamar, E buka/tutup, mulai terbuka 90° ke dalam kamar). Gudang dilewati: PintuGudang
+            // terkunci di Malam 0-2. Engsel di tepi celah; daun tertutup memanjang ke `tutup`, membuka ke arah `buka`.
+            PintuKamar("PintuKamarRaka", "DaunPintu", new Vector3(-3f, 0f, 2.5f), Vector3.back, Vector3.left, 1f);
+            PintuKamar("PintuKamarIbu", "DaunPintu", new Vector3(-3f, 0f, 6.5f), Vector3.back, Vector3.left, 1f);
+            PintuKamar("PintuKamarMandi", "DaunPintuMandi", new Vector3(3f, 0f, 2.5f), Vector3.back, Vector3.right, 1f);
+            PintuKamar("PintuKamarLaras", "DaunPintu", new Vector3(3f, 0f, 6.5f), Vector3.back, Vector3.right, 1f);
+            PintuKamar("PintuDapur", "DaunPintu", new Vector3(0.6f, 0f, 8f), Vector3.left, Vector3.forward, 1.2f);
+        }
+
+        // Daun pintu `prefab` dilebarkan pas `lebar` celah; collider padat (bukan trigger) supaya bisa dibidik E dan menghalangi
+        // saat tertutup. Derit: Audio/SFX/PintuBerderit jika ada (belum ada = senyap).
+        static void PintuKamar(string nama, string prefab, Vector3 engsel, Vector3 tutup, Vector3 buka, float lebar)
+        {
+            var g = new GameObject(nama);
+            g.transform.SetPositionAndRotation(engsel, Quaternion.FromToRotation(Vector3.right, tutup));
+            var daun = PembuatPengganti.Pasang(prefab, g.transform, new Vector3(lebar / 2f, 0f, 0f), 180f);   // gagang jauh dari engsel
+            var rs = daun.GetComponentsInChildren<Renderer>();
+            var b = rs[0].bounds;
+            foreach (var r in rs) b.Encapsulate(r.bounds);
+            daun.transform.localScale = new Vector3(lebar / b.size.x, 1f, 1f);
+            var kotak = g.AddComponent<BoxCollider>();
+            kotak.center = new Vector3(lebar / 2f, b.size.y / 2f, 0f);
+            kotak.size = new Vector3(lebar, b.size.y, 0.06f);
+            var pintu = g.AddComponent<PintuKamar>();
+            var so = new SerializedObject(pintu);
+            so.FindProperty("sudutBuka").floatValue = g.transform.InverseTransformDirection(buka).z > 0f ? -90f : 90f;
+            so.ApplyModifiedPropertiesWithoutUndo();
+            var derit = g.AddComponent<AudioSource>();
+            derit.playOnAwake = false;
+            derit.spatialBlend = 1f;
+            derit.maxDistance = 14f;
+            derit.rolloffMode = AudioRolloffMode.Linear;
+            derit.outputAudioMixerGroup = GrupMixer("SFX");
+            derit.clip = PembuatPengganti.Klip(Sfx, "PintuBerderit");
+            Set(pintu, "derit", derit);
         }
 
         const float AtasMejaCor = 0.85f;

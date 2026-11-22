@@ -340,9 +340,10 @@ namespace TheSending.EditorTools
             Badan(r, -7f, 7f, -12f, 0f, tinggi, "KayuTua", "Gedek");
             Bingkai(r, new Vector3(0f, 1.05f, 0.27f), 1.1f, 2.1f);
             Taruh(Kit + "pd4.prefab", r, new Vector3(0f, 2.3f, 0.05f), new Vector3(1.1f, 0.45f, 0.06f), 0f);
-            foreach (float x in new[] { -4f, 4f })
+            // Empat jendela dekat pintu (dua kiri, dua kanan); tepi dalam 0,77 m dari tengah, kusen pintu sampai 0,63 m.
+            foreach (float x in new[] { -2.65f, -1.35f, 1.35f, 2.65f })
             {
-                Kotak(r, "KacaJendela", "Gelap", new Vector3(x, 1.5f, 0.01f), new Vector3(1.0f, 1.0f, 0.02f), false);
+                Kotak(r, "KacaJendela", "Gelap", new Vector3(x, 1.43f, 0.01f), new Vector3(1.0f, 0.9f, 0.02f), false);
                 JendelaKayu(r, new Vector3(x, 0.92f, 0.06f));
             }
             // Emper: lantai keramik, empat tiang, pagar kisi di kiri-kanan, atap sorong.
@@ -355,9 +356,18 @@ namespace TheSending.EditorTools
             emper.Segiempat(new Vector3(-4.4f, 2.95f, 0f), new Vector3(4.4f, 2.95f, 0f), new Vector3(4.4f, 2.5f, 2.4f), new Vector3(-4.4f, 2.5f, 2.4f));
             Pasang(r, "AtapEmper", emper.Simpan("AtapEmper"), "Atap");
             Kayu(Seragam(PaketLampu + "Small roof lamp/Small_roof_lamp.FBX", r, new Vector3(0f, 2.55f, 1.0f), 0.3f), "Logam");
-            // Meja dan kursi teras di pojok barat berpagar (x -3,4..-2,2), di luar jalur pintu (x -1,6..1,6).
-            Bahan(Taruh(Props + "wooden-kitchen-table-chair/source/Table_and_Chair.fbx", r, new Vector3(-2.8f, 0.05f, 1.0f),
-                new Vector3(1.2f, 0.95f, 1.2f), 0f, collider: true), "wooden-kitchen-table-chair", "textures/Table_BaseColor.png");
+            // Dua kursi kayu tunggal menghadap jalan (+Z) di sisi kanan teras dilihat dari jalan (x -3,4 dan -2,6), jauh dari
+            // jalur pintu (x -1,6..1,6). "Chair" dari set meja makan (ukuran asli 0,50 x 0,85 x 0,52 m, menghadap +Z).
+            foreach (float x in new[] { -3.3f, -2.5f })
+            {
+                var kursi = Nyata(Props + "wooden-kitchen-table-chair/source/Table_and_Chair.fbx", r, new Vector3(x, 0.05f, 1.0f), 1, 0.845f,
+                    hanya: new[] { "Chair" });
+                Bahan(kursi, "wooden-kitchen-table-chair", "textures/Table_BaseColor.png");
+                var b = Batas(kursi.transform);
+                var kotak = kursi.AddComponent<BoxCollider>();
+                kotak.center = kursi.transform.InverseTransformPoint(b.center);
+                kotak.size = b.size / kursi.transform.lossyScale.x;
+            }
             Atap(r, "AtapRumahKeluarga", new Vector3(0f, tinggi, -6f), 7.6f, 6.6f, 1.8f);
         }
 
