@@ -36,7 +36,6 @@ Catat setiap aset pihak ketiga di sini saat dimasukkan ke proyek. Aset berlisens
 | Obor, ApiBesar, AsapHitam, PuingRumahKecil, Warga3-5, PakJoko_Obor (pengganti Fase 6) | `Assets/_Project/Prefabs/Pengganti/` | Tim The Sending (dibuat skrip `PembuatPengganti`) | — | Buatan sendiri | Tidak |
 | Bathroom accesories (kamar mandi rumah keluarga) | `Assets/_Project/Art/ThirdParty/bathroom_accesories/` | gorzi | https://sketchfab.com/3d-models/bathroom-accesories-1103528bef074721a5a54d1a60ea56ab | CC-BY-4.0 | Ya |
 | Teapot (dapur, rumah Bu Sumi) | `Assets/_Project/Art/ThirdParty/teapot/` | ksa2030 | https://sketchfab.com/3d-models/teapot-2218240dae8e4e8dba9f51c0cc78301c | CC-BY-4.0 | Ya |
-| Kitchen Cabinets (dapur) | `Assets/_Project/Art/ThirdParty/wooden-kitchen-cabinet/` | jimbogies | https://sketchfab.com/3d-models/kitchen-cabinets-5926fa64fcaa498c818682990db3df27 | CC-BY-4.0 | Ya |
 | Jam dinding antik | `Assets/_Project/Art/ThirdParty/antique-wall-clock/` | cek lisensi (isi tim) | cek lisensi (isi tim) | cek lisensi (isi tim) | **(isi)** |
 | Lilin (dekor rumah Bu Sumi, makam) | `Assets/_Project/Art/ThirdParty/candle-low/` | cek lisensi (isi tim) | cek lisensi (isi tim) | cek lisensi (isi tim) | **(isi)** |
 | Karpet | `Assets/_Project/Art/ThirdParty/carpet/` | cek lisensi (isi tim) | cek lisensi (isi tim) | cek lisensi (isi tim) | **(isi)** |
@@ -59,7 +58,13 @@ Catat setiap aset pihak ketiga di sini saat dimasukkan ke proyek. Aset berlisens
 | Gorden | `Assets/_Project/Art/ThirdParty/window-curtains/` | cek lisensi (isi tim) | cek lisensi (isi tim) | cek lisensi (isi tim) | **(isi)** |
 | Lemari | `Assets/_Project/Art/ThirdParty/wooden-cabinet/` | cek lisensi (isi tim) | cek lisensi (isi tim) | cek lisensi (isi tim) | **(isi)** |
 | Meja makan | `Assets/_Project/Art/ThirdParty/wooden-kitchen-table-chair/` | cek lisensi (isi tim) | cek lisensi (isi tim) | cek lisensi (isi tim) | **(isi)** |
-| Tangga kayu | `Assets/_Project/Art/ThirdParty/wooden-ladder/` | cek lisensi (isi tim) | cek lisensi (isi tim) | cek lisensi (isi tim) | **(isi)** |
+| Tangga kayu (low-poly-ladder) | `Assets/_Project/Art/ThirdParty/low-poly-ladder/` | cek lisensi (isi tim) | cek lisensi (isi tim) | cek lisensi (isi tim) | **(isi)** |
+| Tabung gas LPG 3 kg (dapur) | `Assets/_Project/Art/ThirdParty/gas-lpg-3kg/` | cek lisensi (isi tim) | cek lisensi (isi tim) | cek lisensi (isi tim) | **(isi)** |
+| Kompor gas Rinnai (dapur, SketchUp) | `Assets/_Project/Art/ThirdParty/kompor-gas-rinnai/` | cek lisensi (isi tim) | cek lisensi (isi tim) | cek lisensi (isi tim) | **(isi)** |
+| Daun pintu kamar mandi | `Assets/_Project/Art/ThirdParty/pintu-kamar-mandi/` | cek lisensi (isi tim) | cek lisensi (isi tim) | cek lisensi (isi tim) | **(isi)** |
+| Kulkas dapur (Fridge.fbx) | `Assets/_Project/Art/ThirdParty/kulkas-fridge/` | cek lisensi (isi tim) | cek lisensi (isi tim) | cek lisensi (isi tim) | **(isi)** |
+| Pengisi HP (charge.fbx) | `Assets/_Project/Art/ThirdParty/charger/` | cek lisensi (isi tim) | cek lisensi (isi tim) | cek lisensi (isi tim) | **(isi)** |
+| Bingkai foto keluarga (Frames.FBX) | `Assets/_Project/Art/ThirdParty/photo-frame/` | cek lisensi (isi tim) | cek lisensi (isi tim) | cek lisensi (isi tim) | **(isi)** |
 | Lemari pakaian (persembunyian) | `Assets/_Project/Art/ThirdParty/wooden-wardrobe/` | cek lisensi (isi tim) | cek lisensi (isi tim) | cek lisensi (isi tim) | **(isi)** |
 | Jendela kayu | `Assets/_Project/Art/ThirdParty/wooden-window/` | cek lisensi (isi tim) | cek lisensi (isi tim) | cek lisensi (isi tim) | **(isi)** |
 | Remote TV, foto keluarga, toilet-wall, floor-tile-toilet | `Assets/_Project/Art/ThirdParty/props-lepas/` | cek lisensi (isi tim) | cek lisensi (isi tim) | cek lisensi (isi tim) | **(isi)** |

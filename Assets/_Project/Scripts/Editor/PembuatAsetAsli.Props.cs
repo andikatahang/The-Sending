@@ -19,8 +19,8 @@ namespace TheSending.EditorTools
                 new Vector3(1.3f, 2.4f, 1.3f), 0f), "well-building-sumur", "textures/Diffuse_Bake.jpg"), false);
             Prefab("Sumur", r => Bahan(Taruh(Props + "well-building-sumur/source/Sumur_Baked.fbx", r, Vector3.zero,
                 new Vector3(1.3f, 2.4f, 1.3f), 0f), "well-building-sumur", "textures/Diffuse_Bake.jpg"), false);
-            Prefab("TanggaBambu", r => Bahan(Taruh(Props + "wooden-ladder/source/Ladder Wooden.fbx", r, Vector3.zero,
-                new Vector3(0.6f, 2.5f, 0.15f), 0f), "wooden-ladder", "textures/Ladder_Wooden_BaseColor.png"), false);
+            Prefab("TanggaBambu", r => Bahan(Taruh(Props + "low-poly-ladder/source/ladr.fbx", r, Vector3.zero,
+                new Vector3(0.6f, 2.5f, 0.15f), 0f, putarX: -90f), "low-poly-ladder", "textures/towercolours4.png"), false);   // FBX sumbu Z ke atas
             Prefab("Boneka", r => Bahan(Taruh(Props + "voodoo-doll/source/Doll(stab).fbx", r, Vector3.zero,
                 new Vector3(0.3f, 0.12f, 0.4f), 0f), "voodoo-doll", "textures/voodoo_-_base.jpg"), false);
             Prefab("Gembok", r => Bahan(Taruh(Props + "door-padlock-key/source/padlock.fbx", r, Vector3.zero,
@@ -53,7 +53,6 @@ namespace TheSending.EditorTools
             Prefab("Wastafel", r => Bahan(Taruh(Props + "sink-set/source/sink2.fbx", r, Vector3.zero, new Vector3(0.55f, 0.85f, 0.45f), 0f),
                 "sink-set", "textures/Fabric020_1K_Color.jpeg"), false);
             Prefab("AksesorisMandi", r => Taruh(Props + "bathroom_accesories/scene.gltf", r, Vector3.zero, new Vector3(0.5f, 0.3f, 0.2f), 0f), false);
-            Prefab("LemariDapur", r => Taruh(Props + "wooden-kitchen-cabinet/scene.gltf", r, Vector3.zero, new Vector3(1.6f, 0.9f, 0.6f), 0f), true);
             Prefab("MejaMakan", r => Bahan(Taruh(Props + "wooden-kitchen-table-chair/source/Table_and_Chair.fbx", r, Vector3.zero,
                 new Vector3(1.2f, 0.95f, 1.2f), 0f), "wooden-kitchen-table-chair", "textures/Table_BaseColor.png"), true);
             Prefab("TekoTeh", r => Taruh(Props + "teapot/scene.gltf", r, Vector3.zero, new Vector3(0.22f, 0.16f, 0.15f), 0f), false);
@@ -76,6 +75,20 @@ namespace TheSending.EditorTools
             Prefab("DaunPintu", r => Bahan(Taruh(Props + "low-poly-door/source/PortalDoor.fbx", r, Vector3.zero, new Vector3(0.9f, 2.05f, 0.05f), 0f),
                 "low-poly-door", "textures/Wood027_2K_Color.jpeg"), false);
 
+            Prefab("DaunPintuMandi", r => Bahan(Taruh(Props + "pintu-kamar-mandi/source/Pintu Kamar Mandi.fbx", r, Vector3.zero,
+                new Vector3(0.9f, 2.05f, 0.05f), 0f), "pintu-kamar-mandi", "textures/pintu kamar mandi.png"), false);
+
+            // --- Dapur cor (dapur-L): kulkas, tabung LPG di rongga meja, kompor di atasnya, pengisi HP di stop kontak. ---
+            Prefab("Kulkas", r => Kayu(Taruh(Props + "kulkas-fridge/Fridge.fbx", r, Vector3.zero, new Vector3(0.6f, 1.45f, 0.6f), 0f,
+                putarX: -90f), "Kertas"), true);
+            // Tulisan timbul dan katup rinci (sekitar 26k segitiga) dibuang.
+            Prefab("TabungGas", r => Bahan(Taruh(Props + "gas-lpg-3kg/source/gasssskeyn.obj", r, Vector3.zero, new Vector3(0.28f, 0.5f, 0.28f), 0f,
+                hanya: new[] { "g_Capsule01_Capsule01", "g_ChamferBox03_ChamferBox03", "g_Cylinder31_Cylinder31", "g_Torus10_Torus10", "g_Sphere102_Sphere102" }),
+                "gas-lpg-3kg", "textures/wire_088177027_Base_Color.png"), false);
+            Prefab("KomporGas", r => Kayu(Taruh(Props + "kompor-gas-rinnai/Kompor-Gas-Rinnai.skp", r, Vector3.zero, new Vector3(0.7f, 0.12f, 0.4f), 0f), "Logam"), false);
+            Prefab("PengisiHp", r => Kayu(Taruh(Props + "charger/charge.fbx", r, Vector3.zero, new Vector3(0.04f, 0.06f, 0.035f), 0f,
+                hanya: new[] { "Cube", "Cube.001", "Cube.002" }), "Kertas"), false);   // kabel spiral (42k segitiga) dibuang
+
             // --- Scene lain (Task 4) --- Pagar dekor tanpa collider: batas tak terlihat di scene yang membatasi.
             Prefab("PagarKayu", r => Bahan(Seragam(Props + "simple-wood-fence/source/Simple Wood Fence/model/obj/fance.obj", r, Vector3.zero, 2f),
                 "simple-wood-fence", "textures/Diffuse.png"), false);   // panjang 2 m per segmen
@@ -88,17 +101,17 @@ namespace TheSending.EditorTools
         static void PintuKayu(Transform r, Vector3 alas) => Bahan(Taruh(Props + "low-poly-door/source/PortalDoor.fbx", r, alas,
             new Vector3(1.06f, 2.08f, 0.1f), 0f), "low-poly-door", "textures/Wood027_2K_Color.jpeg");
 
-        // Bingkai kayu + foto (props-lepas/foto-keluarga.jpg). Titik nol di tengah seperti pengganti (0,6 x 0,45 x 0,04).
+        // Bingkai photo-frame + foto (props-lepas/foto-keluarga.jpg). Titik nol di tengah seperti pengganti (0,6 x 0,45 x 0,04).
         static void FotoKeluarga(Transform r)
         {
-            Kotak(r, "Bingkai", "KayuGelap", Vector3.zero, new Vector3(0.6f, 0.45f, 0.04f), false);
+            Kayu(Taruh(Props + "photo-frame/Frames.FBX", r, new Vector3(0f, -0.225f, 0f), new Vector3(0.6f, 0.45f, 0.04f), 0f), "KayuGelap");
             var foto = GameObject.CreatePrimitive(PrimitiveType.Quad);
             Object.DestroyImmediate(foto.GetComponent<Collider>());
             foto.name = "Foto";
             foto.transform.SetParent(r, false);
             foto.transform.localPosition = new Vector3(0f, 0f, 0.021f);   // sisi +Z; pengganti diputar 180° di pembuat
             foto.transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
-            foto.transform.localScale = new Vector3(0.52f, 0.37f, 1f);
+            foto.transform.localScale = new Vector3(0.57f, 0.41f, 1f);   // bingkai vendor tipis
             Bahan(foto, "props-lepas", "foto-keluarga.jpg");
         }
 
