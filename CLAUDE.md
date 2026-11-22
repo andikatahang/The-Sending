@@ -551,6 +551,8 @@ Prasyarat: editor dibuka setelah "Bangun Ulang Semua". Tombol uji F5/F6/F9 seper
 14. Gaya PSX sama di semua props (piksel tajam, tidak ada tekstur yang terlihat halus/tajam beresolusi tinggi atau mengkilap). Catat props yang tampak tidak cocok (terlalu modern, warna mencolok).
 15. Tidak ada error merah di Console di semua scene. Catat FPS kasar di rumah keluarga (props terberat: wastafel, aksesori mandi, dekor dapur, kompor).
 16. Build Windows (Fase 8): cek ulang FPS di laptop Windows di dapur dan kamar mandi.
+17. Luar rumah keluarga (Scene_Desa, Prolog dan Malam 3–6): dua jendela kayu di fasad (kiri-kanan pintu), lantai emper keramik putih, meja + kursi kayu di pojok barat emper (di balik pagar kisi), lampu teras menyala hangat. Pintu "Masuk rumah" tetap bisa di-E, jalan dari titik muncul ke pintu tidak terhalang, meja tidak melayang/tenggelam.
+18. Lantai ruang tengah dan kamar di rumah keluarga: keramik putih kotak-kotak sekitar 35 cm, tidak terlalu terang di malam hari. Dapur tetap linoleum, kamar mandi tetap ubin, gudang tetap kayu. Bunyi langkah di keramik masih bunyi kayu (belum ada jenis `Keramik` di `JenisPermukaan`).
 
 Hasil cek: belum dicek (menunggu tim).
 
