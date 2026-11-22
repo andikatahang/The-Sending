@@ -21,7 +21,7 @@ namespace TheSending.Core
             new[] { Tang, "Tang", "Dari rak alat di gudang. Cukup kuat untuk mencabut paku." },
             new[] { TaliTambang, "Tali tambang", "Dipinjam dari pos ronda. Untuk kerekan sumur belakang." },
             new[] { Pengait, "Pengait besi", "Dari pos ronda. Menyangkutkan bungkusan di dasar sumur." },
-            new[] { TanggaBambu, "Tangga bambu", "Dari gudang. Untuk naik ke plafon dapur." },
+            new[] { TanggaBambu, "Tangga kayu", "Dari gudang. Untuk naik ke plafon dapur." },
             new[] { Pacul, "Pacul", "Dari gudang. Untuk menggali tanah di bawah pohon asem." },
             new[] { Galah, "Galah bambu", "Dari gudang. Cukup panjang untuk menggapai dahan tinggi." },
             new[] { TehHangat, "Teh hangat", "Dibuat di dapur. Untuk menenangkan Laras." },

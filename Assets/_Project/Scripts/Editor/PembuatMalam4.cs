@@ -7,7 +7,7 @@ using static TheSending.EditorTools.PembuatSandbox;
 namespace TheSending.EditorTools
 {
     // Isi Malam 4 di Scene_RumahKeluarga (dipanggil PembuatRumahKeluarga.Buat): sutradara AlurMalam4, sumur dan kerekan di
-    // pekarangan belakang (M3), loteng dapur dengan telur cemani (M4), tangga bambu di gudang, kalender Halaman 5, kejaran
+    // pekarangan belakang (M3), loteng dapur dengan telur cemani (M4), tangga kayu di gudang, kalender Halaman 5, kejaran
     // pertama (lolos = masuk pintu belakang dapur, K29-A), dua warga, dan pintu depan ke pos ronda. Jangan sunting scene dengan tangan.
     internal static class PembuatMalam4
     {
@@ -42,7 +42,7 @@ namespace TheSending.EditorTools
             PembuatPengganti.Pasang("TanggaBambu", tangga.transform, Vector3.zero);
             var ambil = tangga.AddComponent<AmbilBarang>();
             SetTeks(ambil, "barang", Inventaris.TanggaBambu);
-            SetTeks(ambil, "prompt", "Ambil tangga bambu");
+            SetTeks(ambil, "prompt", "Ambil tangga kayu");
             SetAngka(ambil, "dariMalam", 4);
 
             Loteng(rig, sutradara);

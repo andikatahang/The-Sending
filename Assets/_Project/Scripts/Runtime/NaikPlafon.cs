@@ -5,7 +5,7 @@ using UnityEngine;
 namespace TheSending.Runtime
 {
     // Malam 4 (K28-A): naik/turun plafon dapur dengan layar hitam singkat, tanpa animasi panjat.
-    // Butuh tangga bambu dari gudang. M4 di atas plafon diambil lewat Interaktif lain.
+    // Butuh tangga kayu dari gudang. M4 di atas plafon diambil lewat Interaktif lain.
     public class NaikPlafon : Interaktif
     {
         [SerializeField] Transform titikAtas, titikBawah;
@@ -31,7 +31,7 @@ namespace TheSending.Runtime
             }
             if (!Inventaris.Punya(GameManager.Instance.State, Inventaris.TanggaBambu))
             {
-                if (hud != null) hud.Tampilkan("Terlalu tinggi. Ambil tangga bambu di gudang.");
+                if (hud != null) hud.Tampilkan("Terlalu tinggi. Ambil tangga kayu di gudang.");
                 return;
             }
             kartu.StartCoroutine(Pindah());
