@@ -48,6 +48,11 @@ namespace TheSending.EditorTools
             Set(malam1, "dialogPenutup", PembuatDataFase1.Muat(PembuatDataFase1.PenutupMalam1));
 
             var (pintuGudang, pintuBelakang) = Bangunan();
+            // Kunci gudang hanya ada di Malam 2; mulai Malam 3 gudang selalu terbuka (pintunya tidak ada).
+            var gudangTerkunci = sutradara.AddComponent<AktifDiMalam>();
+            SetAngka(gudangTerkunci, "dari", 0);
+            SetAngka(gudangTerkunci, "sampai", 2);
+            SetSatuObjek(gudangTerkunci, "sasaran", pintuGudang.gameObject);
             var kalender = Perabot(rig);
             Ukiran(rig);
             SetDaftar(malam1, "lampuListrik", LampuListrik());
