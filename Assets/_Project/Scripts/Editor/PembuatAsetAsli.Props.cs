@@ -37,6 +37,45 @@ namespace TheSending.EditorTools
             Prefab("Tang", r => Bahan(Taruh(Props + "tools-asset/source/Tools.fbx", r, Vector3.zero, new Vector3(0.22f, 0.03f, 0.08f), 0f,
                 hanya: new[] { "Pliers" }), "tools-asset", "textures/PliersMat_baseColor.png"), false);
             Prefab("FotoKeluarga", FotoKeluarga, false);
+
+            // --- Dekor rumah keluarga (Task 3). Kulkas tidak dipakai (D5). ---
+            Prefab("TvLed", r => Bahan(Taruh(Props + "led-tv/source/led tv/led tv.fbx", r, Vector3.zero, new Vector3(0.9f, 0.55f, 0.15f), 0f),
+                "led-tv", "textures/phong1_Base_Color.jpeg"), false);
+            Prefab("RemoteTv", r => Taruh(Props + "props-lepas/tv_remote.glb", r, Vector3.zero, new Vector3(0.05f, 0.02f, 0.17f), 0f), false);
+            Prefab("Dispenser", r => Bahan(Taruh(Props + "water-dispenser/source/Waterdispenser.fbx", r, Vector3.zero,
+                new Vector3(0.32f, 1.1f, 0.32f), 0f), "water-dispenser", "textures/BakedWaterDispenser.png"), true);
+            Prefab("KursiPlastik", r => Taruh(Props + "plastic-chair/source/Plastic Chair.fbx", r, Vector3.zero, new Vector3(0.5f, 0.8f, 0.5f), 0f), true);
+            Prefab("Sakelar", r => Bahan(Taruh(Props + "power-outlet-light-switch/source/Untitled 2.fbx", r, Vector3.zero,
+                new Vector3(0.08f, 0.12f, 0.03f), 0f), "power-outlet-light-switch", "textures/BaseColor.png"), false);
+            Prefab("LampuPlafon", r => Kayu(Seragam(Props + "lampu-plafon/CeilingLightRound.fbx", r, Vector3.zero, 0.35f), "Kertas"), false);
+            Prefab("Bohlam", r => Kayu(Seragam(Props + "bohlam/BbLght.obj", r, Vector3.zero, 0.12f), "Kertas"), false);
+            Prefab("Kloset", r => Bahan(Taruh(Props + "toilet/source/Toilet.fbx", r, Vector3.zero, new Vector3(0.4f, 0.4f, 0.55f), 0f),
+                "toilet", "textures/Toilet_BaseColor.png"), true);
+            Prefab("Wastafel", r => Bahan(Taruh(Props + "sink-set/source/sink2.fbx", r, Vector3.zero, new Vector3(0.55f, 0.85f, 0.45f), 0f),
+                "sink-set", "textures/Fabric020_1K_Color.jpeg"), false);
+            Prefab("AksesorisMandi", r => Taruh(Props + "bathroom_accesories/scene.gltf", r, Vector3.zero, new Vector3(0.5f, 0.3f, 0.2f), 0f), false);
+            Prefab("LemariDapur", r => Taruh(Props + "wooden-kitchen-cabinet/scene.gltf", r, Vector3.zero, new Vector3(1.6f, 0.9f, 0.6f), 0f), true);
+            Prefab("MejaMakan", r => Bahan(Taruh(Props + "wooden-kitchen-table-chair/source/Table_and_Chair.fbx", r, Vector3.zero,
+                new Vector3(1.2f, 0.95f, 1.2f), 0f), "wooden-kitchen-table-chair", "textures/Table_BaseColor.png"), true);
+            Prefab("TekoTeh", r => Taruh(Props + "teapot/scene.gltf", r, Vector3.zero, new Vector3(0.22f, 0.16f, 0.15f), 0f), false);
+            Prefab("DekorDapur", r => Taruh(Props + "kitchen-decor-pack/source/KitchenDecorPack.fbx", r, Vector3.zero,
+                new Vector3(0.9f, 0.35f, 0.3f), 0f, hanya: new[] { "CuttingWood", "SpiceJars", "Plate", "TallSpiceBottles", "Bowl" }), false);
+            Prefab("Karpet", r => Bahan(Taruh(Props + "carpet/source/Carpet_Sketchfab.fbx", r, Vector3.zero, new Vector3(2f, 0.02f, 1.4f), 0f),
+                "carpet", "textures/TX_Carpet_0102_albedo.jpg"), false);
+            Prefab("Gorden", r =>
+            {
+                var g = Taruh(Props + "window-curtains/source/curtains-animated-512.glb", r, Vector3.zero, new Vector3(1.2f, 1.6f, 0.1f), 0f);
+                foreach (var a in g.GetComponentsInChildren<Animator>(true)) Object.DestroyImmediate(a);
+                foreach (var a in g.GetComponentsInChildren<Animation>(true)) Object.DestroyImmediate(a);
+                Bahan(g, "window-curtains", "textures/A23DTEX_Albedo_1.jpeg");
+            }, false);
+            Prefab("Lemari", r => Bahan(Taruh(Props + "wooden-cabinet/source/Cabinet_old.fbx", r, Vector3.zero, new Vector3(0.9f, 1.8f, 0.45f), 0f),
+                "wooden-cabinet", "textures/Wood_aged_Base_color.png"), true);
+            Prefab("Lilin", r => Bahan(Taruh(Props + "candle-low/source/CandleLow.fbx", r, Vector3.zero, new Vector3(0.05f, 0.15f, 0.05f), 0f),
+                "candle-low", "textures/Candle_Base_Color.png"), false);
+            // Daun pintu terbuka menempel dinding (D3): tanpa collider supaya tidak menghalangi NavMesh, pemain, dan raycast.
+            Prefab("DaunPintu", r => Bahan(Taruh(Props + "low-poly-door/source/PortalDoor.fbx", r, Vector3.zero, new Vector3(0.9f, 2.05f, 0.05f), 0f),
+                "low-poly-door", "textures/Wood027_2K_Color.jpeg"), false);
         }
 
         // Bingkai kayu + foto (props-lepas/foto-keluarga.jpg). Titik nol di tengah seperti pengganti (0,6 x 0,45 x 0,04).

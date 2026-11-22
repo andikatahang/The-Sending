@@ -56,6 +56,8 @@ namespace TheSending.EditorTools
             ("BatuPutih", TeksturBeton + "Plastered_d.tga", "A8A49A", 2f),          // gerbang makam, rumah Pakde
             ("Terakota", TeksturBeton + "Plastered_d.tga", "8A4430", 0.5f),        // kendi, pot bunga
             ("BambuKuning", TeksturAlam + "Bamboo_wood.png", "C8AA50", 1f),
+            ("UbinMandi", Pihak3 + "/props-lepas/floor-tile-toilet.jpg", "FFFFFF", 1f),
+            ("DindingMandi", Pihak3 + "/props-lepas/toilet-wall.jpg", "FFFFFF", 1f),
         };
 
         [MenuItem("The Sending/Buat Aset Asli")]

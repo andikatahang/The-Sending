@@ -174,10 +174,59 @@ namespace TheSending.EditorTools
             PembuatPengganti.Pasang("RanjangKayu", null, new Vector3(6.2f, 0f, 6f));
             PembuatPengganti.Pasang("Kabinet", null, new Vector3(5.35f, 0f, 5.25f));
             PembuatPengganti.Pasang("Laci", null, new Vector3(4.6f, 0f, 4.33f));
-            Balok("BakMandi", new Vector3(6.3f, 0.4f, 0.8f), new Vector3(1f, 0.8f, 1f), "Tanah");
             PembuatPengganti.Pasang("MejaKayu", null, new Vector3(-5f, 0f, 10.5f));
+            Dekor();
             return BendaDialog(rig, "Kalender", new Vector3(-1.5f, 1.25f, 8.13f), new Vector3(0.35f, 0.5f, 0.1f), 0f, true,
                 PembuatDataFase1.Muat(PembuatDataFase1.Kalender), "Lihat kalender").gameObject;
+        }
+
+        // Dekor tanpa interaksi (props). Semua >= 0,9 m dari garis tengah pintu, di luar zona terlarang anglo/pintu belakang/Sosok.
+        static void Dekor()
+        {
+            // Kamar mandi (x 3..7, z 0..4), pintu di x = 3, z 1,5-2,5. Ubin dinding 1 cm di depan muka dalam dinding luar.
+            Balok("BakMandi", new Vector3(6.3f, 0.4f, 0.8f), new Vector3(1f, 0.8f, 1f), "UbinMandi");
+            Balok("LantaiMandi", new Vector3(5f, 0.005f, 2f), new Vector3(3.9f, 0.01f, 3.9f), "UbinMandi");
+            Balok("DindingMandiTimur", new Vector3(6.915f, 0.75f, 2f), new Vector3(0.02f, 1.5f, 3.85f), "DindingMandi");
+            Balok("DindingMandiSelatan", new Vector3(5f, 0.75f, 0.085f), new Vector3(3.85f, 1.5f, 0.02f), "DindingMandi");
+            PembuatPengganti.Pasang("Kloset", null, new Vector3(6.6f, 0f, 3.2f), -90f);
+            PembuatPengganti.Pasang("Wastafel", null, new Vector3(4.2f, 0f, 3.75f), 180f);
+            PembuatPengganti.Pasang("AksesorisMandi", null, new Vector3(4.2f, 1.2f, 3.88f), 180f);
+            PembuatPengganti.Pasang("Bohlam", null, new Vector3(5f, Tinggi - 0.3f, 2f));
+
+            // Ruang tengah: TV di atas laci di dinding timur, karpet di depan sofa, sakelar dekat pintu depan.
+            PembuatPengganti.Pasang("Karpet", null, new Vector3(-1.95f, 0f, 1.6f));
+            var laci = PembuatPengganti.Pasang("Laci", null, new Vector3(2.7f, 0f, 1.0f), -90f);
+            PembuatPengganti.Pasang("TvLed", null, new Vector3(2.7f, Atas(laci), 1.0f), -90f);
+            PembuatPengganti.Pasang("RemoteTv", null, new Vector3(-2.2f, 0.76f, 3.5f), 30f);
+            PembuatPengganti.Pasang("Sakelar", null, new Vector3(0.95f, 1.3f, 0.085f));
+            PembuatPengganti.Pasang("KursiPlastik", null, new Vector3(2.4f, 0f, 7.3f), 200f);
+
+            // Dapur: lemari di dinding barat, dispenser dan meja makan di sisi timur pintu dapur. Jam kedua di dapur.
+            var lemariDapur = PembuatPengganti.Pasang("LemariDapur", null, new Vector3(-6.65f, 0f, 9.4f), 90f);
+            PembuatPengganti.Pasang("DekorDapur", null, new Vector3(-6.65f, Atas(lemariDapur), 9.4f), 90f);
+            PembuatPengganti.Pasang("Dispenser", null, new Vector3(2.6f, 0f, 8.4f));
+            PembuatPengganti.Pasang("MejaMakan", null, new Vector3(1.6f, 0f, 10.6f));
+            PembuatPengganti.Pasang("TekoTeh", null, new Vector3(1.6f, 0.78f, 10.6f));
+            PembuatPengganti.Pasang("JamDinding", null, new Vector3(-3.5f, 1.9f, 8.14f));
+
+            // Kamar: lemari kayu tua di kamar Raka, lilin di laci kamar Laras.
+            PembuatPengganti.Pasang("Lemari", null, new Vector3(-4.2f, 0f, 3.7f), 180f);
+            PembuatPengganti.Pasang("Lilin", null, new Vector3(4.6f, Atas(laci), 4.33f));
+
+            // Daun pintu terbuka menempel sekat di dalam ruangan (D3). Gudang dilewati: PintuGudang terkunci di Malam 0-2.
+            PembuatPengganti.Pasang("DaunPintu", null, new Vector3(-3.1f, 0f, 2.95f), 90f);   // kamar Raka
+            PembuatPengganti.Pasang("DaunPintu", null, new Vector3(-3.1f, 0f, 6.95f), 90f);   // kamar Ibu
+            PembuatPengganti.Pasang("DaunPintu", null, new Vector3(3.1f, 0f, 2.95f), 90f);    // kamar mandi
+            PembuatPengganti.Pasang("DaunPintu", null, new Vector3(3.1f, 0f, 6.95f), 90f);    // kamar Laras
+            PembuatPengganti.Pasang("DaunPintu", null, new Vector3(1.05f, 0f, 8.1f));         // dapur
+        }
+
+        // Puncak renderer benda (untuk menaruh benda kecil di atasnya).
+        static float Atas(GameObject g)
+        {
+            float y = float.MinValue;
+            foreach (var r in g.GetComponentsInChildren<Renderer>()) y = Mathf.Max(y, r.bounds.max.y);
+            return y;
         }
 
         // Lampu listrik yang padam pada cutscene 23.00.
@@ -193,7 +242,7 @@ namespace TheSending.EditorTools
         // Lampu neon di bawah plafon tepat di atas cahayanya. Terpisah dari Light supaya tetap tampak saat listrik padam.
         static Light Listrik(string nama, Vector3 posisi)
         {
-            PembuatPengganti.Pasang("LampuNeon", null, new Vector3(posisi.x, Tinggi - 0.12f, posisi.z));
+            PembuatPengganti.Pasang("LampuPlafon", null, new Vector3(posisi.x, Tinggi - 0.1f, posisi.z));   // D2
             return Lampu(nama, posisi, WarnaLampuRumah, 7f, 1.6f);
         }
 

@@ -20,7 +20,7 @@ namespace TheSending.EditorTools
         {
             ("KayuTua", "5B4030"), ("Linoleum", "8A8068"), ("KayuGelap", "2E2018"), ("Gedek", "8A7A55"), ("Tanah", "3B3026"),
             ("Genteng", "6B3A2A"), ("Bambu", "6F7F3A"), ("Kain", "B9AE96"), ("Kulit", "C69C7B"),
-            ("Karat", "5A1A12"), ("Kertas", "E6E0D1"), ("Logam", "6E7074"), ("Gelap", "0B0D10"),
+            ("UbinMandi", "D8D8D0"), ("DindingMandi", "C8D0C8"), ("Karat", "5A1A12"), ("Kertas", "E6E0D1"), ("Logam", "6E7074"), ("Gelap", "0B0D10"),
             ("Atap", "4A3B2C"), ("Tembok", "5A5850"), ("TanahHutan", "33302A"), ("Jalan", "4A4038"), ("Kafan", "4A4438"), ("Batik", "6B3A26"), ("Daun", "3E5A2E"), ("BambuKuning", "B59A3A"), ("Api", "E8742A"),
             ("Sofa", "6A5A48"), ("BatuPutih", "A8A49A"), ("Terakota", "7A3420"),
             ("Hangus", "1E1712"), ("KacaGelap", "101820"), ("KainObor", "E8742A"),
