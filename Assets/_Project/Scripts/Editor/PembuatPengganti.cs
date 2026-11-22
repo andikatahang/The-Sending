@@ -558,7 +558,7 @@ namespace TheSending.EditorTools
             string jalur = $"{FolderPrefab}/{namaPrefab}.prefab";
             var prefab = AssetDatabase.LoadAssetAtPath<GameObject>($"{PembuatAsetAsli.FolderPrefab}/{namaPrefab}.prefab")
                 ?? AssetDatabase.LoadAssetAtPath<GameObject>(jalur)
-                ?? throw new FileNotFoundException($"Prefab pengganti belum ada: {jalur}. Jalankan PembuatPengganti.Buat.");
+                ?? throw new FileNotFoundException($"Prefab pengganti belum ada: {jalur}. Jalankan PembuatPengganti.Buat (atau PembuatAsetAsli.Buat untuk props).");
             var g = (GameObject)PrefabUtility.InstantiatePrefab(prefab);
             g.transform.SetParent(induk, false);
             g.transform.localPosition = posisiLokal;
