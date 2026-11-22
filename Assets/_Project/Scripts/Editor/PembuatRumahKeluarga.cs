@@ -72,10 +72,10 @@ namespace TheSending.EditorTools
         }
 
         // Dinding lurus sejajar sumbu, dari (x1, z1) ke (x2, z2).
-        static void Dinding(float x1, float z1, float x2, float z2)
+        static void Dinding(float x1, float z1, float x2, float z2, string bahan = "DindingRumah")
         {
             var ukuran = new Vector3(Mathf.Abs(x2 - x1) + Tebal, Tinggi, Mathf.Abs(z2 - z1) + Tebal);
-            Balok("Dinding", new Vector3((x1 + x2) / 2f, Tinggi / 2f, (z1 + z2) / 2f), ukuran, "Gedek");
+            Balok("Dinding", new Vector3((x1 + x2) / 2f, Tinggi / 2f, (z1 + z2) / 2f), ukuran, bahan);
         }
 
         static (InteraktifAlur pintuGudang, GameObject pintuBelakang) Bangunan()
@@ -96,8 +96,8 @@ namespace TheSending.EditorTools
             Dinding(-7f, 0f, -0.6f, 0f);
             Dinding(0.6f, 0f, 7f, 0f);
             // Dinding utara dengan pintu belakang dapur (x -4,6..-3,4) ke pekarangan: tertutup di Malam 1-2, terbuka mulai Malam 3 (K18).
-            Dinding(-7f, 12f, -4.6f, 12f);
-            Dinding(-3.4f, 12f, 7f, 12f);
+            Dinding(-7f, 12f, -4.6f, 12f, "Gedek");   // dinding dapur/gudang tetap gedek
+            Dinding(-3.4f, 12f, 7f, 12f, "Gedek");
             Balok("AmbangPintuBelakang", new Vector3(-4f, 2.55f, 12f), new Vector3(1.2f, 0.9f, Tebal), "Gedek");
             var pintuBelakang = Balok("PintuBelakang", new Vector3(-4f, 1.05f, 12f), new Vector3(1.2f, 2.1f, 0.1f), "KayuGelap");
             Dinding(-7f, 0f, -7f, 12f);
@@ -222,13 +222,16 @@ namespace TheSending.EditorTools
             PintuKamar("PintuKamarRaka", "DaunPintu", new Vector3(-3f, 0f, 2.5f), Vector3.back, Vector3.left, 1f);
             PintuKamar("PintuKamarIbu", "DaunPintu", new Vector3(-3f, 0f, 6.5f), Vector3.back, Vector3.left, 1f);
             PintuKamar("PintuKamarMandi", "DaunPintuMandi", new Vector3(3f, 0f, 2.5f), Vector3.back, Vector3.right, 1f);
-            PintuKamar("PintuKamarLaras", "DaunPintu", new Vector3(3f, 0f, 6.5f), Vector3.back, Vector3.right, 1f);
+            PintuLaras = PintuKamar("DaunPintuKamarLaras", "DaunPintu", new Vector3(3f, 0f, 6.5f), Vector3.back, Vector3.right, 1f);
             PintuKamar("PintuDapur", "DaunPintu", new Vector3(0.6f, 0f, 8f), Vector3.left, Vector3.forward, 1.2f);
         }
 
         // Daun pintu `prefab` dilebarkan pas `lebar` celah; collider padat (bukan trigger) supaya bisa dibidik E dan menghalangi
         // saat tertutup. Derit: Audio/SFX/PintuBerderit jika ada (belum ada = senyap).
-        static void PintuKamar(string nama, string prefab, Vector3 engsel, Vector3 tutup, Vector3 buka, float lebar)
+        // Pintu kamar Laras: PembuatMalam5 menggantinya dengan pintu terkunci di Malam 5.
+        internal static GameObject PintuLaras;
+
+        static GameObject PintuKamar(string nama, string prefab, Vector3 engsel, Vector3 tutup, Vector3 buka, float lebar)
         {
             var g = new GameObject(nama);
             g.transform.SetPositionAndRotation(engsel, Quaternion.FromToRotation(Vector3.right, tutup));
@@ -252,6 +255,7 @@ namespace TheSending.EditorTools
             derit.outputAudioMixerGroup = GrupMixer("SFX");
             derit.clip = PembuatPengganti.Klip(Sfx, "PintuBerderit");
             Set(pintu, "derit", derit);
+            return g;
         }
 
         const float AtasMejaCor = 0.85f;

@@ -118,6 +118,12 @@ namespace TheSending.EditorTools
             SetTeks(pintu, "prompt", "Ketuk pintu kamar Laras");
             Set(alur, "pintuLaras", pintu);
             PembuatMalam2.AktifPada(sutradara, 5, 5, g);
+            // Daun PintuKamar Laras tidak tampil di Malam 5 (balok terkunci ini menggantikannya): salinan untuk Malam 6-7.
+            var pintuBiasa = PembuatRumahKeluarga.PintuLaras;
+            var salinan = Object.Instantiate(pintuBiasa);
+            salinan.name = pintuBiasa.name;
+            PembuatMalam2.AktifPada(sutradara, 0, 4, pintuBiasa);
+            PembuatMalam2.AktifPada(sutradara, 6, 7, salinan);
 
             var laras = new GameObject("LarasMalam5");
             PembuatPengganti.Pasang("Laras", laras.transform, new Vector3(5f, 0f, 6.5f), -90f);

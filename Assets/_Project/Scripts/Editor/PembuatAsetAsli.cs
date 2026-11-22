@@ -59,7 +59,8 @@ namespace TheSending.EditorTools
             ("Beton", TeksturBeton + "Plastered_d.tga", "8E8C84", 1.5f),             // meja dapur cor
             ("UbinMandi", Pihak3 + "/props-lepas/floor-tile-toilet.jpg", "FFFFFF", 1f),
             ("DindingMandi", Pihak3 + "/props-lepas/toilet-wall.jpg", "FFFFFF", 1f),
-            ("Keramik", Pihak3 + "/props-lepas/keramik-putih.png", "D8D4CA", 1.4f),   // 4 x 4 ubin per gambar = ubin 35 cm (dibuat Claude)
+            ("Keramik", Pihak3 + "/props-lepas/keramik-putih.png", "D8D4CA", 1.4f),
+            ("DindingRumah", Pihak3 + "/props-lepas/house-texture.jpg", "B4ACA0", 2f),   // tembok plester rumah keluarga   // 4 x 4 ubin per gambar = ubin 35 cm (dibuat Claude)
         };
 
         [MenuItem("The Sending/Buat Aset Asli")]
@@ -337,7 +338,7 @@ namespace TheSending.EditorTools
         static void RumahKeluargaLuar(Transform r)
         {
             const float tinggi = 3f;
-            Badan(r, -7f, 7f, -12f, 0f, tinggi, "KayuTua", "Gedek");
+            Badan(r, -7f, 7f, -12f, 0f, tinggi, "DindingRumah", "DindingRumah");
             Bingkai(r, new Vector3(0f, 1.05f, 0.27f), 1.1f, 2.1f);
             Taruh(Kit + "pd4.prefab", r, new Vector3(0f, 2.3f, 0.05f), new Vector3(1.1f, 0.45f, 0.06f), 0f);
             // Empat jendela dekat pintu (dua kiri, dua kanan); tepi dalam 0,77 m dari tengah, kusen pintu sampai 0,63 m.

@@ -25,7 +25,25 @@ namespace TheSending.Runtime
             transform.localRotation = tertutup * Quaternion.Euler(0f, sudut, 0f);
         }
 
-        public override void Interaksi() => Atur(!terbuka);
+        // Tidak menutup selama pemain (CharacterController) berada di daerah ayunan daun, supaya tidak terjepit.
+        public override void Interaksi()
+        {
+            if (terbuka && PemainDiAyunan()) return;
+            Atur(!terbuka);
+        }
+
+        bool PemainDiAyunan()
+        {
+            var kotak = GetComponent<BoxCollider>();
+            if (kotak == null) return false;
+            float w = kotak.size.x, sisi = sudutBuka > 0f ? -1f : 1f;   // +90° memutar +X lokal ke -Z lokal
+            var putar = (transform.parent != null ? transform.parent.rotation : Quaternion.identity) * tertutup;
+            var pusat = transform.position + putar * new Vector3(w / 2f, kotak.center.y, sisi * w / 2f);
+            foreach (var c in Physics.OverlapBox(pusat, new Vector3(w / 2f, kotak.size.y / 2f, w / 2f + 0.1f), putar, ~0,
+                QueryTriggerInteraction.Ignore))
+                if (c is CharacterController) return true;
+            return false;
+        }
 
         void Atur(bool buka)
         {
