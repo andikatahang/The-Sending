@@ -92,6 +92,7 @@ namespace TheSending.EditorTools
             Lampu("LampuEmper", new Vector3(0f, 2.4f, UjungJalan - 1f), "FFB46B", 6f, 1.2f);   // di bawah lampu teras prefab
             PembuatPengganti.Pasang("RumahKeluargaLuar", null, new Vector3(0f, 0f, UjungJalan), 180f)
                 .AddComponent<Permukaan>().Jenis = JenisPermukaan.Kayu;
+            PagarDekor();
             var pintu = Balok("PintuRumah", new Vector3(0f, 1.05f, UjungJalan - 0.15f), new Vector3(1.1f, 2.1f, 0.2f), "KayuGelap");
             var alurPintu = pintu.AddComponent<InteraktifAlur>();
             SetTeks(alurPintu, "prompt", "Masuk rumah");
@@ -307,6 +308,8 @@ namespace TheSending.EditorTools
             var pos = new GameObject("PosRonda Malam 4");
             PembuatPengganti.Pasang("PosRonda", null, new Vector3(-4.5f, 0f, 88f), 90f);
             PembuatPengganti.Pasang("Kentongan", null, new Vector3(-3.05f, 1.6f, 87f), 90f);
+            PembuatPengganti.Pasang("KursiPlastik", null, new Vector3(-3.3f, 0f, 87.5f), 90f);
+            PembuatPengganti.Pasang("KursiPlastik", null, new Vector3(-3.3f, 0f, 89f), 90f);
             var joko = Logika("PakJoko", new Vector3(-2.6f, 0f, 88.6f), new Vector3(0.6f, 1.8f, 0.6f));
             joko.transform.SetParent(pos.transform, true);
             PembuatPengganti.Pasang("PakJoko", joko.transform, Vector3.zero, 90f);
@@ -325,6 +328,15 @@ namespace TheSending.EditorTools
             suasana.transform.SetParent(pos.transform, false);
             Set(alur, "suasana", suasana);
             PembuatMalam2.AktifPada(alur.gameObject, 4, 4, pos);
+        }
+
+        // Pagar kayu (visual, tanpa collider) tepat di luar BatasBarat/BatasTimur: halaman rumah keluarga dan sisi rumah Bu Sumi,
+        // menjauhi gerbang makam (z 92), pagar Pakde (z 74), serta pintu (z 73,5) dan jendela (z 76,2) Bu Sumi.
+        static void PagarDekor()
+        {
+            foreach (float z in new[] { 97f, 99f }) PembuatPengganti.Pasang("PagarKayu", null, new Vector3(-SetengahLebar - 0.1f, 0f, z), 90f);
+            foreach (float z in new[] { 95f, 97f, 99f }) PembuatPengganti.Pasang("PagarKayu", null, new Vector3(SetengahLebar + 0.1f, 0f, z), 90f);
+            foreach (float z in new[] { 70f, 80f }) PembuatPengganti.Pasang("PagarKayu", null, new Vector3(SetengahLebar + 0.1f, 0f, z), 90f);
         }
 
         // Latar Scene_MainMenu: desa malam tanpa pemain dan tanpa logika (hanya tampilan).

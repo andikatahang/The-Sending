@@ -101,6 +101,9 @@ namespace TheSending.EditorTools
             Lampu("CahayaRedup", new Vector3(1f, 2.4f, 2.5f), WarnaBulan, 6f, 0.5f);
 
             PembuatPengganti.Pasang("BaleBale", null, new Vector3(-2.4f, 0f, 3.8f));
+            PembuatPengganti.Pasang("TekoTeh", null, new Vector3(-2.4f, 0.45f, 3.8f));
+            PembuatPengganti.Pasang("Lilin", null, new Vector3(-2.15f, 0.76f, 1.2f));   // di samping collider teplok (x -2,65..-2,35)
+            PembuatPengganti.Pasang("Lemari", null, new Vector3(0.6f, 0f, 4.7f), 180f);   // dinding belakang, jauh dari pintu belakang (x 2..3)
             PembuatPengganti.Pasang("RakBotol", null, new Vector3(2.6f, 0f, 4.7f), 180f);
             PembuatPengganti.Pasang("Lumpang", null, new Vector3(1.2f, 0f, 2.6f));
 

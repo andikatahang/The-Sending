@@ -360,7 +360,7 @@ namespace TheSending.EditorTools
             foreach (float x in new[] { -2.4f, 2.4f })
             {
                 Kotak(r, "KacaJendela", "Gelap", new Vector3(x, 1.5f, 3.01f), new Vector3(1.0f, 1.0f, 0.02f), false);
-                Bingkai(r, new Vector3(x, 1.5f, 3.05f), 1.0f, 1.0f);
+                JendelaKayu(r, new Vector3(x, 0.92f, 3.06f));
             }
             Kotak(r, "LantaiTeras", "Tembok", new Vector3(0f, 0.1f, 4f), new Vector3(8f, 0.2f, 2f), true);
             foreach (float x in new[] { -3.8f, 3.8f })
@@ -399,8 +399,7 @@ namespace TheSending.EditorTools
 
         static void Pintu(Transform r, Vector3 alas)
         {
-            Kotak(r, "Pintu", "KayuGelap", alas + new Vector3(0f, 1f, 0.02f), new Vector3(0.9f, 2f, 0.04f), false);
-            Bingkai(r, alas + new Vector3(0f, 1f, 0.05f), 0.9f, 2f);
+            PintuKayu(r, alas + new Vector3(0f, 0f, 0.05f));
         }
 
         // Atap limasan dua tingkat: penanggap landai (25°) selebar `landai` m, lalu brunjung curam (40°) sampai bubungan.

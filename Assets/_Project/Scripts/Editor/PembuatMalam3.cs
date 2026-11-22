@@ -208,6 +208,10 @@ namespace TheSending.EditorTools
             Batas("BatasPekarangan", new Vector3(-2f, 1.5f, 19.1f), new Vector3(10f, 3f, 0.2f));
             foreach (float px in new[] { -6.5f, -3f, 0.5f, 2.6f })
                 PembuatPengganti.Pasang("RumpunBambu", null, new Vector3(px, 0f, 18.7f));
+            // Pagar kayu (visual) di depan batas pekarangan; collider tetap BatasPekarangan.
+            foreach (float z in new[] { 13f, 15f, 17f })
+                foreach (float x in new[] { -7f, 3f }) PembuatPengganti.Pasang("PagarKayu", null, new Vector3(x, 0f, z), 90f);
+            foreach (float x in new[] { -6f, -4f, -2f, 0f, 2f }) PembuatPengganti.Pasang("PagarKayu", null, new Vector3(x, 0f, 19f));
             var bulan = new GameObject("Cahaya bulan pekarangan").AddComponent<Light>();
             bulan.type = LightType.Spot;
             bulan.color = Hex(WarnaBulan);

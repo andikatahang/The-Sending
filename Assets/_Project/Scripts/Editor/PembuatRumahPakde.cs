@@ -90,6 +90,11 @@ namespace TheSending.EditorTools
         {
             PembuatPengganti.Pasang("RumahPakdeLuar", null, new Vector3(0f, 0f, 13f), 180f);
             Lampu("LampuTeras", new Vector3(0f, 2.6f, 9f), WarnaLampu, 6f, 0.8f);
+            // Dekor teras tanpa collider (NavMesh anjing); jalur patroli terdekat di z 7,5.
+            PembuatPengganti.Pasang("Karpet", null, new Vector3(0.5f, 0.2f, 9.2f));
+            var kursi = PembuatPengganti.Pasang("KursiPlastik", null, new Vector3(2.8f, 0.2f, 9.3f), 180f);
+            foreach (var c in kursi.GetComponentsInChildren<Collider>()) Object.DestroyImmediate(c);
+            PembuatPengganti.Pasang("JamDinding", null, new Vector3(1.2f, 2.0f, 9.92f), 180f);
 
             var pot = Logika("PotTeras", new Vector3(-2.5f, 0.2f, 9f), new Vector3(0.6f, 1.1f, 0.6f));
             PembuatPengganti.Pasang("PotBunga", pot.transform, Vector3.zero);

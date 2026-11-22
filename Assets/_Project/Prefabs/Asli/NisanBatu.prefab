@@ -24,14 +24,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 203626120137028516}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.0008440167, y: -0.19502759, z: 0.9293376}
+  m_LocalScale: {x: 0.016388541, y: 0.018824989, z: 0.016117224}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 3694479238462588769}
-  - {fileID: 4069824289004505056}
-  m_Father: {fileID: 4172609092408061418}
+  - {fileID: 8195191927870424879}
+  m_Father: {fileID: 5375259164957223651}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1769481892505942444
 GameObject:
@@ -64,7 +63,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 5671047301770169059}
+  m_Father: {fileID: 8195191927870424879}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3389148119921074198
 MeshFilter:
@@ -125,38 +124,6 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!1 &3901992712871095654
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4172609092408061418}
-  m_Layer: 0
-  m_Name: Makam
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &4172609092408061418
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3901992712871095654}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.0008440167, y: -0.19502759, z: 0.9293376}
-  m_LocalScale: {x: 0.016388541, y: 0.018824989, z: 0.016117224}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 5671047301770169059}
-  m_Father: {fileID: 5375259164957223651}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5622653513564348254
 GameObject:
   m_ObjectHideFlags: 0
@@ -188,7 +155,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 5671047301770169059}
+  m_Father: {fileID: 8195191927870424879}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &9008923476620996858
 MeshFilter:
@@ -277,7 +244,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 4172609092408061418}
+  - {fileID: 5671047301770169059}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &8503294213106819034
@@ -301,3 +268,36 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.44999996, y: 0.35000002, z: 0.45000017}
   m_Center: {x: 0, y: 0.17500003, z: -0.000000059604645}
+--- !u!1 &8503662333853406794
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8195191927870424879}
+  m_Layer: 0
+  m_Name: Makam
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8195191927870424879
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8503662333853406794}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 3694479238462588769}
+  - {fileID: 4069824289004505056}
+  m_Father: {fileID: 5671047301770169059}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

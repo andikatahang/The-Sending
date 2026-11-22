@@ -92,6 +92,8 @@ namespace TheSending.EditorTools
             PembuatPengganti.Pasang("GundukanMakam", null, new Vector3(2f, 0f, 11.5f));
             var nisan = Logika("NisanHadi", new Vector3(2f, 0f, 12.6f), new Vector3(0.5f, 1f, 0.4f));
             PembuatPengganti.Pasang("NisanHadi", nisan.transform, Vector3.zero, 180f);
+            foreach (float x in new[] { 1.75f, 1.92f, 2.08f, 2.25f })   // lilin di depan nisan (sisi -Z)
+                PembuatPengganti.Pasang("Lilin", null, new Vector3(x, 0f, 12.3f));
             var baca = nisan.AddComponent<InteraktifAlur>();
             SetTeks(baca, "prompt", "Baca nisan");
             Set(alur, "nisanHadi", baca);

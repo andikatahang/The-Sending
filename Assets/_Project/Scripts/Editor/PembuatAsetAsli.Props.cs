@@ -15,7 +15,6 @@ namespace TheSending.EditorTools
             // --- Penggantian visual (Task 2) ---
             // Benda dinding (StopKontak, JamDinding, FotoKeluarga): titik nol di tengah, sama dengan pengganti.
             Prefab("Gapura", r => Kayu(Taruh(Props + "gapura/2Gapura.fbx", r, Vector3.zero, new Vector3(5f, 4f, 0.8f), 0f), "BatuPutih"), false);
-            Prefab("PosRonda", r => Taruh(Props + "pos-ronda/source/model.glb", r, Vector3.zero, new Vector3(3f, 2.8f, 2.5f), 0f), true);
             Prefab("SumurTimba", r => Bahan(Taruh(Props + "well-building-sumur/source/Sumur_Baked.fbx", r, Vector3.zero,
                 new Vector3(1.3f, 2.4f, 1.3f), 0f), "well-building-sumur", "textures/Diffuse_Bake.jpg"), false);
             Prefab("Sumur", r => Bahan(Taruh(Props + "well-building-sumur/source/Sumur_Baked.fbx", r, Vector3.zero,
@@ -76,7 +75,18 @@ namespace TheSending.EditorTools
             // Daun pintu terbuka menempel dinding (D3): tanpa collider supaya tidak menghalangi NavMesh, pemain, dan raycast.
             Prefab("DaunPintu", r => Bahan(Taruh(Props + "low-poly-door/source/PortalDoor.fbx", r, Vector3.zero, new Vector3(0.9f, 2.05f, 0.05f), 0f),
                 "low-poly-door", "textures/Wood027_2K_Color.jpeg"), false);
+
+            // --- Scene lain (Task 4) --- Pagar dekor tanpa collider: batas tak terlihat di scene yang membatasi.
+            Prefab("PagarKayu", r => Bahan(Seragam(Props + "simple-wood-fence/source/Simple Wood Fence/model/obj/fance.obj", r, Vector3.zero, 2f),
+                "simple-wood-fence", "textures/Diffuse.png"), false);   // panjang 2 m per segmen
         }
+
+        // Jendela dan pintu kayu vendor untuk rumah Asli (dipanggil saat membangun prefab rumah). Tanpa collider.
+        static void JendelaKayu(Transform r, Vector3 alas) => Bahan(Taruh(Props + "wooden-window/source/window_Wooden.fbx", r, alas,
+            new Vector3(1.16f, 1.16f, 0.12f), 0f), "wooden-window", "textures/BaseColor.png");
+
+        static void PintuKayu(Transform r, Vector3 alas) => Bahan(Taruh(Props + "low-poly-door/source/PortalDoor.fbx", r, alas,
+            new Vector3(1.06f, 2.08f, 0.1f), 0f), "low-poly-door", "textures/Wood027_2K_Color.jpeg");
 
         // Bingkai kayu + foto (props-lepas/foto-keluarga.jpg). Titik nol di tengah seperti pengganti (0,6 x 0,45 x 0,04).
         static void FotoKeluarga(Transform r)
