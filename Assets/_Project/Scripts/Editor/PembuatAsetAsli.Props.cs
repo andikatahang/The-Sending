@@ -28,21 +28,24 @@ namespace TheSending.EditorTools
             Prefab("Boneka", r => Bahan(Taruh(Props + "voodoo-doll/source/Doll(stab).fbx", r, Vector3.zero,
                 new Vector3(0.3f, 0.12f, 0.4f), 0f), "voodoo-doll", "textures/voodoo_-_base.jpg"), false);
             Prefab("Gembok", r => Bahan(Nyata(Props + "door-padlock-key/source/padlock.fbx", r, Vector3.zero, 1, 0.08f), "door-padlock-key", "textures/padlock_Padlock_BaseColor.png"), false);
-            Prefab("StopKontak", r => Bahan(Taruh(Props + "power-outlet-light-switch/source/Untitled 2.fbx", r, new Vector3(0f, -0.05f, 0f),
-                new Vector3(0.1f, 0.1f, 0.03f), 0f), "power-outlet-light-switch", "textures/BaseColor.png"), false);
-            Prefab("JamDinding", r => Bahan(Nyata(Props + "antique-wall-clock/source/clock.obj", r, new Vector3(0f, -0.165f, 0f), 0, 0.33f), "antique-wall-clock", "textures/clock_low_clock_BaseColor.png"), false);
+            // Satu stop kontak saja (FBX berisi 4 set sakelar + stop kontak), skala seragam lebar 8,6 cm seperti Sakelar.
+            Prefab("StopKontak", r => Bahan(Nyata(Props + "power-outlet-light-switch/source/Untitled 2.fbx", r, new Vector3(0f, -0.05f, 0f), 0, 0.086f,
+                hanya: new[] { "01_4/Power_outlet_4" }), "power-outlet-light-switch", "textures/BaseColor.png"), false);
+            Prefab("JamDinding", JamDinding, false);
             Prefab("LemariPakaian", r => Bahan(Nyata(Props + "wooden-wardrobe/source/FurnitureDresser001a_substanceuv.fbx", r, Vector3.zero, 1, 1.85f), "wooden-wardrobe", "textures/FurnitureDresser001a_color.jpg"), false);
             Prefab("Linggis", r => Bahan(Taruh(Props + "tools-asset/source/Tools.fbx", r, Vector3.zero, new Vector3(0.05f, 1.2f, 0.12f), 0f,
                 hanya: new[] { "Fomka1" }), "tools-asset", "textures/Fomka1_baseColor.jpg"), false);
             Prefab("Tang", r => Bahan(Taruh(Props + "tools-asset/source/Tools.fbx", r, Vector3.zero, new Vector3(0.22f, 0.03f, 0.08f), 0f,
                 hanya: new[] { "Pliers" }), "tools-asset", "textures/PliersMat_baseColor.png"), false);
             Prefab("FotoKeluarga", FotoKeluarga, false);
+            Prefab("Kalender", Kalender, false);
 
             // --- Dekor rumah keluarga (Task 3). Kulkas tidak dipakai (D5). ---
             Prefab("TvLed", r => Bahan(Nyata(Props + "led-tv/source/led tv/led tv.fbx", r, Vector3.zero, 0, 0.9f),
                 "led-tv", "textures/phong1_Base_Color.jpeg"), false);
             Prefab("RemoteTv", r => Nyata(Props + "props-lepas/tv_remote.glb", r, Vector3.zero, 2, 0.17f), false);   // material glb sudah bertekstur
-            Prefab("Dispenser", r => Bahan(Nyata(Props + "water-dispenser/source/Waterdispenser.fbx", r, Vector3.zero, 1, 1.0f), "water-dispenser", "textures/BakedWaterDispenser.png"), true);
+            // Tekstur baked tampil acak di model ini: warna impor per slot saja (tanpa tekstur).
+            Prefab("Dispenser", r => Bahan(Nyata(Props + "water-dispenser/source/Waterdispenser.fbx", r, Vector3.zero, 1, 1.0f), "water-dispenser", null), true);
             Prefab("KursiPlastik", r => Bahan(Nyata(Props + "plastic-chair/source/Plastic Chair.fbx", r, Vector3.zero, 1, 0.85f), "plastic-chair", null), true);
             // Satu sakelar tunggal (light_switch1_4), skala seragam: pelat 14 cm model -> 8,6 cm. Titik nol di tengah, muka di +Z.
             Prefab("Sakelar", r => Bahan(Nyata(Props + "power-outlet-light-switch/source/Untitled 2.fbx", r, new Vector3(0f, -0.043f, 0f), 0, 0.086f,
@@ -74,9 +77,16 @@ namespace TheSending.EditorTools
             Prefab("Lilin", r => Bahan(Nyata(Props + "candle-low/source/CandleLow.fbx", r, Vector3.zero, 1, 0.15f),
                 "candle-low", "textures/Candle_Base_Color.png"), false);
             // Daun pintu saja (tanpa kusen), tinggi 2,05 m; collider dipasang PintuKamar di scene.
-            Prefab("DaunPintu", r => Bahan(Nyata(Props + "low-poly-door/source/PortalDoor.fbx", r, Vector3.zero, 1, 2.05f,
-                hanya: new[] { "Cube.001", "Cube.002", "Cube.003", "Cube.006", "Cube.007" }),
-                "low-poly-door", "textures/Wood027_2K_Color.jpeg"), false);
+            // Cube.001 = daun kayu; anak lain = gagang dan pelat kunci, diberi material perak.
+            Prefab("DaunPintu", r =>
+            {
+                var g = Nyata(Props + "low-poly-door/source/PortalDoor.fbx", r, Vector3.zero, 1, 2.05f,
+                    hanya: new[] { "Cube.001", "Cube.002", "Cube.003", "Cube.006", "Cube.007" });
+                Bahan(g, "low-poly-door", "textures/Wood027_2K_Color.jpeg");
+                var perak = PembuatPengganti.Material("Perak");
+                foreach (var ren in g.GetComponentsInChildren<Renderer>())
+                    if (ren.name != "Cube.001") ren.sharedMaterials = Enumerable.Repeat(perak, ren.sharedMaterials.Length).ToArray();
+            }, false);
 
             Prefab("DaunPintuMandi", r => Bahan(Nyata(Props + "pintu-kamar-mandi/source/Pintu Kamar Mandi.fbx", r, Vector3.zero, 1, 2.05f,
                 hanya: new[] { "Cube.003" }), "pintu-kamar-mandi", "textures/pintu kamar mandi.png"), false);
@@ -102,10 +112,61 @@ namespace TheSending.EditorTools
 
         static void PintuKayu(Transform r, Vector3 alas) => Bahan(Nyata(Props + "low-poly-door/source/PortalDoor.fbx", r, alas, 1, 2.08f), "low-poly-door", "textures/Wood027_2K_Color.jpeg");
 
+        // Jam: muka angka dan kaca satu mesh/satu material; kaca (biru muda) opak menutupi angka. Alpha dari peta Opacity
+        // digabung ke tekstur warna (sekali, disimpan sebagai PNG), lalu material memakai alpha clip sehingga kaca hilang.
+        static void JamDinding(Transform r)
+        {
+            var g = Nyata(Props + "antique-wall-clock/source/clock.obj", r, new Vector3(0f, -0.165f, 0f), 0, 0.33f);
+            Bahan(g, "antique-wall-clock", "textures/clock_low_clock_BaseColor.png");
+            string akar = Props + "antique-wall-clock/", jalur = akar + "textures/clock_BaseColorAlpha.png";
+            if (!File.Exists(jalur))
+            {
+                var warna = new Texture2D(2, 2); warna.LoadImage(File.ReadAllBytes(akar + "textures/clock_low_clock_BaseColor.png"));
+                var opasitas = new Texture2D(2, 2); opasitas.LoadImage(File.ReadAllBytes(akar + "source/clock_low_clock_Opacity.png"));
+                var px = warna.GetPixels32();
+                var op = opasitas.GetPixels32();
+                for (int i = 0; i < px.Length; i++) px[i].a = op[i].r;   // ukuran sama (1024)
+                var hasil = new Texture2D(warna.width, warna.height, TextureFormat.RGBA32, false);
+                hasil.SetPixels32(px);
+                File.WriteAllBytes(jalur, hasil.EncodeToPNG());
+                AssetDatabase.ImportAsset(jalur);
+            }
+            SetelTeksturProps(jalur, false, true);
+            var tex = AssetDatabase.LoadAssetAtPath<Texture2D>(jalur);
+            foreach (var ren in g.GetComponentsInChildren<Renderer>())
+                foreach (var m in ren.sharedMaterials)
+                {
+                    m.SetTexture("_BaseMap", tex);
+                    m.SetFloat("_AlphaClip", 1f);
+                    m.SetFloat("_Cutoff", 0.5f);
+                    m.EnableKeyword("_ALPHATEST_ON");
+                    m.SetFloat("_Cull", 0f);   // muka angka terlihat dari kedua sisi
+                    EditorUtility.SetDirty(m);
+                }
+        }
+
+        // Kalender dinding vintage (hanya tekstur atlas, tanpa model): satu lembar 30 x 47 cm dipotong dari atlas
+        // (kalender "Brinker Lumber 1956"). Titik nol di tengah, muka di +Z seperti pengganti; tempel di dinding.
+        static void Kalender(Transform r)
+        {
+            var lembar = GameObject.CreatePrimitive(PrimitiveType.Quad);
+            UnityEngine.Object.DestroyImmediate(lembar.GetComponent<Collider>());
+            lembar.name = "Lembar";
+            lembar.transform.SetParent(r, false);
+            lembar.transform.localPosition = new Vector3(0f, 0f, 0.005f);
+            lembar.transform.localRotation = Quaternion.Euler(0f, 180f, 0f);   // Quad tampak dari -Z: dibalik ke +Z
+            lembar.transform.localScale = new Vector3(0.3f, 0.47f, 1f);
+            Bahan(lembar, "kalender-dinding-vintage", "textures/calendar.jpg");
+            var mat = lembar.GetComponent<Renderer>().sharedMaterial;
+            mat.SetTextureScale("_BaseMap", new Vector2(0.217f, 0.345f));
+            mat.SetTextureOffset("_BaseMap", new Vector2(0.32f, 0.345f));
+            EditorUtility.SetDirty(mat);
+        }
+
         // Bingkai photo-frame + foto (props-lepas/foto-keluarga.jpg). Titik nol di tengah seperti pengganti (0,6 x 0,45 x 0,04).
         static void FotoKeluarga(Transform r)
         {
-            Bahan(Taruh(Props + "photo-frame/Frames.FBX", r, new Vector3(0f, -0.225f, 0f), new Vector3(0.6f, 0.45f, 0.04f), 0f), "photo-frame", null);
+            // Bingkai photo-frame dihapus tim (edit manual 23 Nov): foto saja.
             var foto = GameObject.CreatePrimitive(PrimitiveType.Quad);
             UnityEngine.Object.DestroyImmediate(foto.GetComponent<Collider>());
             foto.name = "Foto";

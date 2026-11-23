@@ -23,7 +23,7 @@ namespace TheSending.EditorTools
             ("UbinMandi", "D8D8D0"), ("Keramik", "D8D4CA"), ("DindingRumah", "B4ACA0"), ("DindingMandi", "C8D0C8"), ("Karat", "5A1A12"), ("Kertas", "E6E0D1"), ("Logam", "6E7074"), ("Gelap", "0B0D10"),
             ("Atap", "4A3B2C"), ("Tembok", "5A5850"), ("Beton", "6A6860"), ("TanahHutan", "33302A"), ("Jalan", "4A4038"), ("Kafan", "4A4438"), ("Batik", "6B3A26"), ("Daun", "3E5A2E"), ("BambuKuning", "B59A3A"), ("Api", "E8742A"),
             ("Sofa", "6A5A48"), ("BatuPutih", "A8A49A"), ("Terakota", "7A3420"),
-            ("Hangus", "1E1712"), ("KacaGelap", "101820"), ("KainObor", "E8742A"),
+            ("Hangus", "1E1712"), ("Perak", "BFBFC7"), ("KacaGelap", "101820"), ("KainObor", "E8742A"),
         };
 
         readonly struct Bagian
@@ -542,6 +542,7 @@ namespace TheSending.EditorTools
                 throw new FormatException($"Warna material '{nama}' salah: {hex}");
             baru.SetColor("_BaseColor", warna);
             baru.SetFloat("_Smoothness", nama == "KacaGelap" ? 0.6f : 0f);
+            if (nama == "Perak") { baru.SetFloat("_Metallic", 0.8f); baru.SetFloat("_Smoothness", 0.5f); }
             if (nama == "KainObor")
             {
                 baru.EnableKeyword("_EMISSION");

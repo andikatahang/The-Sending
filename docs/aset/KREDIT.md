@@ -68,3 +68,4 @@ Catat setiap aset pihak ketiga di sini saat dimasukkan ke proyek. Aset berlisens
 | Lemari pakaian (persembunyian) | `Assets/_Project/Art/ThirdParty/wooden-wardrobe/` | cek lisensi (isi tim) | cek lisensi (isi tim) | cek lisensi (isi tim) | **(isi)** |
 | Jendela kayu | `Assets/_Project/Art/ThirdParty/wooden-window/` | cek lisensi (isi tim) | cek lisensi (isi tim) | cek lisensi (isi tim) | **(isi)** |
 | Remote TV, foto keluarga, toilet-wall, floor-tile-toilet | `Assets/_Project/Art/ThirdParty/props-lepas/` | cek lisensi (isi tim) | cek lisensi (isi tim) | cek lisensi (isi tim) | **(isi)** |
+| Kalender dinding vintage (atlas tekstur `calendar.jpg`, satu lembar dipakai sebagai kalender dapur) | `Assets/_Project/Art/ThirdParty/kalender-dinding-vintage/` | **(isi nama pembuat)** | **(isi URL)** | **(isi lisensi; folder tanpa file lisensi)** | **(isi)** |

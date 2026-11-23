@@ -38,7 +38,7 @@ namespace TheSending.EditorTools
             Set(sutradara, "dialogOjek", PembuatDataFase1.Muat(PembuatDataFase1.Ojek));
 
             // Gapura dan mobil yang mengantar Raka, parkir di luar gapura menghadap ke selatan.
-            PembuatPengganti.Pasang("Gapura", null, Vector3.zero);
+            DekorDesa();
             var ojek = BuatMobil(new Vector3(1.2f, 0f, -3.2f));
             Set(sutradara, "ojek", ojek.transform);
             Set(sutradara, "bidikGapura", Titik("BidikGapura", new Vector3(-2.5f, 1.7f, 7f), new Vector3(0.5f, 1.2f, 0f)));
@@ -339,11 +339,24 @@ namespace TheSending.EditorTools
             foreach (float z in new[] { 70f, 80f }) PembuatPengganti.Pasang("PagarKayu", null, new Vector3(SetengahLebar + 0.1f, 0f, z), 90f);
         }
 
+        // Dekor desa (saat ini gapura) di prefab Prefabs/Dekor/Dekor_Desa: tim menggesernya di Prefab Mode dan
+        // Bangun Ulang Semua tidak menimpanya. Hapus prefab itu untuk membuat ulang dari posisi di sini.
+        const string JalurDekor = "Assets/_Project/Prefabs/Dekor/Dekor_Desa.prefab";
+        static void DekorDesa()
+        {
+            var ada = AssetDatabase.LoadAssetAtPath<GameObject>(JalurDekor);
+            if (ada != null) { PrefabUtility.InstantiatePrefab(ada); return; }
+            var akar = new GameObject("Dekor_Desa");
+            PembuatPengganti.Pasang("Gapura", akar.transform, Vector3.zero);
+            Directory.CreateDirectory(Path.GetDirectoryName(JalurDekor));
+            PrefabUtility.SaveAsPrefabAssetAndConnect(akar, JalurDekor, InteractionMode.AutomatedAction);
+        }
+
         // Latar Scene_MainMenu: desa malam tanpa pemain dan tanpa logika (hanya tampilan).
         internal static void Latar()
         {
             Lingkungan();
-            PembuatPengganti.Pasang("Gapura", null, Vector3.zero);
+            DekorDesa();
             PembuatPengganti.Pasang("RumahKecil", null, new Vector3(10f, 0f, 75f), -90f);
             Balok("CahayaJendela", new Vector3(7.47f, 1.5f, 76.2f), new Vector3(0.02f, 1.1f, 1.1f), "Kain");
             Lampu("LampuJendela", new Vector3(8.2f, 1.7f, 76.2f), "FFB46B", 4f, 2f);

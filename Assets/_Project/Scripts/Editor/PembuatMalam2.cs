@@ -186,7 +186,19 @@ namespace TheSending.EditorTools
             var lemari = Persembunyian(rig, "LemariPakaian", new Vector3(-2.55f, 0f, 4.8f), new Vector3(0.6f, 2f, 1f), "Bersembunyi di lemari",
                 Titik("DalamLemari", new Vector3(-2.55f, 0.05f, 4.8f), new Vector3(0f, 0.05f, 4.8f)),
                 Titik("KeluarLemari", new Vector3(-1.9f, 0.05f, 4.8f), new Vector3(0f, 0.05f, 4.8f)), "LemariPakaian", 90f);
+            // Edit manual tim (23 Nov): model lemari digeser 0,212 m, gagang dirapikan. Lapisan dalam ikut digeser (tidak
+            // dihapus seperti di scene: tanpa lapisan itu seluruh ruangan terlihat dari dalam lemari).
             DindingDalamLemari(lemari.transform);
+            var model = lemari.transform.Find("LemariPakaian");
+            model.localPosition = new Vector3(0f, 0f, -0.212f);
+            foreach (var (n, x, z) in new[] { ("Cylinder.003", 0.18718141f, 0.13959989f), ("Cylinder.004", -0.016797181f, 0.1431457f),
+                ("Cube.018", 0.005f, 0.131f), ("Cylinder.005", 0.017541451f, 0.14274566f), ("Cylinder.002", 0.18718141f, 0.13959989f),
+                ("Cylinder", -0.187f, 0.14f), ("Cylinder.001", -0.18700008f, 0.13999993f), ("Plane", -0.01679604f, 0.13894376f),
+                ("Cube.019", -0.18290012f, 0.13139996f), ("Plane.001", 0.018980911f, 0.13854373f) })
+            {
+                var t = PembuatRumahKeluarga.Anak(model, n);
+                t.localPosition = new Vector3(x, t.localPosition.y, z);
+            }
             Set(alur, "titikKamarLaras", Titik("TitikKamarLaras", new Vector3(6f, 0.05f, 6.5f), new Vector3(3f, 0.05f, 6f)));
             Set(alur, "zonaKamarRaka", Zona("ZonaKamarRaka", new Vector3(-5f, 1.2f, 2f), new Vector3(3.6f, 2.4f, 3.6f)));
 
@@ -194,7 +206,7 @@ namespace TheSending.EditorTools
             lantai.transform.position = new Vector3(0f, 0f, 6f);
 
             var sosok = new GameObject("SosokSantet");
-            sosok.transform.SetPositionAndRotation(new Vector3(-0.5f, 0f, 10.5f), Quaternion.Euler(0f, 180f, 0f));
+            sosok.transform.SetPositionAndRotation(new Vector3(0.3f, 0f, 10f), Quaternion.Euler(0f, 180f, 0f));
             PembuatPengganti.Pasang("SosokSantet", sosok.transform, Vector3.zero);
             var agen = sosok.AddComponent<NavMeshAgent>();
             agen.radius = LantaiNavMesh.RadiusAgen;
@@ -240,7 +252,7 @@ namespace TheSending.EditorTools
             };
             foreach (var (pusat, ukuran) in sisi)
             {
-                var g = Balok("SisiDalamLemari", lemari.TransformPoint(pusat), ukuran, "KayuGelap");
+                var g = Balok("SisiDalamLemari", lemari.TransformPoint(pusat + new Vector3(0f, 0f, -0.212f)), ukuran, "KayuGelap");
                 Object.DestroyImmediate(g.GetComponent<Collider>());
                 g.transform.SetParent(lemari, true);
             }

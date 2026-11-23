@@ -38,7 +38,8 @@ namespace TheSending.EditorTools
             Alat(sutradara, "Pacul", Inventaris.Pacul, new Vector3(5.2f, 0f, 11.75f), new Vector3(0.3f, 1.2f, 0.2f), "Ambil pacul");
             Alat(sutradara, "Galah", Inventaris.Galah, new Vector3(4.8f, 0f, 11.75f), new Vector3(0.2f, 2.2f, 0.2f), "Ambil galah bambu");
 
-            var teh = PembuatRumahKeluarga.BendaDialog(rig, "GelasTeh", new Vector3(-4.5f, 0.76f, 10.4f), new Vector3(0.2f, 0.15f, 0.2f),
+            // Meja kayu dapur dihapus tim (23 Nov): teh di meja makan berkarpet.
+            var teh = PembuatRumahKeluarga.BendaDialog(rig, "GelasTeh", new Vector3(PembuatRumahKeluarga.MejaMakan.x - 0.3f, PembuatRumahKeluarga.AtasMejaMakan, PembuatRumahKeluarga.MejaMakan.z - 0.25f), new Vector3(0.2f, 0.15f, 0.2f),
                 0f, false, PembuatDataFase5.Muat(PembuatDataFase5.AmbilTeh), "Buat teh hangat");
             SetBool(teh, "sekaliSaja", true);
             PembuatPengganti.Pasang("SisaMakanan", teh.transform, new Vector3(0.25f, 0f, 0f));

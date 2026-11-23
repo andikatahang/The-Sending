@@ -38,7 +38,7 @@ namespace TheSending.EditorTools
             Set(alur, "titikMulai", Titik("TitikMulaiMalam3", new Vector3(0f, 0.05f, 4f), new Vector3(0f, 0.05f, 0f)));
             Set(alur, "titikRuangTengah", Titik("TitikRuangTengahMalam3", new Vector3(0f, 0.05f, 3.2f), new Vector3(1.5f, 0.05f, 5.5f)));
             Set(alur, "titikPulang", Titik("TitikPulangMalam3", new Vector3(0f, 0.05f, 0.9f), new Vector3(0f, 0.05f, 6f)));
-            Set(alur, "titikMunculSosok", Titik("TitikMunculSosokMalam3", new Vector3(-0.5f, 0f, 10.5f), new Vector3(-0.5f, 0f, 6f)));
+            Set(alur, "titikMunculSosok", Titik("TitikMunculSosokMalam3", new Vector3(0.3f, 0f, 10f), new Vector3(0.3f, 0f, 6f)));
             Set(alur, "bidikIbu", Titik("BidikIbuMalam3", new Vector3(-4.3f, 1.7f, 5.2f), new Vector3(-6.2f, 0.7f, 6f)));
 
             PembuatMalam2.AktifPada(sutradara, 0, 2, pintuBelakang);   // pintu belakang terbuka mulai Malam 3 (K18)
@@ -152,30 +152,34 @@ namespace TheSending.EditorTools
         // sampingnya berisi benda-benda langkah ritual; pekarangan belakang (K18-A) untuk kelor dan mengubur abu.
         static void Ritual(Rig rig)
         {
-            Bahan(rig, "RakBumbu", BahanRitual.Garam, new Vector3(-5f, 0.76f, 10.5f), new Vector3(0.5f, 0.2f, 0.3f),
+            // Rak bumbu, anglo, dan perlengkapan ritual dipindah tim (edit manual 23 Nov): rak dan perlengkapan di meja makan berkarpet.
+            Bahan(rig, "RakBumbu", BahanRitual.Garam, new Vector3(-0.994f, 0.78f, 10.594f), new Vector3(0.5f, 0.2f, 0.3f),
                 "Ambil garam", "Garam diambil dari rak bumbu.");
 
             var dapur = new GameObject("RitualDapur").AddComponent<RitualDapur>();
             Set(dapur, "hud", rig.Hud);
             Set(dapur, "suaraApi", BuatSuara(rig, "ApiAnglo", Sfx, "SFX", "(Suara: api arang menyala.)", ulang: true));
 
-            var anglo = Logika("Anglo", new Vector3(-2.6f, 0f, 11.3f), new Vector3(0.5f, 0.45f, 0.5f));
+            var anglo = Logika("Anglo", new Vector3(2.612f, 0f, 11.3f), new Vector3(0.5f, 0.45f, 0.5f));
             PembuatPengganti.Pasang("Anglo", anglo.transform, Vector3.zero);
             PasangLangkah(dapur, anglo, LangkahRitual.LetakkanMedia, "Anglo");
             var api = PembuatPengganti.Pasang("ApiAnglo", anglo.transform, Vector3.zero);
-            Lampu("CahayaApi", new Vector3(-2.6f, 0.8f, 11.3f), WarnaApi, 4f, 1.8f).transform.SetParent(api.transform, true);
+            Lampu("CahayaApi", new Vector3(2.612f, 0.8f, 11.3f), WarnaApi, 4f, 1.8f).transform.SetParent(api.transform, true);
             Set(dapur, "api", api);
             api.SetActive(false);
 
-            // Meja kecil di samping anglo: garam, kelor, korek di atasnya, bambu kuning bersandar. Tampak setelah bahan lengkap.
-            PembuatPengganti.Pasang("Meja", null, new Vector3(-1.5f, 0f, 11.4f));
+            // Garam, kelor, korek di meja makan berkarpet, bambu kuning bersandar di sisinya. Tampak setelah bahan lengkap.
+            // Meja kecil tetap di samping anglo (digeser tim), kosong.
+            PembuatPengganti.Pasang("Meja", null, new Vector3(1.742f, 0f, 11.4f));
+            var m = PembuatRumahKeluarga.MejaMakan;
+            float atas = PembuatRumahKeluarga.AtasMejaMakan;
             var perlengkapan = new GameObject("PerlengkapanRitual");
             (string prefab, LangkahRitual langkah, Vector3 posisi, Vector3 ukuran, string prompt)[] benda =
             {
-                ("GaramToples", LangkahRitual.TaburGaram, new Vector3(-1.85f, 0.76f, 11.4f), new Vector3(0.2f, 0.2f, 0.2f), "Taburkan garam"),
-                ("IkatKelor", LangkahRitual.TutupKelor, new Vector3(-1.55f, 0.76f, 11.4f), new Vector3(0.25f, 0.15f, 0.25f), "Tutup dengan daun kelor"),
-                ("KorekApi", LangkahRitual.NyalakanApi, new Vector3(-1.25f, 0.76f, 11.4f), new Vector3(0.2f, 0.1f, 0.2f), "Nyalakan api"),
-                ("BambuKuning", LangkahRitual.AdukBambu, new Vector3(-0.85f, 0f, 11.55f), new Vector3(0.25f, 1.2f, 0.25f), "Aduk dengan bilah bambu kuning"),
+                ("GaramToples", LangkahRitual.TaburGaram, new Vector3(m.x - 0.3f, atas, m.z + 0.25f), new Vector3(0.2f, 0.2f, 0.2f), "Taburkan garam"),
+                ("IkatKelor", LangkahRitual.TutupKelor, new Vector3(m.x, atas, m.z + 0.25f), new Vector3(0.25f, 0.15f, 0.25f), "Tutup dengan daun kelor"),
+                ("KorekApi", LangkahRitual.NyalakanApi, new Vector3(m.x + 0.3f, atas, m.z + 0.25f), new Vector3(0.2f, 0.1f, 0.2f), "Nyalakan api"),
+                ("BambuKuning", LangkahRitual.AdukBambu, new Vector3(m.x + 0.7f, 0f, m.z + 0.55f), new Vector3(0.25f, 1.2f, 0.25f), "Aduk dengan bilah bambu kuning"),
             };
             foreach (var (prefab, langkah, posisi, ukuran, prompt) in benda)
             {

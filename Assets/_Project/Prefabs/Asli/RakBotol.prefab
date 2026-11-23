@@ -9,8 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3396989537861178536}
-  - component: {fileID: 713334255367853981}
-  - component: {fileID: 6539773308276499592}
   m_Layer: 0
   m_Name: wood_props_shelf
   m_TagString: Untagged
@@ -27,27 +25,61 @@ Transform:
   m_GameObject: {fileID: 3217266107216469156}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.00000017881393, z: 0}
+  m_LocalScale: {x: 1.6129043, y: 1.499986, z: 0.75000036}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1677518161721687366}
+  m_Father: {fileID: 5795769675032224553}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3273350611490029532
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1677518161721687366}
+  - component: {fileID: 1314397934182348081}
+  - component: {fileID: 2481528936503162286}
+  m_Layer: 0
+  m_Name: wood_props_shelf
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1677518161721687366
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3273350611490029532}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6957407656734070761}
+  m_Father: {fileID: 3396989537861178536}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &713334255367853981
+--- !u!33 &1314397934182348081
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3217266107216469156}
+  m_GameObject: {fileID: 3273350611490029532}
   m_Mesh: {fileID: 8718122208754270890, guid: 888c45ba2b5f14283a1c68b91ae83bbd, type: 3}
---- !u!23 &6539773308276499592
+--- !u!23 &2481528936503162286
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3217266107216469156}
+  m_GameObject: {fileID: 3273350611490029532}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -90,38 +122,6 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!1 &5100157643970317734
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6957407656734070761}
-  m_Layer: 0
-  m_Name: wood_props_shelf
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6957407656734070761
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5100157643970317734}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.00000017881393, z: 0}
-  m_LocalScale: {x: 1.6129043, y: 1.499986, z: 0.75000036}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 3396989537861178536}
-  m_Father: {fileID: 5795769675032224553}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6627842181611367226
 GameObject:
   m_ObjectHideFlags: 0
@@ -152,7 +152,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 6957407656734070761}
+  - {fileID: 3396989537861178536}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &7290067084599029895
