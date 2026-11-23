@@ -143,6 +143,8 @@ namespace TheSending.Runtime
             if (!KalenderJawa.HitungMundurBerjalan(s)) return "";
             int sisa = KalenderJawa.SisaMalamKeSelasaKliwon(s.MalamKe);
             string teks = sisa == 0 ? "Malam ini Selasa Kliwon" : $"Selasa Kliwon: {sisa} malam lagi";
+            if (s.MalamKe == 7)
+                return $"Malam ini Selasa Kliwon\nTengah malam: {Mathf.CeilToInt(JamGim.SisaDetikMalam7(s) / 60f)} menit lagi";
             if (s.MalamKe != 6 || s.HasilSidang != HasilSidang.Belum) return teks;
             // Menit nyata sampai warga berkumpul pukul 21.00 (Malam 6 punya laju jam sendiri).
             int menit = Mathf.CeilToInt((JamGim.Batas(6) - s.MenitGim) * JamGim.DetikPerJamGim(6) / 60f / 60f);

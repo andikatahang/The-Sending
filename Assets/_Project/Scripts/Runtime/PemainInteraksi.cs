@@ -1,3 +1,4 @@
+using TheSending.Core;
 using UnityEngine;
 
 namespace TheSending.Runtime
@@ -26,7 +27,7 @@ namespace TheSending.Runtime
         {
             Sasaran = null;
             var gm = GameManager.Instance;
-            if (gm == null || gm.Dijeda) return;
+            if (gm == null || gm.Dijeda || gm.State.Ending != Ending.Belum) return;
             if (gerak != null && gerak.Bersembunyi) return;   // TempatSembunyi sendiri yang membaca E untuk keluar
 
             // Trigger (zona pemicu) tidak pernah menghalangi E; benda Interaktif wajib memakai collider biasa.

@@ -271,7 +271,7 @@ namespace TheSending.Runtime
                 larasMalam2.SetActive(false);
             }
             finally { adegan.Selesai(); }
-            if (KeMenuJikaEnding(gm)) yield break;   // menyerahkan boneka = Kondisi Ibu -8
+            if (KeEpilogJikaEnding(gm)) yield break;   // menyerahkan boneka = Kondisi Ibu -8
             if (!TujuanMalam.Sudah(s, TujuanMalam.PilihanWiryo))
             {
                 Debug.LogError("Dialog Mbah Wiryo selesai tanpa pilihan; dianggap boneka disimpan.", this);
@@ -343,15 +343,14 @@ namespace TheSending.Runtime
             yield return kartu.StartCoroutine(kartu.KeHitam());
             gm.Tertangkap();
             // Jeda dilepas KameraAdegan.OnDisable saat scene dibongkar.
-            gm.MuatScene(gm.State.Ending != Ending.Belum ? GameManager.SceneMenuUtama : gm.SceneUntukState);
+            gm.MuatScene(gm.SceneUntukState);
         }
 
-        // Ending sebelum Fase 7: kembali ke menu utama (layar ending dibuat di Fase 7).
-        bool KeMenuJikaEnding(GameManager gm)
+        // Ending: muat Epilog (PetaScene.Untuk memilihnya saat Ending terisi).
+        bool KeEpilogJikaEnding(GameManager gm)
         {
             if (gm.State.Ending == Ending.Belum) return false;
-            Debug.LogWarning("Ending tercapai di Malam 2; layar ending dibuat di Fase 7.", this);
-            gm.MuatScene(GameManager.SceneMenuUtama);
+            gm.MuatScene(gm.SceneUntukState);
             return true;
         }
 
@@ -367,7 +366,7 @@ namespace TheSending.Runtime
                 yield return kartu.StartCoroutine(kartu.KeHitam());
                 gerimis.Hentikan();
                 PergantianMalam.Lanjut(s);        // Malam 3, Kondisi Ibu -12
-                if (KeMenuJikaEnding(gm))         // catatan 0B: -12 bisa langsung memicu ending
+                if (KeEpilogJikaEnding(gm))         // catatan 0B: -12 bisa langsung memicu ending
                 {
                     dimuat = true;
                     yield break;

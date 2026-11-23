@@ -165,11 +165,10 @@ namespace TheSending.Runtime
             GameManager.Instance.MuatScene(PetaScene.Desa);
         }
 
-        bool KeMenuJikaEnding(GameManager gm)
+        bool KeEpilogJikaEnding(GameManager gm)
         {
             if (gm.State.Ending == Ending.Belum) return false;
-            Debug.LogWarning("Ending tercapai di Malam 5; layar ending dibuat di Fase 7.", this);
-            gm.MuatScene(GameManager.SceneMenuUtama);
+            gm.MuatScene(gm.SceneUntukState);
             return true;
         }
 
@@ -184,7 +183,7 @@ namespace TheSending.Runtime
             {
                 yield return kartu.StartCoroutine(kartu.KeHitam());
                 PergantianMalam.Lanjut(s);        // Malam 6, Kondisi Ibu -12
-                if (KeMenuJikaEnding(gm))
+                if (KeEpilogJikaEnding(gm))
                 {
                     dimuat = true;
                     yield break;

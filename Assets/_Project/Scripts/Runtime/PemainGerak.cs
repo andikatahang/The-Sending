@@ -70,7 +70,7 @@ namespace TheSending.Runtime
         void Update()
         {
             var gm = GameManager.Instance;
-            if (gm == null || gm.Dijeda)
+            if (gm == null || gm.Dijeda || gm.State.Ending != Ending.Belum)
             {
                 GerakSekarang = Gerak.Diam;
                 return;
