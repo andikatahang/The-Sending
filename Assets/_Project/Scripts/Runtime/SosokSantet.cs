@@ -55,6 +55,10 @@ namespace TheSending.Runtime
             if (gemerincing != null) gemerincing.Putar();
         }
 
+        // Langsung mengejar tanpa harus mendeteksi Raka dulu (Mbah Wiryo, Malam 7). Panggil setelah objeknya dinyalakan:
+        // OnEnable membuat otak baru.
+        public void KejarLangsung() => otak.MulaiKejar();
+
         void OnDisable()
         {
             if (gemerincing != null) gemerincing.Hentikan();
