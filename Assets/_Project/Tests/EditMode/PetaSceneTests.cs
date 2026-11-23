@@ -6,6 +6,23 @@ namespace TheSending.Tests
     public class PetaSceneTests
     {
         [Test]
+        public void EndingSelaluKeEpilog()
+        {
+            Assert.AreEqual("Scene_Epilog", PetaScene.Untuk(new GameState { MalamKe = 7, Ending = Ending.Fitnah }));
+            Assert.AreEqual("Scene_Epilog", PetaScene.Untuk(new GameState { MalamKe = 3, Ending = Ending.Terlambat }));
+        }
+
+        [Test]
+        public void KejaranWiryoBelumLolosKeWatuireng()
+        {
+            var s = new GameState { MalamKe = 7, PilihanAkhir = PilihanAkhir.Lapor };
+            Assert.AreEqual("Scene_Watuireng", PetaScene.Untuk(s));
+            s.LolosKejaranWiryo = true;
+            Assert.AreEqual("Scene_RumahKeluarga", PetaScene.Untuk(s));
+            Assert.AreEqual("Scene_RumahKeluarga", PetaScene.Untuk(new GameState { MalamKe = 7 }));
+        }
+
+        [Test]
         public void PrologDimulaiDiJalanDesa()
         {
             Assert.AreEqual("Scene_Desa", PetaScene.Untuk(new GameState()));

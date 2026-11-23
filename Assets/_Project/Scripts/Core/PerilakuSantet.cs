@@ -21,6 +21,9 @@ namespace TheSending.Core
 
         public KeadaanSantet Keadaan { get; private set; } = KeadaanSantet.Patroli;
 
+        // Malam 7: langsung mengejar tanpa menunggu deteksi.
+        public void MulaiKejar() => Keadaan = KeadaanSantet.Kejar;
+
         // Pemain yang bersembunyi hanya bisa ketahuan dari napasnya (Game Story 6.6).
         public static bool Mendeteksi(Pengamatan p) =>
             p.Bersembunyi

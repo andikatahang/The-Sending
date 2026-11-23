@@ -51,7 +51,9 @@ namespace TheSending.Core
 
         public static void Hapus(string folder)
         {
-            if (File.Exists(Jalur(folder))) File.Delete(Jalur(folder));
+            if (!Directory.Exists(folder)) return;
+            File.Delete(Jalur(folder));   // aman jika file tidak ada
+            File.Delete(Jalur(folder) + ".tmp");
         }
     }
 }
