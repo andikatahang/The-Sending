@@ -103,7 +103,7 @@ namespace TheSending.EditorTools
         }
 
         // Unlit transparan dengan tekstur titik 16 px, filter Point. tambah = aditif (api), selain itu alpha (asap).
-        static Material MaterialPartikel(string nama, bool tambah)
+        internal static Material MaterialPartikel(string nama, bool tambah)
         {
             string jalur = $"{FolderMaterial}/{nama}.mat";
             var ada = AssetDatabase.LoadAssetAtPath<Material>(jalur);

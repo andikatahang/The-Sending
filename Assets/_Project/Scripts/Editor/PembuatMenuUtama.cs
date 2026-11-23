@@ -34,6 +34,7 @@ namespace TheSending.EditorTools
             PembuatMakam.Buat();
             PembuatRumahPakde.Buat();
             PembuatWatuireng.Buat();
+            PembuatEpilog.Buat();
             Buat();   // terakhir: mendaftarkan scene dan meninggalkan menu utama terbuka
         }
 
@@ -83,6 +84,7 @@ namespace TheSending.EditorTools
                 new EditorBuildSettingsScene(PembuatMakam.JalurScene, true),
                 new EditorBuildSettingsScene(PembuatRumahPakde.JalurScene, true),
                 new EditorBuildSettingsScene(PembuatWatuireng.JalurScene, true),
+                new EditorBuildSettingsScene(PembuatEpilog.JalurScene, true),
             };
         }
     }
