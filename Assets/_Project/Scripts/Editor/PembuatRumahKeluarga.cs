@@ -65,6 +65,7 @@ namespace TheSending.EditorTools
             PembuatMalam4.Pasang(rig, sutradara, sosok);
             var kainKafan = PembuatMalam5.Pasang(rig, sutradara);
             PembuatMalam6.Pasang(rig, sutradara, ibu, kainKafan);
+            PembuatMalam7.Pasang(rig, sutradara, sosok, ibu);
 
             EditorSceneManager.SaveScene(scene, JalurScene);
             AssetDatabase.SaveAssets();
