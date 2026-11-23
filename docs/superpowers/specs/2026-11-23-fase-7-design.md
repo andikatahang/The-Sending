@@ -29,7 +29,7 @@ Aturan tim di `CLAUDE.md`: Core TDD, scene dibuat skrip, satu sutradara per bagi
 - **K50-A (23 Nov):** epilog di `Scene_Epilog` berupa 3–4 bidikan kamera Timeline per ending di set kecil (memakai ulang prefab), dialog dan narasi lewat kartu teks, lalu pesan penutup, lalu menu.
 - **Usulan Claude yang tidak dikoreksi tim (23 Nov):**
   - Mbah Wiryo mengejar dengan otak `SosokSantet`/`PerilakuSantet` dan model `tokoh-dasar` Mbah Wiryo. Lolos = sampai di gerbang kebun. Tertangkap = muat checkpoint sebelum kejaran, lalu −5 (DS 4.2).
-  - Lilin salah urutan: jam gim +15 menit ("Mbah Wiryo makin gelisah") dan urutan diulang. Salah ketiga kali: Wiryo bangun dan kejaran langsung mulai (M7 belum diambil, tetapi tetap bisa disambar sambil lari).
+  - Lilin salah urutan: jam gim +15 menit ("Mbah Wiryo makin gelisah") dan urutan diulang. (Aturan "salah ketiga = Wiryo bangun" dibuang saat menulis rencana, K51: belum ada checkpoint sebelum pilihan.)
   - Jalur Fitnah: Sosok berpatroli di rumah seperti Malam 2, Raka bersembunyi dan menjaga kamar Ibu sampai 00.00. Tertangkap = checkpoint (Kondisi Ibu tetap minimal 1).
   - Obat Malam 7 jalur utama: Laras memberi otomatis pukul 21.00 (+2) dengan notifikasi HUD (DS 4.4).
 
