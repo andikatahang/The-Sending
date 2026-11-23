@@ -510,6 +510,68 @@ namespace TheSending.EditorTools
                 K("Hangus", 0.3f, 0.5f, -0.4f, 4f, 0.1f, 3f, 12f, 8f, -10f),    // atap jatuh
             }),
             ("KacaGelap", new[] { K("KacaGelap", 0f, 0.5f, 0f, 1f, 1f, 0.02f) }),
+            // Malam 7: rumah Mbah Wiryo (Watuireng), sesaji, epilog
+            ("LilinSesaji", new[]
+            {
+                T("Kertas", 0f, 0.01f, 0f, 0.09f, 0.01f, 0.09f),               // piring kecil
+                T("Kertas", 0f, 0.07f, 0f, 0.025f, 0.06f, 0.025f),             // lilin
+                B("Api", 0f, 0.14f, 0f, 0.03f),                                // nyala
+            }),
+            ("NampanSesaji", new[]
+            {
+                T("KayuTua", 0f, 0.02f, 0f, 0.3f, 0.02f, 0.3f),
+                K("Daun", 0f, 0.045f, 0f, 0.22f, 0.01f, 0.22f),
+                B("Terakota", 0.06f, 0.08f, 0.04f, 0.07f),
+                B("Karat", -0.07f, 0.07f, -0.05f, 0.06f),
+            }),
+            ("KendiInduk", new[]   // lebih besar dan lebih gelap dari KendiTanahMerah
+            {
+                B("Gelap", 0f, 0.22f, 0f, 0.44f),
+                T("Gelap", 0f, 0.46f, 0f, 0.1f, 0.06f, 0.1f),
+                T("Karat", 0f, 0.52f, 0f, 0.08f, 0.004f, 0.08f),
+            }),
+            ("Lontar", new[]
+            {
+                K("Bambu", 0f, 0.01f, 0f, 0.5f, 0.02f, 0.1f),
+                K("Kertas", 0f, 0.025f, 0f, 0.46f, 0.008f, 0.08f),
+                K("Karat", 0f, 0.031f, 0f, 0.38f, 0.002f, 0.015f),             // tulisan
+            }),
+            ("BukuCatatan", new[]
+            {
+                K("KayuGelap", 0f, 0.015f, 0f, 0.22f, 0.03f, 0.3f),
+                K("Kertas", 0.005f, 0.015f, 0f, 0.2f, 0.026f, 0.28f),
+            }),
+            ("KandangAyam", new[]
+            {
+                K("Bambu", 0f, 0.03f, 0f, 0.8f, 0.06f, 0.6f),                  // dasar
+                K("Bambu", -0.38f, 0.4f, -0.28f, 0.04f, 0.8f, 0.04f),
+                K("Bambu", 0.38f, 0.4f, -0.28f, 0.04f, 0.8f, 0.04f),
+                K("Bambu", -0.38f, 0.4f, 0.28f, 0.04f, 0.8f, 0.04f),
+                K("Bambu", 0.38f, 0.4f, 0.28f, 0.04f, 0.8f, 0.04f),
+                K("Bambu", 0f, 0.8f, 0f, 0.84f, 0.04f, 0.64f),                 // atap
+                K("Bambu", 0f, 0.4f, 0.28f, 0.7f, 0.03f, 0.03f),
+                K("Bambu", 0f, 0.6f, 0.28f, 0.7f, 0.03f, 0.03f),
+            }),
+            ("AyamCemani", new[]
+            {
+                B("Gelap", 0f, 0.22f, 0f, 0.3f),                               // badan
+                B("Gelap", 0f, 0.42f, 0.14f, 0.14f),                           // kepala (+Z)
+                K("Karat", 0f, 0.5f, 0.14f, 0.02f, 0.05f, 0.08f),              // jengger
+                K("Gelap", 0f, 0.26f, -0.18f, 0.06f, 0.2f, 0.1f, -30f),        // ekor
+                K("Gelap", -0.04f, 0.06f, 0f, 0.015f, 0.12f, 0.015f),
+                K("Gelap", 0.04f, 0.06f, 0f, 0.015f, 0.12f, 0.015f),
+            }),
+            ("Cermin", new[]
+            {
+                K("KayuGelap", 0f, 0f, 0f, 0.7f, 1.1f, 0.04f),
+                K("Perak", 0f, 0f, 0.022f, 0.6f, 1f, 0.005f),
+            }),
+            ("Payung", new[]
+            {
+                T("KayuGelap", 0f, 0.4f, 0f, 0.01f, 0.4f, 0.01f),              // gagang
+                T("Gelap", 0f, 0.82f, 0f, 0.45f, 0.04f, 0.45f),                // kain terkembang
+                B("KayuGelap", 0f, 0.87f, 0f, 0.03f),
+            }),
         };
 
         [MenuItem("The Sending/Buat Aset Pengganti")]
