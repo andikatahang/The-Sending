@@ -90,11 +90,7 @@ namespace TheSending.Runtime
             if (State.Ending != Ending.Belum && !keEpilog)
             {
                 string aktif = SceneManager.GetActiveScene().name;
-                if (aktif != PetaScene.Epilog && aktif != SceneMenuUtama)
-                {
-                    keEpilog = true;
-                    MuatScene(PetaScene.Epilog);
-                }
+                if (aktif != PetaScene.Epilog && aktif != SceneMenuUtama) MuatScene(PetaScene.Epilog);
             }
         }
 
@@ -146,7 +142,16 @@ namespace TheSending.Runtime
         }
 
         // Panel yang sedang menjeda melepas jedanya sendiri di OnDisable saat scene lama dibongkar.
-        public void MuatScene(string nama) => SceneManager.LoadScene(nama);
+        // Sutradara yang memuat Epilog sendiri (SceneUntukState) dan Update di atas tidak boleh memuatnya dua kali.
+        public void MuatScene(string nama)
+        {
+            if (nama == PetaScene.Epilog)
+            {
+                if (keEpilog) return;
+                keEpilog = true;
+            }
+            SceneManager.LoadScene(nama);
+        }
 
         // Aman: pada load Single, OnDisable panel lama (melepas jeda) jalan sebelum sceneLoaded, dan Start scene baru jalan sesudahnya.
         void SaatSceneDimuat(Scene scene, LoadSceneMode mode)
