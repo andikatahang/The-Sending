@@ -54,6 +54,39 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.9, y: 0.40000004, z: 1.9999998}
   m_Center: {x: 0, y: 0.20000002, z: -0.000000059604645}
+--- !u!1 &2301645839590058506
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6791497134270617784}
+  m_Layer: 0
+  m_Name: Makam
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6791497134270617784
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2301645839590058506}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 4300295710015525962}
+  - {fileID: 4041668140012293958}
+  m_Father: {fileID: 4521171389309443315}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3463830213477783136
 GameObject:
   m_ObjectHideFlags: 0
@@ -85,7 +118,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 3927678279904769290}
+  m_Father: {fileID: 6791497134270617784}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3443935728745167363
 MeshFilter:
@@ -175,7 +208,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 3927678279904769290}
+  m_Father: {fileID: 6791497134270617784}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &7942171303378569214
 MeshFilter:
@@ -265,39 +298,6 @@ Transform:
   m_LocalScale: {x: 0.022501115, y: 0.025446072, z: 0.019268077}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 3927678279904769290}
+  - {fileID: 6791497134270617784}
   m_Father: {fileID: 3970846718942885540}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &6686953275381691010
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3927678279904769290}
-  m_Layer: 0
-  m_Name: Makam
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &3927678279904769290
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6686953275381691010}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 4300295710015525962}
-  - {fileID: 4041668140012293958}
-  m_Father: {fileID: 4521171389309443315}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

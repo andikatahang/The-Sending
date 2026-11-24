@@ -61,6 +61,9 @@ namespace TheSending.EditorTools
             new Tokoh { Nama = "Warga3", Baju = "3E4A5E", Bawah = "2A2A2C", Rambut = "1E1814", PolaBaju = Pola.Kotak, Kepala = new[] { Peci() } },
             new Tokoh { Nama = "Warga4", Baju = "7A5A30", Bawah = "3A2A1E", Aksen = "C8B88A", PolaBawah = Pola.Batik, Rambut = "2A2622", Kulit = "A87E5C", Tua = true },
             new Tokoh { Nama = "Warga5", Baju = "6E2A3A", Bawah = "3A2E36", PolaBawah = Pola.Batik, Rambut = "141010", Wanita = true, Kepala = new[] { RambutPanjang("Gelap") } },
+            new Tokoh { Nama = "Raka", Baju = "2A2E36", Bawah = "34445E", Rambut = "141010" },   // kaus gelap, jeans
+            new Tokoh { Nama = "BripkaAnton", Baju = "7A5A34", Bawah = "6A4C2C", Rambut = "141010", Sepatu = "1A1612",
+                Kepala = new[] { K("KayuGelap", 0f, 0.12f, 0.01f, 0.2f, 0.06f, 0.24f) } },   // seragam coklat, topi
             new Tokoh { Nama = "PakLasno", Baju = "6E6048", Bawah = "4A3A2A", Rambut = "2A2622", Kulit = "A87E5C", Tua = true, Kepala = new[] { Peci() } },
         };
 

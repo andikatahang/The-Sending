@@ -37,6 +37,7 @@ namespace TheSending.Runtime
         public event Action StateDiganti;
 
         int jumlahJeda;
+        bool keEpilog;   // Epilog sudah diminta; jangan memuat dua kali sebelum scene berganti
         static string Folder => Application.persistentDataPath;
 
         void Awake()
@@ -84,6 +85,13 @@ namespace TheSending.Runtime
             Cursor.visible = !kunci;
             // Jam hanya maju selama pemain dikendalikan: tidak di menu utama, adegan, dialog, Jurnal, inventaris, atau jeda.
             if (KunciKursor && !Dijeda && State.Ending == Ending.Belum) JamGim.Maju(State, Time.deltaTime);
+
+            // Semua ending lewat satu jalan: dari scene gameplay mana pun, muat Epilog sekali.
+            if (State.Ending != Ending.Belum && !keEpilog)
+            {
+                string aktif = SceneManager.GetActiveScene().name;
+                if (aktif != PetaScene.Epilog && aktif != SceneMenuUtama) MuatScene(PetaScene.Epilog);
+            }
         }
 
         public void MulaiBaru() => Pasang(new GameState());
@@ -97,6 +105,7 @@ namespace TheSending.Runtime
         }
 
         public bool SimpanCheckpoint() => Checkpoint.Simpan(Folder, State);
+        public void HapusSave() => BerkasSave.Hapus(Folder);
 
         // Desain 4.2. Posisi pemain dikembalikan oleh scene malam (titik mulai checkpoint), bukan di sini.
         public void Tertangkap()
@@ -133,7 +142,17 @@ namespace TheSending.Runtime
         }
 
         // Panel yang sedang menjeda melepas jedanya sendiri di OnDisable saat scene lama dibongkar.
-        public void MuatScene(string nama) => SceneManager.LoadScene(nama);
+        // Sutradara yang memuat Epilog sendiri (SceneUntukState) dan Update di atas tidak boleh memuatnya dua kali.
+        public void MuatScene(string nama)
+        {
+            if (nama == PetaScene.Epilog)
+            {
+                if (keEpilog) return;
+                keEpilog = true;
+                SimpanCheckpoint();   // K52: save memuat Ending, jadi "Lanjutkan" sebelum epilog selesai memutar epilog lagi
+            }
+            SceneManager.LoadScene(nama);
+        }
 
         // Aman: pada load Single, OnDisable panel lama (melepas jeda) jalan sebelum sceneLoaded, dan Start scene baru jalan sesudahnya.
         void SaatSceneDimuat(Scene scene, LoadSceneMode mode)
@@ -145,6 +164,7 @@ namespace TheSending.Runtime
                 jumlahJeda = 0;
             }
             Sinematik = false;
+            keEpilog = false;
             Time.timeScale = 1f;
         }
 

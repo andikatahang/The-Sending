@@ -22,6 +22,17 @@ namespace TheSending.Tests
         }
 
         [Test]
+        public void HapusMenghapusSaveDanAmanJikaTidakAda()
+        {
+            BerkasSave.Hapus(folder);   // folder belum ada: tidak melempar
+            BerkasSave.Tulis(folder, new GameState());
+            File.WriteAllText(BerkasSave.Jalur(folder) + ".tmp", "x");
+            BerkasSave.Hapus(folder);
+            Assert.IsFalse(BerkasSave.Ada(folder));
+            Assert.IsFalse(File.Exists(BerkasSave.Jalur(folder) + ".tmp"));
+        }
+
+        [Test]
         public void BacaTanpaFileMengembalikanNull()
         {
             Assert.IsFalse(BerkasSave.Ada(folder));

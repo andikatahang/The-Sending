@@ -8,7 +8,8 @@ namespace TheSending.Core
     {
         public const float DetikNyataPerJamGim = 125f;
         public const float DetikNyataPerJamGimMalam6 = 250f;   // K41-A: 18.00-21.00 sekitar 12,5 menit nyata
-        public static float DetikPerJamGim(int malam) => malam == 6 ? DetikNyataPerJamGimMalam6 : DetikNyataPerJamGim;
+        public const float DetikNyataPerJamGimMalam7 = 250f;
+        public static float DetikPerJamGim(int malam) => malam == 6 ? DetikNyataPerJamGimMalam6 : malam == 7 ? DetikNyataPerJamGimMalam7 : DetikNyataPerJamGim;
         public const float MulaiProlog = 17 * 60 + 30f;
         public const float MulaiMalam = 18 * 60f;
         public const float Jam20 = 20 * 60f, Jam21 = 21 * 60f, Jam22 = 22 * 60f, Jam23 = 23 * 60f;
@@ -21,11 +22,22 @@ namespace TheSending.Core
         public static void Maju(GameState s, float detikNyata)
         {
             if (detikNyata <= 0f) return;
-            float baru = Math.Min(s.MenitGim + detikNyata * 60f / DetikPerJamGim(s.MalamKe), Batas(s.MalamKe));
+            Majukan(s, detikNyata * 60f / DetikPerJamGim(s.MalamKe));
+        }
+
+        // Tambah menit gim langsung (mis. lilin salah, kokok cemani), dijepit ke batas malam.
+        public static void Majukan(GameState s, float menit)
+        {
+            if (menit <= 0f) return;
+            float baru = Math.Min(s.MenitGim + menit, Batas(s.MalamKe));
             if (baru <= s.MenitGim) return;
             s.MenitGim = baru;
             s.Umumkan(Perubahan.Jam);
-            if (s.MalamKe == 7) PenentuEnding.Cek(s);
+            if (s.MalamKe == 7)
+            {
+                ObatMalam7.Cek(s);
+                PenentuEnding.Cek(s);
+            }
         }
 
         // Malam 6: warga berkumpul (Sidang). Malam 7: tengah malam.
@@ -87,7 +99,7 @@ namespace TheSending.Core
         }
 
         public static float SisaDetikMalam7(GameState s) =>
-            s.MalamKe != 7 ? 0f : Math.Max(0f, (TengahMalam - s.MenitGim) * DetikNyataPerJamGim / 60f);
+            s.MalamKe != 7 ? 0f : Math.Max(0f, (TengahMalam - s.MenitGim) * DetikPerJamGim(7) / 60f);
 
         public static string Format(float menit)
         {

@@ -59,11 +59,6 @@ namespace TheSending.Runtime
                 return;
             }
             var s = gm.State;
-            if (s.MalamKe >= 7)
-            {
-                hud.Tampilkan("Malam 7 belum dibuat (Fase 7).");
-                return;
-            }
             if (s.MalamKe != 6) return;
             berjalan = true;
             kartu.HitamSeketika();

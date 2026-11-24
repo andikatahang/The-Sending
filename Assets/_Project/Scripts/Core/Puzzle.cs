@@ -55,7 +55,15 @@ namespace TheSending.Core
     // Malam 7: salah urutan membuat Mbah Wiryo bangun lebih cepat (diurus Runtime).
     public static class LilinSesaji
     {
+        public const float MenitSalah = 15f;   // Malam 7: salah menyalakan lilin memakan menit gim
         public static PuzzleUrutan<Pasaran> Buat(int malam) => new PuzzleUrutan<Pasaran>(KalenderJawa.UrutanLilin(malam), false);
+    }
+
+    // Malam 7: ayam cemani berkokok jika Raka dekat kandang; tiap kokok memakan menit gim.
+    public static class KokokCemani
+    {
+        public const float Jarak = 3f, Menit = 5f, JedaDetik = 20f;
+        public static bool Berkokok(float jarak) => jarak <= Jarak;
     }
 
     // Malam 4: tali yang ditarik lebih cepat dari batas membuat bungkusan jatuh kembali.

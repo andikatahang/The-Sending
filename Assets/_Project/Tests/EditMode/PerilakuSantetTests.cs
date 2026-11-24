@@ -93,6 +93,15 @@ namespace TheSending.Tests
         }
 
         [Test]
+        public void MulaiKejarLangsungMengejar()
+        {
+            var p = new PerilakuSantet();
+            p.MulaiKejar();
+            Assert.AreEqual(KeadaanSantet.Kejar, p.Keadaan);
+            Assert.IsTrue(p.Tick(0.1f, new Pengamatan { Jarak = 0.5f }));
+        }
+
+        [Test]
         public void KejarBerubahSelidikiSaatPemainBersembunyi()
         {
             var p = new PerilakuSantet();

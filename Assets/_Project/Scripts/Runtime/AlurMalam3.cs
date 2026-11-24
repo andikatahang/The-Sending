@@ -249,7 +249,7 @@ namespace TheSending.Runtime
             }
             var gm = GameManager.Instance;
             hud.Tampilkan("Paku itu tidak mau lepas; urutannya salah. Ibu mengerang dari kamarnya.");
-            if (KeMenuJikaEnding(gm)) return;
+            if (KeEpilogJikaEnding(gm)) return;
             // K21-A: checkpoint sesudah penalti dan sebelum Sosok muncul (desain 2.6), supaya penalti dan paku yang sudah
             // dicabut tidak hilang saat tertangkap.
             gm.SimpanCheckpoint();
@@ -307,7 +307,7 @@ namespace TheSending.Runtime
             yield return kartu.StartCoroutine(kartu.KeHitam());
             gm.Tertangkap();
             // Jeda dilepas KameraAdegan.OnDisable saat scene dibongkar.
-            gm.MuatScene(gm.State.Ending != Ending.Belum ? GameManager.SceneMenuUtama : gm.SceneUntukState);
+            gm.MuatScene(gm.SceneUntukState);
         }
 
         // Game Story Malam 3 butir 7: Raka pergi ke rumah Bu Sumi (K17-B: berjalan lewat Scene_Desa).
@@ -334,12 +334,11 @@ namespace TheSending.Runtime
             GameManager.Instance.MuatScene(PetaScene.Desa);   // AlurDesaMalam3 menaruh Raka di depan rumah keluarga
         }
 
-        // Ending sebelum Fase 7: kembali ke menu utama (layar ending dibuat di Fase 7).
-        bool KeMenuJikaEnding(GameManager gm)
+        // Ending: muat Epilog (PetaScene.Untuk memilihnya saat Ending terisi).
+        bool KeEpilogJikaEnding(GameManager gm)
         {
             if (gm.State.Ending == Ending.Belum) return false;
-            Debug.LogWarning("Ending tercapai di Malam 3; layar ending dibuat di Fase 7.", this);
-            gm.MuatScene(GameManager.SceneMenuUtama);
+            gm.MuatScene(gm.SceneUntukState);
             return true;
         }
 
@@ -354,7 +353,7 @@ namespace TheSending.Runtime
             {
                 yield return kartu.StartCoroutine(kartu.KeHitam());
                 PergantianMalam.Lanjut(s);        // Malam 4, Kondisi Ibu -12
-                if (KeMenuJikaEnding(gm))         // catatan 0B: -12 bisa langsung memicu ending
+                if (KeEpilogJikaEnding(gm))         // catatan 0B: -12 bisa langsung memicu ending
                 {
                     dimuat = true;
                     yield break;

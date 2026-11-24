@@ -150,7 +150,7 @@ namespace TheSending.Runtime
                 "Rumah Bu Sumi terbakar habis. Bu Sumi selamat dengan luka bakar. Kerabatnya dari desa lain membawanya pergi malam itu.", 6f));
         }
 
-        // K44-A: sampai Fase 7, akhir Malam 6 berhenti di kartu Malam 7 lalu menu utama.
+        // Akhir Malam 6: lanjut ke Malam 7 (kartu bab ditampilkan sutradara Malam 7), atau Epilog jika ending.
         IEnumerator GantiMalam(GameState s)
         {
             var gm = GameManager.Instance;
@@ -161,16 +161,12 @@ namespace TheSending.Runtime
                 PergantianMalam.Lanjut(s);        // Malam 7, Kondisi Ibu -12
                 if (s.Ending != Ending.Belum)
                 {
-                    Debug.LogWarning("Ending tercapai di Malam 6; layar ending dibuat di Fase 7.", this);
-                    gm.MuatScene(GameManager.SceneMenuUtama);
+                    gm.MuatScene(gm.SceneUntukState);   // Epilog
                     dimuat = true;
                     yield break;
                 }
                 gm.SimpanCheckpoint();            // checkpoint awal Malam 7
-                yield return kartu.StartCoroutine(kartu.Tampilkan("Malam 7: Malam Selasa Kliwon",
-                    KalenderJawa.NamaMalam(7) + "\n\n(Bersambung. Malam 7 dibuat di Fase 7.)", 8f));
-                yield return kartu.StartCoroutine(kartu.KeHitam());
-                gm.MuatScene(GameManager.SceneMenuUtama);
+                gm.MuatScene(gm.SceneUntukState);
                 dimuat = true;
             }
             finally { if (!dimuat) adegan.Selesai(); }

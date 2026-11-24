@@ -52,7 +52,7 @@ namespace TheSending.Tests
         public void SisaWaktuMalam7DalamDetikNyata()
         {
             var s = new GameState { MalamKe = 7, MenitGim = JamGim.Jam23 };
-            Assert.AreEqual(125f, JamGim.SisaDetikMalam7(s), 0.001f);
+            Assert.AreEqual(250f, JamGim.SisaDetikMalam7(s), 0.001f);
         }
 
         [TestCase(1260f, "21.00")]

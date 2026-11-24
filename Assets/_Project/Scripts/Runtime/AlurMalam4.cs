@@ -232,7 +232,7 @@ namespace TheSending.Runtime
             yield return kartu.StartCoroutine(kartu.KeHitam());
             gm.Tertangkap();
             // Jeda dilepas KameraAdegan.OnDisable saat scene dibongkar.
-            gm.MuatScene(gm.State.Ending != Ending.Belum ? GameManager.SceneMenuUtama : gm.SceneUntukState);
+            gm.MuatScene(gm.SceneUntukState);
         }
 
         // K26-A: pintu depan ke pos ronda kapan saja di Malam 4, kecuali saat dikejar.
@@ -252,11 +252,10 @@ namespace TheSending.Runtime
             GameManager.Instance.MuatScene(PetaScene.Desa);   // AlurDesaMalam4 menaruh Raka di depan rumah keluarga
         }
 
-        bool KeMenuJikaEnding(GameManager gm)
+        bool KeEpilogJikaEnding(GameManager gm)
         {
             if (gm.State.Ending == Ending.Belum) return false;
-            Debug.LogWarning("Ending tercapai di Malam 4; layar ending dibuat di Fase 7.", this);
-            gm.MuatScene(GameManager.SceneMenuUtama);
+            gm.MuatScene(gm.SceneUntukState);
             return true;
         }
 
@@ -271,7 +270,7 @@ namespace TheSending.Runtime
             {
                 yield return kartu.StartCoroutine(kartu.KeHitam());
                 PergantianMalam.Lanjut(s);        // Malam 5, Kondisi Ibu -12
-                if (KeMenuJikaEnding(gm))
+                if (KeEpilogJikaEnding(gm))
                 {
                     dimuat = true;
                     yield break;

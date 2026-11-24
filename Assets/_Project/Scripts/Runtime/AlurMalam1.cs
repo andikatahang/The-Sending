@@ -167,8 +167,7 @@ namespace TheSending.Runtime
                 PergantianMalam.Lanjut(s);        // Malam 2, Kondisi Ibu -12
                 if (s.Ending != Ending.Belum)     // catatan 0B: -12 bisa langsung memicu ending
                 {
-                    Debug.LogWarning("Ending tercapai saat pergantian malam; layar ending dibuat di Fase 7.", this);
-                    gm.MuatScene(GameManager.SceneMenuUtama);
+                    gm.MuatScene(gm.SceneUntukState);   // Epilog
                     dimuat = true;
                     yield break;
                 }

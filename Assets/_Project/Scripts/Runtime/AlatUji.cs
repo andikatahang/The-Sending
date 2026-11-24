@@ -36,7 +36,7 @@ namespace TheSending.Runtime
                 Pesan(gm.SimpanCheckpoint() ? "Checkpoint disimpan." : "Checkpoint GAGAL disimpan.");
             if (kb.f6Key.wasPressedThisFrame)
             {
-                JamGim.Maju(gm.State, 30f * JamGim.DetikNyataPerJamGim / 60f);   // 30 menit gim
+                JamGim.Majukan(gm.State, 30f);
                 Pesan("Jam gim maju 30 menit.");
             }
             if (kb.f9Key.wasPressedThisFrame)
