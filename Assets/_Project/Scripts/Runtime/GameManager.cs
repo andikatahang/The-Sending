@@ -149,6 +149,7 @@ namespace TheSending.Runtime
             {
                 if (keEpilog) return;
                 keEpilog = true;
+                SimpanCheckpoint();   // K52: save memuat Ending, jadi "Lanjutkan" sebelum epilog selesai memutar epilog lagi
             }
             SceneManager.LoadScene(nama);
         }
