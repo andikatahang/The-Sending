@@ -102,11 +102,12 @@ namespace TheSending.EditorTools
             Balok("AmbangPintuBelakang", new Vector3(-4f, 2.55f, 12f), new Vector3(1.2f, 0.9f, Tebal), "Gedek");
             var pintuBelakang = Balok("PintuBelakang", new Vector3(-4f, 1.05f, 12f), new Vector3(1.2f, 2.1f, 0.1f), "KayuGelap");
             Dinding(-7f, 0f, -7f, 12f);
-            // Dinding timur dengan celah 0,3 x 0,5 m di gudang (z 10, tinggi 1,3-1,8 m): Sosok Santet terlihat lewat sini di Malam 2.
-            Dinding(7f, 0f, 7f, 9.775f);
-            Dinding(7f, 10.225f, 7f, 12f);
-            Balok("Dinding", new Vector3(7f, 0.65f, 10f), new Vector3(Tebal, 1.3f, 0.3f), "Gedek");
-            Balok("Dinding", new Vector3(7f, 2.4f, 10f), new Vector3(Tebal, 1.2f, 0.3f), "Gedek");
+            // Dinding timur dengan celah sekitar 0,68 x 0,69 m di gudang (z 9,65-10,33, tinggi 1,17-1,86 m): Sosok Santet terlihat
+            // lewat sini di Malam 2. Angka dari edit manual tim (24 Nov).
+            Balok("Dinding", new Vector3(7f, Tinggi / 2f, 4.7889f), new Vector3(Tebal, Tinggi, 9.727491f), "DindingRumah");
+            Balok("Dinding", new Vector3(7f, Tinggi / 2f, 11.2029f), new Vector3(Tebal, Tinggi, 1.7441298f), "DindingRumah");
+            Balok("Dinding", new Vector3(7f, 0.5869f, 9.9804f), new Vector3(Tebal, 1.17377f, 0.70648676f), "DindingRumah");
+            Balok("Dinding", new Vector3(7f, 2.4302f, 9.9804f), new Vector3(Tebal, 1.13952f, 0.70648676f), "DindingRumah");
             Balok("PintuDepan", new Vector3(0f, 1.05f, 0f), new Vector3(1.2f, 2.1f, 0.1f), "KayuGelap");
             Ambang(new Vector3(0f, 0f, 0f), new Vector3(1.061f, 0f, Tebal));   // edit manual tim: ambang plester seperti pintu kamar
 
@@ -176,6 +177,7 @@ namespace TheSending.EditorTools
             Balok("LantaiMandi", new Vector3(5f, 0.005f, 2f), new Vector3(3.9f, 0.01f, 3.9f), "UbinMandi");
             Balok("DindingMandiTimur", new Vector3(6.915f, 0.75f, 2f), new Vector3(0.02f, 1.5f, 3.85f), "DindingMandi");
             Balok("DindingMandiSelatan", new Vector3(5f, 0.75f, 0.085f), new Vector3(3.85f, 1.5f, 0.02f), "DindingMandi");
+            Balok("DindingMandiUtara", new Vector3(5f, 0.75f, 3.905f), new Vector3(3.85f, 1.5f, 0.02f), "DindingMandi");   // edit manual tim
             PembuatPengganti.Pasang("MejaMakan", null, new Vector3(MejaMakan.x, 0f, MejaMakan.z));   // tempat benda ritual dan teh (Malam 3/5)
 
             // Pintu kamar berengsel (PintuKamar, E buka/tutup, mulai terbuka 90° ke dalam kamar). Gudang dilewati: PintuGudang
@@ -202,7 +204,7 @@ namespace TheSending.EditorTools
             PembuatPengganti.Pasang("JamDinding", r, new Vector3(2.906f, 1.9f, 3.971f), -90f);   // edit manual tim: di atas TV
 
             // Kamar Raka, kamar Laras
-            PembuatPengganti.Pasang("RanjangKayu", r, new Vector3(-6.2f, 0f, 2f));
+            PembuatPengganti.Pasang("RanjangKayu", r, new Vector3(-6.2f, 0f, 1.116f));   // edit manual tim
             PembuatPengganti.Pasang("Kabinet", r, new Vector3(-5.35f, 0f, 1.25f));
             PembuatPengganti.Pasang("Meja", r, new Vector3(-4.2f, 0f, 0.5f));
             PembuatPengganti.Pasang("RanjangKayu", r, new Vector3(6.409f, 0f, 5.127f));
@@ -211,9 +213,9 @@ namespace TheSending.EditorTools
 
             // Kamar mandi
             Balok("BakMandi", new Vector3(6.435f, 0.4f, 0.579f), new Vector3(1f, 0.8f, 1f), "UbinMandi").transform.SetParent(r, true);
-            PembuatPengganti.Pasang("Kloset", r, new Vector3(6.6f, 0f, 3.2f), -90f);
-            PembuatPengganti.Pasang("Wastafel", r, new Vector3(4.2f, 0f, 3.62f), 180f);
-            PembuatPengganti.Pasang("AksesorisMandi", r, new Vector3(3.452f, 0.009f, 3.88f), 180f);   // edit manual tim
+            PembuatPengganti.Pasang("Kloset", r, new Vector3(6.6f, 0f, 3.2f), -90f).transform.localScale = Vector3.one * 1.3f;   // edit manual tim
+            PembuatPengganti.Pasang("Wastafel", r, new Vector3(4.2f, 0f, 3.677f), 180f);   // edit manual tim
+            PembuatPengganti.Pasang("AksesorisMandi", r, new Vector3(3.367f, 0.009f, 3.802f), 180f);   // edit manual tim
 
             // Ruang tengah: TV di atas laci di dinding timur, karpet di depan sofa, sakelar dekat pintu depan.
             PembuatPengganti.Pasang("Karpet", r, new Vector3(0.269f, -0.0015f, 3.969f), -89.169f).transform.localScale = Vector3.one * 1.4508f;
@@ -238,7 +240,8 @@ namespace TheSending.EditorTools
             var talenan = Anak(dekor, "CuttingWood");
             talenan.localPosition = new Vector3(1.13f, 0.042384453f, 1.011f);
             talenan.localRotation = new Quaternion(0.22781433f, 0.66940325f, 0.6694032f, -0.22781429f);
-            PembuatPengganti.Pasang("TabungGas", r, new Vector3(-4.994f, 0f, 8.38f));   // edit manual tim
+            PembuatPengganti.Pasang("TabungGas", r, new Vector3(-4.624f, 0f, 8.38f));   // edit manual tim
+            PembuatPengganti.Pasang("TabungGas", r, new Vector3(3.291f, 0f, 8.297f));
             PembuatPengganti.Pasang("KomporGas", r, new Vector3(-4.209f, 0.81649f, 8.465f), 180.237f).transform.localScale = Vector3.one * 1.486031f;
             PembuatPengganti.Pasang("Kulkas", r, new Vector3(-2.546f, 0f, 8.458f));
             PembuatPengganti.Pasang("Dispenser", r, new Vector3(-6.687f, 0.002f, 10.37f), 90f).transform.localScale = Vector3.one * 1.9282811f;
@@ -251,7 +254,7 @@ namespace TheSending.EditorTools
             PembuatPengganti.Pasang("JamDinding", r, new Vector3(-3.5f, 1.9f, 8.14f));
 
             // Kamar: lemari kayu tua di kamar Raka, lilin di laci kamar Laras.
-            PembuatPengganti.Pasang("Lemari", r, new Vector3(-4.2f, 0f, 3.7f), 180f);
+            PembuatPengganti.Pasang("Lemari", r, new Vector3(-4.2f, -0.014f, 3.7f), 180f);   // edit manual tim
             PembuatPengganti.Pasang("Lilin", r, new Vector3(4.6f, Atas(laci), 4.33f));
 
             // Sakelar tunggal di sisi gagang setiap pintu kamar, di dalam ruangan: tinggi 1,3 m, 0,15 m dari kusen.
@@ -353,8 +356,8 @@ namespace TheSending.EditorTools
             Cor("MejaCorUbinBarat", xd, xd + dalam, zd, 10f, yPapan + tebalPapan, AtasMejaCor, "UbinMandi");
             Cor("MejaCorUbinSelatan", xd + dalam, -3f, zd, zd + dalamSelatan, yPapan + tebalPapan, AtasMejaCor, "UbinMandi");
             Cor("MejaCorKakiUtara", xd, xd + dalam, 9.7f, 10f, 0f, yPapan, "Beton");
-            Cor("MejaCorKakiTengah", -4.8f, -4.5f, zd, zd + dalamSelatan, 0f, yPapan, "Beton");
-            Cor("MejaCorKakiTimur", -3.3f, -3f, zd, zd + dalamSelatan, 0f, yPapan, "Beton");   // rongga x -4,5..-3,3: tabung gas
+            Cor("MejaCorKakiTengah", -5.164f, -4.864f, zd, zd + dalamSelatan, 0f, yPapan, "Beton");
+            Cor("MejaCorKakiTimur", -3.3f, -3f, zd, zd + dalamSelatan, 0f, yPapan, "Beton");   // rongga x -4,86..-3,3: tabung gas
         }
 
         // Puncak renderer benda (untuk menaruh benda kecil di atasnya).
