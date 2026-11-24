@@ -345,14 +345,6 @@ namespace TheSending.EditorTools
                 K("KayuGelap", 0f, 1.76f, 0f, 1.3f, 0.1f, 0.1f),
                 T("KayuTua", 0f, 1.6f, 0f, 0.14f, 0.1f, 0.14f, 0f, 0f, 90f),   // kerekan
             }),
-            // Plafon dapur 3 x 3 m dengan lubang di tengah sebagai jalan naik
-            ("PlafonAnyaman", new[]
-            {
-                K("Gedek", -1.0f, 0f, 0f, 1.0f, 0.04f, 3f),
-                K("Gedek", 1.0f, 0f, 0f, 1.0f, 0.04f, 3f),
-                K("Gedek", 0f, 0f, -1.0f, 1.0f, 0.04f, 1.0f),
-                K("Gedek", 0f, 0f, 1.0f, 1.0f, 0.04f, 1.0f),
-            }),
             ("TanggaBambu", new[]
             {
                 K("Bambu", -0.25f, 1.25f, 0f, 0.06f, 2.5f, 0.06f, 8f),

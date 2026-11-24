@@ -58,7 +58,6 @@ namespace TheSending.EditorTools
         // Loteng di atas dapur dan gudang (K28-A): NaikPlafon memindahkan Raka lewat lubang plafon; telur cemani M4 di pojok barat.
         static void Loteng(Rig rig, GameObject sutradara)
         {
-            PembuatPengganti.Pasang("PlafonAnyaman", null, new Vector3(Lubang.x, LantaiLoteng - 0.22f, Lubang.z));
             const float tinggi = 2.2f, yDinding = LantaiLoteng + tinggi / 2f;
             Balok("DindingLoteng", new Vector3(0f, yDinding, 8f), new Vector3(14f, tinggi, 0.15f), "Gedek");
             Balok("DindingLoteng", new Vector3(0f, yDinding, 12f), new Vector3(14f, tinggi, 0.15f), "Gedek");
