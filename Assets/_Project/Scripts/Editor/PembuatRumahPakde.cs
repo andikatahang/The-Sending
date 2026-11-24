@@ -48,6 +48,7 @@ namespace TheSending.EditorTools
             RuangKerja(rig, alur);
             Mangkuk(rig, alur);
             Anjing(rig, alur);
+            PembuatDekor.Pasang("RumahPakde", Dekor);
 
             var pemanggil = new GameObject("PemanggilSidang").AddComponent<PemanggilSidang>();   // Malam 6, 21.00: ke sidang di desa
             Set(pemanggil, "kartu", rig.Kartu);
@@ -59,7 +60,7 @@ namespace TheSending.EditorTools
             Debug.Log($"Scene rumah Pakde dibuat: {JalurScene}");
         }
 
-        // Tanah, pagar besi pengganti (visual) + batas tak terlihat (Ignore Raycast), cahaya bulan.
+        // Tanah, batas tak terlihat (Ignore Raycast), cahaya bulan. Pagar besi visual di Dekor.
         static void Halaman()
         {
             Balok("Tanah", new Vector3(0f, -0.1f, Panjang / 2f), new Vector3(Lebar + 2f, 0.2f, Panjang + 8f), "Tanah")
@@ -68,15 +69,6 @@ namespace TheSending.EditorTools
             Batas("BatasTimur", new Vector3(Lebar / 2f, 1.5f, Panjang / 2f), new Vector3(0.2f, 3f, Panjang));
             Batas("BatasSelatan", new Vector3(0f, 1.5f, -0.1f), new Vector3(Lebar, 3f, 0.2f));
             Batas("BatasUtara", new Vector3(0f, 1.5f, Panjang + 0.1f), new Vector3(Lebar, 3f, 0.2f));   // di belakang teras
-
-            var pagar = new GameObject("Pagar").transform;
-            for (float x = -Lebar / 2f + 1f; x < Lebar / 2f; x += 2f)
-                PembuatPengganti.Pasang("PagarBesi", pagar, new Vector3(x, 0f, -0.2f));
-            for (float z = 1f; z < Panjang; z += 2f)
-            {
-                PembuatPengganti.Pasang("PagarBesi", pagar, new Vector3(-Lebar / 2f - 0.1f, 0f, z), 90f);
-                PembuatPengganti.Pasang("PagarBesi", pagar, new Vector3(Lebar / 2f + 0.1f, 0f, z), 90f);
-            }
 
             var bulan = new GameObject("CahayaBulan").AddComponent<Light>();
             bulan.type = LightType.Directional;
@@ -90,11 +82,6 @@ namespace TheSending.EditorTools
         {
             PembuatPengganti.Pasang("RumahPakdeLuar", null, new Vector3(0f, 0f, 13f), 180f);
             Lampu("LampuTeras", new Vector3(0f, 2.6f, 9f), WarnaLampu, 6f, 0.8f);
-            // Dekor teras tanpa collider (NavMesh anjing); jalur patroli terdekat di z 7,5.
-            PembuatPengganti.Pasang("Karpet", null, new Vector3(0.5f, 0.2f, 9.2f));
-            var kursi = PembuatPengganti.Pasang("KursiPlastik", null, new Vector3(2.8f, 0.2f, 9.3f), 180f);
-            foreach (var c in kursi.GetComponentsInChildren<Collider>()) Object.DestroyImmediate(c);
-            PembuatPengganti.Pasang("JamDinding", null, new Vector3(1.2f, 2.0f, 9.92f), 180f);
 
             var pot = Logika("PotTeras", new Vector3(-2.5f, 0.2f, 9f), new Vector3(0.6f, 1.1f, 0.6f));
             PembuatPengganti.Pasang("PotBunga", pot.transform, Vector3.zero);
@@ -110,6 +97,25 @@ namespace TheSending.EditorTools
             var k = keluar.AddComponent<InteraktifAlur>();
             SetTeks(k, "prompt", "Keluar ke jalan desa");
             Set(alur, "pagarKeluar", k);
+        }
+
+        // Dekor di prefab Dekor_RumahPakde (PembuatDekor): pagar besi (visual; batasnya tak terlihat) dan dekor teras.
+        static void Dekor(Transform r)
+        {
+            var pagar = new GameObject("Pagar").transform;
+            pagar.SetParent(r, false);
+            for (float x = -Lebar / 2f + 1f; x < Lebar / 2f; x += 2f)
+                PembuatPengganti.Pasang("PagarBesi", pagar, new Vector3(x, 0f, -0.2f));
+            for (float z = 1f; z < Panjang; z += 2f)
+            {
+                PembuatPengganti.Pasang("PagarBesi", pagar, new Vector3(-Lebar / 2f - 0.1f, 0f, z), 90f);
+                PembuatPengganti.Pasang("PagarBesi", pagar, new Vector3(Lebar / 2f + 0.1f, 0f, z), 90f);
+            }
+            // Dekor teras tanpa collider (NavMesh anjing); jalur patroli terdekat di z 7,5.
+            PembuatPengganti.Pasang("Karpet", r, new Vector3(0.5f, 0.2f, 9.2f));
+            var kursi = PembuatPengganti.Pasang("KursiPlastik", r, new Vector3(2.8f, 0.2f, 9.3f), 180f);
+            foreach (var c in kursi.GetComponentsInChildren<Collider>()) Object.DestroyImmediate(c);
+            PembuatPengganti.Pasang("JamDinding", r, new Vector3(1.2f, 2.0f, 9.92f), 180f);
         }
 
         // Dinding lurus sejajar sumbu, dari (x1, z1) ke (x2, z2).

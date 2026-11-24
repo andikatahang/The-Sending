@@ -62,6 +62,7 @@ namespace TheSending.EditorTools
             Halaman(alur);
             RumahWiryo(rig, alur);
             Kebun(alur);
+            PembuatDekor.Pasang("Watuireng", Dekor);
             Wiryo(rig, alur);
             Memergoki(rig, alur);
 
@@ -124,12 +125,26 @@ namespace TheSending.EditorTools
             PembuatPengganti.Pasang("KandangAyam", kandang, Vector3.zero, -90f);
             PembuatPengganti.Pasang("AyamCemani", kandang, new Vector3(0f, 0.06f, 0f), -90f);
             Set(alur, "kandang", kandang);
-            // Pagar bambu visual di sisi halaman dan kebun (batas sebenarnya tak terlihat).
+        }
+
+        // Dekor di prefab Dekor_Watuireng (PembuatDekor): pagar bambu visual di sisi halaman dan kebun (batas sebenarnya
+        // tak terlihat), rumpun bambu dan kelor di kebun.
+        static void Dekor(Transform r)
+        {
             var pagar = new GameObject("Pagar").transform;
+            pagar.SetParent(r, false);
             float tengah = (UjungJalan + UjungKebun) / 2f, panjang = UjungKebun - UjungJalan;
             foreach (float x in new[] { -LebarHalaman, LebarHalaman })
                 foreach (float y in new[] { 0.4f, 0.9f })
                     Balok("PalangPagar", new Vector3(x, y, tengah), new Vector3(0.06f, 0.06f, panjang), "Bambu").transform.SetParent(pagar, true);
+
+            var induk = new GameObject("Kebun").transform;
+            induk.SetParent(r, false);
+            foreach (var p in new[] { new Vector3(-4.5f, 0f, 85f), new Vector3(2.5f, 0f, 86.5f), new Vector3(-1f, 0f, 89.5f),
+                         new Vector3(5f, 0f, 91f), new Vector3(-5.2f, 0f, 92.5f), new Vector3(1.5f, 0f, 94f) })
+                PembuatPengganti.Pasang("RumpunBambu", induk, p);
+            foreach (var p in new[] { new Vector3(4.8f, 0f, 83.5f), new Vector3(-2.5f, 0f, 83f), new Vector3(-3f, 0f, 94.8f) })
+                PembuatPengganti.Pasang("PohonKelor", induk, p);
         }
 
         // Dinding lurus sejajar sumbu, dari (x1, z1) ke (x2, z2).
@@ -213,16 +228,9 @@ namespace TheSending.EditorTools
             kemenyan.GetComponent<AudioSource>().playOnAwake = true;
         }
 
-        // Kebun di belakang rumah: rumpun bambu dan kelor, gerbang di sudut barat laut (zona lolos menjauh dari rumah).
+        // Kebun di belakang rumah (tanaman di Dekor): gerbang di sudut barat laut (zona lolos menjauh dari rumah).
         static void Kebun(AlurWatuireng alur)
         {
-            var induk = new GameObject("Kebun").transform;
-            foreach (var p in new[] { new Vector3(-4.5f, 0f, 85f), new Vector3(2.5f, 0f, 86.5f), new Vector3(-1f, 0f, 89.5f),
-                         new Vector3(5f, 0f, 91f), new Vector3(-5.2f, 0f, 92.5f), new Vector3(1.5f, 0f, 94f) })
-                PembuatPengganti.Pasang("RumpunBambu", induk, p);
-            foreach (var p in new[] { new Vector3(4.8f, 0f, 83.5f), new Vector3(-2.5f, 0f, 83f), new Vector3(-3f, 0f, 94.8f) })
-                PembuatPengganti.Pasang("PohonKelor", induk, p);
-
             var gerbang = new Vector3(-5f, 0f, UjungKebun);
             foreach (float dx in new[] { -1.1f, 1.1f })
                 Balok("TiangGerbang", gerbang + new Vector3(dx, 0.8f, 0f), new Vector3(0.12f, 1.6f, 0.12f), "Bambu");

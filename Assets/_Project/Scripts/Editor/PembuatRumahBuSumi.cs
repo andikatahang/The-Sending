@@ -48,6 +48,7 @@ namespace TheSending.EditorTools
 
             Ruang(rig, alur);
             HalamanBelakang(rig, alur);
+            PembuatDekor.Pasang("RumahBuSumi", Dekor);
 
             var pemanggil = new GameObject("PemanggilSidang").AddComponent<PemanggilSidang>();   // Malam 6, 21.00: ke sidang di desa
             Set(pemanggil, "kartu", rig.Kartu);
@@ -100,12 +101,7 @@ namespace TheSending.EditorTools
             cahaya.gameObject.SetActive(false);
             Lampu("CahayaRedup", new Vector3(1f, 2.4f, 2.5f), WarnaBulan, 6f, 0.5f);
 
-            PembuatPengganti.Pasang("BaleBale", null, new Vector3(-2.4f, 0f, 3.8f));
-            PembuatPengganti.Pasang("TekoTeh", null, new Vector3(-2.4f, 0.45f, 3.8f));
-            PembuatPengganti.Pasang("Lilin", null, new Vector3(-2.15f, 0.76f, 1.2f));   // di samping collider teplok (x -2,65..-2,35)
-            PembuatPengganti.Pasang("Lemari", null, new Vector3(0.6f, 0f, 4.7f), 180f);   // dinding belakang, jauh dari pintu belakang (x 2..3)
-            PembuatPengganti.Pasang("RakBotol", null, new Vector3(2.6f, 0f, 4.7f), 180f);
-            PembuatPengganti.Pasang("Lumpang", null, new Vector3(1.2f, 0f, 2.6f));
+            PembuatPengganti.Pasang("BaleBale", null, new Vector3(-2.4f, 0f, 3.8f));   // adegan cerita (TitikBale)
 
             var sumi = Logika("BuSumi", new Vector3(0f, 0f, 2.2f), new Vector3(0.5f, 1.65f, 0.5f));
             PembuatPengganti.Pasang("BuSumi", sumi.transform, Vector3.zero, 180f);
@@ -118,6 +114,18 @@ namespace TheSending.EditorTools
             Set(alur, "bidikBale", Titik("BidikBale", new Vector3(-0.6f, 1.5f, 1.6f), new Vector3(-2.4f, 1.2f, 4.1f)));
         }
 
+        // Dekor di prefab Dekor_RumahBuSumi (PembuatDekor). Meja teplok dan bale-bale tetap di skrip (benda cerita di atasnya).
+        static void Dekor(Transform r)
+        {
+            PembuatPengganti.Pasang("TekoTeh", r, new Vector3(-2.4f, 0.45f, 3.8f));
+            PembuatPengganti.Pasang("Lilin", r, new Vector3(-2.15f, 0.76f, 1.2f));   // di samping collider teplok (x -2,65..-2,35)
+            PembuatPengganti.Pasang("Lemari", r, new Vector3(0.6f, 0f, 4.7f), 180f);   // dinding belakang, jauh dari pintu belakang (x 2..3)
+            PembuatPengganti.Pasang("RakBotol", r, new Vector3(2.6f, 0f, 4.7f), 180f);
+            PembuatPengganti.Pasang("Lumpang", r, new Vector3(1.2f, 0f, 2.6f));
+            foreach (float x in new[] { -3.4f, 0f, 3.4f })   // halaman belakang
+                PembuatPengganti.Pasang("RumpunBambu", r, new Vector3(x, 0f, 10.7f));
+        }
+
         // Halaman belakang 8 x 6 m berpagar bambu dengan sumur timba, diterangi bulan.
         static void HalamanBelakang(Rig rig, AlurRumahBuSumi alur)
         {
@@ -126,8 +134,6 @@ namespace TheSending.EditorTools
             Batas("Batas", new Vector3(-4.1f, 1.5f, 8f), new Vector3(0.2f, 3f, 6f));
             Batas("Batas", new Vector3(4.1f, 1.5f, 8f), new Vector3(0.2f, 3f, 6f));
             Batas("Batas", new Vector3(0f, 1.5f, 11.1f), new Vector3(8f, 3f, 0.2f));
-            foreach (float x in new[] { -3.4f, 0f, 3.4f })
-                PembuatPengganti.Pasang("RumpunBambu", null, new Vector3(x, 0f, 10.7f));
             var bulan = new GameObject("Cahaya bulan").AddComponent<Light>();
             bulan.type = LightType.Spot;
             bulan.color = Hex(WarnaBulan);

@@ -169,8 +169,7 @@ namespace TheSending.EditorTools
             api.SetActive(false);
 
             // Garam, kelor, korek di meja makan berkarpet, bambu kuning bersandar di sisinya. Tampak setelah bahan lengkap.
-            // Meja kecil tetap di samping anglo (digeser tim), kosong.
-            PembuatPengganti.Pasang("Meja", null, new Vector3(1.742f, 0f, 11.4f));
+            // Meja kecil di samping anglo: PembuatRumahKeluarga.DekorRumah.
             var m = PembuatRumahKeluarga.MejaMakan;
             float atas = PembuatRumahKeluarga.AtasMejaMakan;
             var perlengkapan = new GameObject("PerlengkapanRitual");
@@ -210,12 +209,7 @@ namespace TheSending.EditorTools
             Batas("BatasPekarangan", new Vector3(-7.1f, 1.5f, 15.5f), new Vector3(0.2f, 3f, 7f));
             Batas("BatasPekarangan", new Vector3(3.1f, 1.5f, 15.5f), new Vector3(0.2f, 3f, 7f));
             Batas("BatasPekarangan", new Vector3(-2f, 1.5f, 19.1f), new Vector3(10f, 3f, 0.2f));
-            foreach (float px in new[] { -6.5f, -3f, 0.5f, 2.6f })
-                PembuatPengganti.Pasang("RumpunBambu", null, new Vector3(px, 0f, 18.7f));
-            // Pagar kayu (visual) di depan batas pekarangan; collider tetap BatasPekarangan.
-            foreach (float z in new[] { 13f, 15f, 17f })
-                foreach (float x in new[] { -7f, 3f }) PembuatPengganti.Pasang("PagarKayu", null, new Vector3(x, 0f, z), 90f);
-            foreach (float x in new[] { -6f, -4f, -2f, 0f, 2f }) PembuatPengganti.Pasang("PagarKayu", null, new Vector3(x, 0f, 19f));
+            // Rumpun bambu dan pagar kayu visual: PembuatRumahKeluarga.DekorRumah (prefab dekor); collider tetap BatasPekarangan.
             var bulan = new GameObject("Cahaya bulan pekarangan").AddComponent<Light>();
             bulan.type = LightType.Spot;
             bulan.color = Hex(WarnaBulan);

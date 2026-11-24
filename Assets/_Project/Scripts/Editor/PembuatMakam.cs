@@ -48,6 +48,7 @@ namespace TheSending.EditorTools
 
             Lahan();
             Makam(alur);
+            PembuatDekor.Pasang("Makam", Dekor);
             Sampel(rig, alur);
             Lasno(alur);
 
@@ -79,7 +80,7 @@ namespace TheSending.EditorTools
             Lampu("CahayaKamboja", Kamboja + new Vector3(0f, 4f, -1f), WarnaBulan, 10f, 0.8f);
         }
 
-        // Kamboja besar, makam Pak Hadi di sisinya, dan sekitar 12 makam lain (seed tetap, menjauhi jalur dan titik sampel).
+        // Kamboja besar dan makam Pak Hadi di sisinya. Makam lain (seed tetap, menjauhi jalur dan titik sampel) di Dekor.
         static void Makam(AlurMakam alur)
         {
             PembuatPengganti.Pasang("GerbangMakam", null, new Vector3(0f, 0f, 0.1f));
@@ -92,13 +93,19 @@ namespace TheSending.EditorTools
             PembuatPengganti.Pasang("GundukanMakam", null, new Vector3(2f, 0f, 11.5f));
             var nisan = Logika("NisanHadi", new Vector3(2f, 0f, 12.6f), new Vector3(0.5f, 1f, 0.4f));
             PembuatPengganti.Pasang("NisanHadi", nisan.transform, Vector3.zero, 180f);
-            foreach (float x in new[] { 1.75f, 1.92f, 2.08f, 2.25f })   // lilin di depan nisan (sisi -Z)
-                PembuatPengganti.Pasang("Lilin", null, new Vector3(x, 0f, 12.3f));
             var baca = nisan.AddComponent<InteraktifAlur>();
             SetTeks(baca, "prompt", "Baca nisan");
             Set(alur, "nisanHadi", baca);
+        }
+
+        // Dekor di prefab Dekor_Makam (PembuatDekor): lilin di depan nisan Pak Hadi dan sekitar 12 makam lain.
+        static void Dekor(Transform r)
+        {
+            foreach (float x in new[] { 1.75f, 1.92f, 2.08f, 2.25f })   // lilin di depan nisan (sisi -Z)
+                PembuatPengganti.Pasang("Lilin", r, new Vector3(x, 0f, 12.3f));
 
             var induk = new GameObject("Makam").transform;
+            induk.SetParent(r, false);
             var acak = new System.Random(1955);
             float Acak(float a, float b) => a + (float)acak.NextDouble() * (b - a);
             for (int n = 0, coba = 0; n < 12 && coba < 500; coba++)

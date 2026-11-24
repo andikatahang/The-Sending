@@ -155,11 +155,6 @@ namespace TheSending.EditorTools
         static GameObject Perabot(Rig rig)
         {
             // Ruang tengah
-            PembuatPengganti.Pasang("Meja", null, new Vector3(-2.621f, 0f, 3.41f), 90f);
-            PembuatPengganti.Pasang("Kursi", null, new Vector3(-2.326f, 0f, 3.533f), 90f);
-            // Sofa tua di dinding selatan, menghadap ke tengah ruang (Pakde datang di Malam 3).
-            PembuatPengganti.Pasang("Sofa", null, new Vector3(-0.243f, 0f, 4.014f), 90.33f);   // edit manual tim
-            PembuatPengganti.Pasang("JamDinding", null, new Vector3(2.906f, 1.9f, 3.971f), -90f);   // edit manual tim: di atas TV
             BendaDialog(rig, "FotoKeluarga", new Vector3(-1.8f, 1.275f, 7.87f), new Vector3(0.6f, 0.45f, 0.1f), 180f, true,
                 PembuatDataFase1.Muat(PembuatDataFase1.FotoKeluarga), "Periksa foto keluarga");
             var stopKontak = Logika("StopKontak", new Vector3(2.88f, 0.35f, 3.5f), new Vector3(0.15f, 0.15f, 0.15f));
@@ -168,68 +163,20 @@ namespace TheSending.EditorTools
             Set(pengisi, "hud", rig.Hud);
             SetTeks(pengisi, "prompt", "Isi baterai HP");
 
-            // Kamar Raka, kamar Laras, kamar mandi, dapur
-            PembuatPengganti.Pasang("RanjangKayu", null, new Vector3(-6.2f, 0f, 2f));
-            PembuatPengganti.Pasang("Kabinet", null, new Vector3(-5.35f, 0f, 1.25f));
-            PembuatPengganti.Pasang("Meja", null, new Vector3(-4.2f, 0f, 0.5f));
-            PembuatPengganti.Pasang("RanjangKayu", null, new Vector3(6.409f, 0f, 5.127f));
-            PembuatPengganti.Pasang("Kabinet", null, new Vector3(5.516f, 0f, 4.279f));
-            PembuatPengganti.Pasang("Laci", null, new Vector3(4.737f, 0f, 4.33f));
+            PembuatDekor.Pasang("RumahKeluarga", DekorRumah);
             Dekor();
             return BendaDialog(rig, "Kalender", new Vector3(-1.5f, 1.25f, 8.13f), new Vector3(0.35f, 0.5f, 0.1f), 0f, true,
                 PembuatDataFase1.Muat(PembuatDataFase1.Kalender), "Lihat kalender").gameObject;
         }
 
-        // Dekor tanpa interaksi (props). Semua >= 0,9 m dari garis tengah pintu, di luar zona terlarang anglo/pintu belakang/Sosok.
+        // Lantai dan ubin kamar mandi (x 3..7, z 0..4; ubin dinding 1 cm di depan muka dalam dinding luar), meja makan, pintu kamar,
+        // dan ambang. Perabot dan props lain ada di prefab Dekor_RumahKeluarga (DekorRumah).
         static void Dekor()
         {
-            // Kamar mandi (x 3..7, z 0..4), pintu di x = 3, z 1,5-2,5. Ubin dinding 1 cm di depan muka dalam dinding luar.
-            Balok("BakMandi", new Vector3(6.435f, 0.4f, 0.579f), new Vector3(1f, 0.8f, 1f), "UbinMandi");
             Balok("LantaiMandi", new Vector3(5f, 0.005f, 2f), new Vector3(3.9f, 0.01f, 3.9f), "UbinMandi");
             Balok("DindingMandiTimur", new Vector3(6.915f, 0.75f, 2f), new Vector3(0.02f, 1.5f, 3.85f), "DindingMandi");
             Balok("DindingMandiSelatan", new Vector3(5f, 0.75f, 0.085f), new Vector3(3.85f, 1.5f, 0.02f), "DindingMandi");
-            PembuatPengganti.Pasang("Kloset", null, new Vector3(6.6f, 0f, 3.2f), -90f);
-            PembuatPengganti.Pasang("Wastafel", null, new Vector3(4.2f, 0f, 3.62f), 180f);
-            PembuatPengganti.Pasang("AksesorisMandi", null, new Vector3(3.452f, 0.009f, 3.88f), 180f);   // edit manual tim
-
-            // Ruang tengah: TV di atas laci di dinding timur, karpet di depan sofa, sakelar dekat pintu depan.
-            PembuatPengganti.Pasang("Karpet", null, new Vector3(0.269f, -0.0015f, 3.969f), -89.169f).transform.localScale = Vector3.one * 1.4508f;
-            PembuatPengganti.Pasang("BaleBale", null, new Vector3(0.76f, 0.058f, 3.969f), 90f).transform.localScale = Vector3.one * 0.73483f;
-            var laci = PembuatPengganti.Pasang("Laci", null, new Vector3(2.7f, 0.001f, 3.978f), -90f);
-            laci.transform.localScale = new Vector3(1.9933892f, 0.67456f, 1f);   // edit manual tim
-            PembuatPengganti.Pasang("TvLed", null, new Vector3(2.804f, 0.568f, 3.974f), -90f).transform.localScale = Vector3.one * 1.2003f;
-            PembuatPengganti.Pasang("RemoteTv", null, new Vector3(0.65f, 0.386f, 4.089f), 83.19f);
-            PembuatPengganti.Pasang("Sakelar", null, new Vector3(0.95f, 1.3f, 0.085f));
-            PembuatPengganti.Pasang("KursiPlastik", null, new Vector3(2.4f, 0f, 7.3f), 200f);
-
-            // Dapur: meja cor L di sudut barat daya, kulkas di sudut barat laut, dispenser dan meja makan di sisi timur pintu dapur.
-            MejaCor();
-            // Dekor dapur, teko, kulkas, dispenser, kompor, meja makan di atas karpet: edit manual tim (23 Nov) dipertahankan persis.
-            var dekor = PembuatPengganti.Pasang("DekorDapur", null, new Vector3(-5.969f, AtasMejaCor, 8.493f)).transform;
-            Anak(dekor, "Plate").localPosition = new Vector3(-0.61f, 0.19273636f, 0.43f);
-            var piring2 = Object.Instantiate(Anak(dekor, "Plate").gameObject, Anak(dekor, "Plate").parent, false);
-            piring2.name = "Plate (1)";
-            piring2.transform.localPosition = new Vector3(-1.7f, 0.19273636f, 0.44f);
-            Anak(dekor, "Bowl").localPosition = new Vector3(-2.07f, 0.199f, 1.18f);
-            var talenan = Anak(dekor, "CuttingWood");
-            talenan.localPosition = new Vector3(1.13f, 0.042384453f, 1.011f);
-            talenan.localRotation = new Quaternion(0.22781433f, 0.66940325f, 0.6694032f, -0.22781429f);
-            PembuatPengganti.Pasang("TabungGas", null, new Vector3(-4.994f, 0f, 8.38f));   // edit manual tim
-            PembuatPengganti.Pasang("KomporGas", null, new Vector3(-4.209f, 0.81649f, 8.465f), 180.237f).transform.localScale = Vector3.one * 1.486031f;
-            PembuatPengganti.Pasang("Kulkas", null, new Vector3(-2.546f, 0f, 8.458f));
-            PembuatPengganti.Pasang("Dispenser", null, new Vector3(-6.687f, 0.002f, 10.37f), 90f).transform.localScale = Vector3.one * 1.9282811f;
-            PembuatPengganti.Pasang("Karpet", null, new Vector3(-1.036f, -0.0014712f, 10.673f)).transform.localScale = Vector3.one * 1.4537f;
-            PembuatPengganti.Pasang("MejaMakan", null, new Vector3(MejaMakan.x, 0f, MejaMakan.z));
-            var teko = PembuatPengganti.Pasang("TekoTeh", null, new Vector3(-6.015f, AtasMejaCor, 8.254f));
-            var tekoIsi = Anak(teko.transform, "defaultMaterial");
-            tekoIsi.localPosition = new Vector3(488.799f, -3.5187967f, -44.256565f);
-            tekoIsi.localRotation = new Quaternion(0f, -0.30879653f, 0f, 0.9511282f);
-            tekoIsi.localScale = Vector3.one * 1.1709f;
-            PembuatPengganti.Pasang("JamDinding", null, new Vector3(-3.5f, 1.9f, 8.14f));
-
-            // Kamar: lemari kayu tua di kamar Raka, lilin di laci kamar Laras.
-            PembuatPengganti.Pasang("Lemari", null, new Vector3(-4.2f, 0f, 3.7f), 180f);
-            PembuatPengganti.Pasang("Lilin", null, new Vector3(4.6f, Atas(laci), 4.33f));
+            PembuatPengganti.Pasang("MejaMakan", null, new Vector3(MejaMakan.x, 0f, MejaMakan.z));   // tempat benda ritual dan teh (Malam 3/5)
 
             // Pintu kamar berengsel (PintuKamar, E buka/tutup, mulai terbuka 90° ke dalam kamar). Gudang dilewati: PintuGudang
             // terkunci di Malam 0-2. Engsel di tepi celah; daun tertutup memanjang ke `tutup`, membuka ke arah `buka`.
@@ -241,15 +188,89 @@ namespace TheSending.EditorTools
             foreach (var c in new[] { new Vector3(-3f, 0f, 1.9448f), new Vector3(-3f, 0f, 5.9448f), new Vector3(3f, 0f, 1.9448f), new Vector3(3f, 0f, 5.9448f), new Vector3(3f, 0f, 10.008f) })
                 Ambang(c, ambangSekat);
             Ambang(new Vector3(0f, 0f, 8f), new Vector3(1.2f + Tebal, 0f, Tebal));
+        }
 
-            // Sakelar tunggal di sisi gagang setiap pintu kamar, di dalam ruangan: tinggi 1,3 m, 0,15 m dari kusen. Dekor saja.
+        // Dekor tanpa interaksi (props) di prefab Dekor_RumahKeluarga (PembuatDekor). Semua >= 0,9 m dari garis tengah pintu,
+        // di luar zona terlarang anglo/pintu belakang/Sosok. Meja makan tetap di skrip: benda ritual dan teh diletakkan di atasnya.
+        static void DekorRumah(Transform r)
+        {
+            // Ruang tengah
+            PembuatPengganti.Pasang("Meja", r, new Vector3(-2.621f, 0f, 3.41f), 90f);
+            PembuatPengganti.Pasang("Kursi", r, new Vector3(-2.326f, 0f, 3.533f), 90f);
+            // Sofa tua di dinding selatan, menghadap ke tengah ruang (Pakde datang di Malam 3).
+            PembuatPengganti.Pasang("Sofa", r, new Vector3(-0.243f, 0f, 4.014f), 90.33f);   // edit manual tim
+            PembuatPengganti.Pasang("JamDinding", r, new Vector3(2.906f, 1.9f, 3.971f), -90f);   // edit manual tim: di atas TV
+
+            // Kamar Raka, kamar Laras
+            PembuatPengganti.Pasang("RanjangKayu", r, new Vector3(-6.2f, 0f, 2f));
+            PembuatPengganti.Pasang("Kabinet", r, new Vector3(-5.35f, 0f, 1.25f));
+            PembuatPengganti.Pasang("Meja", r, new Vector3(-4.2f, 0f, 0.5f));
+            PembuatPengganti.Pasang("RanjangKayu", r, new Vector3(6.409f, 0f, 5.127f));
+            PembuatPengganti.Pasang("Kabinet", r, new Vector3(5.516f, 0f, 4.279f));
+            PembuatPengganti.Pasang("Laci", r, new Vector3(4.737f, 0f, 4.33f));
+
+            // Kamar mandi
+            Balok("BakMandi", new Vector3(6.435f, 0.4f, 0.579f), new Vector3(1f, 0.8f, 1f), "UbinMandi").transform.SetParent(r, true);
+            PembuatPengganti.Pasang("Kloset", r, new Vector3(6.6f, 0f, 3.2f), -90f);
+            PembuatPengganti.Pasang("Wastafel", r, new Vector3(4.2f, 0f, 3.62f), 180f);
+            PembuatPengganti.Pasang("AksesorisMandi", r, new Vector3(3.452f, 0.009f, 3.88f), 180f);   // edit manual tim
+
+            // Ruang tengah: TV di atas laci di dinding timur, karpet di depan sofa, sakelar dekat pintu depan.
+            PembuatPengganti.Pasang("Karpet", r, new Vector3(0.269f, -0.0015f, 3.969f), -89.169f).transform.localScale = Vector3.one * 1.4508f;
+            PembuatPengganti.Pasang("BaleBale", r, new Vector3(0.76f, 0.058f, 3.969f), 90f).transform.localScale = Vector3.one * 0.73483f;
+            var laci = PembuatPengganti.Pasang("Laci", r, new Vector3(2.7f, 0.001f, 3.978f), -90f);
+            laci.transform.localScale = new Vector3(1.9933892f, 0.67456f, 1f);   // edit manual tim
+            PembuatPengganti.Pasang("TvLed", r, new Vector3(2.804f, 0.568f, 3.974f), -90f).transform.localScale = Vector3.one * 1.2003f;
+            PembuatPengganti.Pasang("RemoteTv", r, new Vector3(0.65f, 0.386f, 4.089f), 83.19f);
+            PembuatPengganti.Pasang("Sakelar", r, new Vector3(0.95f, 1.3f, 0.085f));
+            PembuatPengganti.Pasang("KursiPlastik", r, new Vector3(2.4f, 0f, 7.3f), 200f);
+
+            // Dapur: meja cor L di sudut barat daya, kulkas di sudut barat laut, dispenser dan meja makan di sisi timur pintu dapur.
+            MejaCor(r);
+            // Dekor dapur, teko, kulkas, dispenser, kompor, meja makan di atas karpet: edit manual tim (23 Nov) dipertahankan persis.
+            var dekor = PembuatPengganti.Pasang("DekorDapur", r, new Vector3(-5.969f, AtasMejaCor, 8.493f)).transform;
+            Anak(dekor, "Plate").localPosition = new Vector3(-0.61f, 0.19273636f, 0.43f);
+            var piring2 = Object.Instantiate(Anak(dekor, "Plate").gameObject, Anak(dekor, "Plate").parent, false);
+            piring2.name = "Plate (1)";
+            piring2.transform.localPosition = new Vector3(-1.7f, 0.19273636f, 0.44f);
+            piring2.transform.SetParent(r, true);   // langsung di akar dekor: induk asli di model berganti fileID tiap PembuatAsetAsli
+            Anak(dekor, "Bowl").localPosition = new Vector3(-2.07f, 0.199f, 1.18f);
+            var talenan = Anak(dekor, "CuttingWood");
+            talenan.localPosition = new Vector3(1.13f, 0.042384453f, 1.011f);
+            talenan.localRotation = new Quaternion(0.22781433f, 0.66940325f, 0.6694032f, -0.22781429f);
+            PembuatPengganti.Pasang("TabungGas", r, new Vector3(-4.994f, 0f, 8.38f));   // edit manual tim
+            PembuatPengganti.Pasang("KomporGas", r, new Vector3(-4.209f, 0.81649f, 8.465f), 180.237f).transform.localScale = Vector3.one * 1.486031f;
+            PembuatPengganti.Pasang("Kulkas", r, new Vector3(-2.546f, 0f, 8.458f));
+            PembuatPengganti.Pasang("Dispenser", r, new Vector3(-6.687f, 0.002f, 10.37f), 90f).transform.localScale = Vector3.one * 1.9282811f;
+            PembuatPengganti.Pasang("Karpet", r, new Vector3(-1.036f, -0.0014712f, 10.673f)).transform.localScale = Vector3.one * 1.4537f;
+            var teko = PembuatPengganti.Pasang("TekoTeh", r, new Vector3(-6.015f, AtasMejaCor, 8.254f));
+            var tekoIsi = Anak(teko.transform, "defaultMaterial");
+            tekoIsi.localPosition = new Vector3(488.799f, -3.5187967f, -44.256565f);
+            tekoIsi.localRotation = new Quaternion(0f, -0.30879653f, 0f, 0.9511282f);
+            tekoIsi.localScale = Vector3.one * 1.1709f;
+            PembuatPengganti.Pasang("JamDinding", r, new Vector3(-3.5f, 1.9f, 8.14f));
+
+            // Kamar: lemari kayu tua di kamar Raka, lilin di laci kamar Laras.
+            PembuatPengganti.Pasang("Lemari", r, new Vector3(-4.2f, 0f, 3.7f), 180f);
+            PembuatPengganti.Pasang("Lilin", r, new Vector3(4.6f, Atas(laci), 4.33f));
+
+            // Sakelar tunggal di sisi gagang setiap pintu kamar, di dalam ruangan: tinggi 1,3 m, 0,15 m dari kusen.
             foreach (var (pos, putar) in new[]
             {
                 (new Vector3(-3.08f, 1.3f, 1.25f), -90f), (new Vector3(-3.08f, 1.3f, 5.25f), -90f),   // Raka, Ibu
                 (new Vector3(3.08f, 1.3f, 1.25f), 90f), (new Vector3(3.08f, 1.3f, 5.25f), 90f),       // kamar mandi, Laras
                 (new Vector3(3.08f, 1.3f, 9.38f), 90f), (new Vector3(-0.72f, 1.3f, 8.08f), 0f),       // gudang, dapur
             })
-                PembuatPengganti.Pasang("Sakelar", null, pos, putar);
+                PembuatPengganti.Pasang("Sakelar", r, pos, putar);
+
+            // Meja kecil di samping anglo (digeser tim), kosong.
+            PembuatPengganti.Pasang("Meja", r, new Vector3(1.742f, 0f, 11.4f));
+            // Pekarangan belakang (PembuatMalam3.Pekarangan): rumpun bambu dan pagar kayu visual di depan BatasPekarangan.
+            foreach (float px in new[] { -6.5f, -3f, 0.5f, 2.6f })
+                PembuatPengganti.Pasang("RumpunBambu", r, new Vector3(px, 0f, 18.7f));
+            foreach (float z in new[] { 13f, 15f, 17f })
+                foreach (float x in new[] { -7f, 3f }) PembuatPengganti.Pasang("PagarKayu", r, new Vector3(x, 0f, z), 90f);
+            foreach (float x in new[] { -6f, -4f, -2f, 0f, 2f }) PembuatPengganti.Pasang("PagarKayu", r, new Vector3(x, 0f, 19f));
         }
 
         // Daun pintu `prefab` dilebarkan pas `lebar` celah; collider padat (bukan trigger) supaya bisa dibidik E dan menghalangi
@@ -321,11 +342,11 @@ namespace TheSending.EditorTools
         // Meja dapur cor bentuk L menempel dinding barat (x -7) dan sekat dapur (z 8): kaki cor 0,3 m, papan cor 7 cm berlapis
         // ubin putih, rongga terbuka di antara kaki. Ujung timur x -3: jauh dari pintu dapur (x -0,6), anglo,
         // pintu belakang, lubang plafon, dan titik muncul Sosok. Balok ber-BoxCollider: penghalang padat.
-        static void MejaCor()
+        static void MejaCor(Transform r)
         {
             const float xd = -6.92f, zd = 8.08f, dalam = 0.6f, dalamSelatan = 0.723f, yPapan = 0.77f, tebalPapan = 0.07f;
             void Cor(string nama, float x1, float x2, float z1, float z2, float y1, float y2, string bahan) =>
-                Balok(nama, new Vector3((x1 + x2) / 2f, (y1 + y2) / 2f, (z1 + z2) / 2f), new Vector3(x2 - x1, y2 - y1, z2 - z1), bahan);
+                Balok(nama, new Vector3((x1 + x2) / 2f, (y1 + y2) / 2f, (z1 + z2) / 2f), new Vector3(x2 - x1, y2 - y1, z2 - z1), bahan).transform.SetParent(r, true);
             // Lengan barat (z 8,08..10) dan lengan selatan (x .. -3).
             Cor("MejaCorPapanBarat", xd, xd + dalam, zd, 10f, yPapan, yPapan + tebalPapan, "Beton");
             Cor("MejaCorPapanSelatan", xd + dalam, -3f, zd, zd + dalamSelatan, yPapan, yPapan + tebalPapan, "Beton");

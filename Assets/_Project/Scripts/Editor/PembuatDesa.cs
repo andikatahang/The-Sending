@@ -92,7 +92,6 @@ namespace TheSending.EditorTools
             Lampu("LampuEmper", new Vector3(0f, 2.4f, UjungJalan - 1f), "FFB46B", 6f, 1.2f);   // di bawah lampu teras prefab
             PembuatPengganti.Pasang("RumahKeluargaLuar", null, new Vector3(0f, 0f, UjungJalan), 180f)
                 .AddComponent<Permukaan>().Jenis = JenisPermukaan.Kayu;
-            PagarDekor();
             var pintu = Balok("PintuRumah", new Vector3(0f, 1.05f, UjungJalan - 0.15f), new Vector3(1.1f, 2.1f, 0.2f), "KayuGelap");
             var alurPintu = pintu.AddComponent<InteraktifAlur>();
             SetTeks(alurPintu, "prompt", "Masuk rumah");
@@ -330,26 +329,40 @@ namespace TheSending.EditorTools
             PembuatMalam2.AktifPada(alur.gameObject, 4, 4, pos);
         }
 
-        // Pagar kayu (visual, tanpa collider) tepat di luar BatasBarat/BatasTimur: halaman rumah keluarga dan sisi rumah Bu Sumi,
-        // menjauhi gerbang makam (z 92), pagar Pakde (z 74), serta pintu (z 73,5) dan jendela (z 76,2) Bu Sumi.
-        static void PagarDekor()
+        // Dekor desa di prefab Prefabs/Dekor/Dekor_Desa (PembuatDekor), dipakai juga latar menu utama.
+        static void DekorDesa() => PembuatDekor.Pasang("Desa", r =>
         {
-            foreach (float z in new[] { 97f, 99f }) PembuatPengganti.Pasang("PagarKayu", null, new Vector3(-SetengahLebar - 0.1f, 0f, z), 90f);
-            foreach (float z in new[] { 95f, 97f, 99f }) PembuatPengganti.Pasang("PagarKayu", null, new Vector3(SetengahLebar + 0.1f, 0f, z), 90f);
-            foreach (float z in new[] { 70f, 80f }) PembuatPengganti.Pasang("PagarKayu", null, new Vector3(SetengahLebar + 0.1f, 0f, z), 90f);
-        }
+            PembuatPengganti.Pasang("Gapura", r, Vector3.zero);
+            DekorJalan(r);
+        });
 
-        // Dekor desa (saat ini gapura) di prefab Prefabs/Dekor/Dekor_Desa: tim menggesernya di Prefab Mode dan
-        // Bangun Ulang Semua tidak menimpanya. Hapus prefab itu untuk membuat ulang dari posisi di sini.
-        const string JalurDekor = "Assets/_Project/Prefabs/Dekor/Dekor_Desa.prefab";
-        static void DekorDesa()
+        // Lampu jalan, kebun bambu, pagar kayu, dan hutan.
+        internal static void DekorJalan(Transform r)
         {
-            var ada = AssetDatabase.LoadAssetAtPath<GameObject>(JalurDekor);
-            if (ada != null) { PrefabUtility.InstantiatePrefab(ada); return; }
-            var akar = new GameObject("Dekor_Desa");
-            PembuatPengganti.Pasang("Gapura", akar.transform, Vector3.zero);
-            Directory.CreateDirectory(Path.GetDirectoryName(JalurDekor));
-            PrefabUtility.SaveAsPrefabAssetAndConnect(akar, JalurDekor, InteractionMode.AutomatedAction);
+            // Selang-seling barat/timur; di luar kebun bambu (z 20-42) dan bidikan jendela Bu Sumi (z 72-76).
+            float[] zLampu = { 10f, 44f, 62f, 80f, 90f };
+            for (int i = 0; i < zLampu.Length; i++)
+            {
+                float x = i % 2 == 0 ? -3f : 3f;
+                PembuatPengganti.Pasang("LampuJalan", r, new Vector3(x, 0f, zLampu[i]), x < 0f ? 0f : 180f);
+                Lampu("CahayaLampuJalan", new Vector3(x < 0f ? x + 0.7f : x - 0.7f, 2.8f, zLampu[i]), "FFB46B", 8f, 1.5f)   // di bawah kepala lampu
+                    .transform.SetParent(r, true);
+            }
+
+            // Kebun bambu z 20-40: enam rumpun di tiap sisi, selang-seling jaraknya dari jalan.
+            for (int i = 0; i < 6; i++)
+            {
+                float z = 20f + i * 4f, x = 3.5f + i % 2;
+                PembuatPengganti.Pasang("RumpunBambu", r, new Vector3(-x, 0f, z), i * 37f);
+                PembuatPengganti.Pasang("RumpunBambu", r, new Vector3(x, 0f, z + 2f), i * 53f);
+            }
+
+            // Pagar kayu (visual, tanpa collider) tepat di luar BatasBarat/BatasTimur: halaman rumah keluarga dan sisi rumah Bu Sumi,
+            // menjauhi gerbang makam (z 92), pagar Pakde (z 74), serta pintu (z 73,5) dan jendela (z 76,2) Bu Sumi.
+            foreach (float z in new[] { 97f, 99f }) PembuatPengganti.Pasang("PagarKayu", r, new Vector3(-SetengahLebar - 0.1f, 0f, z), 90f);
+            foreach (float z in new[] { 95f, 97f, 99f }) PembuatPengganti.Pasang("PagarKayu", r, new Vector3(SetengahLebar + 0.1f, 0f, z), 90f);
+            foreach (float z in new[] { 70f, 80f }) PembuatPengganti.Pasang("PagarKayu", r, new Vector3(SetengahLebar + 0.1f, 0f, z), 90f);
+            Hutan(r);
         }
 
         // Latar Scene_MainMenu: desa malam tanpa pemain dan tanpa logika (hanya tampilan).
@@ -381,23 +394,6 @@ namespace TheSending.EditorTools
             // R12: ujung utara di balik rumah keluarga, kalau-kalau collider prefab rumah menyisakan celah.
             Batas("BatasUtara", new Vector3(0f, 2f, 104f), new Vector3(SetengahLebar * 2f, 4f, 0.2f));
 
-            // Selang-seling barat/timur; di luar kebun bambu (z 20-42) dan bidikan jendela Bu Sumi (z 72-76).
-            float[] zLampu = { 10f, 44f, 62f, 80f, 90f };
-            for (int i = 0; i < zLampu.Length; i++)
-            {
-                float x = i % 2 == 0 ? -3f : 3f;
-                PembuatPengganti.Pasang("LampuJalan", null, new Vector3(x, 0f, zLampu[i]), x < 0f ? 0f : 180f);
-                Lampu("CahayaLampuJalan", new Vector3(x < 0f ? x + 0.7f : x - 0.7f, 2.8f, zLampu[i]), "FFB46B", 8f, 1.5f);   // di bawah kepala lampu
-            }
-
-            // Kebun bambu z 20-40: enam rumpun di tiap sisi, selang-seling jaraknya dari jalan.
-            for (int i = 0; i < 6; i++)
-            {
-                float z = 20f + i * 4f, x = 3.5f + i % 2;
-                PembuatPengganti.Pasang("RumpunBambu", null, new Vector3(-x, 0f, z), i * 37f);
-                PembuatPengganti.Pasang("RumpunBambu", null, new Vector3(x, 0f, z + 2f), i * 53f);
-            }
-
             // Jembatan bambu z 48-56. Air hanya tampilan; kedua sisi jembatan ditutup pembatas.
             // Sungai berlanjut ke dalam hutan di kedua sisi.
             var air = Balok("Air", new Vector3(0f, 0.01f, 52f), new Vector3(100f, 0.02f, 6f), "Gelap");
@@ -406,7 +402,6 @@ namespace TheSending.EditorTools
                 .AddComponent<Permukaan>().Jenis = JenisPermukaan.Kayu;
             Batas("BatasAirBarat", new Vector3(-3.75f, 1f, 52f), new Vector3(5.5f, 2f, 6.2f));
             Batas("BatasAirTimur", new Vector3(3.75f, 1f, 52f), new Vector3(5.5f, 2f, 6.2f));
-            Hutan();
         }
 
         static void Jalan(string nama, float z1, float z2)
@@ -424,9 +419,10 @@ namespace TheSending.EditorTools
         // Hutan di luar dinding koridor (|x| > 6.5): pohon berdaun lebar, semak, batu, kayu lapuk, dan daun gugur.
         // Seed tetap: hasilnya sama setiap kali dibangun. Tanpa collider (pemain tidak bisa keluar koridor).
         // Tetap kosong: jalan mobil, sungai, rumah Bu Sumi dan halamannya, rumah keluarga.
-        static void Hutan()
+        static void Hutan(Transform r)
         {
             var induk = new GameObject("Hutan").transform;
+            induk.SetParent(r, false);
             var acak = new System.Random(2003);
             float Acak(float a, float b) => a + (float)acak.NextDouble() * (b - a);
             string Pilih(string[] daftar) => daftar[acak.Next(daftar.Length)];
