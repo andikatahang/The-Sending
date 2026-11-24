@@ -471,9 +471,9 @@ namespace TheSending.EditorTools
         // berulang per meter dan tidak melar. Disimpan sebagai aset per ukuran supaya scene dan prefab bisa memakainya.
         internal static Mesh KubusMeter(Vector3 ukuran)
         {
-            var kunci = new Vector3(Mathf.Round(ukuran.x * 100f) / 100f, Mathf.Round(ukuran.y * 100f) / 100f, Mathf.Round(ukuran.z * 100f) / 100f);
+            var kunci = KunciKubus(ukuran);
             if (CacheKubus.TryGetValue(kunci, out var ada) && ada != null) return ada;
-            string jalur = $"{FolderKubus}/Kubus_{kunci.x:0.##}x{kunci.y:0.##}x{kunci.z:0.##}.asset";
+            string jalur = $"{FolderKubus}/{NamaKubus(ukuran)}.asset";
             var mesh = AssetDatabase.LoadAssetAtPath<Mesh>(jalur);
             if (mesh == null)
             {
@@ -485,6 +485,18 @@ namespace TheSending.EditorTools
             CacheKubus[kunci] = mesh;
             return mesh;
         }
+
+        // Ukuran dibulatkan 1 cm: satu aset mesh per ukuran. Nama aset = nama mesh (PemulihUvBalok membandingkannya).
+        static Vector3 KunciKubus(Vector3 u) =>
+            new Vector3(Mathf.Round(u.x * 100f) / 100f, Mathf.Round(u.y * 100f) / 100f, Mathf.Round(u.z * 100f) / 100f);
+
+        internal static string NamaKubus(Vector3 ukuran)
+        {
+            var k = KunciKubus(ukuran);
+            return $"Kubus_{k.x:0.##}x{k.y:0.##}x{k.z:0.##}";
+        }
+
+        internal static bool MeshKubus(Mesh m) => m != null && AssetDatabase.GetAssetPath(m).StartsWith(FolderKubus + "/");
 
         static Mesh BuatKubus(Vector3 s)
         {
